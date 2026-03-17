@@ -1,0 +1,416 @@
+\documentclass[b5paper,11pt]{article}
+\usepackage{../notestyle}
+\usepackage{amsmath}
+
+% 文档专属：页眉文字
+\fancyhead[L]{\fontsize{8pt}{10pt}\selectfont\color{gray!70}算法和算法评价}
+
+% 文档信息
+\title{算法和算法评价}
+\author{ClaudeRainer}
+\date{2026/03/12}
+
+\begin{document}
+\maketitle
+
+\section{算法的基本概念}
+今天重新看“算法”这个词的时候，其实没有一开始想得那么玄乎。算法说白了就是\code{解决一个具体问题的步骤说明书}，它是一个有限指令序列，每一步都在做一件明确的事。有一句老话我还是很喜欢：
+\begin{cquote}
+  程序 = 数据结构 + 算法
+\end{cquote}
+
+如果要做一个赛博番茄炒蛋，一般会先蹦出来两个问题：
+一个是要拿什么来装食材、半成品和最后成品；另一个才是到底该按什么顺序下锅。后面这个“按什么顺序做”的部分，大概就很像算法。步骤可能会是这样：
+\begin{enumerate}
+  \item 西红柿切块
+  \item 将鸡蛋搅拌均匀，添加佐料
+  \item 开始炒鸡蛋
+  \item 倒入西红柿继续翻炒
+  \item 加入调料
+  \item 出锅装盘
+\end{enumerate}
+像这种按顺序展开的做菜流程，差不多就是我理解里的算法雏形。
+
+\subsection{如何确定一个算法}
+生活里其实到处都在偷偷用算法，比如打牌时整理手牌，比如找东西时先按抽屉再按盒子翻。只不过一旦搬到计算机里，很多模糊操作都得讲清楚，所以算法通常会强调下面这些特性。
+\begin{itemize}
+  \item 有穷性：一个算法必须在执行有穷步之后结束，且每一步都可以在有穷时间内完成。（算法描述的是有限步骤，而程序通常可以被反复执行）
+  \item 确定性：算法每条指令都必须有确切的含义，对于相同的输入只能得出相同的输出。
+  \item 可行性：算法中描述的操作都可以通过已经实现的基本运算执行有限次来实现。
+  \item 输入：一个算法可以有零个或多个输入，这些输入取自某个特定的对象的集合。
+  \item 输出：一个算法有一个或多个输出，这些输出是与输入有着某种特定关系的量。
+\end{itemize}
+写到这里时候感觉，算法和数学里的函数确实有一点像，都是给定输入再推出输出。不过程序毕竟比函数更乱一些，一个程序里可能揉着很多算法，一个算法也可能拆成多个函数。所以函数都写对了还不够，最后还是要看整体流程有没有绕晕自己。
+
+\subsection{“好”算法的特质}
+一个“好”算法至少得满足三件事。
+第一件事当然是结果得对，不然后面讨论速度和空间都没有意义。
+第二件事是自己回头看时别想打自己。代码如果写到“今天的我会，明天的我不会”，那多半不算什么好东西。
+第三件事是别太脆，遇到奇怪输入时最好还能稳住，而不是啪一下当场爆炸。
+\begin{cquote}\fontsize{7pt}{6pt}
+
+  一个测试工程师走进一家酒吧，要了一杯啤酒；
+  一个测试工程师走进一家酒吧，要了一杯咖啡；\\
+  一个测试工程师走进一家酒吧，要了0.7杯啤酒；
+  一个测试工程师走进一家酒吧，要了-1杯啤酒；\\
+  一个测试工程师走进一家酒吧，要了$2^{32}$杯啤酒；
+  一个测试工程师走进一家酒吧，要了一杯洗脚水；\\
+  一个测试工程师走进一家酒吧，要了一杯蜥蜴；
+  一个测试工程师走进一家酒吧，要了一份asdfQwer@24dg\!\&\*；\\
+  一个测试工程师走进一家酒吧，什么也没要；
+  一个测试工程师走进一家酒吧，又走出去又从窗户进来又从后门出去从下水道钻进来；\\
+  一个测试工程师走进一家酒吧，又走出去又进来又出去又进来又出去，最后在外面把老板打了一顿；
+  一个测试工程师走进一家酒吧，要了一杯烫烫烫的锟斤拷；\\
+  一个测试工程师走进一家酒吧，要了NaN杯Null；
+  一个测试工程师冲进一家酒吧，要了500T啤酒咖啡洗脚水野猫狼牙棒奶茶；\\
+  一个测试工程师把酒吧拆了；
+  一个测试工程师化装成老板走进一家酒吧，要了500杯啤酒并且不付钱；\\
+  一万个测试工程师在酒吧门外呼啸而过；
+  一个测试工程师走进一家酒吧，要了一杯啤酒';DROP TABLE 酒吧；\\
+  测试工程师们满意地离开了酒吧。
+  然后一名顾客点了一份炒饭，酒吧炸了。
+\end{cquote}
+这个段子虽然是个笑话，但意思挺扎实：一个算法最好别只会处理“老师给的样例输入”，而是要尽量扛得住各种离谱情况。
+当然现实也很诚实，你基本不可能把所有边角都测完，所以平时写东西还是得给自己留一点余地。
+
+\section{算法效率的度量}
+学算法的时候我最容易掉进去的坑，就是只盯着“能不能做出来”，忘了“做得快不快、占不占地方”。
+所以算法效率通常会从两个角度看：一个是时间复杂度，一个是空间复杂度。
+
+\section{时间复杂度}
+时间复杂度这件事，刚开始看会觉得有点吓人，但后来把它理解成一句很土的话：\code{数据变大以后，程序会不会越来越慢，慢得有多夸张}。
+如果一个语句被反复执行很多次，那它大概率就是主要开销。通常会先估一个\code{时间开销$T(n)$}，其中$n$表示输入规模，然后再用大$O$记号去抓它的增长趋势。
+这里最重要的一点是：大$O$看的是“增长级别”，不是精确秒数，所以像常数项、低阶项，很多时候都会被省掉。
+如果题目没有特别说明，我一般默认讨论的是\textbf{最坏情况下}的时间复杂度。
+常见的复杂度从小到大大概是这样：
+$$O(1) < O(\log n) < O(n) < O(n \log n) < O(n^2) < O(2^n) < O(n!) < O(n^n)$$
+
+\section{空间复杂度}
+空间复杂度我一开始经常忘，因为做题时眼睛总盯着循环跑了几次，没太注意程序到底额外占了多少内存。
+
+这里说的空间复杂度，通常指的是\code{算法运行过程中额外申请的辅助空间}，一般\textbf{不把输入数据本身占的那部分算进去}。也就是说，重点看的是：为了把题做出来，我另外借了多少地方。
+
+记空间复杂度，基本会从下面几个方向去看：
+\begin{itemize}
+  \item 有没有只用到几个临时变量。如果只有常数个变量，那通常就是$O(1)$。
+  \item 有没有新开一个数组、链表、栈之类的结构，而且大小跟$n$一起长。如果有，那通常就是$O(n)$。
+  \item 有没有开二维数组或者邻接矩阵这种更猛的东西。如果边长和$n$同阶，那常常就是$O(n^2)$。
+  \item 有没有递归。如果用了递归，就算代码里没有显式开数组，也得把函数调用栈算进去。
+\end{itemize}
+
+比如下面这种写法，额外只用了几个变量：
+\begin{lstlisting}[language=C]
+int sum = 0;
+for (int i = 0; i < n; i++) {
+  sum += a[i];
+}
+\end{lstlisting}
+这个时候辅助空间基本就是$O(1)$。
+
+如果写成这样：
+\begin{lstlisting}[language=C]
+int b[n];
+for (int i = 0; i < n; i++) {
+  b[i] = a[i];
+}
+\end{lstlisting}
+那就明显多开了一个长度为$n$的数组，所以辅助空间是$O(n)$。
+
+递归是我以前特别容易漏算的地方。比如阶乘：
+\begin{lstlisting}[language=C]
+int fact(int n) {
+  if (n <= 1) return 1;
+  return n * fact(n - 1);
+}
+\end{lstlisting}
+虽然代码看起来没新开数组，但递归每深入一层，调用栈上都会多压一层信息，所以它的空间复杂度其实是$O(n)$。
+
+顺手记一个很常见的小结：
+\begin{itemize}
+  \item 迭代写法往往更省空间。
+  \item 递归写法往往更好理解，但要小心栈空间。
+  \item 题目如果问“是否原地完成”，本质上通常就在问辅助空间能不能做到$O(1)$。
+\end{itemize}
+
+\section{数学知识复习}
+
+\begingroup
+\small
+\setstretch{1.05}
+\noindent
+\begin{minipage}[t]{0.485\textwidth}
+  \vspace{0pt}
+  {\bfseries\color{ctp-blue}指数运算}\par
+  \vspace{0.15em}
+  \[
+    \begin{aligned}
+      X^A X^B &= X^{A+B} \\
+      X^A / X^B &= X^{A-B} \\
+      (X^A)^B &= X^{AB} \\
+      (XY)^A &= X^A Y^A \\
+      (X/Y)^A &= X^A / Y^A
+    \end{aligned}
+  \]
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.485\textwidth}
+  \vspace{0pt}
+  {\bfseries\color{ctp-blue}对数运算}\par
+  如果$a^b = N$，那就有$\log_a N = b$，下面这些式子经常会用到：
+  \[
+    \begin{aligned}
+      \log_{A}{B} &= \frac{\log_{C}{B}}{\log_{C}{A}} \quad (C > 0) \\
+      \log(AB) &= \log A + \log B \\
+      \log(X/Y) &= \log X - \log Y \\
+      \log(X^A) &= A \log X
+    \end{aligned}
+  \]
+\end{minipage}
+
+\vspace{0.2em}
+
+\noindent
+\begin{minipage}[t]{0.485\textwidth}
+  \vspace{0pt}
+  {\bfseries\color{ctp-blue}级数}\par
+  \[
+    \begin{aligned}
+      \sum_{i=0}^{N} 2^i &= 2^{N+1} - 1 \\
+      \sum_{i=0}^{N} i &= \frac{N(N+1)}{2} \\
+      \sum_{i=0}^{N} A^i &= \frac{A^{N+1} - 1}{A - 1} \quad (A \neq 1) \\
+      \sum_{i=0}^{\infty} A^i &= \frac{1}{1 - A} \quad (0 < A < 1)
+    \end{aligned}
+  \]
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.485\textwidth}
+  \vspace{0pt}
+  {\bfseries\color{ctp-blue}模运算}\par
+  若$N \mid (A-B)$，则记作$A \equiv B \pmod{N}$。
+  \[
+    \begin{aligned}
+      (A + B) \bmod N &= ((A \bmod N) + (B \bmod N)) \bmod N \\
+      (A - B) \bmod N &= ((A \bmod N) - (B \bmod N)) \bmod N \\
+      (AB) \bmod N &= ((A \bmod N)(B \bmod N)) \bmod N
+    \end{aligned}
+  \]
+\end{minipage}
+\endgroup
+
+\section{如何计算时间复杂度}
+现在算时间复杂度，先老老实实模拟流程，再决定要不要上数学。
+说白了就是两步：先看变量怎么变，再看循环到底什么时候停。
+\subsection{一重循环}
+先拿一重循环热个身。我的习惯还是这两个步骤：
+\begin{enumerate}
+  \item 模拟循环的流程，观察趟数（可能是t、i、j等）和终止循环变量的关系。
+  \item 确定循环停止的条件并进行求解。
+\end{enumerate}
+
+\begin{lstlisting}[language=C]
+int i = n * n;
+while(i != 1){
+  i = i / 2;
+}
+\end{lstlisting}
+以上面的代码为例，先观察趟数$t$和变量$i$之间的关系。每次循环，$i$都会被除以2。
+
+\begin{itemize}
+  \item 当 t = 0时， i = $n^2$；
+  \item 当 t = 1时， i = $n^2 / 2$；
+  \item 当 t = 2时， i = $n^2 / 2^2$；
+  \item 当 t = 3时， i = $n^2 / 2^3$；
+\end{itemize}
+
+所以当$t = k$时，可以写成$i = \frac{n^2}{2^k}$。
+
+接下来找停下来的条件。这里循环在$i = 1$时结束，所以可以列出：
+$$\frac{n^2}{2^k} = 1$$
+通过求解上面的等式，我们可以得到k = $2 \log_2{n}$，因此该算法的时间复杂度为$O(\log n)$。
+
+再看一个稍微绕一点，但其实也还行的例子：
+\begin{lstlisting}[language=C]
+  int sum(int n){
+    int i = 0;
+    int sum = 0;
+    while(sum < n){
+       sum += ++i;
+    }
+    return sum;
+  }
+\end{lstlisting}
+还是先模拟流程，观察趟数$t$和终止变量$sum$的关系。每次循环里，$i$都会自增1，同时$sum$会加上新的$i$。
+\begin{itemize}
+  \item 当第1轮结束时，$i = 1$，$sum = 1$；
+  \item 当第2轮结束时，$i = 2$，$sum = 3$；
+  \item 当第3轮结束时，$i = 3$，$sum = 6$；
+  \item 当第4轮结束时，$i = 4$，$sum = 10$。
+\end{itemize}
+继续往下看就会发现，$sum$其实就是前若干个自然数的和。
+如果把循环执行次数记成$k$，那么可以写成：$i = k$，$sum = \frac{k(k+1)}{2}$。
+
+接下来找停止条件。这里在$sum \geq n$时停下，所以有：
+$$\frac{(k+1)k}{2} \geq n$$
+通过求解上面的不等式，我们可以得到k = $O(\sqrt{n})$，因此该算法的时间复杂度为$O(\sqrt{n})$。
+
+\subsection{二重循环}
+二重循环有时候反而更好算，因为层次更清楚，只要别在“内层是不是依赖外层”这里掉坑里就行。
+我平时大概按这个顺序看：
+\begin{enumerate}
+  \item 模拟循环的流程，列出外层值的变化
+  \item 列出内循环的执行次数
+  \item 计算执行次的总和
+\end{enumerate}
+
+如果上面那套看着不顺手，也可以换个角度：
+\begin{enumerate}
+  \item 模拟循环的流程，列出外层值的变化
+  \item 模拟循环的流程，列出内层值的变化
+  \item 计算执行次数和（如果内层值和外层值有关系的话）
+\end{enumerate}
+
+\vspace{0.5em}
+
+\begin{lstlisting}[language=C]
+  int m =0, i, j;
+  for(i = 0; i < n; i++){
+    for(j = 0; j < 2 * i; j++){
+      m++;
+    }
+  }
+\end{lstlisting}
+先看外层。这里$i$从0跑到$n-1$。
+再看内层。固定某个$i$以后，$j$会从0跑到$2i-1$，所以这一轮会执行$2i$次。
+最后把每一轮加起来：
+$$\sum_{i=0}^{n-1} 2i = n(n-1) = O(n^2)$$
+换句话说，外层一共跑$n$轮，但每一轮的内层次数不是固定值，而是跟$i$绑定在一起的，所以这里不能直接写成$n \times n$，而是得老老实实累加：
+$$\sum_{i=0}^{n-1} 2i = n(n-1) = O(n^2)$$
+
+\begin{lstlisting}[language=C]
+  int i,k;
+  for(i = 1; i < n; i++){
+    for(k = 0; k < m; k++){
+      a[i][k] = 0;
+    }
+  }
+\end{lstlisting}
+这段就轻松很多，因为两层循环彼此独立。$i$由$n$控制，$k$由$m$控制，所以总次数直接乘起来就行：
+$\sum_{i=1}^{n-1} m = m(n-1) = O(mn)$
+\subsection{递归函数求解复杂度}
+递归这里我以前总是只看时间，不看空间，后来吃了几次亏才记住：递归题最好时间和空间一起看。
+\begin{enumerate}
+  \item 模拟递归的流程，列出参数的变化
+  \item 找到边界停止的条件，求出递归深度
+  \item 公式递推
+\end{enumerate}
+
+\begin{lstlisting}[language=C]
+  int fact(int n){
+    if(n <= 1) return 1;
+    else return n * fact(n-1);
+  }
+\end{lstlisting}
+先看参数变化。这里每次递归都会让$n$减1，所以参数序列是$n, n-1, n-2, \dots, 1$。
+再看停止条件。函数在$n \leq 1$时返回，所以递归深度是$n$。
+时间复杂度可以写成递推式：
+$$T(n) = T(n-1) + O(1)$$
+所以时间复杂度是$O(n)$。另外别忘了，这个递归还要压$n$层调用栈，因此空间复杂度也是$O(n)$。
+
+\section{真题精练}
+\begin{question}
+  函数 fun() 的时间复杂度是多少？（ ）
+\begin{lstlisting}[language=C]
+  int fun(int n) {
+    int count = 0;
+    for (int i = n; i > 0; i /= 2)
+        for (int j = 0; j < i; j++)
+            count += 1;
+    return count;
+  }
+\end{lstlisting}
+
+  \begin{itemize}
+    \item[A] $O(n^2)$
+    \item[B] $O(n * \log(n))$
+    \item[C] $O(n)$
+    \item[D] $O(n \relax \log(n \relax \log_2n))$
+  \end{itemize}
+\end{question}
+
+\begin{solution}
+  这题最容易错的地方，就是一看见双重循环就条件反射写成$O(n\log n)$或者$O(n^2)$。但这里内层的执行次数其实跟外层当前的$i$绑在一起，所以还是得一层一层算。
+  \begin{itemize}
+    \item 当第1轮外层循环开始时，$i = n$；
+    \item 当第2轮外层循环开始时，$i = n / 2$；
+    \item 当第3轮外层循环开始时，$i = n / 4$；
+    \item 当第4轮外层循环开始时，$i = n / 8$。
+  \end{itemize}
+  也就是说，外层变量$i$每轮都会减半。
+
+  再看内层。每当外层固定在某个$i$时，内层就执行$i$次，因此热点语句\code{count += 1}的总执行次数是：
+  \begin{equation*}
+    \begin{aligned}
+      S &= n + \frac{n}{2} + \frac{n}{4} + \cdots + 1 \\
+      &< 2n
+    \end{aligned}
+  \end{equation*}
+  这是一个等比级数，所以总执行次数和$n$同阶，最后时间复杂度就是$O(n)$。如果顺手多想一步，这题的辅助空间只有几个变量，所以空间复杂度还是$O(1)$。
+\end{solution}
+
+\vspace{1.0em}
+
+\begin{question}
+  函数 fun() 的时间复杂度是多少？
+\begin{lstlisting}[language=C]
+  int fun(int n) {
+  int count = 0;
+  for (int i = 0; i < n; i++)
+      for (int j = i; j > 0; j--)
+          count = count + 1;
+  return count;
+  }
+\end{lstlisting}
+\end{question}
+
+\begin{solution}
+  还是同样的，首先观察热点代码， 也就是\code{count = count + 1}，它的执行次数跟外层变量$i$有关系。
+  外层的循环，变量i受到n的控制，每一次循环i会自增1,所以说i的取值范围是0到n-1。
+  再看内层，内层的循环变量j受到外层变量i的控制，每一次循环j会自减1，所以说j的取值范围是i到1。
+  因此，简单列出每一轮的执行次数：
+  \begin{enumerate}
+    \item i = 0, 执行次数 = 0
+    \item i = 1, 执行次数 = 1
+    \item i = 2, 执行次数 = 2
+    \item ...
+    \item i = n-1, 执行次数 = n-1
+  \end{enumerate}
+  也可以反过来思考，最后一次循环结束时，i的值是n-1, j的循环范围是从n-1到1, 所以说最后一次循环的执行次数是n-1。
+  因此，热点代码的总执行次数是：
+  \begin{equation*}
+    \begin{aligned}
+      S &= (n-1) + (n-2) + \cdots + 1 + 0 \\
+      S &= \frac{(n-1)n}{2} \\
+      S &= \frac{n^2 - n}{2} \\
+      S &= O(n^2)
+    \end{aligned}
+  \end{equation*}
+  这也是一个算术级数，所以总执行次数和$n^2$同阶，最后时间复杂度就是$O(n^2)$。空间复杂度还是$O(1)$。最后上一个使用级数表示的公式：
+  $$\sum_{i=0}^{n-1} i = \frac{(n-1)n}{2}$$
+\end{solution}
+
+\vspace{2.0em}
+
+做到这里，记两个很实用的提醒：
+
+独立无关直接乘：如果内层循环上限是常数，或者只跟$n$有关，比如\code{for(j=0; j<n; j++)}，那通常直接用外层次数乘以内层次数。
+
+变量关联用累加：如果内层循环上限依赖外层变量，比如这题里的\code{j < i}，那就别图省事，老老实实把每一轮执行次数列出来再求和。
+
+最后补三个我自己经常会忘，但又特别常见的级数：
+\begin{itemize}
+  \item 算术级数：$1 + 2 + 3 + \dots + n = O(n^2)$
+  \item 几何级数（等比）：$n + n/2 + n/4 + \dots + 1 = O(n)$
+  \item 调和级数：$1 + 1/2 + 1/3 + \dots + 1/n = O(\log n)$
+\end{itemize}
+
+\end{document}

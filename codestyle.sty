@@ -1,0 +1,115 @@
+% ============================================================
+% codestyle.sty — 代码高亮样式
+% 包含：代码字体、语言定义、全局 lstset
+% 依赖：xcolor + Catppuccin Latte 配色（由 notestyle.sty 负责定义）
+% 使用方式：在 notestyle.sty 中 \RequirePackage{../codestyle}
+%           单独使用时需自行定义 ctp-* 颜色
+% ============================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{codestyle}[2026/03/11 Code Highlighting Style]
+
+\RequirePackage{listings}
+
+% ------------------------------------------------------------
+% 等宽代码字体
+% ------------------------------------------------------------
+\newfontfamily\codefont{CaskaydiaCove NF}
+
+% ------------------------------------------------------------
+% 语言定义
+% 使用方式：\begin{lstlisting}[language=Elixir]
+%           \begin{lstlisting}[language={[custom]C}]
+%           \begin{lstlisting}[language={[custom]C++}]
+%           \begin{lstlisting}[language=CSharp]
+%           \begin{lstlisting}[language={[custom]Java}]
+%           \begin{lstlisting}[language={[custom]Python}]
+% ------------------------------------------------------------
+
+% Elixir（独立定义，listings 无内置）
+\lstdefinelanguage{Elixir}{
+  morekeywords={def,defmodule,do,end,if,else,case,when,fn,
+    true,false,nil,and,or,not,in},
+  sensitive=true,
+  morecomment=[l]{\#},
+  morestring=[b]",
+  morestring=[b]',
+}
+
+% C（扩展 ANSI C，补充常用嵌入式/POSIX 类型）
+\lstdefinelanguage[custom]{C}[ANSI]{C}{
+  morekeywords={uint8_t,uint16_t,uint32_t,uint64_t,
+    int8_t,int16_t,int32_t,int64_t,
+    size_t,ssize_t,NULL,bool,true,false},
+}
+
+% C++（扩展 ISO C++，补充现代 C++ 关键字与 STL 常用类型）
+\lstdefinelanguage[custom]{C++}[ISO]{C++}{
+  morekeywords={nullptr,override,final,constexpr,decltype,
+    noexcept,static_assert,thread_local,
+    uint8_t,uint16_t,uint32_t,uint64_t,
+    int8_t,int16_t,int32_t,int64_t,size_t,
+    string,vector,map,unordered_map,set,
+    shared_ptr,unique_ptr,make_shared,make_unique},
+}
+
+% C#（完整关键字集，含 C# 10+ 新特性，listings 无内置）
+\lstdefinelanguage{CSharp}{
+  morekeywords={abstract,as,base,bool,break,byte,case,catch,char,checked,
+    class,const,continue,decimal,default,delegate,do,double,else,enum,
+    event,explicit,extern,false,finally,fixed,float,for,foreach,goto,
+    if,implicit,in,int,interface,internal,is,lock,long,namespace,new,
+    null,object,operator,out,override,params,private,protected,public,
+    readonly,ref,return,sbyte,sealed,short,sizeof,stackalloc,static,
+    string,struct,switch,this,throw,true,try,typeof,uint,ulong,unchecked,
+    unsafe,ushort,using,virtual,void,volatile,while,
+    var,async,await,dynamic,get,set,value,yield,partial,
+    where,select,from,into,join,on,equals,orderby,ascending,descending,
+    group,by,let,record,init,with,required,file,scoped},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+}
+
+% Java（扩展内置 Java，补充常用标准库类型与注解）
+\lstdefinelanguage[custom]{Java}[]{Java}{
+  morekeywords={var,record,sealed,permits,yield,
+    String,Integer,Boolean,Double,Long,Float,Object,
+    List,ArrayList,Map,HashMap,Set,HashSet,Optional,
+    Stream,Collectors,Arrays,Collections,
+    Override,SuppressWarnings,FunctionalInterface,Deprecated},
+}
+
+% Python（扩展内置 Python，补充常用内建函数与类型注解关键字）
+\lstdefinelanguage[custom]{Python}[]{Python}{
+  morekeywords={self,cls,match,case,type,
+    int,str,float,bool,list,dict,set,tuple,bytes,
+    print,len,range,enumerate,zip,map,filter,sorted,
+    isinstance,issubclass,hasattr,getattr,setattr,
+    classmethod,staticmethod,property,
+    __init__,__str__,__repr__,__len__,__iter__,__next__,
+    __enter__,__exit__,__getitem__,__setitem__},
+}
+
+% ------------------------------------------------------------
+% 代码块全局样式（Catppuccin Latte）
+% ------------------------------------------------------------
+\lstset{
+  basicstyle=\fontsize{9pt}{11pt}\selectfont\codefont\linespread{1.0}\selectfont,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{ctp-base},
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\tiny\color{ctp-overlay1},
+  numbersep=0pt,
+  keywordstyle=\color{ctp-mauve}\bfseries,
+  commentstyle=\color{ctp-overlay2}\itshape,
+  stringstyle=\color{ctp-green},
+  rulecolor=\color{ctp-surface1},
+  tabsize=2,
+  keepspaces=true,
+  aboveskip=0.55em,
+  belowskip=0.55em,
+}

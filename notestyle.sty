@@ -1,0 +1,252 @@
+% ============================================================
+% notestyle.sty — 笔记通用样式模板
+% 使用方式：在导言区加 \usepackage{notestyle}
+% 页眉文字请在各文档中单独设置：
+%   \fancyhead[L]{\fontsize{8pt}{10pt}\selectfont\color{gray!70}你的标题}
+% ============================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{notestyle}[2026/03/08 Note Style Package]
+
+% ------------------------------------------------------------
+% 依赖包
+% ------------------------------------------------------------
+\RequirePackage{fontspec}
+\RequirePackage{geometry}
+\RequirePackage{xcolor}
+\RequirePackage{hyperref}
+\RequirePackage{setspace}
+\RequirePackage{enumitem}
+\RequirePackage{fancyhdr}
+\RequirePackage{indentfirst}
+\RequirePackage{titlesec}
+\RequirePackage{tikz}
+\RequirePackage{forest}
+\RequirePackage{adjustbox}
+\RequirePackage{verbatim}
+\RequirePackage{xeCJK}
+\RequirePackage[skins,breakable]{tcolorbox}
+
+% ------------------------------------------------------------
+% 页面布局
+% ------------------------------------------------------------
+\geometry{
+  b5paper,
+  top=1.0cm, bottom=0.5cm,
+  left=1.2cm, right=1cm,
+  headheight=15pt, headsep=0.35cm,
+}
+
+% ------------------------------------------------------------
+% 字体设置
+% ------------------------------------------------------------
+\IfFontExistsTF{Comic Sans MS}{
+  \setmainfont{Comic Sans MS}
+  \setsansfont{Comic Sans MS}
+  \setmonofont{Comic Sans MS}
+}{
+  \setmainfont{TeX Gyre Pagella}
+  \setsansfont{TeX Gyre Heros}
+  \setmonofont{DejaVu Sans Mono}
+}
+
+\IfFontExistsTF{LXGW WenKai}{
+  \setCJKmainfont[
+    BoldFont={LXGW WenKai Medium},
+    ItalicFont={Sarasa Mono CL},
+  ]{LXGW WenKai}
+  \setCJKsansfont[BoldFont={LXGW WenKai Mono Medium}]{LXGW WenKai}
+  \setCJKmonofont{LXGW WenKai}
+}{
+  \setCJKmainfont{Noto Serif CJK SC}
+  \setCJKsansfont{Noto Sans CJK SC}
+  \setCJKmonofont{Noto Sans Mono CJK SC}
+}
+
+\IfFontExistsTF{Sarasa Mono CL Italic}{
+  \setCJKfamilyfont{sarasait}{Sarasa Mono CL Italic}
+}{
+  \setCJKfamilyfont{sarasait}{Noto Serif CJK SC}
+}
+
+% ------------------------------------------------------------
+% 行间距与段落格式
+% ------------------------------------------------------------
+\setstretch{1.35}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.15ex}
+\setlength{\abovedisplayskip}{0.5em}
+\setlength{\belowdisplayskip}{0.5em}
+\setlength{\abovedisplayshortskip}{0.3em}
+\setlength{\belowdisplayshortskip}{0.3em}
+\setlength{\jot}{0.25em}
+
+\setlist[itemize]{
+  leftmargin=1.6em,
+  itemsep=0.15em,
+  topsep=0.25em,
+  parsep=0pt,
+  partopsep=0pt,
+}
+\setlist[enumerate]{
+  leftmargin=1.8em,
+  itemsep=0.15em,
+  topsep=0.25em,
+  parsep=0pt,
+  partopsep=0pt,
+}
+
+% ------------------------------------------------------------
+% 页眉页脚（页眉文字在各文档中覆盖）
+% ------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ------------------------------------------------------------
+% Catppuccin Latte 配色表（完整版，来源：https://catppuccin.com/palette/）
+% ------------------------------------------------------------
+% Accent colors
+\definecolor{ctp-rosewater}{HTML}{DC8A78}
+\definecolor{ctp-flamingo}{HTML}{DD7878}
+\definecolor{ctp-pink}{HTML}{EA76CB}
+\definecolor{ctp-mauve}{HTML}{8839EF}
+\definecolor{ctp-red}{HTML}{D20F39}
+\definecolor{ctp-maroon}{HTML}{E64553}
+\definecolor{ctp-peach}{HTML}{FE640B}
+\definecolor{ctp-yellow}{HTML}{DF8E1D}
+\definecolor{ctp-green}{HTML}{40A02B}
+\definecolor{ctp-teal}{HTML}{179299}
+\definecolor{ctp-sky}{HTML}{04A5E5}
+\definecolor{ctp-sapphire}{HTML}{209FB5}
+\definecolor{ctp-blue}{HTML}{1E66F5}
+\definecolor{ctp-lavender}{HTML}{7287FD}
+% Neutral colors
+\definecolor{ctp-text}{HTML}{4C4F69}
+\definecolor{ctp-subtext1}{HTML}{5C5F77}
+\definecolor{ctp-subtext0}{HTML}{6C6F85}
+\definecolor{ctp-overlay2}{HTML}{7C7F93}
+\definecolor{ctp-overlay1}{HTML}{8C8FA1}
+\definecolor{ctp-overlay0}{HTML}{9CA0B0}
+\definecolor{ctp-surface2}{HTML}{ACB0BE}
+\definecolor{ctp-surface1}{HTML}{BCC0CC}
+\definecolor{ctp-surface0}{HTML}{CCD0DA}
+\definecolor{ctp-base}{HTML}{EFF1F5}
+\definecolor{ctp-mantle}{HTML}{E6E9EF}
+\definecolor{ctp-crust}{HTML}{DCE0E8}
+
+% ------------------------------------------------------------
+% 标题层级配色（Catppuccin Latte 彩虹）
+% ------------------------------------------------------------
+\titleformat{\section}
+{\large\bfseries\color{ctp-mauve}}{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalsize\bfseries\color{ctp-blue}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+{\normalsize\bfseries\color{ctp-teal}}{\thesubsubsection}{1em}{}
+\titleformat{\paragraph}[runin]
+{\normalsize\bfseries\color{ctp-green}}{\theparagraph}{1em}{}
+\titleformat{\subparagraph}[runin]
+{\normalsize\bfseries\color{ctp-peach}}{\thesubparagraph}{1em}{}
+\titlespacing*{\section}{0pt}{0.9em}{0.35em}
+\titlespacing*{\subsection}{0pt}{0.7em}{0.25em}
+\titlespacing*{\subsubsection}{0pt}{0.55em}{0.2em}
+
+% ------------------------------------------------------------
+% 自定义命令
+% ------------------------------------------------------------
+% \code{文字} — 内联代码高亮
+\newcommand{\code}[1]{%
+  {\texttt{\selectfont\codefont\small\color{ctp-maroon}#1}}%
+}
+
+% cquote 环境 — 引文（斜体 + 深灰色 + 两侧缩进）
+\newenvironment{cquote}{%
+  \vspace{0.1em}%
+  \begin{list}{}{%
+      \setlength{\leftmargin}{1.6em}%
+      \setlength{\rightmargin}{1.4em}%
+      \setlength{\topsep}{0pt}%
+      \setlength{\partopsep}{0pt}%
+      \setlength{\parsep}{0pt}%
+      \setlength{\itemsep}{0pt}%
+    }
+  \item\relax
+    \fontsize{9pt}{11pt}\CJKfamily{sarasait}\itshape\color{ctp-subtext0}%
+  }{%
+  \end{list}%
+  \vspace{0.1em}%
+}
+
+% question 环境 — 例题题目（蓝色竖条 + 淡底色，文字清晰）
+\newtcolorbox{question}{%
+  enhanced, breakable,
+  colback=ctp-base,
+  colframe=ctp-surface1,
+  leftrule=0pt, rightrule=0pt, toprule=0pt, bottomrule=0pt,
+  arc=0pt, outer arc=0pt,
+  left=0.65em, right=0.5em, top=0.35em, bottom=0.35em,
+  boxsep=0pt,
+  before skip=0.2em, after skip=0.2em,
+  before upper={\setstretch{1.12}\fontsize{10pt}{12pt}\selectfont\color{ctp-text}},
+}
+
+% solution 环境 — 解题解析（无竖条，缩进区分，文字柔和）
+\newtcolorbox{solution}{%
+  enhanced, breakable,
+  colback=ctp-mantle!45,
+  colframe=ctp-mantle!45,
+  leftrule=1pt, rightrule=0pt, toprule=0pt, bottomrule=0pt,
+  arc=0pt, outer arc=0pt,
+  left=0.9em, right=0.35em, top=0.35em, bottom=0.35em,
+  boxsep=0pt,
+  before skip=0.05em, after skip=0.15em,
+  borderline west={1pt}{0pt}{ctp-surface1},
+  before upper={\setstretch{1.08}\fontsize{10pt}{12pt}\selectfont\color{ctp-subtext1}},
+}
+
+% ------------------------------------------------------------
+% forest 树形图样式
+% 用法：\begin{forest} ctpTree [...] \end{forest}
+% ------------------------------------------------------------
+\forestset{
+  ctpTree/.style={
+    for tree={
+      font=\small,
+      draw=ctp-surface1,
+      fill=ctp-base,
+      text=ctp-text,
+      rounded corners=2pt,
+      inner sep=5pt,
+      s sep=6pt,
+      l sep=12pt,
+      edge={draw=ctp-overlay1, -latex},
+      align=center,
+    },
+    for nodewalk={root}{
+      draw=ctp-mauve,
+      text=ctp-mauve,
+      font=\small\bfseries,
+    },
+  },
+}
+
+% ------------------------------------------------------------
+% 代码高亮（语言定义 + 全局样式，见 codestyle.sty）
+% ------------------------------------------------------------
+\RequirePackage{../codestyle}
+
+% ------------------------------------------------------------
+% 自定义 \maketitle（标题居中，作者/日期右对齐小字）
+% 各文档在 \title{} \author{} \date{} 之后调用 \maketitle
+% ------------------------------------------------------------
+\makeatletter
+\renewcommand{\maketitle}{%
+  \vspace*{-1.2em}%
+  {\centering\fontsize{14pt}{16pt}\selectfont\bfseries\color{ctp-text}\@title\par}%
+  \vspace{0.2em}%
+  {\setstretch{1.1}%
+  \raggedleft\fontsize{9pt}{11pt}\selectfont\color{ctp-overlay1}\@author\\\@date\par}%
+  \vspace{0.4em}%
+}
+\makeatother
