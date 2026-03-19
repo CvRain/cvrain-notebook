@@ -1,0 +1,202 @@
+\documentclass[b5paper,11pt]{article}
+\usepackage{../notestyle}
+\usepackage{amsmath}
+
+% 文档专属：页眉文字
+\fancyhead[L]{\fontsize{8pt}{10pt}\selectfont\color{gray!70}算法复杂分析历年真题}
+
+% 添加左下角页脚页数标识
+\fancyfoot[L]{\fontsize{8pt}{10pt}\selectfont\color{gray!70} \thepage}
+
+% 文档信息
+\title{算法复杂分析历年真题}
+\author{ClaudeRainer}
+\date{2026/03/18}
+
+\begin{document}
+\maketitle
+
+\hc{函数 fun() 的时间复杂度是多少？（ ）}
+
+\begin{lstlisting}[language=C]
+    int fun(int n) {
+        int count = 0;
+        for (int i = n; i > 0; i /= 2)
+            for (int j = 0; j < i; j++)
+                count += 1;
+        return count;
+  }
+  \end{lstlisting}
+这是一个选择题，但是作为平时练习，就不给出选项了。我们来分析一下这个函数的时间复杂度。
+首先确定这是一个双层循环的函数，其中的热点代码是\code{count += 1}，我们的解决方式是通过计算内圈循环的执行次数来确定时间复杂度。
+
+外圈循环的控制变量是\code{i}，控制条件是\code{i > 0}，每次迭代\code{i}都会被除以2，直到\code{i}为0为止。
+而外圈循环了一次，内圈循环的次数是j从0到\code{i-1}，也就是说内圈循环的执行次数是\code{i}次。
+
+\vspace{1.0em}
+
+外层循环第一次迭代时 i = n，内层循环执行 n 次；第二次迭代 i = n/2，内层执行 n/2 次；依此类推。
+每一次迭代内圈的执行次数也是n，n/2，n/4 ... 直到1为止。\\
+因此最后计算的总执行次数是\code{n + n/2 + n/4 + ... + 1}，这是一个等比数列。
+可以使用等比数列求和公式进行计算，不过当n非常大的时候，整个数列的和趋近于n，因此这个函数的时间复杂度是\code{O(n)}。
+
+\subsection*{严谨的推导}
+
+若 $n$ 是 $2$ 的幂，设 $n = 2^k$，则外层循环变量 $i$ 的取值依次为 $2^k, 2^{k-1}, \dots, 2^0$，
+内层循环次数等于当前的 $i$，因此总执行次数为：
+\[
+  T(n) = 2^k + 2^{k-1} + \cdots + 2^0
+  = \sum_{j=0}^{k} 2^j = 2^{k+1} - 1 = 2n - 1 = O(n).
+\]
+若 $n$ 不是 $2$ 的幂（例如 $n = 5$），
+则 $i$ 的取值为 $5, 2, 1$（整数除法），总和 $T(5) = 5 + 2 + 1 = 8$，仍小于 $2n = 10$，
+即 $T(n) < 2n$ 恒成立，故时间复杂度依然为 $O(n)$。
+
+\subsection*{常见误区}
+
+初学者常误以为外层循环执行 $\log n$ 次，内层循环平均执行约 $n/2$ 次，
+从而错误地得出时间复杂度为 $O(n \log n)$。
+但需要注意，内层循环的次数是\textbf{逐次递减}的（$n, n/2, n/4, \dots, 1$），
+其总和构成一个几何级数，该级数的和收敛于常数倍 $n$（即 $2n$）。
+通过画图或数学归纳法均可证明这一结论，应避免仅凭直觉估算。
+
+\hc{函数 fun() 的时间复杂度是多少？}
+\begin{lstlisting}[language=C]
+int fun(int n) {
+    int count = 0;
+    for (int i = 0; i < n; i++)
+        for (int j = i; j > 0; j--)
+            count = count + 1;
+    return count;
+}
+\end{lstlisting}
+
+\paragraph{核心思路} 热点代码为 \code{count = count + 1}，其执行次数即为算法时间复杂度的衡量指标。通过分析内层循环的执行次数来求和。
+
+\paragraph{循环分析}
+\begin{itemize}
+  \item 外层循环控制变量 \(i\) 从 \(0\) 递增到 \(n-1\)，共 \(n\) 次迭代。
+  \item 对于每个固定的 \(i\)，内层循环控制变量 \(j\) 从 \(i\) 递减到 \(1\)，因此内层循环执行 \(i\) 次（当 \(i=0\) 时，条件 \(j>0\) 不成立，执行 \(0\) 次）。
+\end{itemize}
+
+\paragraph{总执行次数}
+\[
+  T(n) = 0 + 1 + 2 + \cdots + (n-1) = \sum_{k=0}^{n-1} k = \frac{n(n-1)}{2}.
+\]
+这是一个等差数列，首项为 \(0\)，末项为 \(n-1\)，项数为 \(n\)。
+
+\paragraph{时间复杂度} 根据大 \(O\) 记号的定义，保留最高阶项并忽略常数因子：
+\[
+  T(n) = \frac{n^2}{2} - \frac{n}{2} = O(n^2).
+\]
+同时，由于 \(T(n)\) 的增长速度与 \(n^2\) 同阶，也可以记为 \(\Theta(n^2)\)。
+
+\paragraph{常见误区} 初学者可能会粗略地认为外层循环 \(n\) 次、内层循环最多 \(n\) 次，从而直接得出 \(O(n^2)\)。虽然最终答案相同，但理解内层循环次数随 \(i\) 线性增长的过程更为重要——它解释了为什么总次数是 \(n(n-1)/2\) 而非 \(n^2\)，也避免了在类似但略有不同的题目中出错（例如内层循环条件为 \(j < n\) 时，结果才是严格的 \(n^2\)）。
+
+\paragraph{验证} 函数返回的 \code{count} 值恰好等于 \(\frac{n(n-1)}{2}\)，可用具体数值（如 \(n=5\) 时返回 \(10\)）验证分析的正确性。
+
+\dhr
+
+\hc{汉诺塔问题中，n 个圆盘的最优时间递推关系式是（ ）}
+\begin{itemize}
+  \item A. \(T(n) = 2T(n-2) + 2\)
+  \item B. \(T(n) = 2T(n-1) + n\)
+  \item C. \(T(n) = T(n/2) + 1\)
+  \item D. \(T(n) = 2T(n-1) + 1\)
+\end{itemize}
+
+解决汉诺塔问题的递归步骤如下。设三根柱子分别为 A、B 和 C，目标是将 n 个圆盘从 A 移动到 C。
+具体步骤为：
+\begin{enumerate}
+  \item 将 n-1 个圆盘从 A 移动到 B，此时 A 上仅剩第 n 个圆盘
+  \item 将第 n 个圆盘从 A 移动到 C
+  \item 将 n-1 个圆盘从 B 移动到 C，叠放在第 n 个圆盘之上
+\end{enumerate}
+因此，递归关系式为：
+\[
+  T(n) = T(n-1) + 1 + T(n-1) = 2T(n-1) + 1.
+\]
+选项 D 正确。
+
+可以写一个程序来验证这个递归关系式的正确性，例如：
+\begin{lstlisting}[language=C]
+#include <stdio.h>
+int T(int n) {
+    if (n == 0) return 0; // 没有圆盘时不需要移动
+    return 2 * T(n - 1) + 1;
+}
+int main() {
+    int n = 3; // 圆盘数量
+    printf("T(%d) = %d\n", n, T(n)); // 输出 T(3) 的值
+    return 0;
+}
+\end{lstlisting}
+
+\begin{cquote}
+  讲真我没解过这道题，也一下子不知道如果真的需要实现这道题的代码应该要如何实现，
+  但是通过分析递归关系式的方式，还是能够得出正确的答案的。
+  不过在之后还是需要思考一下这类题目的代码如何实现。
+  也算是挺有意思的一个题目了。
+\end{cquote}
+
+\dhr
+
+\hc{下面函数的时间复杂度是多少？}
+\begin{lstlisting}[language=C]
+void fun(int n, int arr[]) {
+    int i = 0, j = 0;
+    for (; i < n; ++i)
+        while (j < n && arr[i] < arr[j])
+            j++;
+}
+\end{lstlisting}
+
+首先检查外部循环，i初始化为0, 每一次迭代都会自增1，直到等于n，因此外部循环执行n次。
+接下来就是确定在外层n次迭代中，每一次迭代n层迭代次数然后将其求和得到最后的总执行次数。
+
+内层循环的控制变量是j，初始值是0，每次迭代j都会自增1，直到j等于n或者arr[i]不小于arr[j]为止。
+但是需要注意的是，j的值在外层循环中是持续增加的，并且不会重置为0。
+所以循环结束的条件是j = n，因为i最后会到n - 1，在j = n时候就会停止迭代。
+每一次循环控制则是通过 i < j进行，可以进行如下假设：
+
+当i = 0时，j当前为0, 内层循环执行0次。 \\
+当i = 1时，j当前为0, 内层循环执行1次。 \\
+当i = 2时，j当前为1, 内层循环执行1次。 \\
+当i = 3时，j当前为2, 内层循环执行1次。 \\
+所以很明显， 这题的i和j就很像一个滑动窗口，每次i增加1，j也会增加1，直到j等于n为止。
+最后的总执行次数就是n次外层循环，每次内层循环执行1次，所以总执行次数是n次，因此时间复杂度是O(n)。
+
+\dhr
+
+在一场竞赛中，观察到四个不同的函数。所有函数都使用单个 for 循环，且循环内部执行相同的语句集。考虑以下 for 循环：
+\begin{itemize}
+  \item A for(i=0;i<n;i++)
+  \item B for(i=0;i<n;i+=2)
+  \item C for(i=1;i<n;i*=2)
+  \item D for(i=n;i<=n;i/=2)
+\end{itemize}
+若 n 是输入规模（正数），哪个函数最高效（假设任务本身不是问题）？（ ）
+
+\paragraph{紧凑分析} 直接比较循环变量增长（或衰减）速度：
+\begin{center}
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{lll}
+    \hline
+    循环 & 迭代次数（数量级） & 结论 \\
+    \hline
+    A: \code{for(i=0;i<n;i++)} & $n$ & 线性 \\
+    B: \code{for(i=0;i<n;i+=2)} & $\lceil n/2 \rceil$ & 线性 \\
+    C: \code{for(i=1;i<n;i*=2)} & $\lceil \log_2 n \rceil$ & 对数 \\
+    D: \code{for(i=n;i<=n;i/=2)} & 原式会陷入死循环 & 题干写法有歧义 \\
+    \hline
+  \end{tabular}
+\end{center}
+
+若按常见命题意图把 D 理解为 \code{for(i=n;i>0;i/=2)}，其迭代次数也是 $\Theta(\log n)$。
+因此在可正常终止的选项中，对比数量级可得：
+\[
+  \Theta(\log n) \ll \Theta(n),
+\]
+故最高效的是 \textbf{C}（若修正后的 D 也可正常终止，则 C 与 D 同阶，均优于 A、B）。
+
+\end{document}

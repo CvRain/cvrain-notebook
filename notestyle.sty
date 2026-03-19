@@ -25,13 +25,14 @@
 \RequirePackage{verbatim}
 \RequirePackage{xeCJK}
 \RequirePackage[skins,breakable]{tcolorbox}
+\RequirePackage{dashrule}
 
 % ------------------------------------------------------------
 % 页面布局
 % ------------------------------------------------------------
 \geometry{
   b5paper,
-  top=1.0cm, bottom=0.5cm,
+  top=1.0cm, bottom=0.8cm,
   left=1.2cm, right=1cm,
   headheight=15pt, headsep=0.35cm,
 }
@@ -250,3 +251,23 @@
   \vspace{0.4em}%
 }
 \makeatother
+
+% 快速标题宏定义：使用 \ha 到 \hf 对应 H1 到 H6
+\newcommand{\ha}[1]{
+\section{#1}}       % H1
+\newcommand{\hb}[1]{
+\subsection{#1}}    % H2
+\newcommand{\hc}[1]{
+\subsubsection{#1}} % H3
+\newcommand{\hd}[1]{\paragraph{#1}\mbox{}\\}    % H4 (加换行防止正文紧跟标题)
+\newcommand{\he}[1]{\subparagraph{#1}\mbox{}\\} % H5
+\newcommand{\hf}[1]{\noindent\textbf{#1}\\}     % H6 (纯加粗)
+
+% 如果你不想要章节编号（更像原生 Markdown）
+\setcounter{secnumdepth}{0}
+
+% 实线宏: \hr
+\newcommand{\hr}{\par\noindent\rule{\textwidth}{0.4pt}\par}
+
+% 虚线宏: \dhr
+\newcommand{\dhr}{\par\noindent\hdashrule{\textwidth}{0.4pt}{3pt}\par}
