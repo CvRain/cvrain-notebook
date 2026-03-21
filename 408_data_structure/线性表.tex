@@ -61,8 +61,159 @@
 
 \code{GetData(L, i)}
 \begin{itemize}
-  \item[] \hspace{1.5}操作前提：表L已经存在，前 i<= i <= ListLength(L)
-  \item[] \hspace{1.5}操作结果：返回线性表L中第i个合法元素的值。
+  \item[] \hspace{1.5em}操作前提：表L已经存在，前 i<= i <= ListLength(L)
+  \item[] \hspace{1.5em}操作结果：返回线性表L中第i个合法元素的值。
 \end{itemize}
 
+\code{InsList(L, i, e)}
+\begin{itemize}
+  \item[] \hspace{1.5em}操作前提：表L已经存在，e为合法元素值且1<=i<=ListLength(L) + 1。
+  \item[] \hspace{1.5em}操作结果：在L中第i个位置之前插入新的数据元素e，L的长度加1。
+\end{itemize}
+
+\code{DelList(L, i, e)}
+\begin{itemize}
+  \item[] \hspace{1.5em}操作前提：表L已经存在且非空，1<=i<=ListLength(L)。
+  \item[] \hspace{1.5em}操作结果：删除L的第i个数据元素，并用e返回其值，L的长度减1。
+\end{itemize}
+
+\code{Locate(L, e)}
+\begin{itemize}
+  \item[] \hspace{1.5em}操作前提：表L已经存在且非空，1<=i<=ListLength(L)。
+  \item[] \hspace{1.5em}操作结果：删除L的第i个数据元素，并用e返回其值，L的长度减1。
+\end{itemize}
+
+\code{DestroyList(L)}
+\begin{itemize}
+  \item[] \hspace{1.5em}操作前提：线性表L已经存在。
+  \item[] \hspace{1.5em}操作结果：将L销毁。
+\end{itemize}
+
+
+\code{ClearList(L)}
+\begin{itemize}
+  \item[] \hspace{1.5em}操作前提：线性表L已经存在。
+  \item[] \hspace{1.5em}操作结果：将L置为空表。
+\end{itemize}
+
+\code{EmptyList(L)}
+\begin{itemize}
+  \item[] \hspace{1.5em}操作前提：线性表L已经存在。
+  \item[] \hspace{1.5em}操作结果：如果L为空表则返回\code{TRUE}，否则返回\code{FALSE}。
+\end{itemize}
+
+\subsection{章节试题}
+\begin{question}
+  线性表具有n个（）的有限序列
+  \medskip
+  \begin{tabular}{*{4}{p{0.22\linewidth}}}
+    A.\enspace 数据表 & B.\enspace 字符 & C.\enspace 数据元素 & D.\enspace 数据项
+  \end{tabular}
+\end{question}
+\begin{solution}
+  \code{C} 线性表是具有相同数据类型的有限数据元素组成的，数据元素是由数据项组成的。
+  另外通过前文关于线性表的定义可以知道，线性表讲白了是一串数据类型相同的元素组成的一条数据。
+
+  \begin{cquote}
+    当然在408数据结构的研究中主要还是使用c和c++语言，可能在实际的一些编程语言中存在有不同数据类型组成的列表的情况。
+  \end{cquote}
+\end{solution}
+
+\begin{question}
+  下列集中描述中，（）是一个线性表
+  \begin{itemize}
+    \item[A] 由n个实数组成的集合
+    \item[B] 由100个字符组成的序列
+    \item[C] 所有整数组成的序列
+    \item[D] 邻接表
+  \end{itemize}
+\end{question}
+\begin{solution}
+  选项A没有表明n个实数组成的集合，集合之间元素的关系，所以无法确定是否是一个线性表。
+
+  选项C看起来是对的，但是因为所有的整数是无穷无尽，线性表要求是有限序列。
+
+  邻接表是一种存储结构，本题要求选出一个具体的线性表。所以D选项也是不对。
+\end{solution}
+
+\begin{question}
+  在线性表中，除开始元素外，每个元素（）。
+  \begin{itemize}
+    \item[A] 只有唯一的前驱元素
+    \item[B] 只有唯一的后继元素
+    \item[C] 有多个前驱元素
+    \item[D] 由多个后继元素
+  \end{itemize}
+\end{question}
+\begin{solution}
+  线性表中，除最后一个（或第一个）元素外，每个元素都只有一个后继（或前驱）元素。
+\end{solution}
+
+\begin{question}
+  若非空线性表中的元素既没有直接前驱，又没有直接后继，则该表中有（）个元素
+  \medskip
+  \begin{tabular}{*{4}{p{0.22\linewidth}}}
+    A.\enspace 1 & B.\enspace 2 & C.\enspace 3 & D.\enspace n
+  \end{tabular}
+\end{question}
+\begin{solution}
+  没有之前前驱也没有直接后继，说明这个线性表中只有一个元素。因此选择A
+\end{solution}
+
+\subsection{简单总结}
+线性表分为顺序存储和链式存储两大类，顺序存储只有顺序表这一中结构。
+而链式存储可以分为单链表、双链表、循环链表和静态链表四个数据结构，前三种依靠指针实现，
+而静态链表借助数组实现。
+
+线性表是算法题命题的重点，此类算法题的实现比较容易且代码量较少。
+按照考试的情况，需要在算法时间复杂度或算法空间复杂度上由有效的表现才能够拿满分，
+这就比较困难，因此在时间紧迫的情况下， 直接使用暴力法，所以还要多刷刷力扣。
+
+线性表是一种逻辑结构，表示元素之间一对一的相邻关系，顺序表和链表是指存储结构，
+两者属于不同的概念、因此不要将其混淆。
+
+线性表的基本操作的实现取决于采用哪种存储结构，存储结构不同，算法也不同。
+比如对于线性表进行插入元素操作\code{InsertElem(L)}，参数L，可以使用指针，也可以使用引用。
+
+\section{线性表的顺序表示}
+\subsection{顺序表的定义}
+线性表的顺序存储也称顺序表，它是用一组地址连续的存储单元以此存储线性表中的数据元素，
+从而使得逻辑上相邻两个元素在物理位置上也相邻。因此也可以说，顺序表的特点是表中元素的
+逻辑顺序与其存储的物理顺序相同。
+
+举个例子，有一个C++数组\code{std::array<int, 120> someData;}，定义了一个变量someData，
+在里面分配了120个int类型的元素。在代码层面上，我们可以使用\code{someData.at(0)}，
+\code{someData.at(1)} ... \code{someData.at(119)}。someData中的数据元素可以使用下标获取位置上的值，
+这在逻辑上是连续的， 而且内存上也是按照顺序进行排列，加入一个\code{int}占用8个字节，
+那么想要获得第一个元素那么在内存地址中从0位可以访问，第四个元素的位置就是\code{0+index * sizeof(int)}。
+
+\begin{itemize}
+  \item index = 0, addr = 0
+  \item index = 1, addr = 0 + sizeof(int)
+  \item index = 2, addr = 0 + 2 * sizeof(int)
+  \item index = maxSize - 1, addr = 0 + (maxSize - 1) * sizeof(int)
+\end{itemize}
+
+因此进行总结，获取数组下标为n的元素，其内存地址为：LOC(A) + n * sizeof(ElemType) \\
+每个数据元素的存储位置都和存储表的起始位置相差一个和该元素的位序成正常比的常数，
+因此，顺序表中的任意一个数据元素都可以随机存取，所以线性表的顺序存储结构是一种随机存储的存储结构。
+通常用高级程序设计语言中的数据来描述线性表的顺序存储结构。 \\
+需要注意的是元素的位序是从1开始的，而数组中的元素的下标是从0开始的。
+
+手动实现一个静态分配的顺序表结构描述
+\begin{lstlisting}[language=C++]
+#define MaxSize = 50
+typedef struct{
+  ElementType data[MaxSize];
+  int length;
+}SqList;
+
+template<Typename T, int size>
+using SqList = struct{
+  T data[size];
+  int length;
+}
+\end{lstlisting}
+
+\subsection{顺序表上基本操作的实现}
 \end{document}
