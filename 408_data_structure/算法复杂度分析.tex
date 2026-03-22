@@ -2,9 +2,7 @@
 \usepackage{../notestyle}
 \usepackage{amsmath}
 
-% 文档专属：页眉文字
-\fancyhead[L]{\fontsize{8pt}{10pt}\selectfont\color{gray!70}算法复杂分析历年真题}
-
+% 文档专属：页眉文字 \fancyhead[L]{\fontsize{8pt}{10pt}\selectfont\color{gray!70}算法复杂分析历年真题}
 % 添加左下角页脚页数标识
 \fancyfoot[L]{\fontsize{8pt}{10pt}\selectfont\color{gray!70} \thepage}
 
@@ -170,14 +168,14 @@ void fun(int n, int arr[]) {
 
 在一场竞赛中，观察到四个不同的函数。所有函数都使用单个 for 循环，且循环内部执行相同的语句集。考虑以下 for 循环：
 \begin{itemize}
-  \item A for(i=0;i<n;i++)
-  \item B for(i=0;i<n;i+=2)
-  \item C for(i=1;i<n;i*=2)
-  \item D for(i=n;i<=n;i/=2)
+  \item [A.] \code{for(i=0;i<n;i++)}
+  \item [B.] \code{for(i=0;i<n;i+=2)}
+  \item [C.] \code{for(i=1;i<n;i*=2)}
+  \item [D.] \code{for(i=n;i<=n;i/=2)}
 \end{itemize}
 若 n 是输入规模（正数），哪个函数最高效（假设任务本身不是问题）？（ ）
 
-\paragraph{紧凑分析} 直接比较循环变量增长（或衰减）速度：
+\vspace{1.0em}
 \begin{center}
   \renewcommand{\arraystretch}{1.2}
   \begin{tabular}{lll}
@@ -193,10 +191,54 @@ void fun(int n, int arr[]) {
 \end{center}
 
 若按常见命题意图把 D 理解为 \code{for(i=n;i>0;i/=2)}，其迭代次数也是 $\Theta(\log n)$。
-因此在可正常终止的选项中，对比数量级可得：
-\[
-  \Theta(\log n) \ll \Theta(n),
-\]
+因此在可正常终止的选项中，对比数量级可得：$\Theta(\log n) \ll \Theta(n)$
+
 故最高效的是 \textbf{C}（若修正后的 D 也可正常终止，则 C 与 D 同阶，均优于 A、B）。
+
+\dhr
+
+\hc{\textbf{当说算法X比Y渐进更高效时，其含义是什么？（）}}
+\begin{itemize}
+  \item [A.] X将是所有输入情况下的更好选择
+  \item [B.]\ X将是除可能的小输入外所有情况下的更好选择
+  \item [C.] X将是除可能的大输入外所有输入情况下更好选择
+  \item [D.] Y将是小输入情况下的更好选择
+\end{itemize}
+
+当我们说算法 X 比 Y 渐近更高效时，意味着随着算法输入规模的不断增大，
+X 的运行时间最终会比 Y 的运行时间更快。
+这通常通过大 O 表示法（big O notation）来描述，它给出了算法最坏情况运行时间的上界。
+
+具体来说：
+\begin{itemize}
+  \item[-] 如果 X 比 Y 渐近更高效，则存在一个常数 c，使得对于所有足够大的输入，
+    X 的运行时间 ≤ c × Y 的运行时间；
+  \item[-] 即X的大O复杂度类低于Y（如$O(n)$ vs $O(n^2)$）；
+  \item[-] 这表明在“大输入情况下”，X在效率上始终优于Y；
+  \item[-] 然而，对于“小输入”，Y可能仍然比X更快（因常数因子或低阶项影响）
+\end{itemize}
+因此，我们不能断言 X 是所有输入情况下的更好选择，
+但可以说 X 是除可能的小输入外所有输入情况下的更好选择。
+
+也可以通过为每一个选项举一个反例来说明，对于A选项来说，
+当$X=2n+200 Y=n^2+10$时候，可以知道当n大概在10的时候两者相等，在n<10的时候，算法Y是更好的选择。
+超过10，则X是更好的选择。所以可以将A和D两个选项排除。
+
+看选项D，如果将上文中的X换成$X=2n + 10$ 那么这个算法就会非常优秀，在小输入的情况下就需要看其常数因子和低阶项了。
+那么Y就并不一定是更好的选择。选项C就有点无聊了，既然X比Y渐进更高效时，那就必然是在输入规模不断增大，
+乃至更大的情况下进行使用的，所以这题的答案是选项B。
+
+\dhr
+
+\hc{在以下C函数中，假设n>=m}
+\begin{lstlisting}[language=c]
+int gcd(n, m) {
+    if (n % m == 0)
+        return m;
+    n = n % m;
+    return gcd(m, n);
+}
+\end{lstlisting}
+该函数会进行多少次递归调用？
 
 \end{document}
