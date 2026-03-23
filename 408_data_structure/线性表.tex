@@ -10,8 +10,8 @@
 
 % 文档信息
 \title{线性表}
-\author{ClaudeRainer}
 \date{2026/03/13}
+\author{ClaudeRainer}
 
 \begin{document}
 \maketitle
@@ -102,8 +102,10 @@
 \end{itemize}
 
 \subsection{章节试题}
+
 \begin{question}
   线性表具有n个（）的有限序列
+
   \medskip
   \begin{tabular}{*{4}{p{0.22\linewidth}}}
     A.\enspace 数据表 & B.\enspace 字符 & C.\enspace 数据元素 & D.\enspace 数据项
@@ -117,6 +119,8 @@
     当然在408数据结构的研究中主要还是使用c和c++语言，可能在实际的一些编程语言中存在有不同数据类型组成的列表的情况。
   \end{cquote}
 \end{solution}
+
+\vspace{1.0em}
 
 \begin{question}
   下列集中描述中，（）是一个线性表
@@ -135,6 +139,8 @@
   邻接表是一种存储结构，本题要求选出一个具体的线性表。所以D选项也是不对。
 \end{solution}
 
+\vspace{1.0em}
+
 \begin{question}
   在线性表中，除开始元素外，每个元素（）。
   \begin{itemize}
@@ -147,6 +153,8 @@
 \begin{solution}
   线性表中，除最后一个（或第一个）元素外，每个元素都只有一个后继（或前驱）元素。
 \end{solution}
+
+\vspace{1.0em}
 
 \begin{question}
   若非空线性表中的元素既没有直接前驱，又没有直接后继，则该表中有（）个元素
@@ -215,4 +223,30 @@ using SqList = struct{
 \end{lstlisting}
 
 \subsection{顺序表上基本操作的实现}
+\begin{cquote}
+  引用书上的一句话：在各种操作的实现中，往往可以忽略边界条件判断、变量定义、内存分配不足等细节，
+  即不要求代码具有可执行性，而重点在于算法的思想。
+\end{cquote}
+
+\subsubsection{顺序表的初始化}
+
+\begin{lstlisting}[language=C++]
+  void init_list(sq_list &L) {
+    L.length = 0;
+  }
+\end{lstlisting}
+
+静态分配和动态分配的顺序表的初始化操作是不同的。静态分配在声明一个顺序表，就已经为其分配了内存空间。
+因此初始化时只需要将长度置为0即可。而动态分配的顺序表在初始化时需要为其分配内存空间，通常是通过malloc函数来实现的。
+在C++中两个容器\code{std::vector}和\code{std::array}的初始化也是不同的，
+前者需要调用构造函数来分配内存空间，而后者在声明时就已经分配了内存空间。
+由此可见，静态分配的顺序表在初始化时更简单一些。
+\begin {lstlisting}[language=C++]
+void init_list(sq_list *L) {
+  L->data = (ElementType *)malloc(MaxSize * sizeof(ElementType));
+  L->length = 0;
+  L->max_size = MaxSize;
+}
+\end{lstlisting}
+
 \end{document}
