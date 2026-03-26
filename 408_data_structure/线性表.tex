@@ -255,23 +255,23 @@ void init_list(sq_list *L) {
 其次需要考虑到顺序表的长度是不是已经达到最大值，此时再插入就会导致内存溢出。
 此外，在进行插入时，需要将插入位置之后的元素都向后移动一位，以腾出插入位置的空间。
 \begin{lstlisting}[language=C++]
-  bool insert_list(sq_list &L, int i, ElementType e) {
-    if (i < 1 || i > L.length + 1) {
-      return false; // 插入位置不合法
-    }
-    if (L.length >= MaxSize) {
-      return false; // 顺序表已满，无法插入
-    }
-    for (int j = L.length; j >= i; j--) {
-      L.data[j] = L.data[j - 1]; // 将插入位置之后的元素向后移动一位
-    }
-    L.data[i - 1] = e; // 插入新元素
-    L.length++; // 更新顺序表长度
-    return true; // 插入成功
+bool insert_list(sq_list &L, int i, ElementType e) {
+  if (i < 1 || i > L.length + 1) {
+    return false; // 插入位置不合法
   }
+  if (L.length >= MaxSize) {
+    return false; // 顺序表已满，无法插入
+  }
+  for (int j = L.length; j >= i; j--) {
+    L.data[j] = L.data[j - 1]; // 将插入位置之后的元素向后移动一位
+  }
+  L.data[i - 1] = e; // 插入新元素
+  L.length++; // 更新顺序表长度
+  return true; // 插入成功
+}
 \end{lstlisting}
 最好的插入情况是直接在表尾插入数据，这样不需要向后移动元素，时间复杂度为O(1)。 \\
-最坏的插入情况是在表头插入数据，这样需要将所有元素都向后移动一位，时间复杂度为O(n)。平均情况下，插入操作的时间复杂度为O(n)。 \\
+最坏的插入情况是在表头插入数据，这样需要将所有元素都向后移动一位，时间复杂度为O(n)。平均情况下，插入操作的时间复杂度为Ow(n)。 \\
 因此平均时间复杂度就是假设一个元素从第0位开始插入的复杂度加上第1位插入的复杂度加上第2位插入的复杂度...加上第n-1位插入的复杂度，最后除以n。
 最后得到插入算法的平均时间复杂度为O(n)。
 
@@ -279,20 +279,20 @@ void init_list(sq_list *L) {
 删除操作和插入操作类似，需要考虑删除位置是否合法，删除后需要将删除位置之后的元素都向前移动一位，以填补删除位置的空缺。
 具体来说要判断index是否<0或者>表长，如果是的话删除位置不合法了。其次需要考虑到顺序表是否为空，如果是空表了，那么就无法删除了。
 \begin{lstlisting}[language=C++]
-  bool delete_list(sq_list &L, int i, ElementType &e) {
-    if (i < 1 || i > L.length) {
-      return false; // 删除位置不合法
-    }
-    if (L.length == 0) {
-      return false; // 顺序表为空，无法删除
-    }
-    e = L.data[i - 1]; // 获取被删除元素的值
-    for (int j = i; j < L.length; j++) {
-      L.data[j - 1] = L.data[j]; // 将删除位置之后的元素向前移动一位
-    }
-    L.length--; // 更新顺序表长度
-    return true; // 删除成功
+bool delete_list(sq_list &L, int i, ElementType &e) {
+  if (i < 1 || i > L.length) {
+    return false; // 删除位置不合法
   }
+  if (L.length == 0) {
+    return false; // 顺序表为空，无法删除
+  }
+  e = L.data[i - 1]; // 获取被删除元素的值
+  for (int j = i; j < L.length; j++) {
+    L.data[j - 1] = L.data[j]; // 将删除位置之后的元素向前移动一位
+  }
+  L.length--; // 更新顺序表长度
+  return true; // 删除成功
+}
 \end{lstlisting}
 最好的删除情况是直接在表尾删除数据，这样不需要向前移动元素，时间复杂度为O(1)。 \\
 最坏的删除情况是在表头删除数据，这样需要将所有元素都向前移动一位，时间复杂度为O(n)。平均情况下，删除操作的时间复杂度为O(n)。 \\
@@ -300,55 +300,61 @@ void init_list(sq_list *L) {
 最后得到删除算法的平均时间复杂度为O(n)。
 
 \subsubsection{获取元素操作}
+
 这个就非常简单了，直接从头开始数，找到之后就返回位序，如果没有找到就返回false。 \\
 如果在C++上可以用\code{std::find}算法来实现这个功能，或者直接使用\code{std::vector}的\code{std::find}算法来实现这个功能。 \\
 自己进行查找，可以使用\code{std::optional<ElementType>}来表示查找结果，如果找到就返回元素值，如果没有找到就返回\code{std::nullopt}。
 \begin{lstlisting}[language=C++]
-  std::optional<ElementType> get_data(sq_list &L, int i) {
-    if (i < 1 || i > L.length) {
-      return std::nullopt; // 获取位置不合法
-    }
-    return L.data[i - 1]; // 返回第i个元素的值
+std::optional<ElementType> get_data(sq_list &L, int i) {
+  if (i < 1 || i > L.length) {
+    return std::nullopt; // 获取位置不合法
   }
+  return L.data[i - 1]; // 返回第i个元素的值
+}
 \end{lstlisting}
 获取元素操作的时间复杂度为O(1)，因为顺序表支持随机访问，可以直接通过下标访问元素。
 
 \subsubsection{按值查找}
 按值查找需要从头开始遍历顺序表，直到找到第一个值等于e的元素为止，如果找到了就返回该元素的位序，如果没有找到就返回0。
 \begin{lstlisting}[language=C++]
-  int locate(sq_list &L, ElementType e) {
-    for (int i = 0; i < L.length; i++) {
-      if (L.data[i] == e) {
-        return i + 1; // 返回第i+1个元素的位序
-      }
+int locate(sq_list &L, ElementType e) {
+  for (int i = 0; i < L.length; i++) {
+    if (L.data[i] == e) {
+      return i + 1; // 返回第i+1个元素的位序
     }
-    return 0; // 没有找到
   }
+  return 0; // 没有找到
+}
 \end{lstlisting}
-按值查找的时间复杂度为O(n)，因为在最坏的情况下需要遍历整个顺序表才能找到目标元素或者确定目标元素不存在。 
+按值查找的时间复杂度为O(n)，因为在最坏的情况下需要遍历整个顺序表才能找到目标元素或者确定目标元素不存在。
 
 \section{本节试题精选}
 \begin{question}
-下列叙述中，（ ）是顺序结构的优点
-\begin{itemize}
-  \item [A.] 存储密度大
-  \item [B.] 插入运算方便
-  \item [C.] 删除运算方便
-  \item [D.] 方便地运用于各种逻辑结构的存储表示
-\end{itemize}  
+
+\hd{1. 下列叙述中，（ ）是顺序结构的优点}
+
+\medskip
+\begin{tabular}{*{2}{p{0.44\linewidth}}}
+  A. 存储密度大 & B. 插入运算方便
+\end{tabular}
+
+\begin{tabular}{*{2}{p{0.44\linewidth}}}
+  C. 删除运算方便 & D. 方便地运用于各种逻辑结构的存储表示
+\end{tabular}
 \end{question}
 
 \vspace{0.5em}
 
 \begin{solution}
-  这题直接选A就结束战斗了，通过上面的章节可以知道顺序表插入和删除如果是在表头的位置则会非常麻烦。
-  至于D选项，顺序表只能用来存储线性结构，无法存储树、图等非线性结构，因此D选项也是不对的。
+这题直接选A就结束战斗了，通过上面的章节可以知道顺序表插入和删除如果是在表头的位置则会非常麻烦。
+至于D选项，顺序表只能用来存储线性结构，无法存储树、图等非线性结构，因此D选项也是不对的。
 \end{solution}
 
 \vspace{1.0em}
+\dhr
 
 \begin{question}
-  下列关于顺序表的叙述中，正确的是（ ）
+\hd{2. 下列关于顺序表的叙述中，正确的是（ ）}
 \begin{itemize}
   \item [A.] 顺序表可以利用一维数组表示，因此顺序表与一维数组在逻辑结构上是相同的。
   \item [B.] 在顺序表中，逻辑上相邻的元素物理位置上不一定相邻。
@@ -360,89 +366,182 @@ void init_list(sq_list *L) {
 \vspace{0.5em}
 
 \begin{solution}
-  顺序表是顺序存储的线性表，表中所有元素的类型必须相同，且必须连续存放。
-  一维数组中的元素可以不连续存放。此外，栈、队列和树等逻辑结构也可以利用一维数组表示，
-  但它与顺序表不属于相同的逻辑结构。在顺序表中，逻辑上相邻的元素物理位置也相邻。
+顺序表是顺序存储的线性表，表中所有元素的类型必须相同，且必须连续存放。
+一维数组中的元素可以不连续存放。此外，栈、队列和树等逻辑结构也可以利用一维数组表示，
+但它与顺序表不属于相同的逻辑结构。在顺序表中，逻辑上相邻的元素物理位置也相邻。
 
-  选项A的错误在于顺序表和一维数组在逻辑结构上是不同的，顺序表是一种线性结构，而一维数组是一种存储结构。 \\
-  选项B的错误在于顺序表中逻辑上相邻的元素物理位置上也相邻。 \\
-  选项C是正确的，顺序表和一维数组一样，都可以进行随机存储。 \\
-  选项D的错误在于顺序表中每个元素的类型必须相同。
+选项A的错误在于顺序表和一维数组在逻辑结构上是不同的，顺序表是一种线性结构，而一维数组是一种存储结构。 \\
+选项B的错误在于顺序表中逻辑上相邻的元素物理位置上也相邻。 \\
+选项C是正确的，顺序表和一维数组一样，都可以进行随机存储。 \\
+选项D的错误在于顺序表中每个元素的类型必须相同。
 \end{solution}
 
 \vspace{1.0em}
+\dhr
 
 \begin{question}
-  线性表的顺序存储结构是一种（）存储结构。
-  A. 随机存取的存储结构    B. 顺序存取的存储结构 \\
-  C. 索引存取的存储结构    D. 散列存取的存储结构
+\hd{3. 线性表的顺序存储结构是一种（）存储结构。}
+
+\medskip
+\begin{tabular}{*{2}{p{0.44\linewidth}}}
+  A. 随机存取的存储结构  &  B. 顺序存取的存储结构
+\end{tabular}
+
+\begin{tabular}{*{2}{p{0.44\linewidth}}}
+  C. 索引存取的存储结构 &   D. 散列存取的存储结构
+\end{tabular}
 \end{question}
 \vspace{0.5em}
 \begin{solution}
-  线性表的顺序存储结构是一种随机存取的存储结构，因为在顺序表中，任意一个数据元素都可以通过其位序直接访问，而不需要按照顺序访问前面的元素。
-  因此，选项A是正确的。
+线性表的顺序存储结构是一种随机存取的存储结构，因为在顺序表中，任意一个数据元素都可以通过其位序直接访问，而不需要按照顺序访问前面的元素。
+因此，选项A是正确的。
 \end{solution}
 
 \vspace{1.0em}
+\dhr
 
 \begin{question}
-  通常说顺序表具有随机存储的特性，指的是（ ）
+\hd{4. 通常说顺序表具有随机存储的特性，指的是（ ）}
 
-  A. 查找值为x的元素的时间与顺序表中元素个数n无关 \\
-  B. 查找值未x的元素的时间与顺序表中元素个数n有关 \\
-  C. 查找序号为i的元素的时间与顺序表中元素个数n无关 \\
-  D. 查找序号为i的元素的时间与顺序表中元素个数n有关
+A. 查找值为x的元素的时间与顺序表中元素个数n无关 \\
+B. 查找值未x的元素的时间与顺序表中元素个数n有关 \\
+C. 查找序号为i的元素的时间与顺序表中元素个数n无关 \\
+D. 查找序号为i的元素的时间与顺序表中元素个数n有关
 \end{question}
 \vspace{0.5em}
 \begin{solution}
-  顺序表具有随机存储的特性，指的是查找序号为i的元素的时间与顺序表中元素个数n无关，
-  因为在顺序表中，任意一个数据元素都可以通过其位序直接访问，而不需要按照顺序访问前面的元素。
-  因此，选项C是正确的。
+顺序表具有随机存储的特性，指的是查找序号为i的元素的时间与顺序表中元素个数n无关，
+因为在顺序表中，任意一个数据元素都可以通过其位序直接访问，而不需要按照顺序访问前面的元素。
+因此，选项C是正确的。
 \end{solution}
 
 \vspace{1.0em}
+\dhr
 
 \begin{question}
-  一个顺序表所占用的存储空间大小与（ ）无关
+\hd{5. 一个顺序表所占用的存储空间大小与（ ）无关}
 
-  A. 表的长度 \space{5.0em} B. 元素的存放顺序
-  C. 元素的类型 \space{5.0em} D. 元素中各字段的类型
+\medskip
+\begin{tabular}{*{2}{p{0.44\linewidth}}}
+  A. 表的长度 & B. 元素的存放顺序
+\end{tabular}
+
+\begin{tabular}{*{2}{p{0.44\linewidth}}}
+  C. 元素的类型 & D. 元素中各字段的类型
+\end{tabular}
 \end{question}
 \vspace{0.5em}
 \begin{solution}
-  一个顺序表所占用的存储空间大小与元素的存放顺序无关，
-  因为顺序表中的元素是连续存储的，无论元素的存放顺序如何，
-  所占用的存储空间大小都是相同的。
-  因此，选项B是正确的。
+
+一个顺序表所占用的存储空间大小与元素的存放顺序无关，
+因为顺序表中的元素是连续存储的，无论元素的存放顺序如何，
+所占用的存储空间大小都是相同的。
+因此，选项B是正确的。
+
+\vspace{0.8em}
+
+顺序表所占的存储控件 = 表长x\code{sizeof(元素类型)}，也有可能需要追加附加信息，
+以及偏移量等内容，比如在\code{opengl}中的\code{vertex buffer}，需要存储顶点的坐标、颜色、法线等信息，
+这些信息的类型和数量都会影响顺序表所占用的存储空间大小。但是在考研中不考虑。
+
+\vspace{0.8em}
+
+表长和元素的类型显然会影响存储空间的大小。若元素为结构体类型，
+则元素中各字段的类型也会影响存储空间大小。
+
 \end{solution}
 
 \vspace{1.0em}
+\dhr
 
 \begin{question}
-  若线性表最常用的操作时存取第i个元素及其前驱和后继元素的值，为了提高效率，
-  应采用（ ）的存储方式。
+\hd{6. 若线性表最常用的操作时存取第i个元素及其前驱和后继元素的值，为了提高效率，
+应采用（ ）的存储方式。}
 
-  A. 单链表 \space{5.0em} B. 双链表  \space{5.0em} C. 循环单链表 \space{5.0em} D. 顺序表
+\medskip
+\begin{tabular}{*{4}{p{0.22\linewidth}}}
+  A. 单链表 & B. 双链表  & C. 循环单链表 & D. 顺序表
+\end{tabular}
 \end{question}
 \vspace{0.5em}
 \begin{solution}
-  题目要求获取的元素是i, i-1, i+1这三个元素，选项ABC都只能获取其中的一个元素，
-  而选项D顺序表可以直接通过下标访问这三个元素，因此选项D是正确的。
+题目要求获取的元素是i, i-1, i+1这三个元素，选项ABC都只能获取其中的一个元素，
+而选项D顺序表可以直接通过下标访问这三个元素，因此选项D是正确的。
 \end{solution}
 
 \vspace{1.0em}
+\dhr
 
 \begin{question}
-  一个线性表最常用的操作是存储任意一个指定序号的元素并在最后进行插入、删除操作。
-  则利用（ ）存储方式可以节省时间。
+\hd{7. 一个线性表最常用的操作是存储任意一个指定序号的元素并在最后进行插入、删除操作。
+则利用（ ）存储方式可以节省时间。}
 
-  \medskip
-  \begin{tabular}{*{4}{p{0.22\linewidth}}}
-  A. 顺序表 & B. 双链表  & C. 带头节点的循环双链表 & D. 循环单链表
-    \end{tabular}
+\medskip
+\begin{tabular}{*{2}{p{0.44\linewidth}}}
+  A. 顺序表 & B. 双链表
+\end{tabular}
+
+\begin{tabular}{*{2}{p{0.44\linewidth}}}
+  C. 带头节点的循环双链表 & D. 循环单链表
+\end{tabular}
 \end{question}
 \vspace{0.5em}
 \begin{solution}
-  只有顺序表可以按序号随机存取，且在最后插入和删除操作时不需要移动任何元素。
+只有顺序表可以按序号随机存取，且在最后插入和删除操作时不需要移动任何元素。
 \end{solution}
+
+\vspace{1.0em}
+\dhr
+
+\begin{question}
+\hd {8. 在n个元素的线性表的数组中，时间复杂度为O(1)的操作是（ ）}
+\begin{itemize}
+  \item [I.] 访问第i（$1 \le i \le n$）个结点和求第i（$2 \le i \le n$）个结点的直接前驱
+  \item [II.] 在最后一个结点后插入一个新元素
+  \item [III.] 删除第一个结点
+  \item [IV.] 在第i（$1 \le i \le n$）个结点后插入一个结点
+\end{itemize}
+\vspace{0.3em}
+\medskip
+\begin{tabular}{*{4}{p{0.22\linewidth}}}
+  A. I & B. II III & C. I II & D. I II III
+\end{tabular}
+\end{question}
+
+\begin{solution}
+必须选择C，还是秒杀。
+
+看A选项，相当于问你\code{array[i]}，而且还了约束条件，肯定是没有问题的。
+
+然后是B选项，最后一个结点插入新元素，那么只需要直接写\code{array[length] = value}，然后length++就好了，时间复杂度是O(1)。
+
+删除第一个结点需要将后面的元素都向前移动一位，时间复杂度是O(n)。
+
+最后是插入结点，那么在i右边的元素都要向后移动一位，时间复杂度也是O(n)。
+\end{solution}
+
+\dhr
+\vspace{1.0em}
+
+\begin{question}
+\hd{9. 设线性表有n个元素，严格来说，以下操作中，（ ）在顺序表上实现要比在链表上实现的效率高}
+\begin{itemize}
+  \item [I.] 输出第i（$1 \le i \le n$）个元素值
+  \item [II.] 交换第三个元素与第四个元素的值
+  \item [III.] 顺序输出这n个元素的值
+\end{itemize}
+\vspace{0.3em}
+\medskip
+\begin{tabular}{*{4}{p{0.22\linewidth}}}
+  A. I & B. I III & C. I II & D. II III
+\end{tabular}
+\end{question}
+
+\begin{solution}
+I选项，链表需要做一个循环，或者写个迭代器什么到第i个元素的位置才能输出，有点麻烦\\
+II选项，顺序表只需要交换两个元素，链表需要找到第三个和第四个元素，然后交换它们的值，时间复杂度都一样\\
+III选项，顺序表只需要一个循环，链表需要一个循环或者一个迭代器，时间复杂度都一样\\
+因此，选项C是正确的。
+\end{solution}
+
 \end{document}
