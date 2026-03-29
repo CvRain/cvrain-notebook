@@ -640,4 +640,104 @@ D. 查找序号为i的元素的时间与顺序表中元素个数n有关
 \end{solution}
 \end{question}
 
+\psplit
+
+\begin{question}
+01. 从顺序表中删除具有最小值的元素（假设唯一）并由函数返回被删元素的值。
+空出的位置由最后一个元素填补，若顺序表为空则显示出错信息并退出运行。
+
+\vspace{0.5em}
+
+\begin{solution}
+  题目需要考虑的内容有三个，首先是如何找到最小值，并将其返回。
+  其次是需要获取最后一个元素，可以手动计算也可以使用length获取，
+  第三是需要确定顺序表是否为空，如果是空表了，那么就无法删除了。
+
+  \begin{lstlisting}[language=C]
+    //王道的参考答案代码:
+    bool DEL_Min(SqList &L, ElemType &value){
+      //删除循序表L中最小值元素结点，并通过引用型参数value返回其值
+      //若删除成功，则返回true；否则返回false
+      if(L.length == 0) return false //顺序表为空，无法删除
+      value = L.data[0]; //假设第一个元素是最小值
+      int pos = 0;
+      for(int i=1; i<L.length; i++){
+        if(L.data[i] < value){
+          value = L.data[i]; //更新最小值
+          pos = i; //记录最小值位置
+        }
+      }
+      // 用最后一个元素填补空缺
+      L.data[pos] = L.data[L.length - 1];
+      L.length--;
+      return true;
+    }
+  \end{lstlisting}
+
+  \begin{lstlisting}[language=C++]
+    //我自己写的代码，使用了C++的特性，代码更简洁一些。
+    //同时因为使用std::optional，可以返回一个空值，
+    //如果返回的是nullopt，那么就表示删除失败。
+    template <typename T>
+    std::optional<T> del_min(std::vector<T> &vec){
+      if(vec.empty()) return std::nullopt;
+      T min_value = vec[0];
+      size_t pos = 0;
+      for(size_t i = 1; i < vec.size(); ++i){
+        if(vec[i] < min_value){
+          min_value = vec[i];
+          pos = i;
+        }
+      }
+      // 用最后一个元素填补空缺
+      vec.at(pos) = vec.back();
+      vec.pop_back();
+      return min_value;
+    }
+  \end{lstlisting}
+\end{solution}
+\end{question}
+
+\psplit
+
+\begin{question}
+  设计一个高校算法，将顺序表L的所有元素逆置，要求算法的空间复杂度为O(1)。
+
+\begin{solution}
+  算法思想：扫描顺序表L的前半部分元素，并将其与对应的后半部分元素交换位置，
+  直到扫描到顺序表的中间位置为止。
+
+  对于元素\code{L.data[i]}，其中0<=i<length/2，将其与后半部分的对应元素
+  L.data[L.length - 1 - i]交换位置。
+
+  \begin{lstlisting}[language=C++]
+    //C语言版参考答案
+    void Reverse(SqList &L){
+      ElemType temp; //辅助变量
+      for(int i=0; i<L.length/2; i++){
+        temp = L.data[i]; //保存前半部分元素
+        L.data[i] = L.data[L.length - 1 - i]; //将后半部分元素赋值给前半部分
+        L.data[L.length - 1 - i] = temp; //将保存的前半部分元素赋值给后半部分
+      }
+    }
+  \end{lstlisting}
+
+  \begin{lstlisting}[language=C++]
+    //C++版参考答案
+    template <typename T>
+    void reverse(std::vector<T> &vec){
+      for(size_t i = 0; i < vec.size() / 2; ++i){
+        std::swap(vec.at(i), vec.at(vec.size() - 1 - i));
+      }
+    }
+  \end{lstlisting}
+\end{solution}
+\end{question}
+
+\psplit
+
+\begin{question}
+  
+\end{question}
+
 \end{document}

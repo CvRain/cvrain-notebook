@@ -1,2 +1,7 @@
 out
 */out
+*/out/*
+*.aux
+*.out
+*.pdf
+*.synctex.gz
