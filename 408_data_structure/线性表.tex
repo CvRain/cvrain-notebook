@@ -302,7 +302,8 @@ bool delete_list(sq_list &L, int i, ElementType &e) {
 \subsubsection{获取元素操作}
 
 这个就非常简单了，直接从头开始数，找到之后就返回位序，如果没有找到就返回false。 \\
-如果在C++上可以用\code{std::find}算法来实现这个功能，或者直接使用\code{std::vector}的\code{std::find}算法来实现这个功能。 \\
+如果在C++上可以用\code{std::find}算法来实现这个功能，或者直接使用\code{std::vector}的\code{std::find}算法来实现这个功能。
+\\
 自己进行查找，可以使用\code{std::optional<ElementType>}来表示查找结果，如果找到就返回元素值，如果没有找到就返回\code{std::nullopt}。
 \begin{lstlisting}[language=C++]
 std::optional<ElementType> get_data(sq_list &L, int i) {
@@ -505,7 +506,8 @@ D. 查找序号为i的元素的时间与顺序表中元素个数n有关
   必须选择C，还是秒杀。
 
   看A选项，相当于问你\code{array[i]}，而且还了约束条件，肯定是没有问题的。
-  然后是B选项，最后一个结点插入新元素，那么只需要直接写\code{array[length] = value}，然后length++就好了，时间复杂度是O(1)。
+  然后是B选项，最后一个结点插入新元素，那么只需要直接写\code{array[length] =
+  value}，然后length++就好了，时间复杂度是O(1)。
   删除第一个结点需要将后面的元素都向前移动一位，时间复杂度是O(n)。
   最后是插入结点，那么在i右边的元素都要向后移动一位，时间复杂度也是O(n)。
 \end{solution}
@@ -599,7 +601,8 @@ D. 查找序号为i的元素的时间与顺序表中元素个数n有关
 
 \medskip
 \begin{tabular}{*{4}{p{0.22\linewidth}}}
-  A. $1 \le i \le n$ & B. $1 \le i \le n+1$ & C. $0 \le i \le n-1$ & D. $0 \le i \le n$
+  A. $1 \le i \le n$ & B. $1 \le i \le n+1$ & C. $0 \le i \le n-1$ &
+  D. $0 \le i \le n$
 \end{tabular}
 \begin{solution}
   插入操作允许在表的末尾插入新元素，因此i的合法值是$1 \le i \le n+1$，因此选项B是正确的。
@@ -646,98 +649,259 @@ D. 查找序号为i的元素的时间与顺序表中元素个数n有关
 01. 从顺序表中删除具有最小值的元素（假设唯一）并由函数返回被删元素的值。
 空出的位置由最后一个元素填补，若顺序表为空则显示出错信息并退出运行。
 
-\vspace{0.5em}
-
-\begin{solution}
-  题目需要考虑的内容有三个，首先是如何找到最小值，并将其返回。
-  其次是需要获取最后一个元素，可以手动计算也可以使用length获取，
-  第三是需要确定顺序表是否为空，如果是空表了，那么就无法删除了。
-
-  \begin{lstlisting}[language=C]
-    //王道的参考答案代码:
-    bool DEL_Min(SqList &L, ElemType &value){
-      //删除循序表L中最小值元素结点，并通过引用型参数value返回其值
-      //若删除成功，则返回true；否则返回false
-      if(L.length == 0) return false //顺序表为空，无法删除
-      value = L.data[0]; //假设第一个元素是最小值
-      int pos = 0;
-      for(int i=1; i<L.length; i++){
-        if(L.data[i] < value){
-          value = L.data[i]; //更新最小值
-          pos = i; //记录最小值位置
-        }
-      }
-      // 用最后一个元素填补空缺
-      L.data[pos] = L.data[L.length - 1];
-      L.length--;
-      return true;
-    }
-  \end{lstlisting}
-
-  \begin{lstlisting}[language=C++]
-    //我自己写的代码，使用了C++的特性，代码更简洁一些。
-    //同时因为使用std::optional，可以返回一个空值，
-    //如果返回的是nullopt，那么就表示删除失败。
-    template <typename T>
-    std::optional<T> del_min(std::vector<T> &vec){
-      if(vec.empty()) return std::nullopt;
-      T min_value = vec[0];
-      size_t pos = 0;
-      for(size_t i = 1; i < vec.size(); ++i){
-        if(vec[i] < min_value){
-          min_value = vec[i];
-          pos = i;
-        }
-      }
-      // 用最后一个元素填补空缺
-      vec.at(pos) = vec.back();
-      vec.pop_back();
-      return min_value;
-    }
-  \end{lstlisting}
-\end{solution}
 \end{question}
+\begin{solution}
+题目需要考虑的内容有三个，首先是如何找到最小值，并将其返回。
+其次是需要获取最后一个元素，可以手动计算也可以使用length获取，
+第三是需要确定顺序表是否为空，如果是空表了，那么就无法删除了。
+
+\begin{lstlisting}[language=C]
+  //王道的参考答案代码:
+  bool DEL_Min(SqList &L, ElemType &value){
+    //删除循序表L中最小值元素结点，并通过引用型参数value返回其值
+    //若删除成功，则返回true；否则返回false
+    if(L.length == 0) return false //顺序表为空，无法删除
+    value = L.data[0]; //假设第一个元素是最小值
+    int pos = 0;
+    for(int i=1; i<L.length; i++){
+      if(L.data[i] < value){
+        value = L.data[i]; //更新最小值
+        pos = i; //记录最小值位置
+      }
+    }
+    // 用最后一个元素填补空缺
+    L.data[pos] = L.data[L.length - 1];
+    L.length--;
+    return true;
+  }
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++]
+  //我自己写的代码，使用了C++的特性，代码更简洁一些。
+  //同时因为使用std::optional，可以返回一个空值，
+  //如果返回的是nullopt，那么就表示删除失败。
+  template <typename T>
+  std::optional<T> del_min(std::vector<T> &vec){
+    if(vec.empty()) return std::nullopt;
+    T min_value = vec[0];
+    size_t pos = 0;
+    for(size_t i = 1; i < vec.size(); ++i){
+      if(vec[i] < min_value){
+        min_value = vec[i];
+        pos = i;
+      }
+    }
+    // 用最后一个元素填补空缺
+    vec.at(pos) = vec.back();
+    vec.pop_back();
+    return min_value;
+  }
+\end{lstlisting}
+\end{solution}
+\psplit
+
+\begin{question}
+02. 设计一个高校算法，将顺序表L的所有元素逆置，要求算法的空间复杂度为O(1)。
+\end{question}
+\begin{solution}
+算法思想：扫描顺序表L的前半部分元素，并将其与对应的后半部分元素交换位置，
+直到扫描到顺序表的中间位置为止。
+
+\vspace{0.3em}
+
+对于元素\code{L.data[i]}，其中0<=i<length/2，将其与后半部分的对应元素
+L.data[L.length - 1 - i]交换位置。
+
+\begin{lstlisting}[language=C++]
+  //C语言版参考答案
+  void Reverse(SqList &L){
+    ElemType temp; //辅助变量
+    for(int i=0; i<L.length/2; i++){
+      temp = L.data[i]; //保存前半部分元素
+      L.data[i] = L.data[L.length - 1 - i]; //将后半部分元素赋值给前半部分
+      L.data[L.length - 1 - i] = temp; //将保存的前半部分元素赋值给后半部分
+    }
+  }
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++]
+  //C++版参考答案
+  template <typename T>
+  void reverse(std::vector<T> &vec){
+    for(size_t i = 0; i < vec.size() / 2; ++i){
+      std::swap(vec.at(i), vec.at(vec.size() - 1 - i));
+    }
+  }
+\end{lstlisting}
+\end{solution}
 
 \psplit
 
 \begin{question}
-  设计一个高校算法，将顺序表L的所有元素逆置，要求算法的空间复杂度为O(1)。
+03. 对长度为n的顺序表L，编写一个时间复杂度为O(n)，空间复杂度为O(1)的算法，
+该算法删除顺序表中所有值为x的数据元素。
+\end{question}
 
 \begin{solution}
-  算法思想：扫描顺序表L的前半部分元素，并将其与对应的后半部分元素交换位置，
-  直到扫描到顺序表的中间位置为止。
+经过分析，做法就是在扫描的时候记录k的位置，用k后面的值将k位置的值覆盖掉，
+扫描时将不等于x的元素移动到下表k的位置，并更新k值。扫描结束后修改L的长度。
 
-  对于元素\code{L.data[i]}，其中0<=i<length/2，将其与后半部分的对应元素
-  L.data[L.length - 1 - i]交换位置。
-
-  \begin{lstlisting}[language=C++]
-    //C语言版参考答案
-    void Reverse(SqList &L){
-      ElemType temp; //辅助变量
-      for(int i=0; i<L.length/2; i++){
-        temp = L.data[i]; //保存前半部分元素
-        L.data[i] = L.data[L.length - 1 - i]; //将后半部分元素赋值给前半部分
-        L.data[L.length - 1 - i] = temp; //将保存的前半部分元素赋值给后半部分
+\begin{lstlisting}[language=C]
+  void del_x(SqList &L, ElemType x){
+    int k = 0; //记录不等于x的元素位置
+    for(int i=0; i<L.length; i++){
+      if(L.data[i] != x){
+        L.data[k] = L.data[i]; //将不等于x的元素移动到下标k的位置
+        k++; //更新k值
       }
     }
-  \end{lstlisting}
+    L.length = k; //修改顺序表长度
+  }
+\end{lstlisting}
 
-  \begin{lstlisting}[language=C++]
-    //C++版参考答案
-    template <typename T>
-    void reverse(std::vector<T> &vec){
-      for(size_t i = 0; i < vec.size() / 2; ++i){
-        std::swap(vec.at(i), vec.at(vec.size() - 1 - i));
+\begin{lstlisting}[language=C++]
+  template <typename T>
+  void del_x(std::vector<T> &vec, const T &x){
+    size_t k = 0; //记录不等于x的元素位置
+    for(size_t i = 0; i < vec.size(); ++i){
+      if(vec.at(i) != x){
+        vec.at(k) = vec.at(i); //将不等于x的元素移动到下标k的位置
+        k++; //更新k值
       }
     }
-  \end{lstlisting}
+    vec.resize(k); //修改顺序表长度
+  }
+\end{lstlisting}
 \end{solution}
-\end{question}
 
 \psplit
 
 \begin{question}
-  
+4. 从顺序表中删除其值在给定s和t之间（包含s和t，要求s<t）的所有元素。
+若s或t不合理或顺序为空，则显示出错信息并退出运行。
 \end{question}
+
+\begin{solution}
+这题的解法和上一题类似，还是使用k来记录不满足条件的元素位置，
+扫描时将不满足条件的元素移动到下标k的位置，并更新k值。扫描结束后修改L的长度。
+\begin{lstlisting}[language=C]
+  void del_s_t(SqList &L, ElemType s, ElemType t){
+    if(s >= t || L.length == 0){
+      std::cerr << "s或t不合理或顺序表为空" << std::endl;
+      return;
+    }
+    int k = 0; //记录不满足条件的元素位置
+    for(int i=0; i<L.length; i++){
+      if(L.data[i] < s || L.data[i] > t){
+        L.data[k] = L.data[i]; //将不满足条件的元素移动到下标k的位置
+        k++; //更新k值
+      }
+    }
+    L.length = k; //修改顺序表长度
+  }
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++]
+  template <typename T>
+  void del_s_t(std::vector<T> &vec, const T &s, const T &t){
+    if(s >= t || vec.empty()){
+      std::cerr << "s或t不合理或顺序表为空" << std::endl;
+      return;
+    }
+    size_t k = 0; //记录不满足条件的元素位置
+    for(size_t i = 0; i < vec.size(); ++i){
+      if(vec.at(i) < s || vec.at(i) > t){
+        vec.at(k) = vec.at(i); //将不满足条件的元素移动到下标k的位置
+        k++; //更新k值
+      }
+    }
+    vec.resize(k); //修改顺序表长度
+  }
+\end{lstlisting}
+\end{solution}
+
+\psplit
+
+\begin{question}
+5. 从有序顺序表中删除其值重复的元素，使表中元素的值均不同。
+\end{question}
+
+\begin{solution}
+\begin{lstlisting}[language=C]
+  bool Delete_Same(SeqList& L){
+    if(L.length == 0) return false; //顺序表为空，无法删除
+    int i, j;
+    for(i=0, j=1; j<L.length; j++){
+      if(L.data[i] != L.data[j]){
+        L.data[++i] = L.data[j]; //将不重复的元素移动到下标i的位置
+      }
+    }
+    L.length = i + 1; //修改顺序表长度
+    return true;
+  }
+\end{lstlisting}
+注意题目中说的是一个有序顺序表，也就是元素是按照一个规则排列好的。
+所以其实在扫描的时候，假设是这样的一个顺序表[a,a,a,b,b,c,c,d,d,d,d]，
+那么在扫描的时候，i指向第一个a，j指向第二个a，那么就会发现它们相等，
+那么j继续向后扫描，直到扫描到第一个不等于a的元素b，此时i++，将b移动到下标i的位置，
+然后j继续扫描，直到扫描到第一个不等于b的元素c，此时i++，将c移动到下标i的位置，
+以此类推，最后就会得到一个没有重复元素的顺序表[a,b,c,d]。
+
+这样的写法，实际上本质和前面两题没有什么大区别，无非是将不满足条件的元素改成了重复的元素，
+满足条件的元素改成了不重复的元素而已。不过如果题目没有说是有序表，
+那么可能需要进行手动排序，或者使用哈希表的方式进行去重会更好。
+
+\begin{lstlisting}[language=C++]
+  template <typename T>
+  void delete_same(std::vector<T> &vec){
+    if(vec.empty()) return; //顺序表为空，无法删除
+    size_t j = 1;
+    for(auto i = 0; j < vec.size(); ++j){
+      if(vec.at(i) != vec.at(j)){
+        vec.at(++i) = vec.at(j); //将不重复的元素移动到下标i的位置
+      }
+    }
+    vec.resize(i + 1); //修改顺序表长度
+  }
+\end{lstlisting}
+\end{solution}
+
+\psplit
+
+\begin{question}
+6. 将两个有序顺序表合并为一个新的有序顺序表，并由函数返回结果顺序表。
+\end{question}
+
+\begin{solution}
+非常经典的题目，可以使用拉链法解决。为两个有序表设置一个index，分别指向两个表的第一个元素，
+比较两个元素的大小，将较小的元素放入新的顺序表中，并将对应的index向后移动一位，直到其中一个表的元素全部放入新的顺序表中，
+然后将另一个表剩余的元素全部放入新的顺序表中。
+最后再看哪个表中还有剩余元素，将剩下的部分添加到新的顺序表后面。
+
+\begin{lstlisting}[language=C]
+  bool Merge(SeqList A, SeqList B, SeqList &C){
+    if(A.length + B.length > MaxSize) return false; //合并后的顺序表长度超过最大值，无法合并
+    int i = 0, j = 0, k = 0;
+    while(i < A.length && j < B.length){
+      if(A.data[i] < B.data[j]){
+        C.data[k++] = A.data[i++]; //将A中的较小元素放入C中
+      } else {
+        C.data[k++] = B.data[j++]; //将B中的较小元素放入C中
+      }
+    }
+    while(i < A.length){
+      C.data[k++] = A.data[i++]; //将A中剩余的元素放入C中
+    }
+    while(j < B.length){
+      C.data[k++] = B.data[j++]; //将B中剩余的元素放入C中
+    }
+    C.length = k; //更新C的长度
+    return true; //合并成功
+  }
+\end{lstlisting}
+
+\end{solution}
+
+\psplit
 
 \end{document}

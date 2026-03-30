@@ -5,3 +5,8 @@ out
 *.out
 *.pdf
 *.synctex.gz
+*.bbl
+*.blg
+*.log
+*.fls
+*.fdb_latexmk

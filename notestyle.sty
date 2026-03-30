@@ -192,9 +192,9 @@
   before upper={\setstretch{1.12}\fontsize{10pt}{12pt}\selectfont\color{ctp-text}},
 }
 
-% solution 环境 — 解题解析（无竖条，缩进区分，文字柔和）
+% solution 环境 — 解题解析（无竖条，缩进区分，文字柔和，支持跨页）
 \newtcolorbox{solution}{%
-  enhanced, breakable,
+  enhanced, breakable, enforce breakable, parbox=false,
   colback=ctp-mantle!45,
   colframe=ctp-mantle!45,
   leftrule=1pt, rightrule=0pt, toprule=0pt, bottomrule=0pt,
