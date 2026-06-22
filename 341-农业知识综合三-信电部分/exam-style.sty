@@ -1,0 +1,133 @@
+% ============================================================
+% exam-style.sty — 341 农业综合知识三（信电部分）模拟卷样式
+% 基于 ../notestyle.sty，覆盖页眉页脚/页面/新增试卷专用命令
+% ============================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{exam-style}[2026/06/22 341 Mock Exam Style]
+
+% --- 加入父目录到搜索路径（codestyle.sty 在父目录） ---
+\makeatletter
+\def\input@path{{../}}
+\makeatother
+
+% --- 基础：使用全局笔记样式 ---
+\RequirePackage{../notestyle}
+
+% --- 额外包 ---
+\RequirePackage{lastpage}
+\RequirePackage{graphicx}
+\RequirePackage{longtable}
+\RequirePackage{multirow}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage{tabularx}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{underscore}
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+
+% ============================================================
+% 覆盖页面布局 → A4 试卷格式
+% ============================================================
+\geometry{
+  a4paper,
+  top=2.0cm, bottom=2.0cm,
+  left=2.0cm, right=2.0cm,
+  headheight=22pt, headsep=0.45cm,
+  footskip=0.7cm,
+}
+
+% ============================================================
+% 覆盖页眉页脚（试卷风格）
+% ============================================================
+\fancyhf{}
+\fancyfoot[C]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}第 \thepage 页 \quad 共 \pageref{LastPage} 页}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+% ============================================================
+% 覆盖标题格式（试卷需要编号）
+% ============================================================
+\setcounter{secnumdepth}{3}  % 恢复章节编号
+\titleformat{\section}{\centering\large\bfseries\color{ctp-mauve}}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{ctp-blue}}{\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{0.8em}{0.4em}
+\titlespacing*{\subsection}{0pt}{0.5em}{0.25em}
+
+% ============================================================
+% 试卷专用命令
+% ============================================================
+
+% \examtitle — 试卷封面标题区
+\newcommand{\examtitle}{
+  \thispagestyle{empty}
+  \begin{center}
+    \vspace*{1.2cm}
+    {\fontsize{20pt}{28pt}\selectfont\bfseries\color{ctp-text}
+      \makebox[0pt]{\hspace{-0.8cm}农业综合知识（三）}}\\[0.15cm]
+    {\fontsize{14pt}{18pt}\selectfont\bfseries\color{ctp-mauve}
+      信电学院部分 \quad 模拟试卷}\\[0.7cm]
+    \rule{\textwidth}{1.2pt}\\[0.5cm]
+    {\normalsize
+      \begin{tabular}{rl}
+        \textbf{考试科目：} & 程序设计基础（75分）+ 数据库技术与应用（75分）\\
+        \textbf{满分：}     & 150分 \\
+        \textbf{考试时间：} & 180分钟 \\
+        \textbf{适用专业：} & 农业工程与信息技术
+      \end{tabular}
+    }
+    \vspace{0.4cm}
+
+    \colorbox{ctp-surface0}{\parbox{0.92\textwidth}{
+      \vspace{0.15cm}
+      {\small\textbf{注意事项：}}
+      \begin{enumerate}[leftmargin=1.8em, itemsep=1pt, topsep=3pt, font=\small]
+        \item 本试卷分为「程序设计基础」和「数据库技术与应用」两部分，均为必答题。
+        \item 答案一律写在答题纸上，写在试卷上无效。
+        \item 程序设计题请使用 C 语言编写代码。
+        \item SQL 语句以 MySQL 语法为准。
+        \item 考试结束后，将本试卷和答题纸一并交回。
+      \end{enumerate}
+      \vspace{0.1cm}
+    }}
+    \vspace{0.3cm}
+  \end{center}
+  \newpage
+  \setcounter{page}{1}
+}
+
+% \parttitle — 分部分标题
+\newcommand{\parttitle}[1]{%
+  \vspace{0.4em}
+  \begin{center}
+    \colorbox{ctp-mauve}{\color{white}\fontsize{13pt}{18pt}\selectfont\bfseries\space #1 \space}
+  \end{center}
+  \vspace{0.3em}
+}
+
+% \qtypename — 题型名称行
+\newcommand{\qtypename}[2]{% {题型名称}{分值说明}
+  \vspace{0.3em}
+  \noindent{\bfseries\large\color{ctp-text}【#1】}\quad{\small\color{ctp-subtext0}（#2）}\par
+  \vspace{0.1em}
+}
+
+% \fillblank — 填空题下划线
+\newcommand{\fillblank}{\underline{\hspace{2.8cm}}}
+
+% \anslines — 简答/分析题留白行
+\newcommand{\anslines}[1]{\vspace{#1}}
+
+% \scorebox — 已禁用（不再显示得分评阅框）
+\newcommand{\scorebox}{}
+
+% \q — 普通题目编号
+\newcounter{question}
+\newcommand{\q}{\stepcounter{question}\noindent\textbf{\arabic{question}.}\space\ignorespaces}
+
+% \pq — 程序设计题编号（独立计数器）
+\newcounter{progq}
+\newcommand{\pq}{\stepcounter{progq}\noindent\textbf{\arabic{progq}.}\space\ignorespaces}
+
+\endinput

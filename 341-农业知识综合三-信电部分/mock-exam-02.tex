@@ -1,0 +1,274 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 模拟卷二}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\begin{document}
+\examtitle
+
+% ============================================================
+\parttitle{第一部分 \quad 程序设计基础知识（共75分）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+\anslines{0.1cm}
+
+\q C 语言中，逻辑运算符 \code{\&\&} 表示 \fillblank 运算，运算符优先级高于它的是 \fillblank 运算符。
+
+\q 执行 \code{int a = 3, b = 4, c = 5; if (a > b \&\& c > b) \{...\}} 时，条件判断结果为 \fillblank 。
+
+\q 若有定义 \code{int a[3][4] = \{\{1,2\},\{3,4\},\{5,6\}\};}，则 \code{a[1][2]} 的值是 \fillblank 。
+
+\q 若 \code{char s[] = "Hello";}，则 \code{strlen(s)} 的值是 \fillblank ，\code{sizeof(s)} 的值是 \fillblank 。
+
+\q C 语言中，使用 \code{fscanf} 函数从文件读取格式化数据时，文件指针需为 \fillblank 类型。
+
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q 简述 \code{switch} 语句中 \code{break} 的作用，如果省略 \code{break} 会发生什么？
+\anslines{1.5cm}
+
+\q 解释 \code{while} 循环与 \code{do-while} 循环的区别。
+\anslines{1.5cm}
+
+\q 简述数组名作为函数参数时，数组名退化为指针的含义。
+\anslines{1.5cm}
+
+\q 简述结构体类型与数组类型的区别。
+\anslines{1.5cm}
+
+\q 简述 C 语言中文件读写的两种方式（文本方式和二进制方式）的区别。
+\anslines{1.5cm}
+
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 1, b = 2, c = 3;
+switch (a) {
+    case 1: printf("%d ", b += a);
+    case 2: printf("%d ", c += b);
+    default: printf("%d", a + b + c);
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i, s = 0;
+for (i = 1; i <= 10; i++) {
+    if (i % 3 == 0) continue;
+    s += i;
+}
+printf("%d", s);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[] = {10, 20, 30, 40, 50};
+int *p = a + 3;
+printf("%d %d", *p, *(p - 2));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int arr[2][3] = {{1,3,5},{7,9,11}};
+int sum = 0;
+for (int i = 0; i < 2; i++)
+    for (int j = 0; j < 3; j++)
+        sum += arr[i][j];
+printf("%d", sum);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+void func(int *x, int *y) {
+    int t = *x; *x = *y; *y = t;
+}
+int main() {
+    int a = 5, b = 9;
+    func(&a, &b);
+    printf("%d %d", a, b);
+    return 0;
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i, j;
+for (i = 1; i <= 4; i++) {
+    for (j = 1; j <= 4 - i; j++) printf(" ");
+    for (j = 1; j <= 2 * i - 1; j++) printf("*");
+    printf("\n");
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 3, b = 5;
+a = a + b;
+b = a - b;
+a = a - b;
+printf("%d %d", a, b);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+#include <string.h>
+char s1[] = "abc";
+char s2[] = "abcd";
+printf("%d", strcmp(s1, s2));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 5, y = 3;
+int z = (x > y) ? x : y;
+printf("%d", z);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[5] = {1};
+for (int i = 1; i < 5; i++) a[i] = a[i-1] * 2;
+for (int i = 0; i < 5; i++) printf("%d ", a[i]);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 编写一个 C 程序，输入一个正整数 n（$n \le 10$），然后输入 $n \times n$ 的矩阵数据，计算该矩阵两条对角线上的元素之和（注意两条对角线交叉处的元素只加一次）。
+\anslines{6cm}
+
+\pq 编写一个 C 语言程序，实现两个字符串的连接功能（不使用 \code{strcat} 库函数）。要求编写一个自定义函数 \code{void mystrcat(char *dest, const char *src)}，并在主函数中测试。
+\anslines{6cm}
+
+% ============================================================
+\parttitle{第二部分 \quad 数据库技术与应用（共75分）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q 层次数据模型使用 \fillblank 结构表示实体及实体间的联系。
+
+\q 关系代数的传统集合运算有并、交、差和 \fillblank 。
+
+\q SQL 语句中 \code{GROUP BY} 子句通常与 \fillblank 函数配合使用。
+
+\q 事务的 ACID 特性包括原子性、一致性、隔离性和 \fillblank 。
+
+\q 在一个关系模式中，若属性 X 函数决定 Y，且 Y 不是 X 的真子集，则该函数依赖称为 \fillblank 函数依赖。
+
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 简述数据库三级模式体系结构及其两级映射的作用。
+\anslines{3cm}
+
+\q 什么是数据独立性？数据库系统如何保障数据的物理独立性和逻辑独立性？
+\anslines{3cm}
+
+\qtypename{三、操作题}{共8小题，共15分}
+
+设有关系模式：\\
+供应商表 S(\underline{Sno}, Sname, City)\\
+零件表 P(\underline{Pno}, Pname, Color, Weight)\hline
+供应表 SP(\underline{Sno, Pno}, Qty)
+
+\q （2分）用 SQL 查询所有北京的供应商编号和名称。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 查询供应了红色零件的供应商编号。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 查询供应商 "S01" 供应的零件总数量。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 查询供应的零件数量大于 100 的供应商编号及零件编号。
+\anslines{0.8cm}
+
+\q （2分）用关系代数表达：查询供应了全部零件的供应商编号。
+\anslines{1.2cm}
+
+\q （2分）用 SQL 查询同时供应了零件 "P01" 和 "P02" 的供应商编号。
+\anslines{1cm}
+
+\q （1分）用 SQL 将 "S03" 供应商所在城市改为 "广州"。
+\anslines{0.8cm}
+
+\q （2分）创建视图 \code{v_sp_info}，显示供应商名称、零件名称及供应数量。
+\anslines{1.2cm}
+
+\qtypename{四、分析题}{共1题，共10分}
+
+\q 设有关系模式 R(U, F)，其中 U = \{学号, 课程号, 学生姓名, 系名, 系主任, 成绩\}，函数依赖集 F = \{学号 $\rightarrow$ 学生姓名, 学号 $\rightarrow$ 系名, 系名 $\rightarrow$ 系主任, (学号, 课程号) $\rightarrow$ 成绩\}。
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （2分）指出该关系模式的候选键。
+  \item[（2）] （4分）分析该关系存在哪些操作异常？说明理由。
+  \item[（3）] （4分）将其分解为满足 3NF 的关系模式，要求保持函数依赖且无损连接。
+\end{enumerate}
+\anslines{4cm}
+
+\qtypename{五、设计题}{共1题，共10分}
+
+\q 某医院需要设计一个门诊管理系统。已知：
+\begin{itemize}
+  \item 每个科室有科室编号、科室名称、科室位置；
+  \item 每位医生有工号、姓名、职称、所属科室；
+  \item 每位患者有就诊卡号、姓名、性别、联系电话；
+  \item 每个科室有多名医生，每位医生属于一个科室；
+  \item 每位患者可以挂多个科室的号；每个科室可以接诊多名患者；
+  \item 每次预约挂号需记录挂号时间、就诊状态（已就诊/未就诊）。
+\end{itemize}
+请完成：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （5分）画出该系统的 E-R 图。
+  \item[（2）] （5分）将 E-R 图转换为关系模式（标明主键和外键）。
+\end{enumerate}
+\anslines{5cm}
+
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q 现有 MySQL 数据库中的订单系统部分表结构：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE customers (
+    cid   INT PRIMARY KEY,
+    cname VARCHAR(50),
+    city  VARCHAR(30)
+);
+
+CREATE TABLE orders (
+    oid      INT PRIMARY KEY,
+    cid      INT,
+    odate    DATE,
+    total    DECIMAL(10,2),
+    FOREIGN KEY (cid) REFERENCES customers(cid)
+);
+\end{lstlisting}
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）查询每个城市的客户数量和总消费金额。
+  \item[（2）] （3分）查询没有下过任何订单的客户姓名。
+  \item[（4）] （4分）创建一个触发器，在订单表插入数据后自动更新客户的总消费金额到客户表的 \code{total_spent} 字段（假设已添加该字段）。
+\end{enumerate}
+\anslines{3.5cm}
+
+\q 在 MySQL 中，现有商品表 \code{products(pid, pname, price, stock)}。编写一个存储过程 \code{update_stock(IN pid INT, IN qty INT)}，实现以下功能：如果库存量（stock）大于等于要减去的数量（qty），则扣除库存；否则输出 "库存不足" 的提示信息。
+\anslines{4cm}
+
+\end{document}

@@ -1,0 +1,252 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 参考答案四}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\setlength{\parskip}{0.5ex}
+
+\begin{document}
+\examtitle
+
+\parttitle{第一部分 \quad 程序设计基础知识（参考答案）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q 第一空：\textbf{按位与}；第二空：\textbf{按位或}。
+
+\q \textbf{2}。\code{8 >> 2} 右移 2 位，二进制 1000 $\rightarrow$ 0010，结果为 2。
+
+\q \textbf{0}。数组 \code{a[1]} 初始化为 \code{\{3,4\}}，\code{a[1][2]} 未显式赋值，默认为 0。
+
+\q \textbf{->}（箭头运算符）。如 \code{p->member}，等价于 \code{(*p).member}。
+
+\q \textbf{文件末尾}。\code{fseek(fp, 0, SEEK_END)} 将文件指针定位到文件末尾，常用于获取文件大小。
+
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q 前置自增（\code{++i}）：先自增，再返回自增后的值。后置自增（\code{i++}）：先返回 \code{i} 的当前值，再自增。例如 \code{i=3; j=++i;} 结果 i=4, j=4；\code{j=i++;} 结果 i=4, j=3。
+
+\q 指针数组（\code{int *p[5]}）：是一个数组，数组的每个元素都是指向 \code{int} 类型的指针。数组指针（\code{int (*p)[5]}）：是一个指针，指向包含 5 个 \code{int} 元素的一维数组。
+
+\q \code{auto}：自动变量，默认存储类别，函数调用时分配空间，结束时释放。\code{static}：静态变量，在程序运行期间始终存在，只初始化一次。\code{register}：寄存器变量，建议编译器将变量存储在寄存器中（现代编译器一般自动优化）。\code{extern}：外部变量声明，用于引用其他文件中定义的全局变量。
+
+\q 递归计算阶乘 \code{fact(n)}：每次调用向栈中压入当前函数的局部变量和返回地址，然后调用 \code{fact(n-1)}。当 \code{n=0} 或 \code{n=1} 到达终止条件时开始逐层返回，每层从栈中弹出返回地址并计算结果返回给上一层。最终 \code{fact(4)} 经过 4 层压栈、4 层出栈后得到结果 24。
+
+\q 文件操作的一般步骤：（1）定义文件指针 \code{FILE *fp;}；（2）用 \code{fopen()} 打开文件，获取文件指针；（3）用 \code{fscanf/fprintf}、\code{fread/fwrite} 等函数读写文件；（4）用 \code{fclose()} 关闭文件。
+
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+\q \textbf{4}。6 的二进制 110，4 的二进制 100，按位与得 100=4。
+
+\q \textbf{50}。1$\sim$20 中 5 的倍数之和：5+10+15+20=50。
+
+\q \textbf{5}。\code{*(*(a+1)+1)} 等价于 \code{a[1][1]} = 5。
+
+\q \textbf{3 2}。\code{max=3, min=2}。
+
+\q \textbf{B A}。\code{0x4142} 在小端序中低字节在前：\code{c[0]} 存 \code{0x42}='B'，\code{c[1]} 存 \code{0x41}='A'。
+
+\q \textbf{4}。辗转相除法求最大公约数：\code{gcd(12,8)=4}。
+
+\q \textbf{15}。累加 0$\sim$5：0+1+2+3+4+5=15，i=5 时 break。
+
+\q \textbf{Welcome to C 12}。字符串拼接后为 "Welcome to C"，长度为 12。
+
+\q \textbf{20 10}。内部复合语句中局部 \code{x=20} 屏蔽外部 \code{x=10}，复合语句外恢复为 10。
+
+\q \textbf{56}。数组中的最大值是 56。
+
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 参考答案：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+
+int count_char(const char *str, char ch) {
+    int count = 0;
+    while (*str) {
+        if (*str == ch) count++;
+        str++;
+    }
+    return count;
+}
+
+int main() {
+    char str[200], ch;
+    printf("请输入一个字符串：");
+    fgets(str, sizeof(str), stdin);
+    printf("请输入要统计的字符：");
+    scanf("%c", &ch);
+    int n = count_char(str, ch);
+    printf("字符 '%c' 出现了 %d 次\n", ch, n);
+    return 0;
+}
+\end{lstlisting}
+
+\pq 参考答案：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+
+int main() {
+    FILE *fp_src, *fp_dst;
+    char ch;
+    int char_count = 0, line_count = 0;
+
+    fp_src = fopen("input.txt", "r");
+    if (fp_src == NULL) {
+        printf("无法打开源文件\n");
+        return 1;
+    }
+
+    fp_dst = fopen("output.txt", "w");
+    if (fp_dst == NULL) {
+        printf("无法创建目标文件\n");
+        fclose(fp_src);
+        return 1;
+    }
+
+    while ((ch = fgetc(fp_src)) != EOF) {
+        fputc(ch, fp_dst);
+        char_count++;
+        if (ch == '\n') line_count++;
+    }
+
+    fclose(fp_src);
+    fclose(fp_dst);
+
+    printf("字符数（含换行符）：%d\n", char_count);
+    printf("行数：%d\n", line_count);
+
+    return 0;
+}
+\end{lstlisting}
+
+\parttitle{第二部分 \quad 数据库技术与应用（参考答案）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q \textbf{内模式}。内模式是数据库在存储介质上的物理存储结构描述。
+
+\q \textbf{投影}。选择是选行，投影是选列（属性）。
+
+\q \textbf{DISTINCT}。\code{SELECT DISTINCT ...} 消除重复行。
+
+\q \textbf{冗余（备份）}。数据库恢复基于数据的冗余（备份 + 日志）。
+
+\q \textbf{REVOKE}。\code{REVOKE 权限 ON 数据库 FROM 用户;}
+
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 数据库系统设计的主要阶段：（1）需求分析：了解用户需求，编写需求文档，产出数据字典（DD）和数据流图（DFD）；（2）概念设计：用 E-R 图建立概念数据模型；（3）逻辑设计：将 E-R 图转换为关系模式，并进行规范化优化；（4）物理设计：确定存储结构、索引方式等；（5）数据库实施：创建数据库、加载数据、编写应用程序；（6）运行维护：日常维护、性能调优、故障恢复。
+
+\q 数据库完整性指数据的正确性、有效性和相容性。主要完整性约束类型：（1）实体完整性——主键非空且唯一；（2）参照完整性——外键关联主键或为空；（3）用户定义完整性——如 \code{CHECK} 约束、非空约束、唯一约束、默认值约束等。
+
+\qtypename{三、操作题}{共7小题，共15分}
+
+\q （3分）\code{SELECT Wname FROM W WHERE Capacity > 5000;}
+
+\q （2分）\code{SELECT Gno, SUM(Quantity) FROM SG GROUP BY Gno;}
+
+\q （2分）\code{SELECT Gno, Gname FROM G WHERE Price < 100 AND Type = '食品';}
+
+\q （2分）\code{SELECT Wno FROM SG GROUP BY Wno HAVING COUNT(DISTINCT Gno) = (SELECT COUNT(*) FROM G);}
+
+\q （2分）\code{SELECT G.Gname, W.Wname FROM G, W, SG WHERE G.Gno = SG.Gno AND W.Wno = SG.Wno AND SG.Quantity > 50;}
+
+\q （2分）\code{DELETE FROM G WHERE Type = '淘汰';}
+
+\q （2分）
+\begin{lstlisting}[language=SQL]
+CREATE VIEW v_warehouse_summary AS
+SELECT W.Wno, Wname, COUNT(DISTINCT Gno) AS prod_count
+FROM W LEFT JOIN SG ON W.Wno = SG.Wno
+GROUP BY W.Wno, Wname;
+\end{lstlisting}
+
+\qtypename{四、分析题}{共1题，共10分}
+
+\q （1）部分函数依赖：\code{(学号, 课程号) $\rightarrow$ 成绩} 是完全依赖，但 \code{学号 $\rightarrow$ 学生姓名} 和 \code{学号 $\rightarrow$ 专业} 和 \code{课程号 $\rightarrow$ 学分} 都是部分依赖（候选键的一部分决定非主属性）。
+
+传递函数依赖：\code{学号 $\rightarrow$ 专业 $\rightarrow$ 专业负责人}（学号传递决定专业负责人）。
+
+\par（2）该关系属于 \textbf{1NF}。理由：存在非主属性（学生姓名、学分等）部分依赖于候选键（学号, 课程号）的某一部分，不满足 2NF 的要求。
+
+\par（3）分解为 BCNF：\\
+学生表(\underline{学号}, 学生姓名, 专业)\\
+专业表(\underline{专业}, 专业负责人)\\
+课程表(\underline{课程号}, 学分)\\
+选课表(\underline{学号, 课程号}, 成绩)
+
+\qtypename{五、设计题}{共1题，共10分}
+
+\q （1）E-R 图实体与联系：\\
+实体：教师（教师编号，姓名，职称，研究方向）\\
+实体：项目（项目编号，项目名称，经费金额，立项日期）\\
+实体：论文（论文编号，论文题目，发表期刊，发表年份）\\
+联系：负责（教师 $\to$ 项目，一对多）\\
+联系：参与（教师 $\leftrightarrow$ 项目，多对多；属性：参与时间，承担任务）\\
+联系：产出（项目 $\to$ 论文，一对多）
+
+\par（2）关系模式：\\
+教师表 \underline{教师编号}，姓名，职称，研究方向\\
+项目表 \underline{项目编号}，项目名称，经费金额，立项日期，负责人编号* REF 教师(教师编号)\\
+参与表 \underline{教师编号*，项目编号*}，参与时间，承担任务\\
+论文表 \underline{论文编号}，论文题目，发表期刊，发表年份，项目编号* REF 项目(项目编号)
+
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q
+\par （1）
+\begin{lstlisting}[language=SQL]
+START TRANSACTION;
+UPDATE accounts SET balance = balance - 500 WHERE acc_id = 1001;
+UPDATE accounts SET balance = balance + 500 WHERE acc_id = 1002;
+COMMIT;
+\end{lstlisting}
+
+\par （2）
+\begin{lstlisting}[language=SQL]
+START TRANSACTION;
+-- 先检查余额
+IF (SELECT balance FROM accounts WHERE acc_id = 1001) >= 500 THEN
+    UPDATE accounts SET balance = balance - 500 WHERE acc_id = 1001;
+    UPDATE accounts SET balance = balance + 500 WHERE acc_id = 1002;
+    COMMIT;
+ELSE
+    ROLLBACK;
+    SELECT '余额不足，转账失败' AS error_msg;
+END IF;
+\end{lstlisting}
+
+\par （3）使用事务确保转账操作的原子性——两个 \code{UPDATE} 要么全部成功，要么全部回滚。如果不用事务，若第一个 \code{UPDATE} 成功而第二个失败，会导致账户 1001 扣钱后钱丢失的严重问题。可能发生的并发问题包括：丢失修改、不可重复读、脏读、幻读等。
+
+\q
+\begin{lstlisting}[language=SQL]
+-- 存储过程
+DELIMITER $$
+CREATE PROCEDURE clean_logs(IN days INT, OUT deleted INT)
+BEGIN
+    DELETE FROM logs
+    WHERE log_time < DATE_SUB(NOW(), INTERVAL days DAY);
+    SET deleted = ROW_COUNT();
+END$$
+DELIMITER ;
+
+-- 创建事件（每天凌晨 2:00 自动运行）
+DELIMITER $$
+CREATE EVENT clean_logs_event
+ON SCHEDULE EVERY 1 DAY
+STARTS '2026-01-01 02:00:00'
+DO
+BEGIN
+    DELETE FROM logs
+    WHERE log_time < DATE_SUB(NOW(), INTERVAL 30 DAY);
+END$$
+DELIMITER ;
+
+-- 启用事件调度器
+SET GLOBAL event_scheduler = ON;
+\end{lstlisting}
+
+\end{document}

@@ -1,24 +1,71 @@
 {
+  // LaTeX Workshop: 保存时自动编译
+  "latex-workshop.latex.autoBuild.run": "onSave",
+
+  // 默认使用第一个 recipe，这里即 xelatex
+  "latex-workshop.latex.recipe.default": "first",
+
+  // PDF 在 VS Code 标签页中打开
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
+
+  // 保留辅助文件，便于调试和增量编译
+  "latex-workshop.latex.autoClean.run": "never",
+
+  // 将每个文档的产物输出到 out/文件名/
+  "latex-workshop.latex.outDir": "%DIR%/out/%DOCFILE%",
+  "latex-workshop.latex.auxDir": "%DIR%/out/%DOCFILE%",
+
+  // 减少弹窗噪音，错误和警告看 Problems / 输出面板即可
+  "latex-workshop.message.error.show": false,
+  "latex-workshop.message.warning.show": false,
+
+  // 包内命令与环境补全
+  "latex-workshop.intellisense.package.enabled": true,
+
+  // 可选：使用 tex-fmt 进行格式化
+  "latex-workshop.formatting.latex": "tex-fmt",
+
   "latex-workshop.latex.tools": [
     {
-      "name": "xelatex",
-      "command": "xelatex",
+      "name": "pdflatex",
+      "command": "sh",
       "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "%DOCFILE%"
+        "-c",
+        "mkdir -p '%OUTDIR%' && pdflatex -synctex=1 -interaction=nonstopmode -file-line-error -output-directory='%OUTDIR%' '%DOCFILE%'"
+      ]
+    },
+    {
+      "name": "xelatex",
+      "command": "sh",
+      "args": [
+        "-c",
+        "mkdir -p '%OUTDIR%' && xelatex -synctex=1 -interaction=nonstopmode -file-line-error -output-directory='%OUTDIR%' '%DOCFILE%'"
       ]
     },
     {
       "name": "bibtex",
-      "command": "bibtex",
+      "command": "sh",
       "args": [
-        "%DOCFILE%"
+        "-c",
+        "mkdir -p '%OUTDIR%' && cd '%OUTDIR%' && bibtex '%DOCFILE%'"
       ]
     }
   ],
+
   "latex-workshop.latex.recipes": [
+    {
+      "name": "xelatex",
+      "tools": [
+        "xelatex"
+      ]
+    },
+    {
+      "name": "pdflatex",
+      "tools": [
+        "pdflatex"
+      ]
+    },
     {
       "name": "xe->bib->xe->xe",
       "tools": [
@@ -29,15 +76,16 @@
       ]
     },
     {
-      "name": "xelatex",
+      "name": "pdf->bib->pdf->pdf",
       "tools": [
-        "xelatex"
+        "pdflatex",
+        "bibtex",
+        "pdflatex",
+        "pdflatex"
       ]
     }
   ],
-  "latex-workshop.latex.recipe.default": "lastUsed",
-  "latex-workshop.latex.autoBuild.run": "onSave",
-  "latex-workshop.latex.autoClean.run": "never",
+
   "latex-workshop.latex.clean.fileTypes": [
     "*.aux",
     "*.bbl",
@@ -58,16 +106,5 @@
     "*.fls",
     "*.log",
     "*.fdb_latexmk"
-  ],
-  "latex-workshop.view.pdf.viewer": "tab",
-  "latex-workshop.showContextMenu": true,
-  "latex-workshop.message.error.show": false,
-  "latex-workshop.message.warning.show": false,
-  "latex-workshop.intellisense.package.enabled": true,
-  "latex-workshop.formatting.latex": "tex-fmt",
-  "latex-workshop.latex.auxDir": "out",
-  "latex-workshop.latex.outDir": "out",
-  "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click"
-}{
-
+  ]
 }

@@ -1,0 +1,258 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 模拟卷四}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\begin{document}
+\examtitle
+
+% ============================================================
+\parttitle{第一部分 \quad 程序设计基础知识（共75分）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+\anslines{0.1cm}
+
+\q C 语言中，位运算符 \code{\&} 表示 \fillblank 运算，\code{|} 表示 \fillblank 运算。
+
+\q 若 \code{int x = 8; x >>= 2;} 则 \code{x} 的值为 \fillblank 。
+
+\q 定义 \code{int a[2][3] = \{\{1,2\},\{3,4\}\};} 中，元素 \code{a[1][2]} 的值为 \fillblank 。
+
+\q 结构体变量通过指针访问其成员时，使用的运算符是 \fillblank 。
+
+\q C 语言中，函数 \code{fseek(fp, 0, SEEK\_END)} 的作用是将文件指针移动到 \fillblank 。
+
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q 简述自增运算符 \code{++} 的前置和后置形式在表达式中的求值区别。
+\anslines{1.5cm}
+
+\q 简述指针数组与数组指针的区别。
+\anslines{1.5cm}
+
+\q 简述 C 语言中变量的存储类别（auto、static、register、extern）及其作用。
+\anslines{1.5cm}
+
+\q 简述 C 语言中递归函数的执行过程（以计算阶乘为例说明栈的工作原理）。
+\anslines{1.5cm}
+
+\q 简述使用文件进行操作的一般步骤。
+\anslines{1.5cm}
+
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 6, b = 4;
+printf("%d", a & b);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i, sum = 0;
+for (i = 1; i <= 20; i++) {
+    if (i % 5 == 0) sum += i;
+}
+printf("%d", sum);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
+printf("%d", *(*(a+1)+1));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 2, b = 3;
+int max = (a > b) ? a : b;
+int min = (a < b) ? a : b;
+printf("%d %d", max, min);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+union data {
+    int x;
+    char c[2];
+} u;
+u.x = 0x4142;
+printf("%c %c", u.c[0], u.c[1]);
+\end{lstlisting}
+（假设小端序）
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 12, b = 8;
+while (b != 0) {
+    int t = a % b;
+    a = b;
+    b = t;
+}
+printf("%d", a);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 0, i;
+for (i = 0; i < 100; i++) {
+    a += i;
+    if (i == 5) break;
+}
+printf("%d", a);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+#include <string.h>
+char str[50] = "Welcome";
+strcat(str, " to C");
+printf("%s %lu", str, strlen(str));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 10;
+{
+    int x = 20;
+    printf("%d ", x);
+}
+printf("%d", x);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int find_max(int arr[], int n) {
+    int m = arr[0];
+    for (int i = 1; i < n; i++)
+        if (arr[i] > m) m = arr[i];
+    return m;
+}
+int main() {
+    int a[] = {34, 12, 56, 8, 23};
+    printf("%d", find_max(a, 5));
+    return 0;
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 编写一个 C 程序，实现一个函数 \code{int count\_char(const char *str, char ch)}，统计字符串 \code{str} 中字符 \code{ch} 出现的次数。在主函数中从键盘输入一个字符串和一个字符，调用该函数并输出统计结果。
+\anslines{5cm}
+
+\pq 编写一个 C 程序，实现将一个文本文件（已知文件名为 "input.txt"）的内容复制到另一个文件 "output.txt" 中。要求分别统计源文件中的字符数（含换行符）和行数，并输出到屏幕上。
+\anslines{6cm}
+
+% ============================================================
+\parttitle{第二部分 \quad 数据库技术与应用（共75分）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q 数据库系统的三级模式结构中，\fillblank 是数据库在存储介质上的存储结构描述。
+
+\q 在关系代数中，完成"从表中选出满足条件的列（属性）"的操作是 \fillblank 运算。
+
+\q SQL 语言中，用于消除查询结果中重复行的关键字是 \fillblank 。
+
+\q 数据库恢复的基本原理是利用了数据的 \fillblank 。
+
+\q MySQL 中，用于撤销用户权限的 SQL 语句是 \fillblank 。
+
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 简述数据库系统设计的主要阶段及各阶段的核心任务。
+\anslines{3cm}
+
+\q 什么是数据库的完整性？请列举关系数据库中主要的完整性约束类型。
+\anslines{3cm}
+
+\qtypename{三、操作题}{共7小题，共15分}
+
+设有关系模式：\\
+仓库表 W(\underline{Wno}, Wname, Address, Capacity)\\
+商品表 G(\underline{Gno}, Gname, Type, Price)\\
+库存表 SG(\underline{Wno, Gno}, Quantity)
+
+\q （3分）用 SQL 查询容量（Capacity）大于 5000 的仓库名称。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 统计每种商品在所有仓库中的库存总量。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 查询价格低于 100 元且类型为 "食品" 的商品编号和名称。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 查询存放了所有种类商品的仓库编号。
+\anslines{1cm}
+
+\q （2分）用 SQL 查询库存量大于 50 的商品名称及所在仓库名称。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 在商品表 G 中删除类型为 "淘汰" 的所有商品。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 创建一个视图 \code{v_warehouse\_summary}，显示每个仓库的编号、名称以及存放的商品种类数。
+\anslines{1.2cm}
+
+\qtypename{四、分析题}{共1题，共10分}
+
+\q 设有关系模式 R(\underline{学号, 课程号}, 成绩, 学分, 学生姓名, 专业, 专业负责人)，函数依赖集 F = \{(学号, 课程号) $\rightarrow$ 成绩, 课程号 $\rightarrow$ 学分, 学号 $\rightarrow$ 学生姓名, 学号 $\rightarrow$ 专业, 专业 $\rightarrow$ 专业负责人\}。
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）找出该关系模式中存在的部分函数依赖和传递函数依赖。
+  \item[（2）] （3分）该关系属于第几范式？说明理由。
+  \item[（3）] （4分）将该关系分解为满足 BCNF 的关系模式集合。
+\end{enumerate}
+\anslines{4cm}
+
+\qtypename{五、设计题}{共1题，共10分}
+
+\q 某高校需要设计一个科研项目管理系统，已知：
+\begin{itemize}
+  \item 每位教师有教师编号、姓名、职称、研究方向；
+  \item 每个项目有项目编号、项目名称、经费金额、立项日期；
+  \item 每个项目有一个负责人（教师）；
+  \item 多个教师可以参与同一个项目，每个教师可以参与多个项目，参与时需记录参与时间和承担任务；
+  \item 每个项目可以产生多篇论文成果，每篇论文有论文编号、论文题目、发表期刊、发表年份。
+\end{itemize}
+请完成：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （5分）画出该系统的 E-R 图。
+  \item[（2）] （5分）将 E-R 图转换为关系模式（标明主键和外键）。
+\end{enumerate}
+\anslines{5cm}
+
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q 现有 MySQL 数据库中的账户表 \code{accounts(acc_id, balance)}，编写一个事务处理转账操作：从账户 \code{1001} 转账 500 元到账户 \code{1002}。要求：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）写出开启事务、执行转账、提交事务的完整 SQL 语句。
+  \item[（2）] （3分）如果转账过程中账户 \code{1001} 余额不足，应如何处理？写出相应的 SQL 判断逻辑。
+  \item[（3）] （4分）解释为什么要使用事务？如果不用事务，可能发生什么并发问题？
+\end{enumerate}
+\anslines{3.5cm}
+
+\q 在 MySQL 中，现有表 \code{logs(log_id, log_time, log_level, message)}。编写一个存储过程 \code{clean_logs(IN days INT)}，删除超过指定天数的日志记录，并返回删除的记录数作为输出参数。同时为该表创建一个事件（Event），每天凌晨 2:00 自动清理 30 天前的日志。
+\anslines{4cm}
+
+\end{document}

@@ -1,0 +1,228 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 参考答案一}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\setlength{\parskip}{0.5ex}
+
+\begin{document}
+\examtitle
+
+\parttitle{第一部分 \quad 程序设计基础知识（参考答案）}
+
+% ---------- 一、填空题 ----------
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q \textbf{4}。在 32 位编译环境中，\code{int} 占 4 个字节。
+
+\q \textbf{0}（假）。\code{a > b} 为真（5>3），\code{!} 取反后为假（0）；逻辑与 \code{\&\&} 短路，整个表达式为 0。
+
+\q 第一空：\textbf{嵌套}；第二空：\textbf{调用}。函数定义不能嵌套，但函数调用可以嵌套（包括递归调用）。
+
+\q \textbf{3}。\code{p} 指向数组首元素 \code{a[0]}，\code{*(p+2)} 等价于 \code{a[2]}。
+
+\q 第一空：\textbf{fopen}；第二空：\textbf{fclose}。
+
+% ---------- 二、简答题 ----------
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q \code{break} 用于立即跳出当前循环体（或 switch 语句），不再执行循环中后续的语句；\code{continue} 用于跳过当前循环的剩余语句，直接进入下一次循环迭代。
+
+\q 全局变量定义在函数外部，其作用域从定义处到文件末尾，所有函数均可访问；局部变量定义在函数内部或复合语句中，其作用域仅限于所在的函数或复合语句内部。
+
+\q 普通变量直接存储数据值，指针变量存储的是另一个变量的内存地址。取地址运算符 \code{\&} 用于获取一个变量在内存中的首地址，例如 \code{int a; int *p = \&a;}。
+
+\q 二维数组在内存中按行优先（Row-major）顺序存储，即先依次存储第一行的所有元素，再存储第二行的所有元素，以此类推。
+
+\q 值传递：将实参的值拷贝一份传给形参，形参的修改不会影响实参。地址传递：将实参的地址传给形参（通过指针），通过地址间接修改实参的值。
+
+% ---------- 三、分析题 ----------
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+\q \textbf{B}。\code{x < y} 成立，输出 B。
+
+\q \textbf{15}。\code{1 + 2 + 3 + 4 + 5 = 15}。
+
+\q \textbf{10}。\code{a[1] + a[2] = 4 + 6 = 10}。
+
+\q \textbf{7 6 5 4}。\code{do-while} 先执行后判断，从 7 依次减到 4。
+
+\q
+\texttt{*}\\
+\texttt{**}\\
+\texttt{***}
+
+\q \textbf{10}。通过指针 \code{p} 间接修改了 \code{a} 的值为 10。
+
+\q \textbf{24}。递归计算 \code{4! = 4 * 3 * 2 * 1 = 24}。
+
+\q \textbf{6}。\code{arr[1][2]} 是第二行第三列，值为 6。
+
+\q \textbf{4 3}。通过异或运算交换变量值，\code{x=4, y=3}。
+
+\q \textbf{3 5}。值传递，形参交换不影响实参，\code{x} 和 \code{y} 保持不变。
+
+% ---------- 四、程序设计题 ----------
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 参考答案：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+
+int main() {
+    int a[10];
+    int max, min, i;
+    float sum = 0.0, avg;
+
+    printf("请输入10个整数：\n");
+    for (i = 0; i < 10; i++) {
+        scanf("%d", &a[i]);
+    }
+
+    max = min = a[0];
+    for (i = 0; i < 10; i++) {
+        sum += a[i];
+        if (a[i] > max) max = a[i];
+        if (a[i] < min) min = a[i];
+    }
+    avg = sum / 10;
+
+    printf("最大值：%d\n", max);
+    printf("最小值：%d\n", min);
+    printf("平均值：%.2f\n", avg);
+
+    return 0;
+}
+\end{lstlisting}
+
+\pq 参考答案：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+#include <math.h>
+
+int isPrime(int n) {
+    if (n < 2) return 0;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) return 0;
+    }
+    return 1;
+}
+
+int main() {
+    int count = 0;
+    printf("100以内的素数：\n");
+    for (int i = 2; i <= 100; i++) {
+        if (isPrime(i)) {
+            printf("%4d", i);
+            count++;
+            if (count % 5 == 0) printf("\n");
+        }
+    }
+    printf("\n");
+    return 0;
+}
+\end{lstlisting}
+
+\parttitle{第二部分 \quad 数据库技术与应用（参考答案）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q \textbf{数据库管理系统（DBMS）}。DBMS 是数据库系统的核心软件。
+
+\q \textbf{完整性约束}。数据模型的三要素是数据结构、数据操作和完整性约束。
+
+\q \textbf{二维表}。关系模型中的关系对应现实世界中的一张二维表。
+
+\q \textbf{选择}。选择运算是从关系中选取满足条件的元组（行）。
+
+\q \textbf{DROP TABLE}。如 \code{DROP TABLE 表名;}。
+
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q DB（数据库）是存储在计算机内有组织、可共享的数据集合。DBMS（数据库管理系统）是位于用户与操作系统之间的数据库管理软件，负责数据库的建立、使用和维护。DBS（数据库系统）是指在计算机系统中引入数据库后的系统构成，包括数据库、DBMS、应用程序、数据库管理员和用户。三者关系：DBS 包含 DB 和 DBMS，DBMS 是管理 DB 的软件。
+
+\q 1NF：关系模式中所有属性都是不可分的基本数据项。2NF：满足 1NF，且每个非主属性完全函数依赖于候选键（消除部分依赖）。3NF：满足 2NF，且每个非主属性不传递依赖于候选键（消除传递依赖）。三者是逐级规范化的递进关系：3NF $\subset$ 2NF $\subset$ 1NF。
+
+\qtypename{三、操作题}{本题共15分}
+
+\q （1）\code{SELECT Sno, Sname FROM S WHERE Ssex = '男';}
+
+\q （2）\code{SELECT Sno, Grade FROM SC WHERE Cno = 'C001';}
+
+\q （3）\code{SELECT Sno, AVG(Grade) FROM SC GROUP BY Sno;}
+
+\q （4）关系代数：\code{$\pi$_{Sname}($\sigma$_{Sdept='IS'}(S))}
+
+\q （5）创建 SC 表：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE SC (
+    Sno  VARCHAR(10),
+    Cno  VARCHAR(10),
+    Grade DECIMAL(5,2),
+    PRIMARY KEY (Sno, Cno),
+    FOREIGN KEY (Sno) REFERENCES S(Sno),
+    FOREIGN KEY (Cno) REFERENCES C(Cno)
+);
+\end{lstlisting}
+
+\qtypename{四、分析题}{共1题，共10分}
+
+\q （1）候选键：\textbf{A}。由 A $\rightarrow$ B，B $\rightarrow$ C，C $\rightarrow$ D，传递可得 A $\rightarrow$ BCD，故 A 是候选键。
+
+\par（2）最高属于 \textbf{2NF}。理由：候选键为 A（单属性主键），不存在部分函数依赖，满足 2NF。但存在传递依赖 A $\rightarrow$ B $\rightarrow$ C $\rightarrow$ D，非主属性 C 和 D 传递依赖于 A，不满足 3NF。
+
+\par（3）分解为 3NF（保持函数依赖）：\\
+R1(\underline{A}, B)\\
+R2(\underline{B}, C)\\
+R3(\underline{C}, D)
+
+\qtypename{五、设计题}{共1题，共10分}
+
+\q （1）E-R 图包含以下实体和联系：
+\begin{itemize}
+  \item 实体：读者（读者编号，姓名，性别，所在单位）
+  \item 实体：图书（书号，书名，作者，出版社，定价）
+  \item 联系：借阅（多对多，属性：借书日期，还书日期）
+\end{itemize}
+
+\par（2）转换得到的关系模式：\\
+读者表 \underline{读者编号}，姓名，性别，所在单位\\
+图书表 \underline{书号}，书名，作者，出版社，定价\\
+借阅表 \underline{读者编号，书号}，借书日期，还书日期\\
+（注：借阅表中读者编号、书号分别参照读者表和图书表）
+
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q
+\par （1）\code{SELECT emp_name, salary FROM employee WHERE salary > 5000;}
+\par （2）\code{UPDATE employee SET salary = salary * 1.1 WHERE dept\_id = 'SALES';}\par
+（注：实际假设存在部门表关联，此处 \code{dept_id} 对应销售部门；若 \code{dept_id} 已知则直接条件过滤。）
+
+\par （3）
+\begin{lstlisting}[language=SQL]
+CREATE VIEW v_high_salary AS
+SELECT e.*
+FROM employee e
+WHERE e.salary > (
+    SELECT AVG(e2.salary)
+    FROM employee e2
+    WHERE e2.dept_id = e.dept_id
+);
+\end{lstlisting}
+
+\q 参考答案（存储过程）：
+\begin{lstlisting}[language=SQL]
+DELIMITER $$
+CREATE PROCEDURE get_student_avg(IN sid INT)
+BEGIN
+    DECLARE avg_score DECIMAL(10,2);
+    SELECT AVG(score) INTO avg_score
+    FROM scores
+    WHERE s_id = sid;
+    SELECT sid AS student_id, avg_score AS average_score;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
+\end{document}

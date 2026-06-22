@@ -1,0 +1,288 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 模拟卷五}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\begin{document}
+\examtitle
+
+% ============================================================
+\parttitle{第一部分 \quad 程序设计基础知识（共75分）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+\anslines{0.1cm}
+
+\q C 语言中，若 \code{int a = -10;} 则表达式 \code{a > 0 ? a : -a} 的值是 \fillblank 。
+
+\q 若有 \code{int a[5] = \{1, 2, 3, 4, 5\}, *p = a + 2;} 则 \code{p[-1]} 的值是 \fillblank 。
+
+\q 在 C 语言中，函数直接或间接调用自身的现象称为 \fillblank 。
+
+\q 若定义 \code{typedef struct \{int x; int y;\} Point;} 则创建变量 \code{p} 的方式是：\fillblank 。
+
+\q C 语言中，以只读方式打开一个已存在的文本文件，\code{fopen} 的模式字符串是 \fillblank 。
+
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q 简述关键字 \code{const} 在 C 语言中的三种常见用法（修饰变量、修饰指针、修饰函数参数）。
+\anslines{1.5cm}
+
+\q 解释 \code{int *p[5]} 和 \code{int (*p)[5]} 的含义有何不同？
+\anslines{1.5cm}
+
+\q 简述动态内存分配函数 \code{malloc}、\code{calloc} 和 \code{realloc} 的区别。
+\anslines{1.5cm}
+
+\q 简述 \code{return} 语句在函数中的两种作用。
+\anslines{1.5cm}
+
+\q 简要解释函数 \code{fread} 和 \code{fwrite} 的参数含义和使用场景。
+\anslines{1.5cm}
+
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 0x1A;
+printf("%d", x & 0x0F);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 1, b = 2, c = 3;
+if (a > b)
+    if (a > c)
+        printf("a");
+else
+    printf("b");
+printf("c");
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int s = 0, i = 1;
+while (i <= 5) {
+    s += i;
+    i++;
+    if (s > 6) break;
+}
+printf("s=%d i=%d", s, i);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[4] = {1, 1};
+for (int i = 2; i < 4; i++)
+    a[i] = a[i-1] + a[i-2];
+for (int i = 0; i < 4; i++)
+    printf("%d ", a[i]);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+char s[] = "Hello";
+char *p = s;
+while (*p) p++;
+printf("%ld", p - s);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 5;
+int *p = &a;
+int **pp = &p;
+**pp = 20;
+printf("%d", a);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+void func(int *a, int *b) {
+    int *t = a; a = b; b = t;
+}
+int main() {
+    int x = 3, y = 4;
+    int *p = &x, *q = &y;
+    func(p, q);
+    printf("%d %d", *p, *q);
+    return 0;
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+#define ADD(x, y) ((x) + (y))
+int a = 3, b = 4;
+printf("%d", ADD(a, b) * 2);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i = 0, s = 0;
+do {
+    s += i;
+    i++;
+} while (i < 0);
+printf("%d", s);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int arr[3] = {1, 2, 3};
+int *p = arr;
+printf("%d ", *(p+1));
+printf("%d ", p[2]);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 编写一个 C 语言程序，实现以下功能：定义一个函数 \code{void invert(char *s)}，将字符串 s 原地逆置（例如 "hello" 逆置为 "olleh"）。然后在主函数中从键盘输入一行字符，调用逆置函数处理并输出结果。要求不能使用 \code{string.h} 中的字符串函数。
+\anslines{5cm}
+
+\pq 编写一个 C 程序，定义一个 \code{struct Date \{int year; int month; int day;\}} 结构体类型。编写函数 \code{int isLeapYear(int year)} 判断是否为闰年，\code{int daysInMonth(int year, int month)} 返回指定月份的天数，\code{int dayOfYear(struct Date d)} 计算该日期是该年的第几天。在主函数中输入一个日期，调用函数输出该日期为该年的第几天。
+\anslines{6cm}
+
+% ============================================================
+\parttitle{第二部分 \quad 数据库技术与应用（共75分）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q 数据库系统产生的主要操作异常包括插入异常、删除异常和 \fillblank 。
+
+\q 若关系 R 和 S 的属性数分别为 4 和 3，则 R 与 S 的笛卡尔积的属性数为 \fillblank 。
+
+\q SQL 语句中 \code{HAVING} 子句用于对 \fillblank 进行筛选。
+
+\q 两段锁协议（2PL）分为扩展阶段和 \fillblank 阶段。
+
+\q 在 MySQL 中，\code{SHOW DATABASES} 语句的功能是 \fillblank 。
+
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 解释 BCNF 与 3NF 的关系与区别。如果一个关系模式属于 BCNF，它一定属于 3NF 吗？反之呢？举例说明。
+\anslines{3cm}
+
+\q 简述数据库并发控制中加锁机制的基本思想，并说明死锁的产生原因及常见的解决策略。
+\anslines{3cm}
+
+\qtypename{三、操作题}{共8小题，共15分}
+
+设有关系模式：\\
+部门表 D(\underline{Dno}, Dname, Dlocation)\\
+员工表 E(\underline{Eno}, Ename, Esex, Salary, Dno)\\
+项目表 P(\underline{Pno}, Pname, Budget, Dno)\\
+参与表 EP(\underline{Eno, Pno}, Hours)
+
+\q （2分）用 SQL 查询工资高于 8000 的员工姓名及其所在部门名称。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 统计每个部门中男女员工的人数。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 查询预算超过 100000 且属于 "技术部" 的项目名称。
+\anslines{0.8cm}
+
+\q （2分）用关系代数表达：查询参与了所有项目的员工编号。
+\anslines{1.2cm}
+
+\q （2分）用 SQL 查询总工时（Hours）超过 100 小时的员工编号及总工时。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 查询没有参与任何项目的员工姓名。
+\anslines{0.8cm}
+
+\q （1分）将员工 "E010" 的工资增加 15\%。
+\anslines{0.8cm}
+
+\q （2分）创建索引 \code{idx_dno_salary}，提高按部门编号和工资查询的效率。
+\anslines{0.8cm}
+
+\qtypename{四、分析题}{共1题，共10分}
+
+\q 设有关系模式 R(A, B, C, D, E, F)，函数依赖集 F = \{AB $\rightarrow$ C, C $\rightarrow$ D, D $\rightarrow$ E, E $\rightarrow$ F, B $\rightarrow$ F\}。
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （4分）利用 Armstrong 公理推导出 R 的所有候选键。
+  \item[（2）] （3分）该关系模式是否存在传递函数依赖？若存在，请指出。
+  \item[（3）] （3分）将 R 分解为 3NF，要求保持函数依赖。
+\end{enumerate}
+\anslines{4cm}
+
+\qtypename{五、设计题}{共1题，共10分}
+
+\q 某快递公司需要设计一个快递管理系统，已知：
+\begin{itemize}
+  \item 每位客户有客户编号、姓名、手机号、地址；
+  \item 每个快递网点有网点编号、网点名称、网点地址、联系电话；
+  \item 每位快递员有工号、姓名、电话、所属网点；
+  \item 每件快递有运单号、收件人信息（姓名、手机、地址）、寄件人信息（姓名、手机、地址）、重量、费用、状态（已揽收/运输中/已签收）；
+  \item 一件快递由一名快递员揽收，一名快递员可以揽收多件快递；
+  \item 每个网点有多名快递员，一名快递员只属于一个网点。
+\end{itemize}
+请完成：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （5分）画出该系统的 E-R 图。
+  \item[（2）] （5分）将 E-R 图转换为关系模式（标明主键和外键）。
+\end{enumerate}
+\anslines{5cm}
+
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q 现有 MySQL 数据库中的读者借阅系统部分表：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE reader (
+    rid    INT PRIMARY KEY,
+    rname  VARCHAR(50) NOT NULL,
+    rtype  VARCHAR(20)  -- 'student' or 'teacher'
+);
+
+CREATE TABLE book (
+    bid    INT PRIMARY KEY,
+    bname  VARCHAR(100),
+    bcount INT DEFAULT 1  -- 馆藏数量
+);
+
+CREATE TABLE borrow (
+    rid     INT,
+    bid     INT,
+    bdate   DATE,
+    rdate   DATE,
+    PRIMARY KEY (rid, bid, bdate)
+);
+\end{lstlisting}
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）查询当前借阅未还（rdate IS NULL）的读者姓名和书名。
+  \item[（3）] （3分）查询借阅次数最多的前 5 本书的书名及借阅次数。
+  \item[（3）] （4分）创建存储过程 \code{borrow\_book(IN p\_rid INT, IN p\_bid INT)}，实现借书操作：检查该书是否有库存，如果有则插入借书记录（bdate 为当天）并更新库存减 1，否则输出 "库存不足"。要求在过程中使用条件处理和事务控制。
+\end{enumerate}
+\anslines{4cm}
+
+\q 现有 MySQL 数据库，回答以下问题：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）简述 MySQL 中 \code{MyISAM} 和 \code{InnoDB} 两种存储引擎的主要区别。
+  \item[（3）] （3分）简述 MySQL 的二进制日志（binlog）的作用，它如何帮助数据库恢复？
+  \item[（4）] （4分）现有数据表 \code{users(id, username, password)}。编写一条 \code{GRANT} 语句，创建一个新用户 \code{'dbadmin'@'localhost'}，密码为 \code{Admin123!}，并授予其对所有数据库的所有权限。同时写出查看该用户权限的语句和回收所有权限的语句。
+\end{enumerate}
+\anslines{3.5cm}
+
+\end{document}

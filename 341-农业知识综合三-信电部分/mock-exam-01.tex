@@ -1,0 +1,282 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 模拟卷一}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\begin{document}
+\examtitle
+
+% ============================================================
+% 第一部分：程序设计基础知识（75 分）
+% ============================================================
+\parttitle{第一部分 \quad 程序设计基础知识（共75分）}
+
+% ---------- 一、填空题（10分） ----------
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+\anslines{0.1cm}
+
+\q C 语言中，\code{sizeof(int)} 的值在 32 位编译环境中是 \fillblank 字节。
+
+\q 设 \code{int a = 5, b = 3;}，则表达式 \code{!(a > b) \&\& (a + b == 8)} 的值是 \fillblank。
+
+\q C 语言规定，除主函数外，函数的定义不允许 \fillblank ，但允许函数的 \fillblank 。
+
+\q 若定义 \code{int a[5] = \{1, 2, 3, 4, 5\}, *p = a;}，则 \code{*(p + 2)} 的值是 \fillblank。
+
+\q 在 C 语言中，打开文件使用的库函数是 \fillblank ，关闭文件使用的库函数是 \fillblank 。
+
+% ---------- 二、简答题（15分） ----------
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q 简述 C 语言中 \code{break} 语句和 \code{continue} 语句的区别。
+\anslines{1.5cm}
+
+\q 简述全局变量与局部变量的作用域区别。
+\anslines{1.5cm}
+
+\q 简述指针变量与普通变量的区别，并说明取地址运算符 \code{\&} 的作用。
+\anslines{1.5cm}
+
+\q 简述二维数组在内存中的存储方式（按行优先）。
+\anslines{1.5cm}
+
+\q 简述函数实参与形参之间的传递方式（值传递和地址传递）。
+\anslines{1.5cm}
+
+% ---------- 三、分析题（20分） ----------
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+阅读下列程序片段，写出运行结果。
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 10, y = 20;
+if (x > y)
+    printf("A");
+else if (x < y)
+    printf("B");
+else
+    printf("C");
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int sum = 0;
+for (int i = 1; i <= 5; i++)
+    sum += i;
+printf("%d", sum);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[3] = {2, 4, 6};
+printf("%d", a[1] + a[2]);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 7;
+do {
+    printf("%d ", x);
+    x--;
+} while (x > 3);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i, j;
+for (i = 1; i <= 3; i++) {
+    for (j = 1; j <= i; j++)
+        printf("*");
+    printf("\n");
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 5, *p = &a;
+*p = 10;
+printf("%d", a);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int func(int n) {
+    if (n <= 1) return 1;
+    return n * func(n - 1);
+}
+printf("%d", func(4));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int arr[2][3] = {{1,2,3},{4,5,6}};
+printf("%d", arr[1][2]);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 3, y = 4;
+x = x ^ y;
+y = x ^ y;
+x = x ^ y;
+printf("%d %d", x, y);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+void swap(int a, int b) {
+    int t = a; a = b; b = t;
+}
+int main() {
+    int x = 3, y = 5;
+    swap(x, y);
+    printf("%d %d", x, y);
+    return 0;
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+% ---------- 四、程序设计题（30分） ----------
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 编写一个 C 语言程序，从键盘输入 10 个整数存入一维数组，求出其中的最大值、最小值和平均值，并输出结果。
+
+
+\anslines{5cm}
+
+\pq 编写一个 C 语言函数 \code{int isPrime(int n)}，判断一个正整数是否为素数（质数）；并在主函数中调用该函数，输出 100 以内的所有素数，每行输出 5 个数。
+
+
+\anslines{5cm}
+
+% ============================================================
+% 第二部分：数据库技术与应用（75 分）
+% ============================================================
+\parttitle{第二部分 \quad 数据库技术与应用（共75分）}
+
+% ---------- 一、填空题（10分） ----------
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q 数据库系统的核心是 \fillblank 。
+
+\q 数据模型的三要素是数据结构、数据操作和 \fillblank 。
+
+\q 在关系模型中，一个关系对应现实世界中的一张 \fillblank 。
+
+\q 关系运算中，从关系中选取满足条件的元组（行）的操作称为 \fillblank 运算。
+
+\q SQL 语言中，用于删除表的语句是 \fillblank 。
+
+% ---------- 二、简答题（10分） ----------
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 简述数据库（DB）、数据库管理系统（DBMS）和数据库系统（DBS）三者之间的概念和关系。
+\anslines{3cm}
+
+\q 简述关系模型中 1NF、2NF 和 3NF 的定义，并说明它们之间的联系。
+\anslines{3cm}
+
+% ---------- 三、操作题（15分） ----------
+\qtypename{三、操作题}{本题共15分}
+
+设有关系模式：\\
+学生表 S(\underline{Sno}, Sname, Ssex, Sage, Sdept)\\
+课程表 C(\underline{Cno}, Cname, Ccredit)\\
+选课表 SC(\underline{Sno, Cno}, Grade)
+
+\q （3分）用 SQL 语句查询所有男学生的学号和姓名。
+
+\anslines{1cm}
+
+\q （3分）用 SQL 语句查询选修了课程号为 "C001" 的学生学号及成绩。
+
+\anslines{1cm}
+
+\q （3分）用 SQL 语句查询每个学生的平均成绩，输出学号和平均成绩。
+
+\anslines{1cm}
+
+\q （3分）用关系代数表达：查询信息系（IS）全体学生的姓名。
+
+\anslines{1.2cm}
+
+\q （3分）用 SQL 语句创建选课表 SC，要求 Sno 和 Cno 为联合主键，且分别参照学生表和课程表。
+
+\anslines{1.5cm}
+
+% ---------- 四、分析题（10分） ----------
+\qtypename{四、分析题}{共1题，共10分}
+
+\q 设有关系模式 R(U, F)，其中 U = \{A, B, C, D\}，函数依赖集 F = \{A $\rightarrow$ B, B $\rightarrow$ C, C $\rightarrow$ D\}。
+
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）求关系模式 R 的所有候选键。
+  \item[（2）] （3分）判断 R 最高属于第几范式？说明理由。
+  \item[（3）] （4分）将 R 分解为满足 3NF 且保持函数依赖的模式。
+\end{enumerate}
+
+\anslines{3cm}
+
+% ---------- 五、设计题（10分） ----------
+\qtypename{五、设计题}{共1题，共10分}
+
+\q 某高校要设计一个图书管理系统，已知信息如下：
+\begin{itemize}
+  \item 每位读者有读者编号、姓名、性别、所在单位；
+  \item 每本图书有书号、书名、作者、出版社、定价；
+  \item 读者可以借阅多本图书，每本图书可以被多个读者借阅，每次借阅需记录借书日期和还书日期。
+\end{itemize}
+
+请完成：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （5分）画出该系统的 E-R 图。
+  \item[（2）] （5分）将 E-R 图转换为关系模式（指明主键和外键）。
+\end{enumerate}
+
+\anslines{4cm}
+
+% ---------- 六、应用题（20分） ----------
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q 现有 MySQL 数据库中的员工表 \code{employee}，结构如下：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE employee (
+    emp_id   INT PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    salary   DECIMAL(10,2),
+    dept_id  INT
+);
+\end{lstlisting}
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）查询工资高于 5000 的所有员工姓名及工资。
+  \item[（2）] （3分）将所有 "SALES" 部门的员工工资增加 10\%。
+  \item[（3）] （4分）创建视图 \code{v_high_salary}，显示工资高于部门平均工资的员工信息，并写出对应的查询语句。
+\end{enumerate}
+\anslines{3cm}
+
+\q 在 MySQL 中，有两个表：学生表 \code{students(s_id, s_name)} 和成绩表 \code{scores(s_id, course, score)}。要求编写一个存储过程 \code{get_student_avg(IN sid INT)}，根据输入的学生编号输出该学生的所有课程平均分。请写出完整的存储过程定义。
+
+\anslines{4cm}
+
+\end{document}

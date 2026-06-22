@@ -1,0 +1,267 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 参考答案五}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\setlength{\parskip}{0.5ex}
+
+\begin{document}
+\examtitle
+
+\parttitle{第一部分 \quad 程序设计基础知识（参考答案）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q \textbf{10}。条件表达式 \code{a > 0 ? a : -a} 取 \code{a} 的绝对值。
+
+\q \textbf{2}。\code{p = a + 2} 指向 \code{a[2]=3}，\code{p[-1]} 等价于 \code{*(p-1)}，即 \code{a[1]=2}。
+
+\q \textbf{递归}。
+
+\q \code{Point p;}。\code{typedef} 定义类型别名后，可直接用 \code{Point} 声明变量。
+
+\q \textbf{"r"}。\code{fopen("filename", "r")} 以只读方式打开。
+
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q \code{const} 的三种常见用法：（1）修饰变量：\code{const int N = 10;} 定义 N 为常量，不可修改。（2）修饰指针：\code{const int *p;}（指向常量的指针，不能通过 p 修改所指值）和 \code{int *const p;}（常量指针，不能修改 p 的指向）。（3）修饰函数参数：\code{void func(const int *p);} 声明函数不会通过该指针修改数据。
+
+\q \code{int *p[5]}：指针数组，包含 5 个 \code{int*} 类型的元素。\code{int (*p)[5]}：数组指针，指向一个包含 5 个 \code{int} 元素的数组。优先级规则：\code{[]} 优先级高于 \code{*}，所以 \code{*p[5]} 先作为数组解析。
+
+\q \code{malloc(size)}：分配 size 字节的未初始化内存块。\code{calloc(n, size)}：分配 n 个 size 字节的连续内存块，并自动初始化为 0。\code{realloc(ptr, size)}：调整已分配内存块的大小（可能移动位置），保留原有数据。
+
+\q （1）从函数中返回一个值给调用者，程序执行权返回到函数调用处；（2）提前结束函数的执行（即使函数体还有语句未执行，遇到 \code{return} 立即返回）。
+
+\q \code{fread(buf, size, count, fp)}：从文件读取 count 个大小为 size 的数据块到 buf 中，返回实际读取的块数。\code{fwrite(buf, size, count, fp)}：将 buf 中的 count 个大小为 size 的数据块写入文件，返回实际写入的块数。常用于二进制文件的批量读写。
+
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+\q \textbf{10}。\code{0x1A} = 26（二进制 00011010），\code{0x0F} = 15（00001111），按位与得 00001010 = 10。
+
+\q \textbf{c}。\code{else} 与最近的 \code{if} 配对——与 \code{if (a > c)} 配对。a=1 不大于 b=2，外层 if 不执行；直接输出 "c"。
+
+\q \textbf{s=10 i=5}。累加：1+2+3+4=10，i=5 时 s>6 触发 break。
+
+\q \textbf{1 1 2 3}。Fibonacci 数列前 4 项。
+
+\q \textbf{5}。指针 p 遍历字符串到末尾，p-s 差值为字符串长度（不含 \code{\textbackslash0}）。
+
+\q \textbf{20}。二级指针 \code{pp} 指向 \code{p}，\code{**pp = 20} 将 a 的值改为 20。
+
+\q \textbf{3 4}。函数内交换的是指针形参 a 和 b 的值（即指针的指向），而非指针所指的内容。实参 p 和 q 的指向未改变，因此 \code{*p=3, *q=4}。
+
+\q \textbf{14}。宏展开为 \code{((3) + (4)) * 2 = 14}。
+
+\q \textbf{0}。\code{do-while} 先执行一次循环体 s=0，然后判断条件 \code{i < 0} 不成立（i=1），结束循环。
+
+\q \textbf{2 3}。\code{*(p+1)} 即 \code{arr[1]=2}，\code{p[2]} 即 \code{arr[2]=3}。
+
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 参考答案：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+
+void invert(char *s) {
+    char *p = s, temp;
+    int len = 0;
+    while (*p) { len++; p++; }  // 求长度
+
+    for (int i = 0; i < len / 2; i++) {
+        temp = s[i];
+        s[i] = s[len - 1 - i];
+        s[len - 1 - i] = temp;
+    }
+}
+
+int main() {
+    char str[100];
+    printf("请输入一行字符：");
+    fgets(str, sizeof(str), stdin);
+    // 去除 fgets 读入的换行符
+    int i = 0;
+    while (str[i] != '\0') i++;
+    if (i > 0 && str[i-1] == '\n') str[i-1] = '\0';
+
+    invert(str);
+    printf("逆置后：%s\n", str);
+    return 0;
+}
+\end{lstlisting}
+
+\pq 参考答案：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+
+struct Date { int year; int month; int day; };
+
+int isLeapYear(int year) {
+    return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
+}
+
+int daysInMonth(int year, int month) {
+    int days[] = {31, 28, 31, 30, 31, 30,
+                  31, 31, 30, 31, 30, 31};
+    if (month == 2 && isLeapYear(year))
+        return 29;
+    return days[month - 1];
+}
+
+int dayOfYear(struct Date d) {
+    int total = 0;
+    for (int m = 1; m < d.month; m++)
+        total += daysInMonth(d.year, m);
+    total += d.day;
+    return total;
+}
+
+int main() {
+    struct Date d;
+    printf("请输入日期（年 月 日）：");
+    scanf("%d %d %d", &d.year, &d.month, &d.day);
+    printf("该日期是%d年的第%d天\n", d.year, dayOfYear(d));
+    return 0;
+}
+\end{lstlisting}
+
+\parttitle{第二部分 \quad 数据库技术与应用（参考答案）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q \textbf{更新异常}。操作异常包括插入异常、删除异常和更新异常。
+
+\q \textbf{7}。笛卡尔积的属性数为两关系属性数之和：4+3=7。
+
+\q \textbf{分组（GROUP BY 形成的组）}。\code{HAVING} 对分组后的结果做条件过滤。
+
+\q \textbf{收缩}。两段锁协议分为扩展阶段（加锁）和收缩阶段（解锁）。
+
+\q \textbf{查看当前 MySQL 服务器中的所有数据库列表}。
+
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q BCNF 是 3NF 的进一步强化。3NF 要求非主属性不传递依赖于候选键；BCNF 要求每一个决定属性因素都包含候选键（即所有函数依赖的左边都是超键）。如果一个关系属于 BCNF，一定属于 3NF；反之不一定。反例：关系 R(\underline{学生}, 课程, 教师)，假设每个教师只教一门课，每门课有多个教师任教，函数依赖：\{教师 $\rightarrow$ 课程, (学生, 课程) $\rightarrow$ 教师\}。候选键为(学生, 课程)和(学生, 教师)，非主属性为空，属于 3NF；但教师 $\rightarrow$ 课程的决定因素"教师"不包含候选键，因此不属于 BCNF。
+
+\q 加锁机制：事务在对数据进行读写操作前，先向系统申请对该数据的锁，获得锁后才可操作。基本锁类型：共享锁（S锁，可读不可写）和排他锁（X锁，可读可写）。死锁产生原因：多个事务互相等待对方持有的锁，形成循环等待。解决策略：死锁预防（一次性加锁/顺序加锁）、死锁检测与恢复（超时机制/等待图检测，选择一个事务回滚）。
+
+\qtypename{三、操作题}{共8小题，共15分}
+
+\q （2分）\code{SELECT E.Ename, D.Dname FROM E, D WHERE E.Dno = D.Dno AND E.Salary > 8000;}
+
+\q （2分）\code{SELECT Dno, Esex, COUNT(*) FROM E GROUP BY Dno, Esex;}
+
+\q （2分）\code{SELECT Pname FROM P, D WHERE P.Dno = D.Dno AND P.Budget > 100000 AND D.Dname = '技术部';}
+
+\q （2分）关系代数：\code{$\pi$_{Eno}(EP) $\div$ $\pi$_{Pno}(P)}
+
+\q （2分）\code{SELECT Eno, SUM(Hours) FROM EP GROUP BY Eno HAVING SUM(Hours) > 100;}
+
+\q （2分）\code{SELECT Ename FROM E WHERE Eno NOT IN (SELECT DISTINCT Eno FROM EP);}
+
+\q （1分）\code{UPDATE E SET Salary = Salary * 1.15 WHERE Eno = 'E010';}
+
+\q （2分）\code{CREATE INDEX idx_dno_salary ON E(Dno, Salary);}
+
+\qtypename{四、分析题}{共1题，共10分}
+
+\q （1）候选键推导：\\
+已知 F = \{AB $\rightarrow$ C, C $\rightarrow$ D, D $\rightarrow$ E, E $\rightarrow$ F, B $\rightarrow$ F\}。\\
+存在冗余：AB $\rightarrow$ C $\rightarrow$ D $\rightarrow$ E $\rightarrow$ F，且 B $\rightarrow$ F 被包含。\\
+消去冗余后：F' = \{AB $\rightarrow$ C, C $\rightarrow$ D, D $\rightarrow$ E, E $\rightarrow$ F\}。\\
+计算闭包：\code{(AB)+ = ABCDEF}，\code{A+ = A}，\code{B+ = BF}。\\
+因此 AB 是唯一候选键。
+
+\par（2）存在传递函数依赖：AB $\rightarrow$ C $\rightarrow$ D（非主属性 D 传递依赖于 AB），以及 AB $\rightarrow$ C $\rightarrow$ D $\rightarrow$ E，AB $\rightarrow$ C $\rightarrow$ D $\rightarrow$ E $\rightarrow$ F。
+
+\par（3）分解为 3NF（保持函数依赖）：\\
+R1(\underline{A, B}, C)\\
+R2(\underline{C}, D)\\
+R3(\underline{D}, E)\\
+R4(\underline{E}, F)
+
+\qtypename{五、设计题}{共1题，共10分}
+
+\q （1）E-R 图实体与联系：\\
+实体：客户（客户编号，姓名，手机号，地址）\\
+实体：网点（网点编号，网点名称，网点地址，联系电话）\\
+实体：快递员（工号，姓名，电话）\\
+实体：快递（运单号，收件人姓名，收件人手机，收件人地址，寄件人姓名，寄件人手机，寄件人地址，重量，费用，状态）\\
+联系：属于（网点 $\to$ 快递员，一对多）\\
+联系：揽收（快递员 $\to$ 快递，一对多）\\
+联系：寄件人、收件人与客户关联（快递 $\to$ 客户，多对多）
+
+\par（2）关系模式：\\
+客户表 \underline{客户编号}，姓名，手机号，地址\\
+网点表 \underline{网点编号}，网点名称，网点地址，联系电话\\
+快递员表 \underline{工号}，姓名，电话，所属网点* REF 网点(网点编号)\\
+快递表 \underline{运单号}，收件人姓名，收件人手机，收件人地址，寄件人姓名，寄件人手机，寄件人地址，重量，费用，状态，揽收员* REF 快递员(工号)
+
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q
+\par （1）
+\begin{lstlisting}[language=SQL]
+SELECT r.rname, b.bname
+FROM reader r, book b, borrow bw
+WHERE r.rid = bw.rid AND b.bid = bw.bid
+  AND bw.rdate IS NULL;
+\end{lstlisting}
+\par （2）
+\begin{lstlisting}[language=SQL]
+SELECT b.bname, COUNT(*) AS borrow_count
+FROM book b, borrow bw
+WHERE b.bid = bw.bid
+GROUP BY b.bid, b.bname
+ORDER BY borrow_count DESC
+LIMIT 5;
+\end{lstlisting}
+\par （3）
+\begin{lstlisting}[language=SQL]
+DELIMITER $$
+CREATE PROCEDURE borrow_book(IN p_rid INT, IN p_bid INT)
+BEGIN
+    DECLARE cur_count INT DEFAULT 0;
+    START TRANSACTION;
+    SELECT bcount INTO cur_count FROM book WHERE bid = p_bid;
+    IF cur_count > 0 THEN
+        INSERT INTO borrow(rid, bid, bdate)
+        VALUES (p_rid, p_bid, CURDATE());
+        UPDATE book SET bcount = bcount - 1 WHERE bid = p_bid;
+        COMMIT;
+        SELECT '借书成功' AS result;
+    ELSE
+        ROLLBACK;
+        SELECT '库存不足' AS result;
+    END IF;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
+\q
+\par （1）MyISAM 和 InnoDB 的主要区别：
+\begin{itemize}
+  \item 事务支持：MyISAM 不支持事务，InnoDB 支持事务（ACID）。
+  \item 锁机制：MyISAM 使用表级锁，InnoDB 支持行级锁和表级锁。
+  \item 外键：MyISAM 不支持外键，InnoDB 支持外键约束。
+  \item 崩溃恢复：MyISAM 崩溃后恢复较慢，InnoDB 通过日志支持自动恢复。
+  \item 全文索引：MyISAM 原生支持全文索引，InnoDB 在 5.6+ 后也支持。
+\end{itemize}
+
+\par （2）binlog（二进制日志）记录所有对数据库的更改操作（DDL 和 DML），用于数据库恢复和主从复制。在恢复时，可以通过重放 binlog 将数据库恢复到某个时间点（基于全量备份 + binlog 增量恢复），从而实现时间点恢复（PITR）。
+
+\par （3）
+\begin{lstlisting}[language=SQL]
+-- 创建用户并授予所有权限
+CREATE USER 'dbadmin'@'localhost' IDENTIFIED BY 'Admin123!';
+GRANT ALL PRIVILEGES ON *.* TO 'dbadmin'@'localhost';
+FLUSH PRIVILEGES;
+
+-- 查看用户权限
+SHOW GRANTS FOR 'dbadmin'@'localhost';
+
+-- 回收所有权限
+REVOKE ALL PRIVILEGES ON *.* FROM 'dbadmin'@'localhost';
+\end{lstlisting}
+
+\end{document}

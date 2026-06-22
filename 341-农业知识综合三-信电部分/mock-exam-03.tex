@@ -1,0 +1,276 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 模拟卷三}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\begin{document}
+\examtitle
+
+% ============================================================
+\parttitle{第一部分 \quad 程序设计基础知识（共75分）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+\anslines{0.1cm}
+
+\q C 语言中，逗号表达式 \code{(a = 3, a + 2, a++)} 的值是 \fillblank 。
+
+\q 若 \code{int a[10] = \{0\};} 则 \code{a[5]} 的值是 \fillblank 。
+
+\q 若 \code{char *p = "Hello";} 则 \code{p[1]} 的值是 \fillblank 。
+
+\q 已知 \code{struct student \{int id; char name[20]; float score;\};} 则 \code{sizeof(struct student)} 在 32 位系统中至少是 \fillblank 字节。
+
+\q 若 \code{FILE *fp = fopen("data.txt", "r");} 当文件打开失败时，\code{fp} 的值为 \fillblank 。
+
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q 说明 C 语言中 \code{++i} 和 \code{i++} 的区别，并举例说明。
+\anslines{1.5cm}
+
+\q 简述二维数组作为函数参数时，形参定义时需要给出的信息（为什么不能省略列数？）。
+\anslines{1.5cm}
+
+\q 简述结构体和共用体（联合体）在内存分配方式上的区别。
+\anslines{1.5cm}
+
+\q 简述函数的嵌套调用与递归调用的区别。
+\anslines{1.5cm}
+
+\q 说明 C 语言中 \code{fgets} 与 \code{gets} 函数的主要区别。
+\anslines{1.5cm}
+
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 1, b = 2, c = 3;
+int r = (a++, b++, a + b + c);
+printf("%d %d %d %d", a, b, c, r);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i;
+for (i = 0; i < 5; i++) {
+    if (i == 3) break;
+    printf("%d ", i);
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[] = {1, 2, 3, 4, 5};
+int *p = a + 1;
+printf("%d %d", *(p + 2), p[-1]);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 0;
+while (x < 5) {
+    x++;
+    if (x % 2 == 0) continue;
+    printf("%d ", x);
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+struct point { int x; int y; } p = {3, 7};
+struct point *ptr = &p;
+ptr->x = 10;
+printf("%d %d", p.x, ptr->y);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int func(int n) {
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    return func(n - 1) + func(n - 2);
+}
+printf("%d", func(6));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+char s[] = "ABCDEFG";
+char *p = s + 2;
+printf("%c", *(p + 3));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+static int x = 0;
+void count() { x++; printf("%d ", x); }
+int main() {
+    count(); count(); count();
+    return 0;
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i, j;
+for (i = 1; i <= 5; i++) {
+    for (j = 1; j <= 5; j++) {
+        if (i == j) printf("1 ");
+        else printf("0 ");
+    }
+    printf("\n");
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+void change(int a[]) {
+    a[0] = 100;
+}
+int main() {
+    int arr[] = {1, 2, 3};
+    change(arr);
+    printf("%d", arr[0]);
+    return 0;
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 编写一个 C 语言程序，定义结构体 \code{Student}，包含学号（\code{int}）、姓名（\code{char[20]}）和三门课程成绩（\code{float[3]}）。从键盘输入 5 个学生的信息，计算每个学生的平均成绩并输出，最后输出所有学生的总平均成绩。
+\anslines{6cm}
+
+\pq 编写 C 程序实现：定义一个函数 \code{void bubble_sort(int *arr, int n)}，使用冒泡排序法对整数数组进行升序排列。在主函数中创建一个长度为 10 的数组，从键盘输入 10 个整数，调用排序函数排序后输出结果。
+\anslines{6cm}
+
+% ============================================================
+\parttitle{第二部分 \quad 数据库技术与应用（共75分）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q 网状数据模型允许一个结点有 \fillblank 个父结点。
+
+\q 在关系代数中，专门的关系运算包括选择、投影和 \fillblank 。
+
+\q SQL 语言中，\code{LIKE '\_\_\%'} 表示匹配以至少 \fillblank 个字符开头的字符串。
+
+\q 数据库并发操作可能带来的问题包括丢失修改、不可重复读和 \fillblank 。
+
+\q 在 MySQL 中，\code{GRANT} 语句用于授予用户 \fillblank 。
+
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 简述关系模型的三个要素（关系数据结构、关系操作集合、关系完整性约束）。
+\anslines{3cm}
+
+\q 什么是事务？事务的 ACID 特性分别指什么？
+\anslines{3cm}
+
+\qtypename{三、操作题}{共8小题，共15分}
+
+设有关系模式：\\
+教师表 T(\underline{Tno}, Tname, Tsex, Title, Dname)\\
+课程表 CO(\underline{Cno}, Cname, Credit, Tno)\\
+选课表 SC(\underline{Sno, Cno}, Grade)
+
+\q （2分）用 SQL 查询职称为 "教授" 的教师姓名和所在系。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 统计每个系教师的人数。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 查询选修了 "C001" 课程且成绩大于 85 分的学生学号。
+\anslines{0.8cm}
+
+\q （2分）用关系代数表达：查询选修了全部课程的学生学号。
+\anslines{1.2cm}
+
+\q （2分）用 SQL 查询至少选修了两门课程的学生学号。
+\anslines{0.8cm}
+
+\q （2分）用 SQL 查询没有选修 "C002" 课程的学生学号。
+\anslines{1cm}
+
+\q （1分）将教师 "T05" 的职称改为 "副教授"。
+\anslines{0.8cm}
+
+\q （2分）创建索引 \code{idx_cname}，提高课程表中按课程名查询的效率。
+\anslines{0.8cm}
+
+\qtypename{四、分析题}{共1题，共10分}
+
+\q 设有关系模式 R(A, B, C, D, E)，函数依赖集 F = \{A $\rightarrow$ B, C $\rightarrow$ D, (A, C) $\rightarrow$ E, B $\rightarrow$ C\}。
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）求 R 的所有候选键。
+  \item[（2）] （3分）判断 R 最高属于第几范式？说明理由。
+  \item[（3）] （4分）将 R 分解为满足 3NF 且保持函数依赖的模式。
+\end{enumerate}
+\anslines{4cm}
+
+\qtypename{五、设计题}{共1题，共10分}
+
+\q 某电商平台需要设计一个订单管理系统，已知：
+\begin{itemize}
+  \item 每位客户有客户编号、姓名、手机号、注册日期；
+  \item 每种商品有商品编号、商品名称、单价、库存量；
+  \item 每张订单有订单编号、下单时间、总金额、订单状态；
+  \item 一个客户可以下多张订单，一张订单属于一个客户；
+  \item 一张订单可以包含多种商品，每种商品在订单中需记录购买数量。
+\end{itemize}
+请完成：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （5分）画出该系统的 E-R 图。
+  \item[（2）] （5分）将 E-R 图转换为关系模式（标明主键和外键）。
+\end{enumerate}
+\anslines{5cm}
+
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q 现有 MySQL 数据库中的学生选课系统部分表：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE courses (
+    cid    INT PRIMARY KEY,
+    cname  VARCHAR(50) NOT NULL,
+    credit DECIMAL(3,1),
+    cap    INT DEFAULT 60
+);
+
+CREATE TABLE enrollments (
+    sid   INT,
+    cid   INT,
+    grade DECIMAL(5,2),
+    PRIMARY KEY (sid, cid)
+);
+\end{lstlisting}
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）查询选修了课程名为 "数据库原理" 的学生人数。
+  \item[（2）] （3分）查询每门课程的选修人数和平均成绩，按平均成绩降序排列。
+  \item[（3）] （4分）编写一个触发器，当向 \code{enrollments} 表插入一条记录时，检查该课程已选人数是否超过课程容量（cap），如果超过则阻止插入并提示 "选课人数已满"。
+\end{enumerate}
+\anslines{4cm}
+
+\q 在 MySQL 中，现有员工表 \code{employees(eid, ename, salary, dno)}。使用游标编写一个存储过程 \code{raise_salary(IN dept_no INT, IN percent DECIMAL(5,2))}，将指定部门所有员工的工资按照给定的百分比上调，并返回受影响的行数作为输出参数。
+\anslines{4cm}
+
+\end{document}

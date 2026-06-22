@@ -1,0 +1,242 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 参考答案二}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\setlength{\parskip}{0.5ex}
+
+\begin{document}
+\examtitle
+
+\parttitle{第一部分 \quad 程序设计基础知识（参考答案）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q 第一空：\textbf{逻辑与}；第二空：\textbf{关系}（或 \code{==}、\code{!=} 等关系运算符）。关系运算符优先级高于逻辑与运算符。
+
+\q \textbf{0（假）}。\code{a > b} 为假（3>4 不成立），逻辑与短路，结果为假（0）。
+
+\q \textbf{0}。数组初始化部分元素，其余默认为 0。\code{a[1][2]} 是第二行第三列，未显式赋值。
+
+\q 第一空：\textbf{5}；第二空：\textbf{6}。\code{strlen} 不计算终止符，\code{sizeof} 包含终止符。
+
+\q \textbf{FILE *}（文件指针类型）。
+
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q \code{break} 的作用是结束当前 \code{case} 的执行并跳出 \code{switch} 语句。如果省略 \code{break}，程序将继续执行后续 \code{case} 中的语句（即"穿透"效果），直到遇到 \code{break} 或 \code{switch} 结束。
+
+\q \code{while} 循环：先判断条件，条件为真才执行循环体，可能一次都不执行。\code{do-while} 循环：先执行一次循环体，再判断条件，至少执行一次。
+
+\q 数组名作为函数参数时，数组名退化为指向数组首元素的指针，即传递的是数组的地址，而不是整个数组的副本。因此在函数中对数组元素的修改会影响到原数组，且 \code{sizeof(arr)} 在函数内部得到的是指针的大小而非数组大小。
+
+\q 数组是相同类型元素的集合，通过下标访问，所有元素类型相同。结构体由不同类型（异质）的成员组成，通过成员名访问。结构体支持成员的不同数据类型组合。
+
+\q 文本方式：以字符为单位读写，自动进行换行符转换（\code{\textbackslash n} $\leftrightarrow$ \code{\textbackslash r\textbackslash n}）。二进制方式：按字节原样读写，不进行任何转换。
+
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+\q \textbf{3 6 10}。case 1 穿透到 case 2 和 default：b=2+1=3；c=3+3=6；a+b+c=1+3+6=10。
+
+\q \textbf{37}。累加 1$\sim$10 中不能被 3 整除的数：1+2+4+5+7+8+10=37。
+
+\q \textbf{40 20}。\code{p = a + 3} 指向 40，\code{*(p - 2)} 指向 20。
+
+\q \textbf{36}。累加所有元素：1+3+5+7+9+11=36。
+
+\q \textbf{9 5}。通过指针传参实现了真正的交换，a=9, b=5。
+
+\q
+\texttt{\quad*}\\
+\texttt{***}\\
+\texttt{*****}\\
+\texttt{*******}\\
+（居中对齐的等腰三角形，4行）
+
+\q \textbf{5 3}。通过加减运算交换变量值：a=5, b=3。
+
+\q \textbf{-1}。\code{strcmp} 按字典序比较，"abc" < "abcd"，返回负数。
+
+\q \textbf{5}。条件运算符 \code{? :} 取较大值 5。
+
+\q \textbf{1 2 4 8 16}。每个元素是前一个的 2 倍。
+
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 参考答案：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+
+int main() {
+    int n, i, j, sum = 0;
+    int a[10][10];
+
+    printf("请输入矩阵阶数 n (n<=10): ");
+    scanf("%d", &n);
+
+    printf("请输入矩阵元素：\n");
+    for (i = 0; i < n; i++)
+        for (j = 0; j < n; j++)
+            scanf("%d", &a[i][j]);
+
+    for (i = 0; i < n; i++) {
+        sum += a[i][i];                // 主对角线
+        if (i != n - 1 - i)             // 避免交叉点重复加
+            sum += a[i][n - 1 - i];    // 副对角线
+    }
+
+    printf("两条对角线元素之和为：%d\n", sum);
+    return 0;
+}
+\end{lstlisting}
+
+\pq 参考答案：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+
+void mystrcat(char *dest, const char *src) {
+    while (*dest) dest++;        // 找到 dest 的末尾
+    while (*src) {
+        *dest = *src;
+        dest++;
+        src++;
+    }
+    *dest = '\0';                // 添加字符串结束符
+}
+
+int main() {
+    char s1[100] = "Hello, ";
+    char s2[] = "World!";
+    mystrcat(s1, s2);
+    printf("连接结果：%s\n", s1);
+    return 0;
+}
+\end{lstlisting}
+
+\parttitle{第二部分 \quad 数据库技术与应用（参考答案）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q \textbf{树形}。层次模型使用树形结构表示实体及实体间的联系。
+
+\q \textbf{笛卡尔积}。传统集合运算包括并、交、差和笛卡尔积。
+
+\q \textbf{聚合}（或\code{COUNT、SUM、AVG}等聚合函数）。
+
+\q \textbf{持久性（Durability）}。ACID 特性：原子性、一致性、隔离性、持久性。
+
+\q \textbf{非平凡}。非平凡函数依赖指 Y 不是 X 的子集。
+
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 三级模式结构：外模式（用户视图）、概念模式（全局逻辑结构）、内模式（物理存储结构）。两级映射：外模式/概念模式映射（保证逻辑独立性）、概念模式/内模式映射（保证物理独立性）。映射使数据独立性得以实现，当某一层模式改变时只需修改映射关系，不影响其他层。
+
+\q 数据独立性指应用程序不依赖于数据存储结构和存取方法的特性。物理独立性：当内模式（存储结构）改变时，只需修改概念模式/内模式映射，无需修改概念模式和外模式。逻辑独立性：当概念模式（全局逻辑结构）改变时，只需修改外模式/概念模式映射，无需修改应用程序。数据库通过三级模式和两级映射机制保障数据独立性。
+
+\qtypename{三、操作题}{共8小题，共15分}
+
+\q （2分）\code{SELECT Sno, Sname FROM S WHERE City = '北京';}
+
+\q （2分）\code{SELECT DISTINCT Sno FROM SP WHERE Pno IN (SELECT Pno FROM P WHERE Color = '红色');}
+
+\q （2分）\code{SELECT SUM(Qty) FROM SP WHERE Sno = 'S01';}
+
+\q （2分）\code{SELECT Sno, Pno FROM SP WHERE Qty > 100;}
+
+\q （2分）关系代数：\code{$\pi$_{Sno}(SP) $\div$ $\pi$_{Pno}(P)}（除法运算）
+
+\q （2分）\code{SELECT Sno FROM SP WHERE Pno = 'P01' AND Sno IN (SELECT Sno FROM SP WHERE Pno = 'P02');} 或使用自连接。
+
+\q （1分）\code{UPDATE S SET City = '广州' WHERE Sno = 'S03';}
+
+\q （2分）
+\begin{lstlisting}[language=SQL]
+CREATE VIEW v_sp_info AS
+SELECT Sname, Pname, Qty
+FROM S, P, SP
+WHERE S.Sno = SP.Sno AND P.Pno = SP.Pno;
+\end{lstlisting}
+
+\qtypename{四、分析题}{共1题，共10分}
+
+\q （1）候选键：\textbf{(学号, 课程号)}。因为学号和课程号能函数决定所有属性。
+
+\par（2）存在操作异常：
+\begin{itemize}
+  \item 插入异常：新学生尚未选课，无法插入学生信息（因为主键的一部分——课程号为空）。
+  \item 删除异常：删除某学生的选课记录时，该学生的基本信息（姓名、系名等）也会被删除。
+  \item 更新异常：如修改系主任信息，需要更新该系所有学生的记录。
+\end{itemize}
+
+\par（3）分解为 3NF：\\
+学生表(\underline{学号}, 学生姓名, 系名)\\
+课程表(\underline{课程号}, 学分)\\
+系表(\underline{系名}, 系主任)\\
+选课表(\underline{学号, 课程号}, 成绩)\\
+（学号、课程号分别参照学生表和课程表，系名参照系表）
+
+\qtypename{五、设计题}{共1题，共10分}
+
+\q （1）E-R 图实体与联系：\\
+实体：科室（科室编号，科室名称，科室位置）\\
+实体：医生（工号，姓名，职称）\\
+实体：患者（就诊卡号，姓名，性别，联系电话）\\
+联系：属于（科室 $\to$ 医生，一对多）\\
+联系：挂号（患者 $\leftrightarrow$ 科室，多对多；属性：挂号时间，就诊状态）
+
+\par（2）关系模式（下划线为主键，* 为外键）：\\
+科室表 \underline{科室编号}，科室名称，科室位置\\
+医生表 \underline{工号}，姓名，职称，所属科室* REF 科室(科室编号)\\
+患者表 \underline{就诊卡号}，姓名，性别，联系电话\\
+挂号表 \underline{就诊卡号*，科室编号*}，挂号时间，就诊状态\\
+（就诊卡号 REF 患者表，科室编号 REF 科室表）
+
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q
+\par （1）
+\begin{lstlisting}[language=SQL]
+SELECT city, COUNT(cid) AS cust_count,
+       SUM(o.total) AS total_spent
+FROM customers c
+LEFT JOIN orders o ON c.cid = o.cid
+GROUP BY city;
+\end{lstlisting}
+\par （2）
+\begin{lstlisting}[language=SQL]
+SELECT cname FROM customers
+WHERE cid NOT IN (SELECT DISTINCT cid FROM orders);
+\end{lstlisting}
+\par （3）
+\begin{lstlisting}[language=SQL]
+DELIMITER $$
+CREATE TRIGGER trg_update_total_spent
+AFTER INSERT ON orders
+FOR EACH ROW
+BEGIN
+    UPDATE customers
+    SET total_spent = IFNULL(total_spent, 0) + NEW.total
+    WHERE cid = NEW.cid;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
+\q
+\begin{lstlisting}[language=SQL]
+DELIMITER $$
+CREATE PROCEDURE update_stock(IN pid INT, IN qty INT)
+BEGIN
+    DECLARE cur_stock INT;
+    SELECT stock INTO cur_stock FROM products WHERE pid = pid;
+    IF cur_stock >= qty THEN
+        UPDATE products SET stock = stock - qty WHERE pid = pid;
+        SELECT '库存扣除成功' AS result;
+    ELSE
+        SELECT '库存不足' AS result;
+    END IF;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
+\end{document}

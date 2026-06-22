@@ -1,0 +1,278 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 参考答案三}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\setlength{\parskip}{0.5ex}
+
+\begin{document}
+\examtitle
+
+\parttitle{第一部分 \quad 程序设计基础知识（参考答案）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q \textbf{3}。逗号表达式的值为最后一个子表达式的值。\code{a=3, a+2=5, a++} 返回 3（后置自增先取值后自增），最终 \code{a=4}，表达式值为 3。
+
+\q \textbf{0}。数组局部初始化未指定部分自动填充为 0。
+
+\q \textbf{'e'}。字符串 "Hello" 中索引 1 对应的字符。
+
+\q \textbf{28}。\code{int} 占 4 字节，\code{char[20]} 占 20 字节，\code{float} 占 4 字节，考虑内存对齐后至少 28 字节。
+
+\q \textbf{NULL}（或 0）。文件打开失败时 \code{fopen} 返回空指针。
+
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q \code{++i}（前置自增）：先自增，再使用自增后的值参与表达式求值。\code{i++}（后置自增）：先使用 \code{i} 的当前值参与表达式，再将 \code{i} 自增。例如 \code{int i=3; int a = ++i;} 结果 a=4, i=4；\code{int b = i++;} 结果 b=4, i=5。
+
+\q 二维数组作为参数时，形参必须指定列数（第二维大小），因为编译器需要根据列数计算元素的存储位置（行优先）。例如 \code{void func(int arr[][4], int rows);}。省略列数会导致寻址错误。
+
+\q 结构体：所有成员分配不同的内存空间，各成员占据独立的内存单元，总大小为各成员大小之和（考虑对齐）。共用体（联合体）：所有成员共享同一块内存空间，总大小为最大成员的大小，同一时刻只能保存一个成员的值。
+
+\q 嵌套调用：函数 A 调用函数 B，B 调用函数 C，形成调用链，每个函数执行完毕后返回上一层。递归调用：函数直接或间接调用自身，每次调用使用不同的参数和栈空间，通过不断缩小问题规模最终到达终止条件。
+
+\q \code{fgets(str, n, fp)}：从文件读取最多 n-1 个字符或遇到换行符为止，自动添加 \code{\textbackslash0}，安全可控。\code{gets(str)}：从标准输入读取一行，不限制长度，可能导致缓冲区溢出，已在 C11 标准中移除。
+
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+\q \textbf{2 3 4 7}。逗号表达式值为 a+b+c=2+3+4=9... 更正：a++ 自增后 a=2，b++ 后 b=3，a+b+c=2+3+3=8？不对，c=3。仔细计算：a 初始 1，b 初始 2，c 初始 3。\code{a++} 后 a=2，\code{b++} 后 b=3，\code{a+b+c}=2+3+3=8。\textbf{所以输出：2 3 3 8}。
+
+\q \textbf{0 1 2}。i=3 时 break 跳出循环。
+
+\q \textbf{4 1}。\code{p = a + 1} 指向 a[1]=2，\code{*(p+2)} 即 a[3]=4，\code{p[-1]} 即 a[0]=1。
+
+\q \textbf{1 3 5}。x 从 1 到 5，偶数时 \code{continue} 跳过输出，输出奇数。
+
+\q \textbf{10 7}。通过指针修改 p.x=10，ptr->y 即 p.y=7。
+
+\q \textbf{8}。Fibonacci 数列：\code{func(6) = func(5)+func(4) = 5+3 = 8}。
+
+\q \textbf{F}。\code{p = s+2} 指向 'C'，\code{*(p+3)} 即 'F'。
+
+\q \textbf{1 2 3}。静态局部变量 x 在函数调用之间保留值，从 0 开始每次加 1。
+
+\q
+\texttt{1 0 0 0 0}\\
+\texttt{0 1 0 0 0}\\
+\texttt{0 0 1 0 0}\\
+\texttt{0 0 0 1 0}\\
+\texttt{0 0 0 0 1}\\
+（5×5 单位矩阵）
+
+\q \textbf{100}。数组名作为参数退化为指针，函数内修改数组元素影响原数组。
+
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 参考答案：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+
+struct Student {
+    int id;
+    char name[20];
+    float score[3];
+};
+
+int main() {
+    struct Student stu[5];
+    float total_all = 0;
+
+    for (int i = 0; i < 5; i++) {
+        printf("请输入第%d个学生学号、姓名：", i+1);
+        scanf("%d %s", &stu[i].id, stu[i].name);
+        printf("请输入三门成绩：");
+        for (int j = 0; j < 3; j++)
+            scanf("%f", &stu[i].score[j]);
+    }
+
+    printf("\n--- 成绩统计 ---\n");
+    for (int i = 0; i < 5; i++) {
+        float avg = (stu[i].score[0] + stu[i].score[1] + stu[i].score[2]) / 3.0;
+        total_all += avg;
+        printf("学号:%d 姓名:%s 平均分:%.2f\n", stu[i].id, stu[i].name, avg);
+    }
+    printf("总平均分:%.2f\n", total_all / 5);
+
+    return 0;
+}
+\end{lstlisting}
+
+\pq 参考答案：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+
+void bubble_sort(int *arr, int n) {
+    int i, j, temp;
+    for (i = 0; i < n - 1; i++) {
+        for (j = 0; j < n - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    int a[10];
+    printf("请输入10个整数：");
+    for (int i = 0; i < 10; i++)
+        scanf("%d", &a[i]);
+
+    bubble_sort(a, 10);
+
+    printf("排序后：");
+    for (int i = 0; i < 10; i++)
+        printf("%d ", a[i]);
+    printf("\n");
+
+    return 0;
+}
+\end{lstlisting}
+
+\parttitle{第二部分 \quad 数据库技术与应用（参考答案）}
+
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q \textbf{多}。网状模型允许结点有多个父结点（多对多）。
+
+\q \textbf{连接}。专门关系运算包括选择、投影、连接。
+
+\q \textbf{两}。\code{'\_\_\%'} 中两个下划线匹配任意两个字符，\% 匹配零个或多个字符，表示以至少两个字符开头。
+
+\q \textbf{读脏数据}（或称"脏读"）。并发问题：丢失修改、不可重复读、脏读。
+
+\q \textbf{权限}。\code{GRANT} 用于授予用户操作权限。
+
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 关系模型三要素：（1）关系数据结构：用二维表（关系）表示实体及联系；（2）关系操作集合：包括选择、投影、连接等关系代数运算及 SQL 操作；（3）关系完整性约束：实体完整性（主键非空唯一）、参照完整性（外键参照主键）、用户定义完整性（自定义业务规则）。
+
+\q 事务是用户定义的一个数据库操作序列，这些操作要么全做要么全不做，是一个不可分割的工作单位。ACID 特性：（A）原子性——事务中所有操作要么全部完成，要么全部回滚；（C）一致性——事务执行前后数据库保持一致状态；（I）隔离性——并发执行的事务相互隔离；（D）持久性——一旦事务提交，其结果永久保存在数据库中。
+
+\qtypename{三、操作题}{共8小题，共15分}
+
+\q （2分）\code{SELECT Tname, Dname FROM T WHERE Title = '教授';}
+
+\q （2分）\code{SELECT Dname, COUNT(*) FROM T GROUP BY Dname;}
+
+\q （2分）\code{SELECT Sno FROM SC WHERE Cno = 'C001' AND Grade > 85;}
+
+\q （2分）关系代数：\code{$\pi$_{Sno}(SC) $\div$ $\pi$_{Cno}(CO)}
+
+\q （2分）\code{SELECT Sno FROM SC GROUP BY Sno HAVING COUNT(*) >= 2;}
+
+\q （2分）\code{SELECT Sno FROM SC GROUP BY Sno HAVING SUM(CASE WHEN Cno != 'C002' THEN 0 ELSE 1 END) = 0;} 或使用 \code{NOT IN}。
+
+更优写法：\code{SELECT DISTINCT Sno FROM SC WHERE Sno NOT IN (SELECT Sno FROM SC WHERE Cno = 'C002');}
+
+\q （1分）\code{UPDATE T SET Title = '副教授' WHERE Tno = 'T05';}
+
+\q （2分）\code{CREATE INDEX idx_cname ON CO(Cname);}
+
+\qtypename{四、分析题}{共1题，共10分}
+
+\q （1）求候选键：由 B $\rightarrow$ C 和 (A,C) $\rightarrow$ E，需判断 A 和 B 能否决定所有属性。\\
+推导过程：A $\rightarrow$ B（已知），所以 A 能决定 B；A $\rightarrow$ B $\rightarrow$ C，得 A $\rightarrow$ C；由 A $\rightarrow$ C 和 (A,C) $\rightarrow$ E，得 A $\rightarrow$ E；已有 A $\rightarrow$ D（C $\rightarrow$ D 且 A $\rightarrow$ C）。\\
+因此 \textbf{A} 为候选键。另外，B 能否决定全部？B $\rightarrow$ C，C $\rightarrow$ D，但 B 不能决定 A 和 E。所以唯一候选键是 \textbf{A}。
+
+\par（2）最高属于 \textbf{2NF}。候选键 A 为单属性，不存在部分函数依赖，满足 2NF。但存在传递依赖 A $\rightarrow$ B $\rightarrow$ C $\rightarrow$ D 以及 A $\rightarrow$ B $\rightarrow$ C $\rightarrow$ (A,C) $\rightarrow$ E，非主属性传递依赖于 A，不满足 3NF。
+
+\par（3）分解为 3NF（保持函数依赖）：\\
+R1(\underline{A}, B)\\
+R2(\underline{B}, C)\\
+R3(\underline{C}, D)\\
+R4(\underline{A, C}, E)
+
+\qtypename{五、设计题}{共1题，共10分}
+
+\q （1）E-R 图实体与联系：\\
+实体：客户（客户编号，姓名，手机号，注册日期）\\
+实体：商品（商品编号，商品名称，单价，库存量）\\
+实体：订单（订单编号，下单时间，总金额，订单状态）\\
+联系：下单（客户 $\to$ 订单，一对多）\\
+联系：包含（订单 $\leftrightarrow$ 商品，多对多；属性：购买数量）
+
+\par（2）关系模式：\\
+客户表 \underline{客户编号}，姓名，手机号，注册日期\\
+商品表 \underline{商品编号}，商品名称，单价，库存量\\
+订单表 \underline{订单编号}，客户编号*，下单时间，总金额，订单状态\\
+订单明细表 \underline{订单编号*，商品编号*}，购买数量\\
+（客户编号 REF 客户表，订单编号 REF 订单表，商品编号 REF 商品表）
+
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q
+\par （1）
+\begin{lstlisting}[language=SQL]
+SELECT COUNT(*) AS stu_count
+FROM enrollments e
+JOIN courses c ON e.cid = c.cid
+WHERE c.cname = '数据库原理';
+\end{lstlisting}
+\par （2）
+\begin{lstlisting}[language=SQL]
+SELECT c.cid, c.cname, COUNT(*) AS enroll_count,
+       AVG(e.grade) AS avg_grade
+FROM courses c
+LEFT JOIN enrollments e ON c.cid = e.cid
+GROUP BY c.cid, c.cname
+ORDER BY avg_grade DESC;
+\end{lstlisting}
+
+\par （3）
+\begin{lstlisting}[language=SQL]
+DELIMITER $$
+CREATE TRIGGER trg_check_cap
+BEFORE INSERT ON enrollments
+FOR EACH ROW
+BEGIN
+    DECLARE enrolled INT;
+    DECLARE cap INT;
+    SELECT COUNT(*) INTO enrolled
+    FROM enrollments WHERE cid = NEW.cid;
+    SELECT cap INTO cap FROM courses WHERE cid = NEW.cid;
+    IF enrolled >= cap THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = '选课人数已满';
+    END IF;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
+\q
+\begin{lstlisting}[language=SQL]
+DELIMITER $$
+CREATE PROCEDURE raise_salary(
+    IN dept_no INT,
+    IN percent DECIMAL(5,2),
+    OUT affected INT
+)
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE eid INT;
+    DECLARE cur CURSOR FOR
+        SELECT eid FROM employees WHERE dno = dept_no;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    SET affected = 0;
+    OPEN cur;
+
+    read_loop: LOOP
+        FETCH cur INTO eid;
+        IF done THEN LEAVE read_loop; END IF;
+        UPDATE employees
+        SET salary = salary * (1 + percent / 100)
+        WHERE eid = eid;
+        SET affected = affected + 1;
+    END LOOP;
+
+    CLOSE cur;
+END$$
+DELIMITER ;
+\end{lstlisting}
+
+\end{document}
