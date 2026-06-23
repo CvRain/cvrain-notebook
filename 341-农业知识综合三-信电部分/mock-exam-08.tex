@@ -1,0 +1,321 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 模拟卷八}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\begin{document}
+\examtitle
+
+% ============================================================
+% 第一部分：程序设计基础知识（75 分）
+% ============================================================
+\parttitle{第一部分 \quad 程序设计基础知识（共75分）}
+
+% ---------- 一、填空题（10分） ----------
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+\anslines{0.1cm}
+
+\q 已知 \code{int a = 0x1A2B;}，则表达式 \code{~a} 的值（十六进制）在 32 位系统上是 \fillblank ，\code{a | 0xFF00} 的值是 \fillblank 。
+
+\q 若有 \code{int a[3][4] = \{0\};} 则 \code{sizeof(a) / sizeof(a[0])} 的值是 \fillblank ，\code{sizeof(a) / sizeof(a[0][0])} 的值是 \fillblank 。
+
+\q 设有 \code{struct \{int x; char y;\} s = \{10, 'A'\};}，则 \code{((int*)(\&s))[0]} 的值是 \fillblank 。
+
+\q 语句 \code{for (int i = 0; i < 5; i++);} 执行后，\code{i} 的值是 \fillblank 。
+
+\q 在 C 语言中，将 \code{float} 类型值传递给 \code{printf} 的 \code{"\%f"} 格式时，系统会自动将其转换为 \fillblank 类型后再压栈传递。
+
+% ---------- 二、简答题（15分） ----------
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q 解释 C 语言中"未定义行为"（undefined behavior）的概念。列举三种常见的导致未定义行为的编程错误。
+\anslines{1.5cm}
+
+\q 什么是"回调函数"？请用 C 语言实现一个简单的排序函数 \code{void sort(int *arr, int n, int (*cmp)(int, int))} 并说明其用法。
+\anslines{1.5cm}
+
+\q 比较堆（heap）和栈（stack）在内存分配方式、分配效率、大小限制和生命周期方面的区别。
+\anslines{1.5cm}
+
+\q 解释 C 语言中 \code{volatile} 关键字的作用，并说明它在嵌入式编程中的常见应用场景。
+\anslines{1.5cm}
+
+\q 简述 \code{\#pragma once} 与 \code{\#ifndef} 两种避免头文件重复包含机制的异同。
+\anslines{1.5cm}
+
+% ---------- 三、分析题（20分） ----------
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+阅读下列程序片段，写出运行结果。
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i;
+for (i = 0; i < 5; i++);
+    printf("%d ", i);
+printf("%d", i);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 5, y = 2;
+double z = x / y;
+printf("%.1f", z);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[5] = {10, 20, 30, 40, 50};
+int *p = a + 1;
+int *q = &a[3];
+printf("%d", q - p);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int count = 0;
+for (int i = 1; i <= 10; i++)
+    for (int j = 1; j <= i; j++)
+        for (int k = 1; k <= j; k++)
+            count++;
+printf("%d", count);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+char s[] = "Hello\0World";
+printf("%zu", strlen(s));
+printf(" %zu", sizeof(s));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 0;
+int f(int n) {
+    static int count = 0;
+    count++;
+    return n + count;
+}
+int main() {
+    printf("%d ", f(0));
+    printf("%d", f(0));
+    return 0;
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 6, b = 4;
+printf("%d ", a & b);
+printf("%d", a | b);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 0, b = 1, c = 2;
+int r = a++ || b++ && c++;
+printf("%d %d %d", a, b, c);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i, j;
+for (i = 1; i <= 3; i++) {
+    for (j = 1; j <= 3 - i; j++) printf(" ");
+    for (j = 1; j <= i; j++) printf("%d", i);
+    printf("\n");
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+void func(int *p) {
+    p = (int*)malloc(sizeof(int));
+    *p = 100;
+}
+int main() {
+    int *q = NULL;
+    func(q);
+    printf("%d", *q);
+    return 0;
+}
+\end{lstlisting}
+（假设 \code{malloc} 成功）
+运行结果：\underline{\hspace{3cm}}
+
+% ---------- 四、程序设计题（30分） ----------
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 编写一个 C 语言程序，实现一个函数 \code{char* my_strtok(char *str, const char *delim)}，模拟标准库函数 \code{strtok} 的功能：将字符串按分隔符切分成多个子串。要求：
+\begin{itemize}
+  \item 第一次调用时传入待切分字符串，后续调用传入 NULL 继续切分；
+  \item 注意处理连续多个分隔符的情况（应跳过）；
+  \item 不能使用 \code{string.h} 中的 \code{strtok} 函数。
+\end{itemize}
+主函数测试：将 "apple,,banana;orange;grape,," 按逗号和分号切分并逐行输出。
+
+\anslines{5cm}
+
+\pq 编写 C 语言程序，实现大整数加法运算。定义函数 \code{void big_add(const char *a, const char *b, char *result)}，将两个以字符串形式表示的非负大整数相加，结果存入 \code{result}（保证 \code{result} 空间足够）。主函数从键盘输入两个大整数（长度可达 1000 位），调用函数并输出结果。
+
+\anslines{5.5cm}
+
+% ============================================================
+% 第二部分：数据库技术与应用（75 分）
+% ============================================================
+\parttitle{{第二部分 \quad 数据库技术与应用（共75分）}}
+
+% ---------- 一、填空题（10分） ----------
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q 关系模式 R 分解为 R1 和 R2 后，若要保证分解具有无损连接性，则必须满足 \fillblank 。
+
+\q 在 MySQL 中，\code{GROUP BY} 子句的执行顺序在 \code{WHERE} 之\fillblank ，在 \code{HAVING} 之\fillblank ，在 \code{ORDER BY} 之\fillblank 。
+
+\q SQL 中 \code{EXISTS} 关键字引导的子查询返回的是 \fillblank ，而不是结果集的具体数据。
+
+\q 数据库故障中，\fillblank 故障（如 CPU 故障、操作系统故障）需要使用日志文件进行重做（REDO）和撤销（UNDO）恢复；\fillblank 故障（如磁盘损坏）需要使用数据转储进行恢复。
+
+\q 在 MySQL 的 \code{InnoDB} 存储引擎中，\code{SELECT ... FOR UPDATE} 加的是 \fillblank 锁；\code{SELECT ... LOCK IN SHARE MODE} 加的是 \fillblank 锁。
+
+% ---------- 二、简答题（10分） ----------
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 什么是"数据字典"（Data Dictionary）和"数据流图"（Data Flow Diagram）？它们在数据库系统设计的需求分析阶段各自的作用是什么？请分别简要说明。
+\anslines{3cm}
+
+\q 解释数据库安全中的"自主存取控制"（DAC）与"强制存取控制"（MAC）的区别。MySQL 中实现 DAC 的主要机制是什么？如何通过视图机制进一步增强数据安全性？请举例说明。
+\anslines{3cm}
+
+% ---------- 三、操作题（15分） ----------
+\qtypename{三、操作题}{本题共15分}
+
+设有学生宿舍管理系统关系模式：\\
+宿舍 D(\underline{Dno}, Dname, Building, Floor, Capacity, Manager)\\
+学生 S(\underline{Sno}, Sname, Ssex, Sdept, Grade, Dno, BedNo)\\
+报修 R(\underline{Rno}, Dno, Sno, Description, ReportTime, RepairTime, Status, Cost)
+
+说明：\code{Status} 取值 'pending'（待处理）、'processing'（处理中）、'done'（已完成）。
+
+\q （2分）查询入住人数超过宿舍容量的宿舍编号和宿舍名称（即宿舍存在超员情况）。
+\anslines{1cm}
+
+\q （2分）查询每个年级（Grade）中男生和女生的人数分布，输出年级、性别和人数。
+\anslines{1cm}
+
+\q （2分）查询从未报修过的宿舍编号和宿舍名称（使用 NOT EXISTS）。
+\anslines{1cm}
+
+\q （2分）查询报修次数最多的前 5 名学生的学号、姓名和报修次数。
+\anslines{1cm}
+
+\q （2分）查询所有未完成的报修记录（Status 为 'pending' 或 'processing'），按报修时间升序排列，输出报修编号、宿舍名称、描述和已等待天数。
+\anslines{1cm}
+
+\q （2分）用 SQL 语句将 "6号楼" 所有空余床位（Capacity - 已入住人数）大于 5 的宿舍的 \code{Manager} 字段更新为 "张管理员"。
+\anslines{1.2cm}
+
+\q （3分）创建视图 \code{v_dorm_occupancy}，显示每栋宿舍楼中每个宿舍的编号、名称、容量、已入住人数和空余床位数。
+\anslines{1.5cm}
+
+% ---------- 四、分析题（10分） ----------
+\qtypename{四、分析题}{共1题，共10分}
+
+\q 设有关系模式 R(A, B, C, D, E, G)，函数依赖集 F = \{AB $\rightarrow$ C, C $\rightarrow$ A, BC $\rightarrow$ D, ACD $\rightarrow$ B, D $\rightarrow$ EG, BE $\rightarrow$ C\}。
+
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （4分）求 R 的所有候选键。
+  \item[（2）] （3分）判断 R 是否属于 3NF？说明理由。
+  \item[（3）] （3分）R 是否属于 BCNF？若不属于，请将其分解到 BCNF。
+\end{enumerate}
+
+\anslines{4cm}
+
+% ---------- 五、设计题（10分） ----------
+\qtypename{五、设计题}{共1题，共10分}
+
+\q 某物流公司需要设计一个快递配送管理系统，已知语义：
+\begin{itemize}
+  \item 每个配送站有站点编号、站点名称、地址、联系电话、覆盖区域；
+  \item 每位快递员有员工编号、姓名、性别、入职日期、联系电话、所属配送站；
+  \item 每位客户有客户编号、姓名、手机号、地址、会员等级；
+  \item 每件快递有运单号、寄件客户、收件客户、寄件地址、收件地址、重量、费用、下单时间、状态（已揽收/运输中/到达网点/派送中/已签收/异常）；
+  \item 每件快递由一名快递员揽收，也可由一名快递员派送（揽收和派送可以是不同人）；
+  \item 快递的运输过程经过若干中转站，每个中转站有站点编号和名称，需记录到达时间和离开时间。
+\end{itemize}
+请完成：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （5分）画出该系统的 E-R 图。
+  \item[（2）] （5分）将 E-R 图转换为关系模式（标明主键和外键）。
+\end{enumerate}
+
+\anslines{4.5cm}
+
+% ---------- 六、应用题（20分） ----------
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q 现有 MySQL 数据库中的在线考试系统表：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE students (
+    sid    INT PRIMARY KEY AUTO_INCREMENT,
+    sname  VARCHAR(50) NOT NULL,
+    sclass VARCHAR(30)
+);
+
+CREATE TABLE questions (
+    qid      INT PRIMARY KEY AUTO_INCREMENT,
+    content  TEXT NOT NULL,
+    qtype    VARCHAR(10),  -- 'single','multi','judge','fill'
+    answer   TEXT NOT NULL,
+    score    INT NOT NULL
+);
+
+CREATE TABLE exams (
+    eid      INT PRIMARY KEY AUTO_INCREMENT,
+    ename    VARCHAR(100) NOT NULL,
+    duration INT NOT NULL,
+    total_score INT
+);
+
+CREATE TABLE exam_questions (
+    eid    INT,
+    qid    INT,
+    qorder INT,
+    PRIMARY KEY (eid, qid)
+);
+\end{lstlisting}
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）查询每场考试的题目总数和各题型数量（按 qtype 分组），输出考试编号、考试名称、题目总数、单选题数量、多选题数量等。
+  \item[（2）] （3分）编写 SQL 语句，查询所有未分配任何题目的考试编号和考试名称。
+  \item[（3）] （4分）编写存储过程 \code{calc_exam_total(IN p_eid INT)}，计算指定考试的总分（所有题目 score 之和），并更新到 exams 表的 total_score 字段。若考试不存在，输出 "考试不存在"。要求使用游标和条件处理。
+\end{enumerate}
+\anslines{3.5cm}
+
+\q 现有 MySQL 数据库，回答以下问题：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）MySQL 中的 \code{MyISAM} 和 \code{InnoDB} 在事务支持、锁粒度、外键约束和崩溃恢复方面有何主要区别？
+  \item[（2）] （3分）解释 MySQL 的"半同步复制"（Semisynchronous Replication）的工作原理。相比异步复制，它如何提高数据安全性？可能带来什么性能代价？
+  \item[（3）] （4分）现有表 \code{logs(log_id INT AUTO\_INCREMENT, log_time DATETIME, level VARCHAR(10), message TEXT, PRIMARY KEY(log_id))}，数据量极大。请设计一个表分区 + 归档策略：将 6 个月前的日志数据从主表移动到归档表，以提高主表查询性能。请编写一个存储过程 \code{archive_logs()} 实现该功能，要求使用事务确保数据不丢失。
+\end{enumerate}
+\anslines{3.5cm}
+
+\end{document}

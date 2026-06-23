@@ -1,0 +1,336 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 模拟卷十}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\begin{document}
+\examtitle
+
+% ============================================================
+% 第一部分：程序设计基础知识（75 分）
+% ============================================================
+\parttitle{第一部分 \quad 程序设计基础知识（共75分）}
+
+% ---------- 一、填空题（10分） ----------
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+\anslines{0.1cm}
+
+\q 已知 \code{int a = 5, b = 2;}，表达式 \code{a / b} 的值是 \fillblank ，\code{(double)a / b} 的值是 \fillblank 。
+
+\q 若有 \code{int a[5] = \{1, 2, 3, 4, 5\}; int *p = a;}，则 \code{(p + 3)[-1]} 的值是 \fillblank ，\code{*(int*)((char*)p + 8)} 的值是 \fillblank（假设 \code{sizeof(int) = 4}）。
+
+\q 对于 \code{void (*signal(int, void (*)(int)))(int);}，这是一个 \fillblank 声明。
+
+\q 定义 \code{int (*p[3])(int, int);} 表示 p 是一个 \fillblank ，其每个元素指向 \fillblank 。
+
+\q 在 C 语言中，文件结束符 \code{EOF} 的值为 \fillblank ，其本质是一个 \fillblank 常量。
+
+% ---------- 二、简答题（15分） ----------
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q 解释 C 语言中"左值"（lvalue）和"右值"（rvalue）的概念。以下表达式哪些可以出现在赋值运算符左侧？\code{a}, \code{a + b}, \code{*p}, \code{++a}, \code{a++}。
+\anslines{1.5cm}
+
+\q 什么是"头文件守卫"（header guard）？除了 \code{\#ifndef} 方式，C 和 C++ 还提供了哪些防止头文件重复包含的机制？各有什么优缺点？
+\anslines{1.5cm}
+
+\q 说明 \code{printf} 的返回值是什么？写出一个代码片段，检查 \code{printf} 调用是否成功。
+\anslines{1.5cm}
+
+\q C 语言中如何实现"可变参数函数"（如 \code{printf}）？请简述 \code{stdarg.h} 中 \code{va_list}、\code{va_start}、\code{va_arg}、\code{va_end} 的作用和用法。
+\anslines{1.5cm}
+
+\q 简述 \code{setjmp} 和 \code{longjmp} 的作用和适用场景。它们与 \code{goto} 语句有何本质区别？
+\anslines{1.5cm}
+
+% ---------- 三、分析题（20分） ----------
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+阅读下列程序片段，写出运行结果。
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 0, y = 0;
+while (x < 3) {
+    y += ++x;
+}
+printf("%d %d", x, y);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[5] = {5, 4, 3, 2, 1};
+int *p = a + 2;
+printf("%d ", *p);
+printf("%d ", p[-1]);
+printf("%d", a[4]);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+void func(int n) {
+    if (n == 0) return;
+    printf("%d ", n % 10);
+    func(n / 10);
+}
+int main() {
+    func(12345);
+    return 0;
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+struct A {
+    char c;
+    int n;
+    short s;
+};
+printf("%zu", sizeof(struct A));
+\end{lstlisting}
+（假设 int 4 字节对齐，short 2 字节对齐）
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i, j;
+for (i = 0; i < 4; i++) {
+    for (j = 0; j < 4; j++) {
+        if (j == i) break;
+        printf("*");
+    }
+    printf("\n");
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int arr[] = {1, 3, 5, 7, 9};
+int *p = arr + 4;
+printf("%d", *p - *(p - 2));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 0;
+int *p = &x;
+int **pp = &p;
+**pp = 42;
+printf("%d", x);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int f(int n) {
+    static int depth = 0;
+    depth++;
+    if (n <= 1) {
+        depth--;
+        return 1;
+    }
+    int r = f(n - 1) * n;
+    depth--;
+    return r;
+}
+printf("%d", f(5));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+#include <string.h>
+char s[10] = "0123456789";
+printf("%zu", strlen(s));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 10, b = 20;
+int *pa = &a, *pb = &b;
+*pa = *pa + *pb;
+*pb = *pa - *pb;
+*pa = *pa - *pb;
+printf("%d %d", a, b);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+% ---------- 四、程序设计题（30分） ----------
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 编写一个 C 语言程序，实现基于"快速排序"（Quick Sort）的通用排序函数 \code{void quick_sort(void *base, size_t num, size_t size, int (*cmp)(const void *, const void *))}，要求：
+\begin{itemize}
+  \item 仿照标准库 \code{qsort} 的接口设计，可排序任意类型数组；
+  \item 使用递归实现，基准值（pivot）选取采用三数取中法（median-of-three）以避免退化；
+  \item 在数组长度小于 10 时切换为插入排序以提高小数组性能。
+\end{itemize}
+主函数创建两个数组（\code{int} 类型和 \code{double} 类型），分别输入数据，调用排序函数排序后输出。
+
+\anslines{5.5cm}
+
+\pq 编写 C 语言程序，实现一个简单的"命令行计算器"，支持以下功能：
+\begin{itemize}
+  \item 从键盘输入一个中缀表达式（如 \code{"3 + 5 * (2 - 8) / 2"}），包含正整数、四则运算符和括号；
+  \item 实现中缀表达式转后缀表达式（逆波兰式）的算法；
+  \item 计算后缀表达式的值并输出结果，结果保留两位小数；
+  \item 能处理除零错误、括号不匹配等异常情况，并给出提示信息。
+\end{itemize}
+要求：基于栈实现（可复用前面栈结构），不得使用 \code{math.h} 以外的库函数。
+
+\anslines{6cm}
+
+% ============================================================
+% 第二部分：数据库技术与应用（75 分）
+% ============================================================
+\parttitle{{第二部分 \quad 数据库技术与应用（共75分）}}
+
+% ---------- 一、填空题（10分） ----------
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q 在关系代数中，除（Division）运算 $\div$ 用于解决 \fillblank 类型的问题。若 R $\div$ S 的结果非空，则说明 \fillblank 。
+
+\q 在 MySQL 中，\code{LIMIT m, n} 表示从第 \fillblank 条开始返回 \fillblank 条记录（第一条记录的偏移量为 0）。
+
+\q 数据库恢复中的"REDO"操作是指 \fillblank ，"UNDO"操作是指 \fillblank 。
+
+\q MySQL 的 \code{AUTO_INCREMENT} 属性只能用于 \fillblank 类型字段，且一个表最多只能有 \fillblank 个自增字段。
+
+\q 在 \code{InnoDB} 中，\code{READ COMMITTED} 与 \code{REPEATABLE READ} 级别的核心区别在于：前者每次 \code{SELECT} 都会生成 \fillblank ，后者只在事务第一次 \code{SELECT} 时生成 \fillblank 。
+
+% ---------- 二、简答题（10分） ----------
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 试述"数据库完整性"与"数据库安全性"两个概念的区别与联系。完整性约束主要分为哪几类？请用 SQL 示例说明实体完整性、参照完整性和用户定义完整性如何在建表时声明。
+\anslines{3cm}
+
+\q 什么是"存储过程"？它和"函数"（UDF, User-Defined Function）在 MySQL 中有哪些主要区别？请从返回值、调用方式、事务支持等方面进行比较。什么场景下更适合使用存储过程而不是函数？
+\anslines{3cm}
+
+% ---------- 三、操作题（15分） ----------
+\qtypename{三、操作题}{本题共15分}
+
+设有电影票务管理系统关系模式：\\
+影院 T(\underline{Tid}, Tname, Taddress, Ttel, Tgrade)\\
+影厅 H(\underline{Hid}, T\_id, Hname, SeatCount, Htype)  \hfill (Htype: '标准','IMAX','4DX','VIP')\\
+电影 M(\underline{Mid}, Mname, Mtype, Director, Duration, PubDate)\\
+场次 S(\underline{Sid}, H\_id, M\_id, ShowTime, Price, RemainSeats)\\
+订单 O(\underline{Oid}, Sid, Uid, Quantity, TotalPrice, OrderTime, Ostatus)\\
+（说明：Ostatus 取值 'paid','cancelled','refunded'）
+
+\q （2分）查询从未上映过任何电影的电影名称和导演。
+\anslines{1cm}
+
+\q （2分）查询每个影院的平均上座率（已售座位 / 总座位），按平均上座率降序排列。
+\anslines{1.2cm}
+
+\q （2分）查询每个电影类型中票房总收入最高的前 3 部电影的名称、类型和总收入。
+\anslines{1.2cm}
+
+\q （2分）查询所有售出的电影票中，订单状态为 "cancelled" 的订单总金额占比（取消金额 / 总售出金额）。
+\anslines{1cm}
+
+\q （2分）查询所有在 2026 年 6 月上映的 IMAX 电影中，还有余票（RemainSeats > 0）的场次信息，输出电影名称、放映时间、价格和余票数。
+\anslines{1cm}
+
+\q （2分）用 SQL 查询至少购买过 5 次电影票的用户编号，且每次购买数量都大于等于 2。
+\anslines{1.2cm}
+
+\q （3分）创建触发器 \code{trg_after_order}，当订单表 O 插入一条 status 为 'paid' 的记录时，自动减少对应场次 S 的 RemainSeats 数量（减少值为订单中的 Quantity）。若 RemainSeats 不足以满足订单数量，则阻止插入并提示"余票不足"。
+\anslines{1.5cm}
+
+% ---------- 四、分析题（10分） ----------
+\qtypename{四、分析题}{共1题，共10分}
+
+\q 设有关系模式 R(A, B, C, D, E, F, G, H)，函数依赖集 F = \{AB $\rightarrow$ C, C $\rightarrow$ D, D $\rightarrow$ E, E $\rightarrow$ F, F $\rightarrow$ G, G $\rightarrow$ H, H $\rightarrow$ AB\}。
+
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （4分）求 R 的所有候选键。
+  \item[（2）] （3分）R 最高属于第几范式？说明理由。
+  \item[（3）] （3分）将 R 无损分解到 3NF 且保持函数依赖。
+\end{enumerate}
+
+\anslines{4cm}
+
+% ---------- 五、设计题（10分） ----------
+\qtypename{五、设计题}{共1题，共10分}
+
+\q 某高校需要设计一个毕业设计（论文）管理系统，已知语义：
+\begin{itemize}
+  \item 每位学生有学号、姓名、专业、班级、手机号、邮箱；
+  \item 每位教师有工号、姓名、职称、所属学院、研究方向；
+  \item 每个毕业设计题目有题目编号、题目名称、题目类型（工程实践/理论研究/软件开发等）、来源（企业/教师自拟）、简介、所需技能、最大指导学生数；
+  \item 教师可以申报多个题目，每个题目只能由一位教师申报；
+  \item 学生可以选择一个题目作为毕业设计，一个题目可以被多名学生选择（不超过最大指导学生数），选题需记录选题时间、状态（待审核/已通过/已拒绝）；
+  \item 毕设过程中，教师可以给出阶段性指导记录（指导编号、日期、内容摘要、下次计划）；
+  \item 最终答辩记录包括答辩编号、答辩时间、答辩地点、答辩成绩、评阅意见。
+\end{itemize}
+请完成：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （5分）画出该系统的 E-R 图。
+  \item[（2）] （5分）将 E-R 图转换为关系模式（标明主键和外键）。
+\end{enumerate}
+
+\anslines{4.5cm}
+
+% ---------- 六、应用题（20分） ----------
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q 现有 MySQL 数据库中的社交平台帖子管理表：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE users (
+    uid      INT PRIMARY KEY AUTO_INCREMENT,
+    uname    VARCHAR(50) NOT NULL,
+    email    VARCHAR(100) UNIQUE,
+    reg_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status   VARCHAR(10) DEFAULT 'active'
+);
+
+CREATE TABLE posts (
+    pid      INT PRIMARY KEY AUTO_INCREMENT,
+    uid      INT NOT NULL,
+    content  TEXT NOT NULL,
+    post_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    likes    INT DEFAULT 0,
+    comments INT DEFAULT 0,
+    FOREIGN KEY (uid) REFERENCES users(uid)
+);
+
+CREATE TABLE likes (
+    uid      INT,
+    pid      INT,
+    like_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (uid, pid)
+);
+\end{lstlisting}
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）查询从未发过帖子的用户姓名和注册时间。
+  \item[（2）] （3分）查询获赞总数最多的前 10 名用户，输出用户名和获赞总数（统计该用户所有帖子获得的赞）。
+  \item[（3）] （4分）编写存储过程 \code{hot_posts(IN n INT)}，查找最近 7 天内发布的、点赞数超过 100 的帖子中，按点赞数降序返回前 n 条帖子信息（帖子编号、内容摘要（前 50 字）、点赞数、评论数）。要求使用游标和条件处理。
+\end{enumerate}
+\anslines{3.5cm}
+
+\q 现有 MySQL 数据库，回答以下问题：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）什么是"索引合并优化"（Index Merge）？它适用于什么场景？请举例说明 \code{EXPLAIN} 输出中 \code{type} 列为 \code{index\_merge} 的含义。
+  \item[（2）] （3分）MySQL 的 \code{InnoDB} 是如何组织聚簇索引（Clustered Index）的？聚簇索引与非聚簇索引（二级索引）在数据存储和查询方式上有何区别？为什么通常建议 \code{InnoDB} 表使用自增整数主键？
+  \item[（3）] （4分）现有表 \code{orders(oid, uid, amount, order_time)}，数据量达到 2 亿条。近期发现按 \code{uid} 查询用户订单的语句（\code{SELECT * FROM orders WHERE uid = ? ORDER BY order_time DESC LIMIT 10}）响应缓慢。请你设计一个综合优化方案，包括索引优化、分表策略或 \code{ORDER BY} 优化，并说明每种优化措施的原理和预期效果。
+\end{enumerate}
+\anslines{3.5cm}
+
+\end{document}

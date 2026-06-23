@@ -1,0 +1,319 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 模拟卷六}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\begin{document}
+\examtitle
+
+% ============================================================
+% 第一部分：程序设计基础知识（75 分）
+% ============================================================
+\parttitle{第一部分 \quad 程序设计基础知识（共75分）}
+
+% ---------- 一、填空题（10分） ----------
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+\anslines{0.1cm}
+
+\q 设 \code{int a[5] = \{1\}, *p = a + 3;}，则 \code{p[-1]} 的值是 \fillblank ，\code{*(a + 4)} 的值是 \fillblank 。
+
+\q 若有定义 \code{int x = 0xABCD;}，则表达式 \code{x \& 0xFF} 的值（十六进制）是 \fillblank ，\code{x >> 8} 的值是 \fillblank 。
+
+\q 对于 \code{struct Node \{int data; struct Node *next;\};}，设 \code{p} 为指向某结点的指针，则删除 \code{p} 后继结点的语句是 \fillblank 。
+
+\q 执行以下程序段后，\code{sum} 的值是 \fillblank 。
+\begin{lstlisting}[language={[custom]C}]
+int sum = 0, i = 0;
+do {
+    sum += i++;
+} while (i < 0);
+\end{lstlisting}
+
+\q 若 \code{FILE *fp = fopen("data.bin", "rb");} 且文件打开成功，则函数 \code{fseek(fp, -10, SEEK\_END);} 的作用是 \fillblank 。
+
+% ---------- 二、简答题（15分） ----------
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q 分析以下代码的输出结果并解释原因：\code{printf("\%d", (int)(3.9 + 0.5));} 和 \code{printf("\%d", (int)3.9 + 0.5);} 有何区别？
+\anslines{1.5cm}
+
+\q 比较 \code{char *s = "hello";} 和 \code{char s[] = "hello";} 在内存分配、可修改性和 \code{sizeof} 结果上的区别。
+\anslines{1.5cm}
+
+\q 什么是悬空指针（dangling pointer）？请举例说明其产生原因和潜在危害。
+\anslines{1.5cm}
+
+\q 解释以下声明各自的意义：\code{int *f()}, \code{int (*f)()}, \code{int *(*f)()}。
+\anslines{1.5cm}
+
+\q 简述静态局部变量（\code{static} 局部变量）与普通局部变量的区别，并结合生存期和作用域说明适用场景。
+\anslines{1.5cm}
+
+% ---------- 三、分析题（20分） ----------
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+阅读下列程序片段，写出运行结果。
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 5, b = 3, c = 1;
+int r = a > b ? a > c ? a : c : b > c ? b : c;
+printf("%d", r);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[5] = {1, 2, 3, 4, 5};
+int *p = a;
+printf("%d ", ++*p);
+printf("%d ", *p++);
+printf("%d", *p);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+void func(char *s) {
+    if (*s) {
+        func(s + 1);
+        putchar(*s);
+    }
+}
+int main() {
+    func("ABCD");
+    return 0;
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+union {
+    int n;
+    char c[4];
+} u = {0x12345678};
+printf("0x%x 0x%x", u.c[0] & 0xFF, u.c[3] & 0xFF);
+\end{lstlisting}
+（假设小端序）
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i, j;
+for (i = 1; i <= 4; i++) {
+    for (j = 0; j < 4 - i; j++) printf(" ");
+    for (j = 0; j < 2 * i - 1; j++) printf("*");
+    printf("\n");
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 3;
+x += x -= x * x;
+printf("%d", x);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
+int (*p)[3] = a + 1;
+printf("%d ", (*p)[1]);
+printf("%d", *(*(a+2)+2));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+#include <string.h>
+char s1[] = "Hello";
+char s2[] = "Hello";
+printf("%d ", s1 == s2);
+printf("%d", strcmp(s1, s2));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 0, y = 0;
+while (x < 5) {
+    y += x;
+    x++;
+    if (y > 5) continue;
+    printf("%d ", x);
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+struct st {
+    int a;
+    char c;
+    double d;
+};
+printf("%zu", sizeof(struct st));
+\end{lstlisting}
+（假设默认对齐规则，double 8字节对齐）
+运行结果：\underline{\hspace{3cm}}
+
+% ---------- 四、程序设计题（30分） ----------
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 编写一个 C 语言程序，实现函数 \code{void rotate(int *arr, int n, int k)}，将长度为 \code{n} 的整数数组 \code{arr} 循环右移 \code{k} 个位置（\code{k} 为非负整数，可能大于 \code{n}）。例如数组 \code{\{1,2,3,4,5\}} 右移 2 位后变为 \code{\{4,5,1,2,3\}}。要求使用 O(1) 的额外空间完成旋转。在主函数中从键盘输入数组长度、数组元素和 \code{k}，调用函数处理后输出结果。
+
+\anslines{5cm}
+
+\pq 编写 C 语言程序，实现字符串的简单模式匹配：定义函数 \code{int find_substr(const char *str, const char *pattern)}，返回 \code{pattern} 在 \code{str} 中首次出现的下标位置；若未找到则返回 -1。要求不使用 \code{string.h} 中的字符串查找函数。主函数从键盘输入两个字符串（长度不超过 100），调用函数并输出结果。考虑空串匹配（空串返回 0）和模式串长于主串的情况。
+
+\anslines{5cm}
+
+% ============================================================
+% 第二部分：数据库技术与应用（75 分）
+% ============================================================
+\parttitle{{第二部分 \quad 数据库技术与应用（共75分）}}
+
+% ---------- 一、填空题（10分） ----------
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q 关系模型中，关系必须满足的基本性质中，最重要的一条是关系中每个分量必须是 \fillblank 的。
+
+\q 若有关系 R(A, B, C) 和 S(D, E)，则 R 与 S 的笛卡尔积的属性个数为 \fillblank ，元组个数为 \fillblank （设 R 有 m 行、S 有 n 行）。
+
+\q SQL 中，\code{LEFT JOIN} 与 \code{RIGHT JOIN} 的主要区别在于 \fillblank 。
+
+\q 事务的隔离级别 \code{REPEATABLE READ} 可以避免 \fillblank 和 \fillblank 并发问题，但可能无法避免 \fillblank 。
+
+\q MySQL 中，\code{CHAR(10)} 与 \code{VARCHAR(10)} 的主要区别是：\fillblank 采用固定长度存储，\fillblank 采用可变长度存储；当存储的字符串长度小于定义长度时，\fillblank 会在尾部补充空格。
+
+% ---------- 二、简答题（10分） ----------
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 什么是关系的规范化？说明 1NF → 2NF → 3NF → BCNF 的递进规范化过程分别解决了什么类型的函数依赖问题，每个级别对主键的要求有何不同？
+\anslines{3cm}
+
+\q 对比数据库的"日志文件"和"数据转储"两种恢复技术，说明各自的作用和局限性。什么情况下需要将二者结合使用？请举例。
+\anslines{3cm}
+
+% ---------- 三、操作题（15分） ----------
+\qtypename{三、操作题}{本题共15分}
+
+设有课程管理系统关系模式：\\
+学生 S(\underline{Sno}, Sname, Ssex, Sage, Sdept, Scholarship)\\
+教师 T(\underline{Tno}, Tname, Ttitle, Tdept, Salary)\\
+课程 C(\underline{Cno}, Cname, Credit, Type)  \hfill (Type 取值：'必修','选修')\\
+选课 SC(\underline{Sno, Cno}, Grade, Semester)\\
+授课 TC(\underline{Tno, Cno}, Year, Semester, Hour)
+
+\q （2分）查询选修了 "2025-2026-1" 学期开设的全部课程的学生学号（用除法或 NOT EXISTS 实现）。
+\anslines{1cm}
+
+\q （2分）查询每个学期中选修人数最多的前 3 门课程的课程编号、课程名称和选修人数。
+\anslines{1.2cm}
+
+\q （2分）创建视图 \code{v_student_gpa}，计算每个学生的加权平均分（按学分加权），包含学号、姓名和 GPA，其中 GPA = SUM(成绩 $\times$ 学分) / SUM(学分)。Grade 为 NULL 表示未出成绩，不参与计算。
+\anslines{1.5cm}
+
+\q （2分）查询所有职称不是 "教授" 且工资高于本部门平均工资的教师姓名、职称和工资。
+\anslines{1.2cm}
+
+\q （2分）查询所有选修了 "数据库原理" 课程且成绩高于该课程平均分的学生学号和姓名。
+\anslines{1.2cm}
+
+\q （2分）查询没有被任何学生选修的课程编号和课程名称（用 NOT EXISTS 实现）。
+\anslines{1cm}
+
+\q （3分）用 SQL 语句创建选课表 SC，要求：(a) Sno 和 Cno 为联合主键；(b) Sno 参照 S 表，Cno 参照 C 表，删除父表记录时级联删除；(c) Grade 取值范围 0~100；(d) Semester 不能为空。
+\anslines{1.5cm}
+
+% ---------- 四、分析题（10分） ----------
+\qtypename{四、分析题}{共1题，共10分}
+
+\q 设有关系模式 R(A, B, C, D, E, F)，函数依赖集 F = \{A $\rightarrow$ BC, B $\rightarrow$ D, CD $\rightarrow$ E, E $\rightarrow$ F, F $\rightarrow$ A\}。
+
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （4分）求 R 的所有候选键，并说明推导过程。
+  \item[（2）] （3分）判断 R 最高属于第几范式？说明理由（考虑 BCNF 判定条件）。
+  \item[（3）] （3分）将 R 无损分解且保持函数依赖地分解为 3NF 模式集。
+\end{enumerate}
+
+\anslines{3.5cm}
+
+% ---------- 五、设计题（10分） ----------
+\qtypename{五、设计题}{共1题，共10分}
+
+\q 某医院需要设计一个门诊管理系统，已知语义如下：
+\begin{itemize}
+  \item 每个科室有科室编号、科室名称、科室位置、联系电话；
+  \item 每位医生有医生编号、姓名、性别、职称、专长，且属于且仅属于一个科室；
+  \item 每位患者有患者编号、姓名、性别、出生日期、联系电话；
+  \item 每个诊室有诊室编号、所在楼层、所属科室；
+  \item 一次就诊记录包括就诊编号、患者、医生、诊室、就诊日期、诊断结果、总费用；
+  \item 一次就诊可以包含多项检查/药品项目（项目编号、项目名称、项目类型、单价、数量），每项项目属于某次就诊。
+\end{itemize}
+请完成：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （5分）画出该系统的 E-R 图（标注实体、属性和联系类型）。
+  \item[（2）] （5分）将 E-R 图转换为关系模式（标明主键和外键）。
+\end{enumerate}
+
+\anslines{4cm}
+
+% ---------- 六、应用题（20分） ----------
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q 现有 MySQL 数据库中的订单管理系统表：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE customers (
+    cid    INT PRIMARY KEY AUTO_INCREMENT,
+    cname  VARCHAR(50) NOT NULL,
+    phone  VARCHAR(20),
+    city   VARCHAR(30)
+);
+
+CREATE TABLE orders (
+    oid      INT PRIMARY KEY AUTO_INCREMENT,
+    cid      INT NOT NULL,
+    odate    DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ostatus  VARCHAR(20) DEFAULT 'pending',
+    ship_time DATETIME,
+    FOREIGN KEY (cid) REFERENCES customers(cid)
+);
+
+CREATE TABLE order_items (
+    oid      INT,
+    pid      INT,
+    quantity INT NOT NULL DEFAULT 1,
+    price    DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (oid, pid)
+);
+\end{lstlisting}
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）查询从未下过订单的客户姓名和所在城市（使用 NOT EXISTS）。
+  \item[（2）] （3分）查询每个客户的订单总数、总消费金额（按非 cancelled 状态的订单计算），按总消费降序排列，输出前 5 名。
+  \item[（3）] （4分）编写存储过程 \code{ship_order(IN p_oid INT)}，实现订单发货操作：检查订单状态，只有 "pending" 状态的订单可以发货，将状态更新为 "shipped"，并记录发货时间到 \code{ship_time}；若订单不存在或状态不允许，输出错误信息。要求使用事务和条件处理。
+\end{enumerate}
+\anslines{3cm}
+
+\q 现有 MySQL 数据库，回答以下问题：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）表 \code{products(pid, pname, stock)} 描述商品库存。高并发场景下多个事务同时扣减同一商品库存可能产生什么问题？用 SQL 示例说明如何利用 \code{SELECT ... FOR UPDATE} 避免超卖。
+  \item[（2）] （3分）什么是索引的最左前缀原则？对于联合索引 \code{INDEX idx\_abc(a, b, c)}，哪些查询条件可以利用该索引？哪些无法利用？举例说明。
+  \item[（3）] （4分）表 \code{logs(log_id, log_time, log_level, message)} 数据量极大（上亿条）。设计一个分区方案，按月份对日志进行范围分区（RANGE COLUMNS），编写创建分区表的 SQL 语句。说明按分区裁剪进行查询优化的原理。
+\end{enumerate}
+\anslines{3.5cm}
+
+\end{document}

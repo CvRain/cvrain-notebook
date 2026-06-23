@@ -1,0 +1,314 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style}
+
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三（信电）· 模拟卷九}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}信电学院部分}
+
+\begin{document}
+\examtitle
+
+% ============================================================
+% 第一部分：程序设计基础知识（75 分）
+% ============================================================
+\parttitle{第一部分 \quad 程序设计基础知识（共75分）}
+
+% ---------- 一、填空题（10分） ----------
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+\anslines{0.1cm}
+
+\q 已知 \code{int a = 5;}，则 \code{sizeof(++a)} 的值是 \fillblank ，\code{a} 的值是 \fillblank 。
+
+\q 若有 \code{char *p = "Hello";} 则 \code{sizeof(p)} 的值是 \fillblank ，\code{sizeof(*p)} 的值是 \fillblank 。
+
+\q 已知 \code{int a[][3] = \{\{1,2\},\{3,4,5\},\{6\}\};}，则 \code{a[1][2]} 的值是 \fillblank ，\code{a[2][1]} 的值是 \fillblank 。
+
+\q 设有 \code{union \{int n; char c[4]; double d;\} u;}，则 \code{sizeof(u)} 的值至少是 \fillblank 字节。
+
+\q 函数 \code{void *memcpy(void *dest, const void *src, size_t n);} 中，参数 \code{n} 表示 \fillblank ，函数返回值是 \fillblank 。
+
+% ---------- 二、简答题（15分） ----------
+\qtypename{二、简答题}{共5题，每题3分，共15分}
+
+\q 解释 C 语言中"序列点"（sequence point）的概念。以下表达式 \code{i = i++ + ++i;} 为什么是未定义行为？
+\anslines{1.5cm}
+
+\q 简述 \code{malloc}、\code{calloc} 和 \code{realloc} 的区别。使用 \code{realloc} 时需要注意什么？写出一个可能的内存泄露场景。
+\anslines{1.5cm}
+
+\q 什么是"函数副作用"（side effect）？在 C 语言中，哪些操作会产生副作用？纯函数式编程如何避免副作用？
+\anslines{1.5cm}
+
+\q 解释 \code{restrict} 关键字的作用（C99 引入）。它在什么场景下可以帮助编译器进行优化？
+\anslines{1.5cm}
+
+\q 简述 C 语言中变长数组（VLA, Variable Length Array）的定义和使用限制。为什么 VLA 在 C11 中变成了可选特性？
+\anslines{1.5cm}
+
+% ---------- 三、分析题（20分） ----------
+\qtypename{三、分析题}{共10题，每题2分，共20分}
+
+阅读下列程序片段，写出运行结果。
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 0, b = 1;
+int r = a-- && b--;
+printf("%d %d %d", a, b, r);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[4] = {1};
+for (int i = 1; i < 4; i++)
+    a[i] = a[i-1] * 2 + 1;
+printf("%d %d", a[2], a[3]);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int i, j;
+for (i = 1; i <= 3; i++) {
+    for (j = 1; j <= 3; j++) {
+        if (j < i) printf(" ");
+        else printf("%d", j);
+    }
+    printf("\n");
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+char *s = "abcdef";
+char *p = s;
+while (*p) p++;
+printf("%ld", p - s);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int x = 0;
+printf("%d ", x++);
+printf("%d ", x);
+printf("%d", ++x);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a[2][3] = {1, 2, 3, 4, 5, 6};
+printf("%d ", *(*a + 4));
+printf("%d", *(a[1] - 1));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+void func(int *p, int n) {
+    for (int i = 0; i < n; i++)
+        *(p + i) += i;
+}
+int main() {
+    int a[] = {1, 1, 1, 1, 1};
+    func(a, 5);
+    printf("%d %d", a[2], a[4]);
+    return 0;
+}
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int fib(int n) {
+    if (n <= 1) return n;
+    return fib(n-1) + fib(n-2);
+}
+printf("%d", fib(7));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+int a = 3, b = 4;
+a = a ^ b;
+b = a ^ b;
+a = a ^ b;
+printf("%d %d", a, b);
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+
+\q
+\begin{lstlisting}[language={[custom]C}]
+#include <string.h>
+char *p = "Hello";
+char s[] = "World";
+printf("%zu %zu", sizeof(p), sizeof(s));
+\end{lstlisting}
+运行结果：\underline{\hspace{3cm}}
+
+% ---------- 四、程序设计题（30分） ----------
+\qtypename{四、程序设计题}{共2题，每题15分，共30分}
+
+\pq 编写一个 C 语言程序，实现基于"筛选法"（埃拉托斯特尼筛法）的函数 \code{void sieve(int n, int *prime\_count, int *primes)}，找出不大于 \code{n} 的所有素数，将结果存入 \code{primes} 数组，素数个数通过 \code{prime\_count} 返回。主函数输入 n，调用函数后输出所有素数，每行 8 个。要求 \code{n} 最大支持 10,000,000，考虑内存效率。
+
+\anslines{5cm}
+
+\pq 编写 C 语言程序，实现一个支持动态扩容的整数栈（stack）。定义结构体和以下函数：
+\begin{itemize}
+  \item \code{Stack* createStack(int cap);} —— 创建初始容量为 cap 的空栈；
+  \item \code{void push(Stack *s, int val);} —— 入栈（容量不足时自动扩容为 2 倍）；
+  \item \code{int pop(Stack *s);} —— 出栈（栈空时返回 -1 并输出提示）；
+  \item \code{int top(Stack *s);} —— 获取栈顶元素（不弹出）；
+  \item \code{int isEmpty(Stack *s);} —— 判断栈是否为空；
+  \item \code{void freeStack(Stack *s);} —— 释放栈内存。
+\end{itemize}
+主函数测试：从键盘输入若干整数（以 -1 结束），依次入栈，然后逐个出栈并输出。
+
+\anslines{5.5cm}
+
+% ============================================================
+% 第二部分：数据库技术与应用（75 分）
+% ============================================================
+\parttitle{{第二部分 \quad 数据库技术与应用（共75分）}}
+
+% ---------- 一、填空题（10分） ----------
+\qtypename{一、填空题}{共5题，每题2分，共10分}
+
+\q 关系模式 R 中，若属性集 X 满足：X 的闭包等于 \fillblank ，且 X 的任意真子集的闭包不等于 \fillblank ，则 X 是 R 的一个候选键。
+
+\q 在 MySQL 中，\code{ORDER BY} 子句默认按 \fillblank 顺序排列；若想将 NULL 值排在最后，可以使用 \fillblank 关键字。
+
+\q SQL 中的 \code{GRANT} 语句用于 \fillblank ，\code{REVOKE} 语句用于 \fillblank 。
+
+\q 数据库的"日志文件"应遵循 \fillblank 原则，即日志记录必须先于数据更新写入稳定存储。
+
+\q 在 \code{InnoDB} 中，\code{REPEATABLE READ} 隔离级别通过 \fillblank 机制解决了幻读问题。
+
+% ---------- 二、简答题（10分） ----------
+\qtypename{二、简答题}{共2题，每题5分，共10分}
+
+\q 试述数据库设计中"概念设计"与"逻辑设计"两个阶段的主要任务和产出物。以"学生选课系统"为例，说明 E-R 图如何转换为关系模式，并指出在转换过程中如何处理多对多联系、一元联系和三元联系。
+\anslines{3cm}
+
+\q 什么是"事务的持久性"（Durability）？MySQL 的 \code{InnoDB} 存储引擎通过什么机制保证持久性？请解释"双写缓冲"（Doublewrite Buffer）的工作原理及其在保证数据完整性方面的作用。
+\anslines{3cm}
+
+% ---------- 三、操作题（15分） ----------
+\qtypename{三、操作题}{本题共15分}
+
+设有高校科研管理系统关系模式：\\
+项目 P(\underline{Pno}, Pname, Ptype, Budget, StartDate, EndDate, Status)\\
+教师 T(\underline{Tno}, Tname, Ttitle, Tdept, Ttel)\\
+参与 PI(\underline{Tno, Pno}, Role, Hours, JoinDate)\\
+论文 Paper(\underline{PaperId}, Title, Journal, PubYear, Pno)\\
+（说明：Role 取值 '负责人','核心成员','一般成员'）
+
+\q （2分）查询总经费（Budget）超过 100 万且状态为 "进行中" 的项目编号和项目名称。
+\anslines{1cm}
+
+\q （2分）查询每位教师参与的项目总数和总经费（按项目经费合计），输出教师编号、姓名、项目数和总经费，仅显示总经费超过 50 万的教师。
+\anslines{1.2cm}
+
+\q （2分）查询没有发表任何论文的项目编号、项目名称和项目类型。
+\anslines{1cm}
+
+\q （2分）查询在所有项目中都担任"负责人"角色的教师编号（即该教师参与的项目中，他在每个项目都是负责人）。
+\anslines{1.2cm}
+
+\q （2分）查询合作发表论文数量最多的教师对（即共同发表论文最多的两位教师），输出教师编号和合作论文数。
+\anslines{1.2cm}
+
+\q （2分）用 SQL 语句创建一个视图 \code{v_project_summary}，汇总每个项目的编号、名称、负责人姓名、参与教师数、总人时（Hours 总和）和论文数。
+\anslines{1.5cm}
+
+\q （3分）创建触发器 \code{trg_check_budget}，当在 PI 表插入一条"负责人"记录时，检查该项目总经费是否已被其他负责人关联过（即每个项目只能有一个负责人），若已有负责人则阻止插入并给出错误消息。
+\anslines{1.5cm}
+
+% ---------- 四、分析题（10分） ----------
+\qtypename{四、分析题}{共1题，共10分}
+
+\q 设有关系模式 R(A, B, C, D, E, F, G)，函数依赖集 F = \{A $\rightarrow$ B, B $\rightarrow$ C, C $\rightarrow$ D, D $\rightarrow$ A, AE $\rightarrow$ F, BF $\rightarrow$ G\}。
+
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （4分）求 R 的所有候选键。
+  \item[（2）] （3分）判断 R 是否属于 3NF？是否属于 BCNF？说明理由。
+  \item[（3）] （3分）将 R 无损分解到 BCNF，要求每个分解后的模式都达到 BCNF。
+\end{enumerate}
+
+\anslines{4cm}
+
+% ---------- 五、设计题（10分） ----------
+\qtypename{五、设计题}{共1题，共10分}
+
+\q 某公司需要设计一个会议室预订管理系统，已知语义：
+\begin{itemize}
+  \item 每个会议室有编号、名称、所在楼层、容纳人数、设备列表（投影仪、白板、视频会议等，多值）；
+  \item 每位员工有工号、姓名、部门、职位、联系电话；
+  \item 每个部门有部门编号、部门名称、办公地点、部门负责人；
+  \item 员工可以预订会议室，每次预订需记录预订的会议室、日期、开始时间、结束时间、会议主题、参会人数；
+  \item 一个会议可能有多个参会者（包括预订者本人和其他员工），需记录每位参会者的出席状态（已确认/待确认/已拒绝）；
+  \item 每次使用会议室后，可以记录一条使用反馈（反馈编号、评分、评语、反馈时间）。
+\end{itemize}
+请完成：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （5分）画出该系统的 E-R 图。
+  \item[（2）] （5分）将 E-R 图转换为关系模式（标明主键和外键）。
+\end{enumerate}
+
+\anslines{4.5cm}
+
+% ---------- 六、应用题（20分） ----------
+\qtypename{六、应用题}{共2题，每题10分，共20分}
+
+\q 现有 MySQL 数据库中的库存管理系统表：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE warehouses (
+    wid      INT PRIMARY KEY AUTO_INCREMENT,
+    wname    VARCHAR(50) NOT NULL,
+    location VARCHAR(100)
+);
+
+CREATE TABLE products (
+    pid      INT PRIMARY KEY AUTO_INCREMENT,
+    pname    VARCHAR(50) NOT NULL,
+    category VARCHAR(30),
+    unit_price DECIMAL(10,2)
+);
+
+CREATE TABLE inventory (
+    wid      INT,
+    pid      INT,
+    quantity INT NOT NULL DEFAULT 0,
+    min_qty  INT DEFAULT 10,
+    max_qty  INT DEFAULT 1000,
+    PRIMARY KEY (wid, pid)
+);
+\end{lstlisting}
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）查询库存数量低于最低库存量（min_qty）的商品编号、名称、当前库存和所属仓库名称。
+  \item[（2）] （3分）查询每个仓库中库存金额（quantity $\times$ unit_price）最高的前 3 种商品，输出仓库名称、商品名称和库存金额。
+  \item[（3）] （4分）编写存储过程 \code{restock_report(IN p_wid INT)}，生成指定仓库的补货报告：遍历该仓库中所有库存低于 min_qty 的商品，计算需补货数量（max_qty - quantity），按需补货量降序排列输出。要求使用游标处理，输出格式为"商品名称：当前库存 X，需补货 Y 件"。
+\end{enumerate}
+\anslines{3.5cm}
+
+\q 现有 MySQL 数据库，回答以下问题：
+\begin{enumerate}[leftmargin=2em, itemsep=3pt]
+  \item[（1）] （3分）什么是"慢查询"（slow query）？如何开启 MySQL 的慢查询日志？分析慢查询日志后，一般可以从哪些方面入手优化？
+  \item[（2）] （3分）解释 MySQL 中 \code{EXPLAIN} 命令的输出中各列的含义（如 \code{type}、\code{key}、\code{rows}、\code{Extra}）。\code{type} 列的取值从好到差大致如何排列？
+  \item[（3）] （4分）请设计一个 MySQL 的读写分离方案：有一主一从两台 MySQL 服务器，主库负责写操作，从库负责读操作。请说明在应用程序层面实现读写分离的常见策略（如使用数据源路由或代理中间件），并讨论主从延迟可能导致的数据一致性问题及缓解措施。
+\end{enumerate}
+\anslines{3.5cm}
+
+\end{document}
