@@ -237,8 +237,15 @@
 
 % ------------------------------------------------------------
 % 代码高亮（语言定义 + 全局样式，见 codestyle.sty）
+% 尝试不同深度的相对路径，适配主文件在不同子目录层级的情况
 % ------------------------------------------------------------
-\RequirePackage{codestyle}
+\makeatletter
+\IfFileExists{../codestyle.sty}{\RequirePackage{../codestyle}}{%
+  \IfFileExists{../../codestyle.sty}{\RequirePackage{../../codestyle}}{%
+    \RequirePackage{codestyle}%
+  }%
+}
+\makeatother
 
 % ------------------------------------------------------------
 % 自定义 \maketitle（标题居中，作者/日期右对齐小字）
