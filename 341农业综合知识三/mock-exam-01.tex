@@ -1,0 +1,35 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\renewcommand{\examtitle}{\thispagestyle{empty}\begin{center}\vspace*{1.2cm}{\fontsize{20pt}{28pt}\selectfont\bfseries\color{ctp-text}341 农业综合知识三}\\[0.25cm]{\fontsize{14pt}{18pt}\selectfont\bfseries\color{ctp-mauve}综合诊断卷（一)}\\[0.7cm]\rule{\textwidth}{1.2pt}\\[0.5cm]{\normalsize\begin{tabular}{rl}\textbf{考试内容：} & C 语言、计算机网络、数据库技术与应用\\\textbf{满分：} & 100 分\\\textbf{建议用时：} & 120 分钟\end{tabular}}\vspace{0.5cm}\fbox{\parbox{0.92\textwidth}{\small 本卷为备考诊断卷，按三部分组织，不代表学校公布的官方卷式。}}\end{center}\newpage\setcounter{page}{1}}
+\fancyhead[L]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}341 农业综合知识三 · 综合诊断卷一}
+\fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0}C 语言 · 网络 · 数据库}
+\begin{document}\examtitle
+\parttitle{第一部分\quad C 语言（共 35 分）}
+\qtypename{一、填空题}{5 题，每题 1 分，共 5 分}
+\q C 字符串以字符\fillblank{}结束。\quad \q 数组作为函数参数时通常退化为指向首元素的\fillblank{}。\quad \q 打开文件的函数是\code{fopen}，关闭文件的函数是\fillblank{}。\quad \q 关系运算符的结果为整型\fillblank{}或\fillblank{}。\quad \q 递归函数必须有明确的\fillblank{}条件。
+\qtypename{二、简答题}{3 题，每题 3 分，共 9 分}
+\q 说明值传递和指针传递的区别。\anslines{1.1cm}\q 说明数组和指针的联系与区别。\anslines{1.1cm}\q 说明文本文件和二进制文件读写的主要区别。\anslines{1.1cm}
+\qtypename{三、程序阅读题}{3 题，每题 3 分，共 9 分}
+\q 阅读程序写输出：\begin{lstlisting}[language={[custom]C}]int a[4]={2,5,8,9}; for(int i=0;i<4;i++) if(a[i]%2==0) a[i]/=2; printf("%d %d %d %d",a[0],a[1],a[2],a[3]);\end{lstlisting}\anslines{0.5cm}
+\q 阅读程序写输出：\begin{lstlisting}[language={[custom]C}]int f(int n){ if(n<=1)return 1; return n*f(n-1); } printf("%d",f(4));\end{lstlisting}\anslines{0.5cm}
+\q 说明下列调用后变量值：\code{void swap(int *a,int *b)} 函数内部交换\code{*a}和\code{*b}，主函数传入\code{\&x,\&y}。\anslines{0.5cm}
+\qtypename{四、程序设计题}{1 题，共 12 分}
+\pq 编写函数 \code{int second\_max(const int a[], int n, int *result)}，返回严格小于最大值的第二大值；成功返回 1，否则返回 0，并处理边界情况。\anslines{5cm}
+
+\parttitle{第二部分\quad 计算机网络（共 30 分）}
+\qtypename{一、填空题}{5 题，每题 1 分，共 5 分}
+\q OSI 参考模型有\fillblank{}层。\quad \q IPv4 地址长度为\fillblank{}位。\quad \q DNS 的基本作用是域名到\fillblank{}的解析。\quad \q TCP 是面向连接的\fillblank{}传输协议。\quad \q 交换机主要根据\fillblank{}地址转发帧。
+\qtypename{二、简答题}{3 题，每题 4 分，共 12 分}
+\q 说明网络分层和封装/解封装的含义。\anslines{1.5cm}\q 比较 TCP 与 UDP，并各举一个应用场景。\anslines{1.5cm}\q 说明 IP 地址、MAC 地址和端口号分别标识什么。\anslines{1.5cm}
+\qtypename{三、综合题}{1 题，共 13 分}
+\q 主机通过浏览器访问 HTTPS 服务器。请从应用层、运输层、网络层、链路层说明协议和数据单元；说明路由器与交换机的转发依据；说明 HTTPS 相对 HTTP 增加的安全能力。\anslines{5cm}
+
+\parttitle{第三部分\quad 数据库技术与应用（共 35 分）}
+\qtypename{一、填空题}{5 题，每题 1 分，共 5 分}
+\q 数据库系统的核心是\fillblank{}。\quad \q 关系模型中一行称为\fillblank{}。\quad \q SQL 筛选分组结果使用\fillblank{}。\quad \q 事务 ACID 中 D 表示\fillblank{}。\quad \q 满足 1NF 且消除部分依赖的范式是\fillblank{}。
+\qtypename{二、简答题}{2 题，每题 4 分，共 8 分}
+\q 说明 DB、DBMS 和 DBS 的关系。\anslines{1.6cm}\q 说明三级模式和两级映射如何实现数据独立性。\anslines{1.6cm}
+\qtypename{三、SQL 与规范化}{2 题，共 22 分}
+\q 已有学生表\code{S(Sno,Sname,Sdept)}、选课表\code{SC(Sno,Cno,Grade)}。写 SQL：查询信息系学生姓名；查询每个学生平均成绩；创建\code{SC}的联合主键并设置外键。\anslines{3cm}
+\q 关系\code{选课(学号,姓名,课程号,课程名,任课教师,成绩)}中，学号决定姓名，课程号决定课程名和任课教师，(学号,课程号)决定成绩。指出候选键和更新异常，并分解为 3NF。\anslines{3cm}
+\end{document}

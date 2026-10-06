@@ -1,0 +1,21 @@
+% 341 农业综合知识三 试卷样式
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{exam-style-341}[2026/10/05 341 Mock Exam Style]
+\RequirePackage{exam-style}
+
+% ------------------------------------------------------------
+% 代码字体：关闭编程连字（ligature）
+% CaskaydiaCove NF 默认启用编程连字，会把 C 运算符渲染成
+% “≤ / ≥ / ≠ / →” 等单个符号，并使 \code{} 中 “==” 的文本
+% 提取结果错误（复制/检索时变成 “=)”）。试卷要求运算符原样
+% 呈现，因此：
+%   \codett —— 供行内 \code{} 使用（关闭连字，运算符原样）
+%   代码块   —— 仍保留原编程字体与连字外观
+% ------------------------------------------------------------
+\IfFontExistsTF{CaskaydiaCove NF}{
+  \newfontfamily\codett{CaskaydiaCove NF}[RawFeature={-calt},Ligatures=NoCommon]
+}{
+  \newcommand{\codett}{}
+}
+
+\endinput

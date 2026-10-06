@@ -10,3 +10,4 @@ out
 *.log
 *.fls
 *.fdb_latexmk
+tmp

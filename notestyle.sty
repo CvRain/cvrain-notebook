@@ -61,9 +61,22 @@
   \setCJKsansfont[BoldFont={LXGW WenKai Mono Medium}]{LXGW WenKai}
   \setCJKmonofont{LXGW WenKai}
 }{
-  \setCJKmainfont{Noto Serif CJK SC}
-  \setCJKsansfont{Noto Sans CJK SC}
-  \setCJKmonofont{Noto Sans Mono CJK SC}
+  % 本机常见的 CJK 字体兜底链（按可用性逐一探测）
+  \IfFontExistsTF{Sarasa Gothic SC}{
+    \setCJKmainfont[BoldFont={Sarasa Gothic SC SemiBold}]{Sarasa Gothic SC}
+    \setCJKsansfont{Sarasa Gothic SC}
+    \setCJKmonofont{Sarasa Mono SC}
+  }{
+    \IfFontExistsTF{Noto Serif CJK SC}{
+      \setCJKmainfont{Noto Serif CJK SC}
+      \setCJKsansfont{Noto Sans CJK SC}
+      \setCJKmonofont{Noto Sans Mono CJK SC}
+    }{
+      \setCJKmainfont{FandolSong-Regular}
+      \setCJKsansfont{FandolHei-Regular}
+      \setCJKmonofont{FandolFang-Regular}
+    }
+  }
 }
 
 \IfFontExistsTF{Sarasa Mono CL Italic}{
@@ -160,8 +173,10 @@
 % 自定义命令
 % ------------------------------------------------------------
 % \code{文字} — 内联代码高亮
+% 若试卷样式定义了 \codett（关闭编程连字的等宽字体），优先用它，
+% 以免 C 语言中的 <= >= != == 被渲染成 ≤ ≥ ≠ 等连字符号。
 \newcommand{\code}[1]{%
-  {\texttt{\selectfont\codefont\small\color{ctp-maroon}#1}}%
+  {\texttt{\selectfont\ifdefined\codett\codett\else\codefont\fi\small\color{ctp-maroon}#1}}%
 }
 
 % cquote 环境 — 引文（斜体 + 深灰色 + 两侧缩进）
