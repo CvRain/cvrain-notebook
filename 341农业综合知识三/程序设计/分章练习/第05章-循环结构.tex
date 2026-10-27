@@ -1,0 +1,218 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第05章\quad 循环结构}
+\begin{document}
+
+\unitcover{341 农业综合知识三 · 程序设计分章练习}{第05章\quad 循环结构}{练习（共 100 分）}{约 60 分钟}{\code{while}、\code{do-while}、\code{for} 三种循环语句；循环的嵌套；\code{break} 与 \code{continue}；\code{goto} 语句；累加、累乘、穷举与迭代算法；常见死循环。}
+
+\begin{knowmap}
+\textbf{while 循环：}先判断条件，条件为真时执行循环体；循环体可能一次也不执行，适用于循环次数事先不确定的场合。\\[2pt]
+\textbf{do-while 循环：}先执行一次循环体，再判断条件；循环体至少执行一次，适用于必须先执行一次的场合。\\[2pt]
+\textbf{for 循环：}\code{for(表达式1; 表达式2; 表达式3)}；执行顺序为“表达式1 $\rightarrow$ 判断表达式2 $\rightarrow$ 循环体 $\rightarrow$ 表达式3 $\rightarrow$ 判断表达式2……”，三个表达式都可以省略。\\[2pt]
+\textbf{循环嵌套：}一个循环体内又包含另一个完整的循环结构；外循环每执行一次，内循环要完整执行一轮，二重循环的循环体总执行次数为外层次数乘以内层次数。\\[2pt]
+\textbf{break 与 continue：}\code{break} 结束整个循环（跳出本层循环），\code{continue} 只结束本次循环、接着进行下一次循环条件的判断。\\[2pt]
+\textbf{常用算法：}累加求和、累乘求阶乘、穷举法（如百钱百鸡、水仙花数）、迭代法（如求最大公约数、斐波那契数列）；循环条件若永远成立则形成死循环，应避免。
+\end{knowmap}
+
+\begin{keyterms}
+\textbf{while 语句}：\code{while(表达式) 语句}；先判断表达式的值，非 0 时执行循环体，再返回判断，直到表达式的值为 0。\\
+\textbf{do-while 语句}：\code{do 语句 while(表达式);}；先执行一次循环体，再判断表达式，非 0 时继续执行；注意 \code{while(表达式)} 后面有分号。\\
+\textbf{for 语句}：\code{for(表达式1; 表达式2; 表达式3) 语句}；表达式 1 只执行一次，表达式 2 是循环条件，表达式 3 是循环变量的增量。\\
+\textbf{循环条件}：决定循环是否继续执行的条件表达式，其值为非 0 时继续循环，为 0 时结束循环。\\
+\textbf{循环体}：循环中重复执行的语句；只有一条语句时花括号可以省略，多条语句时必须用花括号括成复合语句。\\
+\textbf{break 语句}：强制结束整个循环（或 switch 结构），流程转到循环语句之后；在嵌套循环中只跳出所在的那一层循环。\\
+\textbf{continue 语句}：结束本次循环，跳过循环体中 continue 之后的语句，转去进行下一次循环条件的判断。\\
+\textbf{goto 语句}：无条件转向语句，格式为 \code{goto 标号;}；结构化程序中应尽量不用。\\
+\textbf{循环嵌套}：循环体内再包含循环，外循环与内循环的循环变量不能相同，内循环必须完整地包含在外循环体内。\\
+\textbf{累加}：用 \code{s = s + i} 的形式把一系列数相加，初值一般取 0，如求 1+2+……+100。\\
+\textbf{累乘}：用 \code{t = t * i} 的形式把一系列数相乘，初值一般取 1，如求 $n!$。\\
+\textbf{穷举法}：把可能的解一一列举出来，逐个检验是否满足条件，如求水仙花数、百钱百鸡问题。\\
+\textbf{迭代法}：由前一项（或前几项）推出后一项，反复迭代直到满足条件，如求斐波那契数列、辗转相除法。\\
+\textbf{死循环}：循环条件恒为真、无法正常结束的循环，如 \code{while(1)}、\code{for(;;)}；应通过 \code{break} 或修改条件退出。
+\end{keyterms}
+
+\begin{contrast}{\code{while} / \code{do-while} / \code{for}（每行依次为：判断时机·至少执行次数·适用场合）}
+\citem{\code{while}}{先判断条件，后执行循环体}{0 次}{循环次数事先不确定，由条件控制}
+\citem{\code{do-while}}{先执行循环体，后判断条件}{1 次}{至少执行一次，如菜单、输入校验}
+\citem{\code{for}}{先执行表达式1，再判断条件}{0 次}{循环次数已知或可由循环变量控制的场合}
+\end{contrast}
+
+\begin{contrast}{\code{break} / \code{continue}（每行依次为：作用·执行后流程·嵌套循环中的范围）}
+\citem{\code{break}}{结束整个循环}{跳出本层循环，执行循环语句之后的语句}{只跳出 break 所在的那一层循环}
+\citem{\code{continue}}{结束本次循环}{跳过循环体中剩余语句，转去判断下一次循环条件}{只影响 continue 所在的那一层循环}
+\end{contrast}
+
+\begin{contrast}{当型循环 / 直到型循环（每行依次为：判断位置·代表语句·循环体执行次数）}
+\citem{当型循环}{进入循环前先判断条件}{\code{while}、\code{for}}{可能 0 次，条件不成立时一次也不执行}
+\citem{直到型循环}{执行一次循环体后再判断条件}{\code{do-while}}{至少 1 次，条件不成立也要先执行一次}
+\end{contrast}
+
+\begin{contrast}{循环体为单条语句 / 循环体为多条语句（每行依次为：写法·花括号·注意事项）}
+\citem{单条语句}{花括号可以省略}{如 \code{for(i=0;i<n;i++) s+=i;}；\code{if} 语句也属于单条语句}{省略花括号后只有紧跟的一条语句属于循环体}
+\citem{多条语句}{必须用花括号括成复合语句}{如 \code{for(i=0;i<n;i++) \{ s+=i; t*=i; \}}}{缺少花括号时只有第一条语句属于循环体}
+\end{contrast}
+
+\qtypename{一、单项选择题}{10 题，每题 2 分，共 20 分}
+
+\q 执行语句 \code{for (i = 0; i < 5; i++) s += i;} 时，循环体执行的次数是（\quad）。
+\choicesline{A. 4}{B. 5}{C. 6}{D. 1}
+
+\q 下列循环语句中，循环体至少执行一次的是（\quad）。
+\choicesline{A. \code{while}}{B. \code{for}}{C. \code{do-while}}{D. \code{if}}
+
+\q 执行下列程序段后，\code{s} 的值是（\quad）。
+\begin{lstlisting}[language={[custom]C}]
+int i, s = 0;
+for (i = 1; i <= 5; i++)
+{
+    if (i == 3) break;
+    s += i;
+}
+\end{lstlisting}
+\choicesline{A. 3}{B. 6}{C. 10}{D. 15}
+
+\q 执行下列程序段后，\code{s} 的值是（\quad）。
+\begin{lstlisting}[language={[custom]C}]
+int i, s = 0;
+for (i = 1; i <= 5; i++)
+{
+    if (i == 3) continue;
+    s += i;
+}
+\end{lstlisting}
+\choicesline{A. 3}{B. 12}{C. 15}{D. 10}
+
+\q 执行下列程序段时，内层循环体共执行（\quad）次。
+\begin{lstlisting}[language={[custom]C}]
+for (i = 1; i <= 3; i++)
+    for (j = 1; j <= 2; j++)
+        s += i * j;
+\end{lstlisting}
+\choicesline{A. 3}{B. 5}{C. 6}{D. 9}
+
+\q 关于 \code{for (;;)}，下列说法正确的是（\quad）。
+\choices{A. 语法错误}{B. 循环体一次也不执行}{C. 是无限循环，需要 \code{break} 或条件退出}{D. 只执行一次}
+
+\q 关于 \code{while (0)}，下列说法正确的是（\quad）。
+\choices{A. 死循环}{B. 循环体一次也不执行}{C. 循环体执行一次}{D. 语法错误}
+
+\q 下列语句中，可用于求 1+2+……+100 的是（\quad）。
+\choices{A. \code{for (i = 1; i <= 100; i++) s += i;}}{B. \code{for (i = 1; i < 100; i++) s += i;}}
+{C. \code{for (i = 1; i <= 100; i--) s += i;}}{D. \code{for (i = 100; i >= 1; i++) s += i;}}
+
+\q 执行下列程序段后，\code{i} 的值是（\quad）。
+\begin{lstlisting}[language={[custom]C}]
+int i = 0;
+while (i < 10) i += 3;
+\end{lstlisting}
+\choicesline{A. 9}{B. 10}{C. 12}{D. 死循环}
+
+\q 在循环语句中，\code{continue} 语句的作用是（\quad）。
+\choices{A. 结束整个循环}{B. 结束本次循环，继续下一次循环}{C. 跳出本层循环}{D. 结束程序运行}
+
+\qtypename{二、多项选择题}{5 题，每题 3 分，共 15 分；每题有两个或两个以上正确项}
+
+\q 关于 \code{while} 与 \code{do-while} 的区别，下列说法正确的有（\quad）。
+\choicesline{A. \code{while} 先判断后执行}{B. \code{do-while} 先执行后判断}
+{C. \code{do-while} 的循环体至少执行一次}{D. 两者在任何情况下完全等价}
+
+\q 关于 \code{break} 语句，下列说法正确的有（\quad）。
+\choicesline{A. 可以结束本层循环}{B. 可以用于 \code{switch} 结构}
+{C. 在嵌套循环中可一次跳出所有层循环}{D. 在嵌套循环中只跳出所在的那一层}
+
+\q 关于 \code{continue} 语句，下列说法正确的有（\quad）。
+\choicesline{A. 结束本次循环}{B. 转去进行下一次循环条件的判断}
+{C. 可以用于 \code{switch} 结构}{D. 在 \code{for} 循环中先执行表达式 3，再判断表达式 2}
+
+\q 关于 \code{for} 语句，下列说法正确的有（\quad）。
+\choicesline{A. 三个表达式都可以省略}{B. 省略表达式 2 时表示循环条件恒为真}
+{C. 表达式 1 在循环开始前只执行一次}{D. 循环体至少执行一次}
+
+\q 下列循环语句中，可能构成死循环的有（\quad）。
+\choicesline{A. \code{for (;;)}}{B. \code{while (1)}}
+{C. \code{for (i = 0; ; i++)}}{D. \code{while (0)}}
+
+\qtypename{三、判断题}{5 题，每题 2 分，共 10 分；正确的画“√”，错误的画“×”并写出改正后的表述}
+
+\q \code{do-while} 语句的循环体至少执行一次。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{continue} 语句的作用是结束整个循环。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{while} 循环的循环体必须用一对花括号括起来。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{break} 语句只能用于循环语句中。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{for (;;)} 是无限循环，必须用 \code{break} 等语句退出。\quad（\quad）\quad 改正：\fixblank
+
+\qtypename{四、填空题}{10 空，每空 1 分，共 10 分}
+
+\q \code{while} 循环先判断后执行，循环体可能执行 \fillblank{} 次；\code{do-while} 循环的循环体至少执行 \fillblank{} 次。
+
+\q 执行 \code{for (i = 1; i <= 10; i++)} 时，循环体共执行 \fillblank{} 次。
+
+\q 要结束整个循环应使用 \fillblank{} 语句，只结束本次循环应使用 \fillblank{} 语句。
+
+\q 若外循环执行 $m$ 次、内循环执行 $n$ 次，则内层循环体共执行 \fillblank{} 次。
+
+\q \code{for} 语句的一般形式为 \code{for(}\fillblanks[1.4cm]\code{;}\fillblanks[1.4cm]\code{;}\fillblanks[1.4cm]\code{)}，其中第一个表达式在循环开始前只执行一次。
+
+\q 用循环语句求 $1+2+\cdots+100$，可写成 \code{for (i = 1; i <= 100; i++) s = s + }\fillblank{}\code{;}。
+
+\qtypename{五、程序阅读题}{2 题，每题 5 分，共 10 分}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    int i = 5, s = 0;
+    do {
+        s += i;
+        i++;
+    } while (i < 5);
+    printf("%d\n", s);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    int i, j, s = 0;
+    for (i = 1; i <= 3; i++)
+    {
+        for (j = 1; j <= 3; j++)
+        {
+            if (j == 2) continue;
+            if (i == 3) break;
+            s += i * j;
+        }
+    }
+    printf("s=%d\n", s);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.6cm}
+
+\qtypename{六、简答题}{3 题，每题 5 分，共 15 分}
+
+\q 比较 \code{while}、\code{do-while}、\code{for} 三种循环语句的异同，并说明它们之间如何相互转换。\anslines{3.4cm}
+
+\q \code{break} 语句与 \code{continue} 语句有什么区别？在嵌套循环中它们的作用范围如何？\anslines{3.2cm}
+
+\q 简述二重循环的执行过程，并举例说明内层循环体总共执行多少次。\anslines{3.2cm}
+
+\newpage
+\qtypename{七、综合题}{1 题，共 20 分}
+
+\q 编写一个完整的 C 程序：从键盘输入正整数 $n$（$1\le n\le 10$），求 $s = 1! + 2! + \cdots + n!$ 并输出。要求：
+\par\vspace{0.15em}
+\noindent（1）用循环实现，并在循环中利用前一项的阶乘结果递推计算下一项，不要每次都从头连乘；\\
+\noindent（2）输入 \code{5} 时，输出 \code{s=153}。
+
+\noindent 请写出完整程序。\anslines{4.0cm}
+
+\end{document}

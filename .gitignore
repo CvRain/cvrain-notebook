@@ -11,3 +11,6 @@ out
 *.fls
 *.fdb_latexmk
 tmp
+# Python
+__pycache__/
+*.pyc

@@ -1,0 +1,189 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第03章\quad 顺序结构与输入输出}
+\begin{document}
+
+\unitcover{341 农业综合知识三 · 程序设计分章练习}{第03章\quad 顺序结构与输入输出}{练习（共 100 分）}{约 60 分钟}{赋值语句；\code{printf}/\code{scanf} 的格式控制（格式字符、宽度、精度）；字符输入输出函数；顺序结构程序设计；\code{scanf} 的常见输入陷阱。}
+
+\begin{knowmap}
+\textbf{顺序结构：}程序按语句书写的先后顺序逐条执行，每条语句执行一次，是三种基本结构中最简单的一种。\\[2pt]
+\textbf{赋值语句：}由赋值表达式加一个分号构成，如 \code{a = a + 1;}；还有复合赋值语句 \code{a += 2;} 和连续赋值 \code{a = b = c = 0;}。\\[2pt]
+\textbf{格式输出：}\code{printf}（格式控制串，输出表列）；格式字符有 \code{\%d}、\code{\%o}、\code{\%x}、\code{\%c}、\code{\%s}、\code{\%f}、\code{\%e}、\code{\%g} 等，另有宽度、精度和 \code{-}、\code{+}、\code{0} 等修饰符。\\[2pt]
+\textbf{格式输入：}\code{scanf}（格式控制串，地址表列）；变量前要加取地址符 \code{\&}（字符数组名除外），格式字符应与变量类型匹配。\\[2pt]
+\textbf{字符输入输出：}\code{getchar()} 读入一个字符，\code{putchar(c)} 输出一个字符，使用时需包含 \code{<stdio.h>}。\\[2pt]
+\textbf{常见陷阱：}\code{scanf} 输入数值时遇到空格、回车或 Tab 即认为该数据结束；\code{\%c} 会读入空格和回车；格式串中不要随意加 \code{\textbackslash n} 或其他字符。
+\end{knowmap}
+
+\begin{keyterms}
+\textbf{printf}：格式化输出函数，调用形式为 \code{printf(格式控制串, 输出表列)}；返回值为实际输出的字符个数。\\
+\textbf{scanf}：格式化输入函数，调用形式为 \code{scanf(格式控制串, 地址表列)}；返回值为成功读入的数据个数。\\
+\textbf{格式字符}：说明数据的输入输出格式，如 \code{\%d}（十进制整型）、\code{\%o}（八进制）、\code{\%x}（十六进制）、\code{\%c}（字符）、\code{\%s}（字符串）、\code{\%f}（实型）、\code{\%e}（指数形式）。\\
+\textbf{宽度}：格式符中的数字表示输出数据占用的最少列数，如 \code{\%5d} 表示输出占 5 列、右对齐、左边补空格。\\
+\textbf{精度}：格式符中圆点后的数字，如 \code{\%.2f} 表示保留 2 位小数；\code{\%5.2f} 表示总宽 5 列、保留 2 位小数。\\
+\textbf{左对齐}：在宽度前加负号，如 \code{\%-5d} 表示占 5 列、左对齐、右边补空格。\\
+\textbf{补零}：在宽度前加 0，如 \code{\%05d} 表示占 5 列、右对齐、左边补 0。\\
+\textbf{百分号输出}：格式串中要输出一个 \code{\%}，必须写成 \code{\%\%}。\\
+\textbf{取地址符}：\code{\&} 是取地址运算符，\code{scanf} 中基本类型变量前必须加 \code{\&}，如 \code{scanf("\%d", \&a)}。\\
+\textbf{getchar}：从标准输入设备读入一个字符，返回值为读入字符的 ASCII 码，函数不带参数。\\
+\textbf{putchar}：向标准输出设备输出一个字符，参数可以是字符常量、字符变量或整型表达式。\\
+\textbf{赋值语句}：由赋值表达式加分号构成；赋值表达式的值为赋给左边变量的值。\\
+\textbf{复合赋值}：\code{+=}、\code{-=}、\code{*=}、\code{/=}、\code{\%=}，如 \code{x *= 2} 等价于 \code{x = x * 2}。\\
+\textbf{输入结束标志}：\code{scanf} 输入数值时，空格、回车、Tab 都作为数据的分隔符；输入字符时则不会跳过。
+\end{keyterms}
+
+\begin{contrast}{\code{printf} / \code{scanf}（每行依次为：功能·调用形式·表列写法）}
+\citem{printf}{按指定格式向屏幕输出数据}{\code{printf(格式控制串, 输出表列)}；返回值是输出字符数}{输出表列可以是变量、常量或表达式}
+\citem{scanf}{按指定格式从键盘输入数据}{\code{scanf(格式控制串, 地址表列)}；返回值是成功读入的数据个数}{地址表列必须是变量地址，基本变量前加 \code{\&}}
+\end{contrast}
+
+\begin{contrast}{字符输入输出 / 格式化输入输出（每行依次为：常用函数·输入输出对象·特点）}
+\citem{字符方式}{\code{getchar}、\code{putchar}}{一次一个字符}{不能直接控制宽度和精度，适合逐字符处理}
+\citem{格式化方式}{\code{scanf}、\code{printf}}{各种类型的数据}{可用格式字符、宽度、精度灵活控制输入输出格式}
+\end{contrast}
+
+\begin{contrast}{常用格式字符（每行依次为：格式字符·对应数据类型·举例·补充说明）}
+\citem{\code{\%d}、\code{\%o}、\code{\%x}}{十进制、八进制、十六进制整型}{\code{printf("\%d", 65)} 输出 65}{\code{\%o} 输出 101，\code{\%x} 输出 41}
+\citem{\code{\%c}、\code{\%s}}{字符型、字符串}{\code{printf("\%c", 'A')} 输出 A}{\code{\%s} 用于输出字符串}
+\citem{\code{\%f}、\code{\%e}}{单精度、双精度实型}{\code{printf("\%.2f", 3.14159)} 输出 3.14}{\code{\%e} 以指数形式输出}
+\end{contrast}
+
+\begin{contrast}{宽度与精度修饰（每行依次为：写法·含义·举例·补充说明）}
+\citem{\code{\%5d}}{占 5 列、右对齐、左补空格}{\code{printf("\%5d", 123)} 输出“\hspace{1em}123”}{宽度不足时补空格，超出时按实际输出}
+\citem{\code{\%-5d}}{占 5 列、左对齐、右补空格}{\code{printf("\%-5d", 123)} 输出“123\hspace{1em}”}{负号表示左对齐}
+\citem{\code{\%05d}}{占 5 列、右对齐、左补 0}{\code{printf("\%05d", 123)} 输出 00123}{在宽度前加 0 表示补零}
+\end{contrast}
+
+\qtypename{一、单项选择题}{10 题，每题 2 分，共 20 分}
+
+\q 执行 \code{printf("x=\%5.2f", 3.14159);} 后的输出是（\quad）。
+\choicesline{A. \code{x=3.14}}{B. \code{x= 3.14}}{C. \code{x=3.14159}}{D. \code{x=03.14}}
+
+\q 要输出一个百分号，格式串中应写成（\quad）。
+\choicesline{A. \code{\%}}{B. \code{\%\%.}}{C. \code{\%\%}}{D. \code{\textbackslash\%}}
+
+\q 若要输出字符 \code{'A'} 的 ASCII 码，应使用的格式字符是（\quad）。
+\choicesline{A. \code{\%c}}{B. \code{\%d}}{C. \code{\%s}}{D. \code{\%f}}
+
+\q 若有定义 \code{int a;}，从键盘为 \code{a} 输入数据的正确语句是（\quad）。
+\choicesline{A. \code{scanf("\%d", a);}}{B. \code{scanf("\%d", \&a);}}
+{C. \code{scanf("\%f", \&a);}}{D. \code{scanf(a);}}
+
+\q 执行 \code{scanf("\%d\%d", \&a, \&b);} 时从键盘输入 \code{3 4}，则 \code{a}、\code{b} 的值分别是（\quad）。
+\choicesline{A. 3 和 4}{B. 34 和 0}{C. 3 和 0}{D. 输入格式错误}
+
+\q 执行 \code{printf("\%-5d|", 12);} 后的输出是（\quad）。
+\choicesline{A. \code{   12|}}{B. \code{12   |}}{C. \code{00012|}}{D. \code{12|}}
+
+\q 从键盘读入一个字符，最直接的函数是（\quad）。
+\choicesline{A. \code{putchar}}{B. \code{getchar}}{C. \code{printf}}{D. \code{scanf("\%d")}}
+
+\q 执行 \code{putchar('A' + 2);} 后的输出是（\quad）。
+\choicesline{A. \code{A2}}{B. \code{67}}{C. \code{C}}{D. \code{A}}
+
+\q 输出字符串应使用的格式字符是（\quad）。
+\choicesline{A. \code{\%c}}{B. \code{\%s}}{C. \code{\%d}}{D. \code{\%f}}
+
+\q 执行 \code{printf("\%d", 'A');} 后的输出是（\quad）。
+\choicesline{A. \code{A}}{B. \code{65}}{C. \code{\%d}}{D. 编译错误}
+
+\qtypename{二、多项选择题}{5 题，每题 3 分，共 15 分；每题有两个或两个以上正确项}
+
+\q 下列属于 C 语言 \code{printf} 常用格式字符的有（\quad）。
+\choicesline{A. \code{\%d}}{B. \code{\%f}}{C. \code{\%c}}{D. \code{\%q}}
+
+\q 关于 \code{scanf} 函数，下列说法正确的有（\quad）。
+\choicesline{A. 基本类型变量前要加取地址符 \code{\&}}{B. 格式字符应与变量类型匹配}
+{C. 输入数值时遇空格即认为该数据结束}{D. \code{\%c} 会自动跳过空格和回车}
+
+\q 若要输出字符 \code{'A'}，可使用的语句有（\quad）。
+\choicesline{A. \code{printf("\%c", 'A');}}{B. \code{putchar('A');}}
+{C. \code{printf("\%d", 'A');}}{D. \code{putchar(65);}}
+
+\q 关于 \code{printf} 的宽度和精度，下列说法正确的有（\quad）。
+\choicesline{A. \code{\%5d} 表示占 5 列、右对齐}{B. \code{\%-5d} 表示占 5 列、左对齐}
+{C. \code{\%.2f} 表示保留 2 位小数}{D. \code{\%05d} 表示用空格补足 5 列}
+
+\q 下列语句中正确的有（\quad）。
+\choicesline{A. \code{scanf("\%d", a);}}{B. \code{scanf("\%d", \&a);}}
+{C. \code{printf("\%d", a);}}{D. \code{printf("\%d", \&a);}}
+
+\qtypename{三、判断题}{5 题，每题 2 分，共 10 分；正确的画“√”，错误的画“×”并写出改正后的表述}
+
+\q \code{printf} 和 \code{scanf} 是 C 语言的关键字。\quad（\quad）\quad 改正：\fixblank
+
+\q 使用 \code{scanf} 为基本类型变量输入数据时，变量前必须加取地址符 \code{\&}。\quad（\quad）\quad 改正：\fixblank
+
+\q 格式符 \code{\%5d} 表示输出宽度为 5 列且左对齐。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{getchar()} 函数从键盘读入一个字符。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{scanf} 中的格式字符 \code{\%c} 会自动跳过空格和回车。\quad（\quad）\quad 改正：\fixblank
+
+\qtypename{四、填空题}{10 空，每空 1 分，共 10 分}
+
+\q 用 \code{printf} 输出一个字符应使用格式字符 \fillblank{}，输出一个字符串应使用格式字符 \fillblank{}。
+
+\q 执行 \code{printf("\%.2f", 3.14159);} 后的输出是 \fillblank{}。
+
+\q 从键盘输入两个整数分别赋给变量 \code{a} 和 \code{b}，完整的输入语句是：
+\par\noindent\hspace{1.8em}\code{scanf(}\fillblanks[1.8cm]\code{,}\fillblanks[2.6cm]\code{);}
+
+\q 在格式串中输出一个百分号应写成 \fillblank{}。
+
+\q 读入一个字符可调用函数 \fillblank{}，输出一个字符可调用函数 \fillblank{}。
+
+\q 执行 \code{printf("\%d", 'A');} 后的输出是 \fillblank{}。
+
+\q 若要输出一个占 6 列、左对齐的整数，格式符应写成 \fillblank{}。
+
+\qtypename{五、程序阅读题}{2 题，每题 5 分，共 10 分}
+
+\q 写出下列程序的运行结果（注意空格的位置与个数）。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    int a = 123;
+    double x = 3.14159;
+    printf("%5d|%-5d|%05d\n", a, a, a);
+    printf("%8.2f|%.3f\n", x, x);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\q 下列程序运行时从键盘输入 \code{xyz} 后按回车键，写出运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    char c1, c2;
+    c1 = getchar();
+    c2 = getchar();
+    putchar(c1);
+    putchar(c2);
+    putchar('\n');
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\qtypename{六、简答题}{3 题，每题 5 分，共 15 分}
+
+\q 简述 \code{printf} 函数常用格式字符及其作用（至少写出 6 个）。\anslines{3.0cm}
+
+\q 使用 \code{scanf} 函数输入数据时应注意哪些问题？\anslines{3.2cm}
+
+\q 简述 \code{getchar}、\code{putchar} 函数的作用，并说明它们与 \code{scanf}、\code{printf} 的区别。\anslines{3.0cm}
+
+\newpage
+\qtypename{七、综合题}{1 题，共 20 分}
+
+\q 某农户三块稻田的产量分别为 80、90、100（单位：kg）。请编写一个完整的 C 程序：从键盘输入这三个产量，计算总产量和平均产量，并按下列格式输出（平均产量保留 2 位小数）：
+\par\vspace{0.15em}
+\noindent\hspace{2em}\code{sum=270.00}\\
+\noindent\hspace{2em}\code{ave=90.00}
+
+\noindent 要求：使用 \code{scanf} 输入数据（输入格式为三个实数，用空格分隔），使用 \code{printf} 输出，程序中要有必要的变量定义与计算语句。\anslines{4.0cm}
+
+\end{document}

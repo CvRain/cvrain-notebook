@@ -1,0 +1,129 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第01章参考答案}
+\begin{document}
+
+\unitanswerscover{341 农业综合知识三 · 程序设计分章练习}{第01章参考答案}{C 语言概述与程序结构：逐题答案、解析与综合题完整参考实现；判断题均给出改正后的表述。}
+
+\answerpart{一、单项选择题（10 题，每题 2 分，共 20 分）}
+
+\q C。\begin{analysis}C 语言是面向过程的高级程序设计语言。机器语言是二进制指令，汇编语言用助记符，二者都属低级语言，依赖具体机器；自然语言不是程序设计语言。\end{analysis}
+
+\q B。\begin{analysis}C 程序的基本单位是函数，一个 C 程序由一个或多个函数组成，其中有且只有一个 \code{main} 函数。语句是函数的组成部分，字符是构成源程序的最小单位。\end{analysis}
+
+\q C。\begin{analysis}一个 C 程序总是从 \code{main} 函数的第一条可执行语句开始执行，到 \code{main} 函数结束。\code{main} 的位置不限，程序并不是从第一行或第一个函数开始执行。\end{analysis}
+
+\q C。\begin{analysis}标识符只能由字母、数字和下划线组成，且首字符必须是字母或下划线。\code{2sum} 以数字开头；\code{sum-2} 含减号；\code{int} 是关键字，均不合法。\code{\_sum2} 以下划线开头，合法。\end{analysis}
+
+\q C。\begin{analysis}A 中 \code{main} 是函数名而不是关键字；B 中 \code{printf} 是标准库函数名，不是关键字；D 中 \code{define}、\code{include} 是编译预处理命令名，不是关键字。C 中 \code{for}、\code{while}、\code{do} 都是关键字。C 语言共 37 个关键字，全部用小写字母表示。\end{analysis}
+
+\q B。\begin{analysis}C 源程序（\code{.c}）经编译器编译后生成目标文件（\code{.obj}）。目标文件还需经连接器与系统库连接，才生成可执行文件（\code{.exe}）。\end{analysis}
+
+\q C。\begin{analysis}编译程序把源程序翻译成目标文件；连接器（连接程序）把目标文件与系统库函数连接起来，生成可执行文件；编辑器只用于录入和修改源程序；解释器逐条解释执行源程序。\end{analysis}
+
+\q A。\begin{analysis}结构化程序设计规定程序的三种基本结构为顺序结构、选择结构和循环结构。递归、嵌套、转移都不是教材所称的“三种基本结构”。\end{analysis}
+
+\q C。\begin{analysis}A 错：注释在编译预处理阶段就被去掉，不进入目标文件；B 错：\code{//} 只能注释从它开始到本行结束的内容；C 对：\code{/*……*/} 不能嵌套，遇到第一个 \code{*/} 注释即结束；D 错：注释是说明文字，不加分号。\end{analysis}
+
+\q C。\begin{analysis}A 错：一个 C 程序可以有多个函数；B 错：\code{main} 函数可以放在任意位置；C 对：一个 C 程序有且只有一个 \code{main} 函数；D 错：每条语句必须以分号结束。\end{analysis}
+
+\answerpart{二、多项选择题（5 题，每题 3 分，共 15 分）}
+
+\q ABC。\begin{analysis}A、B、C 都是 C 语言的特点：语言简洁紧凑、使用方便灵活；运算符和数据类型丰富；具有结构化的控制语句。D 错：C 语言是面向过程的语言，不是完全面向对象的语言（C++ 才支持面向对象）。\end{analysis}
+
+\q ABD。\begin{analysis}A、B、D 均符合标识符命名规则：由字母、数字、下划线组成且首字符不是数字，大写与小写视为不同字符。C 中 \code{1\_abc} 以数字开头，不合法。\end{analysis}
+
+\q ABD。\begin{analysis}A 对：编译阶段检查语法错误；B 对：连接把目标文件与库函数等连接成可执行文件；C 错：目标文件是二进制机器指令文件，尚不能直接运行，必须连接；D 对：一个程序可以由多个源程序文件组成，分别编译后再连接。\end{analysis}
+
+\q ABD。\begin{analysis}\code{int}、\code{return}、\code{static} 都是 C 语言关键字。C 错：\code{main} 是用户定义的函数名，不是关键字，只是程序入口函数的约定名称。\end{analysis}
+
+\q ABD。\begin{analysis}A、B、D 正确：一个程序有且只有一个 \code{main} 函数，程序从 \code{main} 开始执行，\code{main} 可以调用其他函数。C 错：\code{main} 的位置不限，可以放在程序最后，只要被调用前有相应的声明或定义即可。\end{analysis}
+
+\answerpart{三、判断题（5 题，每题 2 分，共 10 分）}
+
+\q ×。改正：一个 C 程序必须有且只有一个 \code{main} 函数，程序从 \code{main} 开始执行。\begin{analysis}\code{main} 函数是 C 程序的唯一入口，没有 \code{main} 函数的程序无法连接成可执行程序。\end{analysis}
+
+\q √。\begin{analysis}C 语言区分大小写，\code{sum}、\code{Sum}、\code{SUM} 是三个不同的标识符，关键字必须小写。\end{analysis}
+
+\q ×。改正：注释在编译预处理阶段就被去掉，不进入目标文件和可执行文件，对运行结果没有影响。\begin{analysis}注释是给程序员阅读的说明文字，预处理后即被删除，因此增加或删除注释不会改变程序的目标代码和运行结果。\end{analysis}
+
+\q ×。改正：目标文件还需要经过连接生成可执行文件后才可以在计算机上运行。\begin{analysis}编译只把单个源程序翻译成目标文件，其中的库函数调用尚未解决；连接器把目标文件与系统库连接后，才形成完整的可执行文件。\end{analysis}
+
+\q √。\begin{analysis}C 语言是自由格式的语言，一行可以写多条语句，一条语句也可以分写在多行，语句之间以分号分隔。但为了程序清晰易读，应按缩进层次书写。\end{analysis}
+
+\answerpart{四、填空题（10 空，每空 1 分，共 10 分）}
+
+\q （1）\code{main}。\begin{analysis}一个 C 程序有且只有一个 \code{main} 函数，程序总是从它开始执行。\end{analysis}
+
+\q （2）\code{.c}；（3）\code{.obj}（或 \code{.o}）；（4）\code{.exe}。\begin{analysis}C 程序开发过程中，源程序、目标文件、可执行文件依次由编辑、编译、连接三个阶段产生。\end{analysis}
+
+\q （5）下划线；（6）数字。\begin{analysis}标识符只能由字母、数字和下划线组成，且第一个字符必须是字母或下划线，不能是数字。\end{analysis}
+
+\q （7）37；（8）标识符（变量名、函数名等）。\begin{analysis}C 语言共 37 个关键字，关键字具有固定含义，用户不能把它们用作变量名、函数名等标识符。\end{analysis}
+
+\q （9）选择；（10）循环。\begin{analysis}三种基本结构为顺序结构、选择结构、循环结构，任何复杂程序都可由这三种结构组合而成。\end{analysis}
+
+\answerpart{五、程序阅读题（2 题，每题 5 分，共 10 分）}
+
+\q 运行结果为：
+\begin{lstlisting}
+Hello, C!
+14
+AB
+\end{lstlisting}
+\begin{analysis}程序按顺序执行三条 \code{printf} 语句。第 1 条输出字符串 \code{Hello, C!} 并换行；第 2 条先计算 \code{2 + 3 * 4}，由于乘号优先于加号，结果为 14，再以 \code{\%d} 输出并换行；第 3 条用两个 \code{\%c} 依次输出字符 \code{'A'} 和 \code{'B'}，再换行，所以第三行是 \code{AB}。\end{analysis}
+
+\q 运行结果为：
+\begin{lstlisting}
+first second third
+\end{lstlisting}
+\begin{analysis}程序从 \code{main} 开始执行，先输出 \code{first}；然后调用函数 \code{f}，\code{f} 中输出 \code{second}；\code{f} 返回后继续执行 \code{main} 中剩余的语句，输出 \code{third} 并换行。函数 \code{f} 的定义写在 \code{main} 之前，因此在 \code{main} 中可以直接调用。\end{analysis}
+
+\answerpart{六、简答题（3 题，每题 5 分，共 15 分）}
+
+\q 参考答案要点（答出 4 点即可，每点 1 分，语言组织 1 分）：
+（1）语言简洁紧凑、使用方便灵活：C 语言只有 37 个关键字、9 种控制语句，程序书写形式自由，主要用小写字母表示。
+（2）运算符丰富：共有 34 种运算符，表达式类型多样，能实现其他高级语言难以实现的运算。
+（3）数据类型丰富：包括整型、实型、字符型、数组、指针、结构体、共用体等，能实现复杂的数据结构。
+（4）具有结构化的控制语句：用函数作为程序模块，用顺序、选择、循环三种基本结构构造程序，符合结构化程序设计要求。
+（5）语法限制不太严格，程序设计自由度大；允许直接访问物理地址、进行位运算，能实现汇编语言的大部分功能，可直接操作硬件。
+（6）生成目标代码质量高，程序执行效率高；可移植性好。
+
+\q 参考答案要点：
+（1）编辑：用编辑器录入、修改源程序，生成源程序文件 \code{.c}（1 分）。
+（2）编译（含编译预处理）：对源程序进行语法检查并翻译成机器指令，生成目标文件 \code{.obj}（或 \code{.o}）（1.5 分）。
+（3）连接：把目标文件与系统库函数等连接成一个整体，生成可执行文件 \code{.exe}（1.5 分）。
+（4）运行：执行可执行文件，得到运行结果；若有逻辑错误，需要回到编辑阶段修改后重新编译、连接（1 分）。
+
+\q 参考答案要点：
+（1）标识符是用来对变量、符号常量、函数、数组、类型等命名的有效字符序列（1 分）。
+（2）命名规则：只能由字母、数字和下划线 3 种字符组成；第一个字符必须是字母或下划线，不能是数字；区分大小写；不能与关键字同名；应尽量做到见名知意（2 分）。
+（3）关键字是 C 语言预先规定、具有特定含义的单词，共 37 个，全部由小写字母组成，如 \code{int}、\code{if}、\code{return}；关键字不能用作标识符（1 分）。
+（4）区别：关键字由 C 语言规定，含义固定，用户不能重新定义；标识符由用户按命名规则自行定义，用来给程序中的对象命名（1 分）。
+
+\answerpart{七、综合题（1 题，共 20 分）}
+
+\q 参考程序如下：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    int a = 85, b = 90, c = 78;
+    int sum;
+    float ave;
+    sum = a + b + c;
+    ave = sum / 3.0f;
+    printf("sum=%d\n", sum);
+    printf("ave=%.2f\n", ave);
+    return 0;
+}
+\end{lstlisting}
+\begin{analysis}运行结果为：
+\begin{lstlisting}
+sum=253
+ave=84.33
+\end{lstlisting}
+评分要点：正确包含头文件 \code{<stdio.h>}（2 分）；正确定义并初始化 3 个整型变量（4 分）；正确定义 \code{sum} 与 \code{ave} 并计算总产量（4 分）；计算平均产量时进行实数除法（写成 \code{sum / 3.0f} 或 \code{(float)sum / 3}，若写成 \code{sum / 3} 则结果为 84.00，扣 3 分）（4 分）；\code{printf} 格式与输出要求一致、平均产量保留 2 位小数（4 分）；有 \code{return 0;} 且程序完整可编译（2 分）。\end{analysis}
+\begin{analysis}\code{main} 函数的作用：\code{main} 是 C 程序的唯一入口，操作系统通过调用 \code{main} 函数开始执行程序；\code{main} 中可以定义变量、调用其他函数、控制程序流程，程序执行到 \code{main} 的 \code{return} 语句或右花括号时结束。一个 C 程序有且只有一个 \code{main} 函数，其他函数只有被调用时才执行。（4 分，含在本题 20 分内）\end{analysis}
+
+\end{document}

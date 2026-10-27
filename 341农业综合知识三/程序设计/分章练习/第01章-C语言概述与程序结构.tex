@@ -1,0 +1,177 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第01章\quad C 语言概述与程序结构}
+\begin{document}
+
+\unitcover{341 农业综合知识三 · 程序设计分章练习}{第01章\quad C 语言概述与程序结构}{练习（共 100 分）}{约 60 分钟}{C 语言的发展与特点；C 程序的结构（源程序、函数、语句）；标识符与关键字；注释与头文件；编辑—编译—连接—运行的过程；三种基本结构。}
+
+\begin{knowmap}
+\textbf{程序结构：}一个 C 程序由一个或多个函数组成，其中有且只有一个 \code{main} 函数；程序总是从 \code{main} 开始执行，到 \code{main} 结束。\\[2pt]
+\textbf{层次关系：}源程序（\code{.c}）$\rightarrow$ 函数 $\rightarrow$ 语句；语句分为声明部分与执行部分，每条语句以分号结束。\\[2pt]
+\textbf{开发过程：}编辑（\code{.c}）$\rightarrow$ 编译（\code{.obj}）$\rightarrow$ 连接（\code{.exe}）$\rightarrow$ 运行；编译阶段检查语法错误，连接阶段把目标文件与库函数连接成整体。\\[2pt]
+\textbf{语法要素：}标识符由字母、数字、下划线组成且首字符不能是数字，区分大小写；C 语言共 37 个关键字；注释 \code{/* */} 与 \code{//} 不参与编译。\\[2pt]
+\textbf{三种基本结构：}顺序结构、选择结构、循环结构，是结构化程序的基本组成单位，任何复杂程序都可由它们组合而成。
+\end{knowmap}
+
+\begin{keyterms}
+\textbf{源程序}：用 C 语言编写、以 \code{.c} 为扩展名的程序文本，由函数和语句组成。\\
+\textbf{目标文件}：源程序经编译后生成的二进制文件，扩展名为 \code{.obj}（或 \code{.o}），不能直接运行。\\
+\textbf{可执行文件}：目标文件经连接后生成的 \code{.exe} 文件，可以直接运行。\\
+\textbf{main 函数}：C 程序的唯一入口，程序从 \code{main} 函数的第一条可执行语句开始执行。\\
+\textbf{函数}：C 程序的基本单位，由函数头和函数体组成，函数体用一对花括号括起来。\\
+\textbf{标识符}：用来对变量、函数、数组、类型等命名的有效字符序列；只能由字母、数字和下划线组成，第一个字符必须是字母或下划线，区分大小写。\\
+\textbf{关键字}：C 语言预先规定、具有特定含义的 37 个单词（如 \code{int}、\code{if}、\code{return}），不能用作标识符。\\
+\textbf{注释}：\code{/*……*/} 可以跨行，\code{//} 只能注释本行；注释在编译预处理时被去掉，不影响运行结果。\\
+\textbf{头文件}：用 \code{\#include <stdio.h>} 把标准输入输出函数的声明包含进来，\code{printf}、\code{scanf} 都要用到它。\\
+\textbf{编译预处理}：编译之前对以 \# 开头的命令行进行处理，如文件包含、宏定义、条件编译。\\
+\textbf{三种基本结构}：顺序结构、选择结构、循环结构，是结构化程序设计规定的三种基本控制结构。\\
+\textbf{语句}：C 程序的执行单位，以分号结尾；分号是语句的结束标志，不能省略。
+\end{keyterms}
+
+\begin{contrast}{源程序 / 目标文件 / 可执行文件（每行依次为：扩展名·生成阶段·能否直接运行）}
+\citem{源程序}{\code{.c}}{编辑阶段由用户编写}{否，必须经过编译}
+\citem{目标文件}{\code{.obj} 或 \code{.o}}{编译阶段由编译器生成}{否，必须经过连接}
+\citem{可执行文件}{\code{.exe}}{连接阶段由连接程序生成}{是，可直接运行}
+\end{contrast}
+
+\begin{contrast}{编译 / 连接（每行依次为：输入·输出·主要任务）}
+\citem{编译}{源程序 \code{.c}}{目标文件 \code{.obj}}{检查语法错误，把 C 语句翻译成机器指令}
+\citem{连接}{目标文件 \code{.obj} 与系统库}{可执行文件 \code{.exe}}{把目标文件与库函数等连接成一个整体}
+\end{contrast}
+
+\begin{contrast}{标识符 / 关键字 / 注释（每行依次为：含义·组成特点·举例）}
+\citem{标识符}{用户为变量、函数、数组等起的名字}{字母、数字、下划线组成，首字符非数字，区分大小写}{\code{sum}、\code{\_total}、\code{Class}}
+\citem{关键字}{C 语言预先规定、有固定含义的单词}{全部由小写字母组成，不能作标识符}{\code{int}、\code{if}、\code{return}}
+\citem{注释}{对程序起说明作用的文字}{不参与编译，\code{/*……*/} 可跨行，\code{//} 只注释一行}{\code{/* 求两数之和 */}}
+\end{contrast}
+
+\qtypename{一、单项选择题}{10 题，每题 2 分，共 20 分}
+
+\q C 语言是一种（\quad）。
+\choicesline{A. 机器语言}{B. 汇编语言}{C. 高级语言}{D. 自然语言}
+
+\q C 程序的基本单位是（\quad）。
+\choicesline{A. 语句}{B. 函数}{C. 程序行}{D. 字符}
+
+\q 一个 C 程序总是从（\quad）开始执行。
+\choicesline{A. 程序的第一行}{B. 第一个函数}{C. \code{main} 函数}{D. 最后一个函数}
+
+\q 下列标识符中合法的是（\quad）。
+\choicesline{A. \code{2sum}}{B. \code{sum-2}}{C. \code{\_sum2}}{D. \code{int}}
+
+\q 下列各组中，全部是 C 语言关键字的是（\quad）。
+\choicesline{A. \code{int}、\code{return}、\code{main}}{B. \code{if}、\code{else}、\code{printf}}
+{C. \code{for}、\code{while}、\code{do}}{D. \code{define}、\code{include}、\code{int}}
+
+\q C 源程序经编译后生成（\quad）。
+\choicesline{A. 可执行文件}{B. 目标文件}{C. 库文件}{D. 文本文件}
+
+\q 把目标文件与系统库连接起来生成可执行文件的程序是（\quad）。
+\choicesline{A. 编辑器}{B. 编译器}{C. 连接器}{D. 解释器}
+
+\q C 语言程序的三种基本结构是（\quad）。
+\choices{A. 顺序结构、选择结构、循环结构}{B. 递归结构、嵌套结构、转移结构}
+{C. 输入结构、处理结构、输出结构}{D. 函数结构、语句结构、注释结构}
+
+\q 下列关于注释的说法中，正确的是（\quad）。
+\choices{A. 注释会被编译到目标文件中}{B. \code{//} 可以注释多行}
+{C. \code{/*……*/} 不能嵌套使用}{D. 注释必须以分号结尾}
+
+\q 关于 C 程序结构，下列说法正确的是（\quad）。
+\choices{A. 一个 C 程序只能有一个函数}{B. \code{main} 函数必须放在程序最前面}
+{C. 一个 C 程序可以包含多个函数，但只能有一个 \code{main} 函数}{D. 每条语句不必以分号结束}
+
+\qtypename{二、多项选择题}{5 题，每题 3 分，共 15 分；每题有两个或两个以上正确项}
+
+\q 下列属于 C 语言特点的有（\quad）。
+\choicesline{A. 语言简洁紧凑、使用灵活}{B. 运算符和数据类型丰富}{C. 具有结构化的控制语句}{D. 完全面向对象}
+
+\q 下列标识符中合法的有（\quad）。
+\choicesline{A. \code{\_abc}}{B. \code{abc\_1}}{C. \code{1\_abc}}{D. \code{Abc}}
+
+\q 关于 C 程序的编译与连接，下列说法正确的有（\quad）。
+\choicesline{A. 编译阶段检查语法错误}{B. 连接把目标文件与库函数连接}
+{C. 目标文件可以直接运行}{D. 一个程序可以包含多个源程序文件}
+
+\q 下列属于 C 语言关键字的有（\quad）。
+\choicesline{A. \code{int}}{B. \code{return}}{C. \code{main}}{D. \code{static}}
+
+\q 关于 \code{main} 函数，下列说法正确的有（\quad）。
+\choicesline{A. 一个程序有且只有一个 \code{main} 函数}{B. 程序从 \code{main} 开始执行}
+{C. \code{main} 必须写在所有函数之前}{D. \code{main} 可以调用其他函数}
+
+\qtypename{三、判断题}{5 题，每题 2 分，共 10 分；正确的画“√”，错误的画“×”并写出改正后的表述}
+
+\q C 程序可以没有 \code{main} 函数。\quad（\quad）\quad 改正：\fixblank
+
+\q C 语言中的标识符区分大小写。\quad（\quad）\quad 改正：\fixblank
+
+\q C 程序中的注释在编译后仍保留在可执行文件中。\quad（\quad）\quad 改正：\fixblank
+
+\q 目标文件（\code{.obj}）可以直接在计算机上运行。\quad（\quad）\quad 改正：\fixblank
+
+\q 一行可以写多条语句，一条语句也可以分写在多行。\quad（\quad）\quad 改正：\fixblank
+
+\qtypename{四、填空题}{10 空，每空 1 分，共 10 分}
+
+\q 一个 C 程序由若干函数组成，其中有且只有一个 \fillblank{} 函数，程序从它开始执行。
+
+\q C 源程序的扩展名是 \fillblank{}，编译后生成的目标文件扩展名是 \fillblank{}，连接后生成的可执行文件扩展名是 \fillblank{}。
+
+\q C 语言规定，标识符只能由字母、数字和 \fillblank{} 组成，且第一个字符不能是 \fillblank{}。
+
+\q C 语言一共有 \fillblank{} 个关键字，关键字不能用作 \fillblank{}。
+
+\q C 程序中的三种基本结构是顺序结构、\fillblank{} 结构和 \fillblank{} 结构。
+
+\qtypename{五、程序阅读题}{2 题，每题 5 分，共 10 分}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    printf("Hello, C!\n");
+    printf("%d\n", 2 + 3 * 4);
+    printf("%c%c\n", 'A', 'B');
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.6cm}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+void f(void)
+{
+    printf("second ");
+}
+int main(void)
+{
+    printf("first ");
+    f();
+    printf("third\n");
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.6cm}
+
+\qtypename{六、简答题}{3 题，每题 5 分，共 15 分}
+
+\q 简述 C 语言的主要特点（至少写出 4 点）。\anslines{3.0cm}
+
+\q 简述一个 C 程序从编辑到运行要经过哪几个步骤，每个步骤生成什么文件、完成什么工作。\anslines{3.2cm}
+
+\q 什么是标识符？C 语言对标识符的命名有哪些规定？关键字与标识符有什么区别？\anslines{3.2cm}
+
+\newpage
+\qtypename{七、综合题}{1 题，共 20 分}
+
+\q 三块试验田的产量分别为 85、90、78（单位：kg）。请编写一个完整的 C 程序完成下列任务：定义 3 个整型变量并分别赋以这三个值，定义 1 个整型变量存放总产量、1 个单精度变量存放平均产量；计算总产量和平均产量；按下列格式分两行输出（平均产量保留 2 位小数）：
+\par\vspace{0.15em}
+\noindent\hspace{2em}\code{sum=253}\\
+\noindent\hspace{2em}\code{ave=84.33}
+
+\noindent 要求程序中包含头文件、主函数、变量声明部分、执行部分和返回值，并说明 \code{main} 函数在程序中的作用。\anslines{4.0cm}
+
+\end{document}

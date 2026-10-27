@@ -1,0 +1,132 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第03章参考答案}
+\begin{document}
+
+\unitanswerscover{341 农业综合知识三 · 程序设计分章练习}{第03章参考答案}{顺序结构与输入输出：逐题答案、解析与综合题完整参考实现；判断题均给出改正后的表述。}
+
+\answerpart{一、单项选择题（10 题，每题 2 分，共 20 分）}
+
+\q B。\begin{analysis}\code{\%5.2f} 表示输出实型数据、总宽度为 5 列、保留 2 位小数、右对齐。3.14159 保留 2 位小数为 3.14，占 4 列，宽度 5 列时左边补 1 个空格，所以输出为 \code{x= 3.14}。\end{analysis}
+
+\q C。\begin{analysis}格式串中的 \code{\%} 是格式字符的引导符，要输出一个真正的百分号必须连写两个百分号，即 \code{\%\%}。\end{analysis}
+
+\q B。\begin{analysis}字符 \code{'A'} 在内存中以 ASCII 码 65 存放。用 \code{\%c} 输出的是字符 A，用 \code{\%d} 输出的是它的 ASCII 码 65，因此应使用 \code{\%d}。\end{analysis}
+
+\q B。\begin{analysis}\code{scanf} 的地址表列必须是变量的地址，基本类型变量前要加取地址符 \code{\&}。A 缺少 \code{\&}；C 的格式字符与 \code{int} 类型不匹配；D 缺少格式控制串和取地址符。\end{analysis}
+
+\q A。\begin{analysis}\code{scanf("\%d\%d", \&a, \&b)} 依次读入两个十进制整数。输入 \code{3 4} 时，空格作为两个数据的分隔符，3 赋给 \code{a}，4 赋给 \code{b}，所以 \code{a}、\code{b} 的值分别为 3 和 4。\end{analysis}
+
+\q B。\begin{analysis}\code{\%-5d} 表示输出宽度为 5 列、左对齐、右边补空格。12 占 2 列，后面补 3 个空格，再输出竖线，结果为 \code{12   |}。\end{analysis}
+
+\q B。\begin{analysis}\code{getchar()} 从标准输入设备读入一个字符，是字符输入函数；\code{putchar} 是字符输出函数；\code{printf} 是格式化输出函数；\code{scanf("\%d")} 用于输入整型数据。\end{analysis}
+
+\q C。\begin{analysis}\code{'A'} 的 ASCII 码为 65，\code{'A' + 2} 的值为 67，对应字符 \code{'C'}。\code{putchar} 输出的是字符本身，所以输出 C，而不是数字 67。\end{analysis}
+
+\q B。\begin{analysis}\code{\%s} 用于输出字符串，\code{\%c} 输出单个字符，\code{\%d} 输出整型，\code{\%f} 输出实型。\end{analysis}
+
+\q B。\begin{analysis}\code{'A'} 是字符常量，在表达式中按 ASCII 码参与运算，用 \code{\%d} 输出即为其 ASCII 码 65。若用 \code{\%c} 输出则显示字符 A。\end{analysis}
+
+\answerpart{二、多项选择题（5 题，每题 3 分，共 15 分）}
+
+\q ABC。\begin{analysis}\code{\%d} 输出十进制整型，\code{\%f} 输出实型，\code{\%c} 输出字符，都是 C 语言的常用格式字符。D 错：\code{\%q} 不是 C 语言的格式字符。此外常用的还有 \code{\%o}、\code{\%x}、\code{\%s}、\code{\%e}、\code{\%g} 等。\end{analysis}
+
+\q ABC。\begin{analysis}A 对：\code{scanf} 的地址表列必须给出变量地址，基本类型变量前加 \code{\&}；B 对：格式字符必须与变量类型匹配，否则结果错误或运行异常；C 对：输入数值时，空格、回车、Tab 都作为数据分隔符；D 错：\code{\%c} 不会跳过空格和回车，会把它们当作字符读入。\end{analysis}
+
+\q ABD。\begin{analysis}A 用 \code{\%c} 输出字符 A；B 用 \code{putchar} 输出字符 A；D 中 65 是 \code{'A'} 的 ASCII 码，\code{putchar(65)} 同样输出字符 A。C 中 \code{printf("\%d", 'A')} 输出的是数字 65，不是字符 A。\end{analysis}
+
+\q ABC。\begin{analysis}A 对：\code{\%5d} 右对齐、左补空格；B 对：\code{\%-5d} 左对齐、右补空格；C 对：\code{\%.2f} 保留 2 位小数；D 错：\code{\%05d} 是左补 0，而不是补空格。\end{analysis}
+
+\q BC。\begin{analysis}B 对：\code{scanf("\%d", \&a)} 给出了变量地址；C 对：\code{printf("\%d", a)} 输出变量 \code{a} 的值。A 错：\code{scanf} 缺少取地址符 \code{\&}；D 错：\code{printf} 中 \code{\%d} 需要的是变量的值，写成 \code{\&a} 输出的是地址而非变量值。\end{analysis}
+
+\answerpart{三、判断题（5 题，每题 2 分，共 10 分）}
+
+\q ×。改正：\code{printf} 和 \code{scanf} 是 C 语言的标准库函数，不是关键字；使用时需要包含头文件 \code{<stdio.h>}。\begin{analysis}C 语言的关键字只有 37 个，如 \code{int}、\code{if}、\code{return}；\code{printf}、\code{scanf} 是库函数名，属于标识符。\end{analysis}
+
+\q √。\begin{analysis}\code{scanf} 要求地址表列给出存储单元地址，基本类型变量前必须加取地址符 \code{\&}，如 \code{scanf("\%d", \&a)}；字符数组名本身代表地址，可以不加 \code{\&}。\end{analysis}
+
+\q ×。改正：格式符 \code{\%5d} 表示输出宽度为 5 列且右对齐、左边补空格；若要左对齐应写成 \code{\%-5d}。\begin{analysis}宽度数字前加负号表示左对齐，不加负号（默认）为右对齐；\code{\%05d} 则表示右对齐且左补 0。\end{analysis}
+
+\q √。\begin{analysis}\code{getchar()} 从标准输入（键盘）读入一个字符，返回该字符的 ASCII 码；常与 \code{putchar} 配合逐字符处理输入输出。\end{analysis}
+
+\q ×。改正：\code{scanf} 中的格式字符 \code{\%c} 不会跳过空格和回车，会把空格或回车本身读入；若要跳过空白，可在格式串中 \code{\%c} 前加一个空格。\begin{analysis}输入数值时 \code{scanf} 会自动跳过前导空白并以空白分隔数据，但 \code{\%c} 按字符原样读入，这是 \code{scanf} 混用 \code{\%d} 与 \code{\%c} 时最常见的错误来源。\end{analysis}
+
+\answerpart{四、填空题（10 空，每空 1 分，共 10 分）}
+
+\q （1）\code{\%c}；（2）\code{\%s}。\begin{analysis}输出单个字符用 \code{\%c}，输出字符串用 \code{\%s}。\end{analysis}
+
+\q （3）3.14。\begin{analysis}\code{\%.2f} 表示保留 2 位小数，3.14159 四舍五入后为 3.14。\end{analysis}
+
+\q （4）\code{"\%d\%d"}；（5）\code{\&a, \&b}。\begin{analysis}完整的输入语句为 \code{scanf("\%d\%d", \&a, \&b);}。格式串中两个 \code{\%d} 分别对应两个整型变量；地址表列必须写变量地址，即 \code{\&a, \&b}。\end{analysis}
+
+\q （6）\code{\%\%}。\begin{analysis}\code{\%} 是格式引导符，要输出百分号本身必须写两个百分号。\end{analysis}
+
+\q （7）\code{getchar}；（8）\code{putchar}。\begin{analysis}\code{getchar()} 读入一个字符，\code{putchar(c)} 输出一个字符，二者都需包含 \code{<stdio.h>}。\end{analysis}
+
+\q （9）65。\begin{analysis}\code{'A'} 的 ASCII 码为 65，以 \code{\%d} 输出时显示数字 65。\end{analysis}
+
+\q （10）\code{\%-6d}。\begin{analysis}宽度 6 表示占 6 列，负号表示左对齐，所以格式符为 \code{\%-6d}。若写成 \code{\%6d} 则为右对齐。\end{analysis}
+
+\answerpart{五、程序阅读题（2 题，每题 5 分，共 10 分）}
+
+\q 运行结果为（行首空格已保留）：
+\begin{lstlisting}
+  123|123  |00123
+    3.14|3.142
+\end{lstlisting}
+\begin{analysis}第一条 \code{printf} 中：\code{\%5d} 右对齐占 5 列，123 前补 2 个空格；\code{\%-5d} 左对齐占 5 列，123 后补 2 个空格；\code{\%05d} 右对齐占 5 列且左补 0，得到 00123。第二条 \code{printf} 中：\code{\%8.2f} 占 8 列、保留 2 位，3.14 前补 4 个空格；\code{\%.3f} 保留 3 位小数，得 3.142。\end{analysis}
+
+\q 运行结果为：
+\begin{lstlisting}
+xy
+\end{lstlisting}
+\begin{analysis}输入 \code{xyz} 后按回车，输入缓冲区中依次是字符 \code{'x'}、\code{'y'}、\code{'z'} 和换行符。第一次调用 \code{getchar()} 读入 \code{'x'} 赋给 \code{c1}，第二次读入 \code{'y'} 赋给 \code{c2}；随后 \code{putchar(c1)}、\code{putchar(c2)} 依次输出 \code{x}、\code{y}，最后 \code{putchar('\textbackslash n')} 换行。\end{analysis}
+
+\answerpart{六、简答题（3 题，每题 5 分，共 15 分）}
+
+\q 参考答案要点（写出 6 个即可）：
+（1）\code{\%d}：按十进制整数形式输出（1 分）。
+（2）\code{\%o}：按八进制整数形式输出；\code{\%x}：按十六进制整数形式输出（1 分）。
+（3）\code{\%c}：输出单个字符；\code{\%s}：输出字符串（1 分）。
+（4）\code{\%f}：以小数形式输出实型数据，可配合精度控制小数位数（1 分）。
+（5）\code{\%e}：以指数形式输出实型数据；\code{\%g}：自动选择较短的形式输出（0.5 分）。
+（6）\code{\%\%}：输出一个百分号（0.5 分）。
+（7）可加宽度、精度修饰，如 \code{\%5.2f} 表示总宽 5 列、保留 2 位小数（1 分）。
+
+\q 参考答案要点：
+（1）地址表列必须给出变量地址：基本类型变量前要加取地址符 \code{\&}，如 \code{scanf("\%d", \&a)}；字符数组名本身是地址，可不加 \code{\&}（1.5 分）。
+（2）格式字符必须与变量类型匹配：\code{\%d} 对应 \code{int}，\code{\%f} 对应 \code{float}，\code{\%lf} 对应 \code{double}，\code{\%c} 对应 \code{char}（1.5 分）。
+（3）输入数值时，空格、回车、Tab 都作为数据分隔符，遇之即认为当前数据结束；格式串中一般不要加 \code{\textbackslash n} 等多余字符（1 分）。
+（4）\code{\%c} 不跳过空白字符；若 \code{\%d} 之后紧接 \code{\%c}，\code{\%c} 可能读到回车或空格，应在格式串中 \code{\%c} 前加一个空格（1 分）。
+
+\q 参考答案要点：
+（1）\code{getchar()} 从标准输入设备读入一个字符，返回读入字符的 ASCII 码；\code{putchar(c)} 向标准输出设备输出一个字符 c（1.5 分）。
+（2）二者一次只能处理一个字符，不能直接控制宽度、精度，适合逐字符处理，如统计字符个数、大小写转换（1 分）。
+（3）\code{scanf}、\code{printf} 是格式化输入输出函数，通过格式字符可一次输入输出各种类型的数据，并可控制宽度、精度、对齐方式（1.5 分）。
+（4）\code{getchar}、\code{putchar} 可看作 \code{scanf("\%c")}、\code{printf("\%c")} 的简化形式，但 \code{getchar} 不需要格式串和地址，使用更简洁（1 分）。
+
+\answerpart{七、综合题（1 题，共 20 分）}
+
+\q 参考程序如下：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    float a, b, c, sum, ave;
+    scanf("%f%f%f", &a, &b, &c);
+    sum = a + b + c;
+    ave = sum / 3;
+    printf("sum=%.2f\n", sum);
+    printf("ave=%.2f\n", ave);
+    return 0;
+}
+\end{lstlisting}
+\begin{analysis}运行结果（输入 \code{80 90 100}）为：
+\begin{lstlisting}
+sum=270.00
+ave=90.00
+\end{lstlisting}
+评分要点：正确包含 \code{<stdio.h>}（2 分）；正确定义 5 个 \code{float} 变量（4 分）；\code{scanf} 的格式串与地址表列正确（\code{\%f} 对应 \code{\&a} 等，4 分）；正确计算总产量（3 分）；正确计算平均产量（3 分）；\code{printf} 用 \code{\%.2f} 按指定格式输出（4 分）。\end{analysis}
+\begin{analysis}易错提示：若输出写成 \code{printf("sum=\%f", sum)}，默认保留 6 位小数为 \code{270.000000}，不符合题目要求；若 \code{scanf} 中用 \code{\%d} 读入实数会得到错误结果。输入时三个数之间用空格或回车分隔均可。\end{analysis}
+
+\end{document}

@@ -1,0 +1,196 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第07章\quad 函数}
+\begin{document}
+
+\unitcover{341 农业综合知识三 · 程序设计分章练习}{第07章\quad 函数}{练习（共 100 分）}{约 60 分钟}{函数的定义、声明与调用；返回值与形参实参；值传递与地址传递；嵌套调用与递归；数组作函数参数；局部变量与全局变量；\code{static}、\code{extern} 等存储类别与变量生存期。}
+
+\begin{knowmap}
+\textbf{函数定义：}一般形式为“类型名 函数名(形参列表) \{ 函数体 \}”，如 \code{int max(int a, int b) \{ ... \}}；返回值由 \code{return} 语句带回，无返回值时类型写 \code{void}。\\[2pt]
+\textbf{声明与调用：}函数声明（原型）给出函数名、返回类型和形参类型，以分号结尾，通常放在调用之前；函数定义在调用之前时可以省略声明；C 语言函数不能嵌套定义，但可以嵌套调用。\\[2pt]
+\textbf{参数传递：}实参与形参个数、类型应匹配；值传递是单向的，形参是实参的副本，函数内改变形参不影响实参；数组名作实参时传递首地址，函数内可修改实参数组元素。\\[2pt]
+\textbf{递归：}函数直接或间接调用自身，必须同时具备终止条件与递推关系，如 $n!$、Hanoi 塔、斐波那契数列；递归代码简洁，但每层调用都要占用栈空间，层数过深可能栈溢出。\\[2pt]
+\textbf{变量作用域：}局部变量只在定义它的函数或复合语句内有效；全局变量从定义处到本源文件结束有效，未初始化时自动为 0；局部变量可以与全局变量同名，函数内优先使用局部变量。\\[2pt]
+\textbf{存储类别：}\code{auto}（自动，默认，栈区）、\code{static}（静态，静态存储区，只初始化一次、生存期整个程序）、\code{register}（寄存器建议）、\code{extern}（声明外部变量或函数）。
+\end{knowmap}
+
+\begin{keyterms}
+\textbf{函数定义}：给出函数的完整实现，包括返回类型、函数名、形参列表和函数体。\\
+\textbf{函数声明}：只给出函数名、返回类型和形参类型，以分号结尾，使编译器在调用前掌握函数接口。\\
+\textbf{函数首部}：函数定义的第一行，包括返回类型、函数名和形参列表，如 \code{int max(int a, int b)}。\\
+\textbf{return 语句}：结束函数执行并把表达式的值返回给调用者；无返回值函数用 \code{return;}。\\
+\textbf{值传递}：调用函数时把实参的值复制给形参，形参与实参是两块不同的存储单元，单向传递。\\
+\textbf{数组作函数参数}：实参写数组名，形参写 \code{int a[]} 或 \code{int *a}，传递的是数组首地址。\\
+\textbf{递归}：函数直接或间接调用自身；必须有终止条件，且每次递归都向终止条件靠近。\\
+\textbf{局部变量}：在函数或复合语句内部定义的变量，作用域限于所在函数或复合语句，生存期随函数调用结束而结束（static 局部变量除外）。\\
+\textbf{全局变量}：在函数之外定义的变量，作用域从定义处到本源文件结束，未初始化时初值为 0。\\
+\textbf{static 局部变量}：存放在静态存储区，只初始化一次，函数调用结束后值仍保留，生存期为整个程序运行期间。\\
+\textbf{extern}：声明外部变量或外部函数，表示该变量或函数定义在别处，用于扩展作用域。\\
+\textbf{存储类别}：变量在内存中的存储方式，C 语言有 auto、static、register、extern 四种。
+\end{keyterms}
+
+\begin{contrast}{值传递 / 地址传递（每行依次为：传递内容·对实参的影响·典型场合）}
+\citem{值传递}{把实参的值复制给形参，形参与实参是不同存储单元}{函数内改变形参不影响实参}{普通变量作参数，如求最大值、阶乘}
+\citem{地址传递}{把实参的地址传给形参，形参为指针}{函数内可通过指针修改实参所指变量的值}{需要在函数中修改实参、交换变量、数组作参数}
+\end{contrast}
+
+\begin{contrast}{局部变量 / 全局变量（每行依次为：定义位置·作用域·未初始化时的值）}
+\citem{局部变量}{在函数或复合语句内部定义}{仅在该函数或复合语句内有效}{值不确定（随机值），使用前必须初始化}
+\citem{全局变量}{在所有函数之外定义}{从定义处到本源文件结束（可用 extern 扩展）}{自动初始化为 0}
+\end{contrast}
+
+\begin{contrast}{\code{auto} 局部变量 / \code{static} 局部变量（每行依次为：存储区·初始化次数·生存期）}
+\citem{\code{auto}}{栈区（动态存储区）}{每次调用函数时都重新初始化}{随函数调用开始而开始、调用结束而释放}
+\citem{\code{static}}{静态存储区}{只初始化一次，以后调用保留上次的值}{整个程序运行期间都存在}
+\end{contrast}
+
+\qtypename{一、单项选择题}{10 题，每题 2 分，共 20 分}
+\q 函数返回值的类型由（\quad）决定。
+\choicesline{A. 调用时的实参类型}{B. 函数定义时指定的返回类型}{C. return 表达式的类型}{D. 编译器自动推导}
+
+\q 值传递时，若在函数内改变形参的值，则实参（\quad）。
+\choicesline{A. 随之改变}{B. 不变}{C. 变为 0}{D. 不确定}
+
+\q 关于函数声明，下列说法正确的是（\quad）。
+\choices{A. 声明必须以分号结尾}{B. 声明必须写在函数体内}
+{C. 声明可以省略形参类型}{D. 声明就是函数定义}
+
+\q 递归函数必须具备（\quad），否则会无限递归。
+\choicesline{A. 循环语句}{B. 终止条件}{C. 全局变量}{D. 数组参数}
+
+\q 执行下列程序段，输出结果是（\quad）。
+\begin{lstlisting}[language={[custom]C}]
+void f(void)
+{
+    static int a = 0;
+    a++;
+    printf("%d", a);
+}
+int main(void)
+{
+    f(); f(); f();
+    return 0;
+}
+\end{lstlisting}
+\choicesline{A. 111}{B. 012}{C. 123}{D. 000}
+
+\q \code{static} 局部变量在程序运行期间（\quad）。
+\choices{A. 每次调用都重新初始化}{B. 只初始化一次，调用后保留上次的值}
+{C. 作用域为整个程序}{D. 存放在栈区，函数结束即释放}
+
+\q 全局变量的作用域是（\quad）。
+\choices{A. 定义它的函数内}{B. 从定义处到本源文件结束}{C. 整个程序的所有文件}{D. 仅在 main 函数中}
+
+\q 函数 \code{void swap(int a, int b)} 不能交换实参的值，原因是（\quad）。
+\choices{A. 函数没有返回值}{B. 值传递只交换了形参副本}
+{C. 形参类型写错}{D. 缺少 return 语句}
+
+\q 数组名作函数实参、形参写成 \code{int a[]} 时，函数内 \code{sizeof(a)} 得到的是（\quad）。
+\choicesline{A. 数组长度}{B. 数组字节数}{C. 指针大小}{D. 0}
+
+\q 关于函数的嵌套，下列说法正确的是（\quad）。
+\choices{A. C 语言可以嵌套定义函数}{B. C 语言可以嵌套调用函数}
+{C. C 语言不能嵌套调用函数}{D. 只能嵌套定义、不能嵌套调用}
+
+\qtypename{二、多项选择题}{5 题，每题 3 分，共 15 分；每题有两个或两个以上正确项}
+\q 一个完整的函数定义包括（\quad）。
+\choicesline{A. 返回类型}{B. 函数名}{C. 形参列表}{D. 函数体}
+
+\q 值传递的特点有（\quad）。
+\choicesline{A. 单向传递}{B. 形参是实参的副本}{C. 形参改变不影响实参}{D. 形参改变会影响实参}
+
+\q 关于 \code{static} 局部变量，下列说法正确的有（\quad）。
+\choicesline{A. 生存期为整个程序运行期间}{B. 只初始化一次}
+{C. 作用域限于所在函数}{D. 每次调用都重新初始化}
+
+\q 关于递归，下列说法正确的有（\quad）。
+\choicesline{A. 必须有终止条件}{B. 每次递归都应向终止条件靠近}
+{C. 代码简洁但层数过深可能栈溢出}{D. 递归一定比循环效率高}
+
+\q 关于变量的作用域与存储类别，下列说法正确的有（\quad）。
+\choices{A. 局部变量的作用域限于所在函数}{B. 全局变量未初始化时初值为 0}
+{C. \code{static} 局部变量存放在静态存储区}{D. \code{register} 变量不能进行取地址运算}
+
+\qtypename{三、判断题}{5 题，每题 2 分，共 10 分；正确的画“√”，错误的画“×”并写出改正后的表述}
+\q C 语言中函数可以嵌套定义。\quad（\quad）\quad 改正：\fixblank
+
+\q 只要函数定义在调用之前，就可以不写函数声明。\quad（\quad）\quad 改正：\fixblank
+
+\q 数组名作函数实参时，函数内可以修改实参数组的元素。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{static} 局部变量每次调用函数时都会重新赋初值。\quad（\quad）\quad 改正：\fixblank
+
+\q 全局变量未赋初值时自动为 0。\quad（\quad）\quad 改正：\fixblank
+
+\qtypename{四、填空题}{10 空，每空 1 分，共 10 分}
+\q 函数定义的一般形式为：类型名 函数名(\fillblanks[2.2cm])\{\fillblanks[2.2cm]\}。
+
+\q 函数返回值通过\fillblanks[1.4cm]语句返回给调用者。
+
+\q 值传递时形参是实参的\fillblanks[1.4cm]，改变形参\fillblanks[1.0cm]改变实参。
+
+\q \code{static} 局部变量的初始化次数为\fillblank{}次，生存期为\fillblanks[2.6cm]。
+
+\q 声明外部变量使用的关键字是\fillblanks[1.6cm]。
+
+\q 求 $n!$ 的递归函数，其终止条件可写为\fillblanks[2.4cm]。
+
+\q 若函数没有返回值，其返回类型应写为\fillblanks[1.2cm]。
+
+\qtypename{五、程序阅读题}{2 题，每题 5 分，共 10 分}
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+void f(int x)
+{
+    x = x + 10;
+    printf("%d ", x);
+}
+int main(void)
+{
+    int a = 5;
+    f(a);
+    printf("%d\n", a);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int f(int n)
+{
+    static int s = 1;
+    s = s * n;
+    return s;
+}
+int main(void)
+{
+    int i;
+    for (i = 1; i <= 4; i++)
+        printf("%d ", f(i));
+    printf("\n");
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.6cm}
+
+\qtypename{六、简答题}{3 题，每题 5 分，共 15 分}
+\q 函数声明与函数定义有何区别？为什么函数声明中的形参名可以省略？\anslines{3.0cm}
+
+\q 值传递与地址传递有何区别？数组作函数参数时为什么能修改实参数组？\anslines{3.2cm}
+
+\q 局部变量、全局变量与 \code{static} 局部变量在作用域和生存期上有何不同？\anslines{3.2cm}
+
+\newpage
+\qtypename{七、综合题}{1 题，共 20 分}
+\q 编写一个完整的 C 程序，要求：
+\par\vspace{0.15em}
+\noindent（1）定义递归函数 \code{int gcd(int m, int n)}，用辗转相除法求两个正整数的最大公约数；\\
+\noindent（2）定义函数 \code{double average(int a[], int n)}，求数组中 $n$ 个元素的平均值；\\
+\noindent（3）在 \code{main} 中先读入 5 个整数并输出平均值（保留 2 位小数），再读入两个正整数并输出它们的最大公约数。
+
+\noindent 输入示例：\code{2 4 6 8 10 12 18}，输出应为 \code{avg=6.00} 与 \code{gcd=6}。请写出完整程序。\anslines{4.0cm}
+
+\end{document}

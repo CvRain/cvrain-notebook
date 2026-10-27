@@ -1,0 +1,195 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第09章\quad 结构体与共用体}
+\begin{document}
+
+\unitcover{341 农业综合知识三 · 程序设计分章练习}{第09章\quad 结构体与共用体}{练习（共 100 分）}{约 70 分钟}{结构体的定义、初始化与引用；结构体数组；结构体指针；结构体作函数参数与返回值；共用体；枚举；\code{typedef}；单链表基础。}
+
+\begin{knowmap}
+\textbf{结构体定义：}\code{struct 结构体名 \{ 成员列表 \};} 每个成员可以是不同类型；定义变量如 \code{struct stu s;}，用 \code{s.成员名} 引用。\\[2pt]
+\textbf{结构体数组：}\code{struct stu s[3];} 每个元素都是一个结构体变量，可用循环遍历；初始化时按元素顺序给出各成员的初值。\\[2pt]
+\textbf{结构体指针：}\code{struct stu *p = \&s;} 使 p 指向结构体变量，用 \code{p->成员名} 或 \code{(*p).成员名} 访问成员。\\[2pt]
+\textbf{结构体作函数参数：}值传递会复制整个结构体，函数内修改不影响实参；用结构体指针作参数只传地址，效率高且可修改实参。\\[2pt]
+\textbf{共用体与枚举：}\code{union} 的所有成员共享同一段存储，长度等于最长成员（考虑对齐），同一时刻只有一个成员有效；\code{enum} 定义枚举类型，枚举元素是符号常量，默认从 0 开始递增。\\[2pt]
+\textbf{类型别名与链表：}\code{typedef} 为已有类型起别名；单链表结点用结构体定义，如 \code{struct node \{ int data; struct node *next; \};}，结点通常用 \code{malloc} 动态分配，\code{next} 为 NULL 表示链表结束。
+\end{knowmap}
+
+\begin{keyterms}
+\textbf{结构体}：由不同类型数据组成的构造类型，用 \code{struct} 定义，如 \code{struct stu \{ int num; char name[20]; \};}。\\
+\textbf{结构体成员}：结构体中定义的数据项，可以是基本类型、数组、指针，也可以是另一个结构体。\\
+\textbf{结构体变量}：按结构体类型定义的变量，如 \code{struct stu s;}，占有连续的存储单元。\\
+\textbf{结构体数组}：元素为结构体类型的数组，如 \code{struct stu s[3];}，常用于表示多个同类记录。\\
+\textbf{结构体指针}：指向结构体变量的指针，如 \code{struct stu *p = \&s;}，通过 \code{->} 访问成员。\\
+\textbf{\code{->} 运算符}：结构体指针成员访问运算符，\code{p->num} 等价于 \code{(*p).num}。\\
+\textbf{共用体}：用 \code{union} 定义，所有成员共享同一段存储单元，同一时刻只能有效存放一个成员。\\
+\textbf{枚举}：用 \code{enum} 定义，列举有限个符号常量，如 \code{enum color \{ red, green, blue \};}。\\
+\textbf{typedef}：为已有数据类型起别名，如 \code{typedef struct stu STU;}，便于书写和移植。\\
+\textbf{链表}：由若干结点通过指针链接而成的动态数据结构，结点在内存中不必连续存放。\\
+\textbf{结点}：链表的基本单元，一般含数据域和指针域，如 \code{struct node \{ int data; struct node *next; \};}。\\
+\textbf{malloc/free}：\code{malloc} 动态申请内存并返回首地址（\code{void *}），\code{free} 释放申请到的内存。
+\end{keyterms}
+
+\begin{contrast}{结构体 / 共用体（每行依次为：关键字·存储方式·长度确定）}
+\citem{结构体}{\code{struct}}{各成员分别占用存储单元，可同时存放多个成员的值}{等于各成员长度之和（考虑对齐填充）}
+\citem{共用体}{\code{union}}{所有成员共享同一段存储单元，同一时刻只有一个成员有效}{等于最长成员的长度（考虑对齐）}
+\end{contrast}
+
+\begin{contrast}{\code{s.成员} / \code{p->成员}（每行依次为：适用对象·等价写法·注意事项）}
+\citem{\code{s.成员}}{结构体变量（或结构体数组元素）}{无，直接用点运算符}{点运算符不能用于结构体指针}
+\citem{\code{p->成员}}{结构体指针}{等价于 \code{(*p).成员}}{\code{->} 优先级较高，\code{p->num} 不能写成 \code{*p.num}}
+\end{contrast}
+
+\begin{contrast}{结构体变量作实参 / 结构体指针作实参（每行依次为：传递内容·能否修改实参·效率与场合）}
+\citem{结构体变量}{复制整个结构体的各成员值}{不能修改实参}{复制开销大，适合结构体较小且不需修改实参的场合}
+\citem{结构体指针}{只传结构体变量的地址}{可以通过指针修改实参}{开销小、效率高，适合结构体较大或需要修改实参的场合}
+\end{contrast}
+
+\begin{contrast}{数组 / 链表（每行依次为：存储方式·访问方式·插入删除效率）}
+\citem{数组}{元素在内存中连续存放，长度定义后固定}{可用下标随机访问，效率高}{插入、删除需移动后续元素，效率低}
+\citem{链表}{结点用指针链接，内存中不必连续，长度可动态变化}{只能从头结点沿 next 顺序访问}{插入、删除只需修改指针，效率高}
+\end{contrast}
+
+\qtypename{一、单项选择题}{10 题，每题 2 分，共 20 分}
+\q 定义结构体类型使用的关键字是（\quad）。
+\choicesline{A. \code{struct}}{B. \code{union}}{C. \code{enum}}{D. \code{typedef}}
+
+\q 引用结构体变量 \code{s} 中成员 \code{num} 的正确形式是（\quad）。
+\choicesline{A. \code{s->num}}{B. \code{s.num}}{C. \code{s[num]}}{D. \code{*s.num}}
+
+\q 若 \code{p} 是指向结构体变量的指针，则访问其成员 \code{num} 可用（\quad）。
+\choicesline{A. \code{p.num}}{B. \code{p->num}}{C. \code{*p.num}}{D. \code{p[num]}}
+
+\q 若有定义 \code{struct stu s[3];}，则 \code{s[1].num} 表示（\quad）。
+\choicesline{A. 第一个元素的 num}{B. 第二个元素的 num}{C. 第三个元素的 num}{D. 非法表达式}
+
+\q 共用体变量所占内存长度为（\quad）。
+\choicesline{A. 各成员长度之和}{B. 最长成员的长度}{C. 第一个成员的长度}{D. 最短成员的长度}
+
+\q 关于共用体成员，下列说法正确的是（\quad）。
+\choices{A. 各成员同时有效}{B. 所有成员共享同一段存储，同一时刻只有一个成员有效}
+{C. 各成员分别占用独立存储}{D. 共用体不能包含 int 型成员}
+
+\q 有定义 \code{enum color \{ red, green = 3, blue \};}，则 \code{blue} 的值是（\quad）。
+\choicesline{A. 1}{B. 2}{C. 3}{D. 4}
+
+\q \code{typedef} 的作用是（\quad）。
+\choices{A. 定义一个新的结构体类型}{B. 为已有数据类型起别名}
+{C. 定义共用体}{D. 动态分配内存}
+
+\q 结构体变量作函数实参时（\quad）。
+\choices{A. 传递的是地址，函数内可修改实参}{B. 复制整个结构体，函数内修改形参不影响实参}
+{C. 只能传递成员，不能传递整个结构体}{D. 函数无法接收结构体参数}
+
+\q 链表结点的定义 \code{struct node \{ int data; struct node *next; \};} 中，\code{next} 是（\quad）。
+\choices{A. 整型数据}{B. 指向同类型结点的指针}{C. 字符数组}{D. 指向 int 的指针}
+
+\qtypename{二、多项选择题}{5 题，每题 3 分，共 15 分；每题有两个或两个以上正确项}
+\q 结构体的成员可以是（\quad）。
+\choicesline{A. 不同的数据类型}{B. 数组}{C. 指针}{D. 另一个结构体}
+
+\q 关于结构体指针，下列说法正确的有（\quad）。
+\choices{A. \code{p->num} 等价于 \code{(*p).num}}{B. \code{*p.num} 等价于 \code{p->num}}
+{C. 可以指向结构体数组的元素}{D. \code{struct stu *p;} 定义后可直接执行 \code{p->num = 1;}}
+
+\q 关于共用体，下列说法正确的有（\quad）。
+\choices{A. 所有成员共享同一段存储}{B. 长度等于最长成员的长度}
+{C. 同一时刻只有一个成员有效}{D. 可以同时给多个成员赋值并同时有效}
+
+\q 关于枚举，下列说法正确的有（\quad）。
+\choices{A. 枚举元素是符号常量}{B. 默认从 0 开始依次递增}
+{C. 可以指定某个枚举元素的值}{D. 枚举元素可以像变量一样被赋值}
+
+\q 关于链表，下列说法正确的有（\quad）。
+\choices{A. 结点一般含数据域和指针域}{B. 结点可用 \code{malloc} 动态分配}
+{C. \code{next} 为 \code{NULL} 表示链表结束}{D. 结点在内存中必须连续存放}
+
+\qtypename{三、判断题}{5 题，每题 2 分，共 10 分；正确的画“√”，错误的画“×”并写出改正后的表述}
+\q 结构体变量的各成员按定义顺序存放，可能有对齐填充。\quad（\quad）\quad 改正：\fixblank
+
+\q 共用体的长度等于其所有成员长度之和。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{p->num} 与 \code{(*p).num} 等价。\quad（\quad）\quad 改正：\fixblank
+
+\q 结构体变量可以直接用 \code{==} 比较是否相等。\quad（\quad）\quad 改正：\fixblank
+
+\q 枚举元素可以像变量一样被赋值修改。\quad（\quad）\quad 改正：\fixblank
+
+\qtypename{四、填空题}{10 空，每空 1 分，共 10 分}
+\q 定义结构体使用关键字\fillblanks[1.4cm]，定义共用体使用关键字\fillblanks[1.4cm]。
+
+\q 结构体变量引用成员用\fillblanks[0.8cm]运算符，结构体指针引用成员用\fillblanks[1.2cm]运算符。
+
+\q 共用体的长度等于\fillblanks[2.4cm]。
+
+\q \code{enum color \{ red, green, blue \};} 中 \code{green} 的值为\fillblank{}。
+
+\q 用\fillblanks[1.8cm]可以为已有数据类型起别名。
+
+\q 链表结点一般包含数据域和\fillblanks[1.6cm]。
+
+\q 结构体数组名代表数组首元素的\fillblanks[1.2cm]。
+
+\q 若 \code{struct stu s, *p = \&s;}，则访问 s 的 num 成员可写 \code{s.num} 或\fillblanks[1.8cm]。
+
+\qtypename{五、程序阅读题}{2 题，每题 5 分，共 10 分}
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+struct stu {
+    int num;
+    char name[10];
+    int score;
+};
+int main(void)
+{
+    struct stu s[3] = {{1, "Li", 80}, {2, "Wang", 92}, {3, "Zhao", 76}};
+    struct stu *p = s;
+    int i, sum = 0;
+    for (i = 0; i < 3; i++)
+        sum += (p + i)->score;
+    printf("%d %s %d\n", s[1].num, p[1].name, sum);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+struct point { int x, y; };
+int main(void)
+{
+    struct point a = {1, 2}, b = {3, 4};
+    struct point *p = &a;
+    p->x = b.y;
+    b = *p;
+    printf("%d %d %d %d\n", a.x, a.y, b.x, b.y);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.6cm}
+
+\qtypename{六、简答题}{3 题，每题 5 分，共 15 分}
+\q 结构体与共用体有何区别？它们所占内存的长度分别如何确定？\anslines{3.2cm}
+
+\q 结构体变量作函数参数与结构体指针作函数参数有何区别？各适用于什么场合？\anslines{3.2cm}
+
+\q 简述单链表结点的定义，以及用头插法建立链表和遍历链表的基本方法。\anslines{3.2cm}
+
+\newpage
+\qtypename{七、综合题}{1 题，共 20 分}
+\q 编写一个完整的 C 程序：读入 5 个学生的学号、姓名和成绩（成绩为整数），存入结构体数组，
+\par\vspace{0.15em}
+\noindent（1）按成绩从高到低排序后，逐行输出学号、姓名、成绩；\\
+\noindent（2）输出这 5 个学生的平均分（保留 2 位小数）。
+
+\noindent 输入示例：
+\par\noindent\code{101 Zhang 85}
+\par\noindent\code{102 Li 92}
+\par\noindent\code{103 Wang 78}
+\par\noindent\code{104 Zhao 90}
+\par\noindent\code{105 Chen 88}
+
+\noindent 请写出完整程序。\anslines{4.0cm}
+
+\end{document}

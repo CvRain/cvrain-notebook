@@ -1,0 +1,185 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第02章\quad 数据类型、运算符与表达式}
+\begin{document}
+
+\unitcover{341 农业综合知识三 · 程序设计分章练习}{第02章\quad 数据类型、运算符与表达式}{练习（共 100 分）}{约 60 分钟}{数据类型与长度；整型、实型、字符型、字符串常量的表示；变量定义与初始化；运算符优先级与结合性；自增自减；类型转换；逗号表达式与 \code{sizeof}。}
+
+\begin{knowmap}
+\textbf{数据类型：}基本类型（整型 \code{short}、\code{int}、\code{long}、\code{long long}，字符型 \code{char}，浮点型 \code{float}、\code{double}、\code{long double}）、枚举类型、空类型 \code{void}、派生类型（指针、数组、结构体、共用体）。\\[2pt]
+\textbf{常量：}整型常量分十进制、八进制（以 0 开头）、十六进制（以 \code{0x} 开头），可加后缀 \code{U}、\code{L}；实型常量有小数形式和指数形式，指数形式要求 e 前有数字、e 后为整数；字符常量用单引号，字符串常量用双引号且末尾自动加 \code{'\textbackslash 0'}。\\[2pt]
+\textbf{变量：}先定义后使用，定义时分配存储单元，可在定义的同时初始化；字符数据以 ASCII 码形式存放，可与整数通用。\\[2pt]
+\textbf{运算符：}算术、关系、逻辑、赋值、条件、逗号、位运算和 \code{sizeof}；求余 \code{\%} 两侧必须都是整型。\\[2pt]
+\textbf{优先级与结合性：}\code{!} $>$ 算术运算符 $>$ 关系运算符 $>$ \code{\&\&} $>$ \code{||} $>$ 条件运算符 $>$ 赋值运算符 $>$ 逗号运算符；赋值运算符和条件运算符为右结合。\\[2pt]
+\textbf{类型转换：}自动转换按 \code{char/short} $\rightarrow$ \code{int} $\rightarrow$ \code{unsigned} $\rightarrow$ \code{long} $\rightarrow$ \code{float} $\rightarrow$ \code{double} 的方向进行；强制转换写作（类型名）（表达式）；自增自减 \code{++}/\code{--} 只能用于变量。
+\end{knowmap}
+
+\begin{keyterms}
+\textbf{整型常量}：可用十进制、八进制（以 0 开头）、十六进制（以 \code{0x} 开头）表示，如 123、017、0x7B。\\
+\textbf{实型常量}：小数形式如 3.14、0.5；指数形式如 2.5e-3，要求 e（或 E）前面必须有数字，e 后面的指数必须是整数。\\
+\textbf{字符常量}：用单引号括起来的单个字符，如 \code{'A'}；在内存中存放其 ASCII 码，占 1 个字节。\\
+\textbf{转义字符}：以反斜杠开头的特殊字符，如 \code{'\textbackslash n'}（换行）、\code{'\textbackslash t'}（制表）、\code{'\textbackslash\textbackslash'}（反斜杠）、\code{'\textbackslash 0'}（空字符）。\\
+\textbf{字符串常量}：用双引号括起来的字符序列，如 \code{"China"}；末尾自动加一个 \code{'\textbackslash 0'}，占 6 个字节。\\
+\textbf{变量定义}：格式为“类型名 变量名表；”，如 \code{int a, b = 3;}；变量必须先定义后使用。\\
+\textbf{自增自减}：\code{++i} 是先加 1 再使用，\code{i++} 是先使用再加 1；只能用于变量，不能用于常量或表达式。\\
+\textbf{赋值表达式}：由赋值运算符连接的式子，赋值表达式的值就是赋给左边变量的值，如 \code{a = b = 3} 的值为 3。\\
+\textbf{复合赋值}：\code{+=}、\code{-=}、\code{*=}、\code{/=}、\code{\%=} 等，如 \code{a += 2} 等价于 \code{a = a + 2}。\\
+\textbf{逗号表达式}：形式为“表达式 1, 表达式 2, ……, 表达式 n”，从左到右依次计算，整个表达式的值为最后一个表达式的值。\\
+\textbf{sizeof}：测量类型或变量所占字节数的运算符，不是函数；如 \code{sizeof(int)}、\code{sizeof("abc")}。\\
+\textbf{强制类型转换}：格式为“（类型名）（表达式）”，如 \code{(double)a / b}；转换只得到中间值，不改变原变量的类型。\\
+\textbf{运算符优先级}：决定表达式中各运算符的运算次序；优先级相同时按结合性（左结合或右结合）处理。\\
+\textbf{ASCII 码}：字符在内存中的编码，常用 \code{'A'} 为 65、\code{'a'} 为 97、\code{'0'} 为 48、\code{'\textbackslash n'} 为 10。
+\end{keyterms}
+
+\begin{contrast}{字符常量 / 字符串常量（每行依次为：表示形式·存储长度·能否参与算术运算）}
+\citem{字符常量}{\code{'A'}，单引号}{1 个字节（存放 ASCII 码）}{可以，如 \code{'A' + 2} 的值为 67}
+\citem{字符串常量}{\code{"A"}，双引号}{2 个字节（字符本身加 \code{'\textbackslash 0'}）}{不可以，如 \code{"A" + 2} 是指针运算}
+\citem{字符 \code{0} 与 \code{'\textbackslash 0'}}{字符 \code{'0'} 的 ASCII 码为 48}{空字符 \code{'\textbackslash 0'} 的 ASCII 码为 0}{二者数值不同，不能混用}
+\end{contrast}
+
+\begin{contrast}{\code{i++} / \code{++i}（每行依次为：运算顺序·表达式值·典型用途）}
+\citem{\code{i++}}{先使用 i 的值，再使 i 加 1}{表达式的值为 i 加 1 之前的值}{循环中常用 \code{i++} 作增量}
+\citem{\code{++i}}{先使 i 加 1，再使用 i 的值}{表达式的值为 i 加 1 之后的值}{需要先加 1 再参与运算时使用}
+\end{contrast}
+
+\begin{contrast}{自动类型转换 / 强制类型转换（每行依次为：转换方向·写法·是否改变原变量）}
+\citem{自动类型转换}{由低精度向高精度转换：\code{char/short} $\rightarrow$ \code{int} $\rightarrow$ \code{float} $\rightarrow$ \code{double}}{不必书写转换标记，由编译系统自动完成}{不改变原变量，只是运算时取值的类型改变}
+\citem{强制类型转换}{由程序员指定转换为某种类型}{（类型名）（表达式），如 \code{(int)3.8}}{不改变原变量的类型，只得到转换后的中间值}
+\end{contrast}
+
+\begin{contrast}{整除 / 浮点除（每行依次为：操作数类型·运算规则·举例）}
+\citem{整除}{两个操作数都是整型}{商向零方向取整，舍去小数部分}{\code{7 / 2} 的值为 3}
+\citem{浮点除}{至少一个操作数为实型}{按实数除法得到精确商}{\code{7 / 2.0} 的值为 3.5}
+\citem{求余}{两个操作数都必须为整型}{结果为整除后的余数}{\code{7 \% 2} 的值为 1}
+\end{contrast}
+
+\qtypename{一、单项选择题}{10 题，每题 2 分，共 20 分}
+
+\q 下列属于合法整型常量的是（\quad）。
+\choicesline{A. \code{018}}{B. \code{0x1F}}{C. \code{08}}{D. \code{0x1G}}
+
+\q 下列属于合法实型常量的是（\quad）。
+\choicesline{A. \code{e5}}{B. \code{.5e-3}}{C. \code{1.2E}}{D. \code{3.5e2.5}}
+
+\q 字符常量 \code{'\textbackslash n'} 在内存中占（\quad）个字节。
+\choicesline{A. 1}{B. 2}{C. 3}{D. 4}
+
+\q 字符串常量 \code{"a"} 在内存中占（\quad）个字节。
+\choicesline{A. 1}{B. 2}{C. 3}{D. 4}
+
+\q 表达式 \code{7 / 2} 的值是（\quad）。
+\choicesline{A. 3.5}{B. 3}{C. 4}{D. 1}
+
+\q 表达式 \code{7 \% 2} 的值是（\quad）。
+\choicesline{A. 3}{B. 3.5}{C. 1}{D. 0}
+
+\q 若有定义 \code{int i = 3, j;}，执行语句 \code{j = i++;} 后，\code{i} 和 \code{j} 的值分别是（\quad）。
+\choicesline{A. 3 和 3}{B. 4 和 3}{C. 4 和 4}{D. 3 和 4}
+
+\q 若有定义 \code{int a = 2;}，则逗号表达式 \code{(a = 3, a * 2, a + 5)} 的值是（\quad）。
+\choicesline{A. 3}{B. 6}{C. 8}{D. 11}
+
+\q 在常见 32 位或 64 位编译系统中，\code{sizeof(float)} 的值是（\quad）。
+\choicesline{A. 1}{B. 2}{C. 4}{D. 8}
+
+\q 下列运算符中优先级最低的是（\quad）。
+\choicesline{A. \code{+}}{B. \code{\&\&}}{C. \code{=}}{D. \code{\%}}
+
+\qtypename{二、多项选择题}{5 题，每题 3 分，共 15 分；每题有两个或两个以上正确项}
+
+\q 下列属于合法 C 常量的是（\quad）。
+\choicesline{A. \code{123}}{B. \code{0x2A}}{C. \code{'ab'}}{D. \code{1.5e3}}
+
+\q 关于自增自减运算符，下列说法正确的有（\quad）。
+\choicesline{A. \code{++i} 是先加 1 再使用}{B. \code{i++} 是先使用再加 1}
+{C. 自增运算符可以用于常量}{D. 自增运算符只能用于变量}
+
+\q 关于类型转换，下列说法正确的有（\quad）。
+\choicesline{A. 自动转换一般由低精度向高精度进行}{B. 强制转换写成（类型名）（表达式）}
+{C. 强制转换会改变原变量的类型}{D. \code{char} 与 \code{int} 混合运算时 \code{char} 先转换为 \code{int}}
+
+\q 关于 \code{sizeof}，下列说法正确的有（\quad）。
+\choicesline{A. \code{sizeof} 是运算符}{B. \code{sizeof(int)} 的值与具体编译系统有关}
+{C. \code{sizeof} 可以作用于变量或表达式}{D. \code{sizeof} 是库函数，必须包含头文件才能使用}
+
+\q 下列表达式的值为 3 的有（\quad）。
+\choicesline{A. \code{(int)3.9}}{B. \code{10 / 3}}{C. \code{sizeof(char) + 2}}{D. \code{7 / 2.0}}
+
+\qtypename{三、判断题}{5 题，每题 2 分，共 10 分；正确的画“√”，错误的画“×”并写出改正后的表述}
+
+\q 以 0 开头的整数是十六进制常量。\quad（\quad）\quad 改正：\fixblank
+
+\q 字符常量 \code{'a'} 与字符串常量 \code{"a"} 都占 1 个字节。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{sizeof} 是 C 语言的运算符，不是函数。\quad（\quad）\quad 改正：\fixblank
+
+\q 若 \code{a}、\code{b}、\code{c} 都是整型变量，则赋值表达式 \code{a = b = c = 3} 的值是 3。\quad（\quad）\quad 改正：\fixblank
+
+\q 求余运算符 \code{\%} 两侧的操作数可以是实型数据。\quad（\quad）\quad 改正：\fixblank
+
+\qtypename{四、填空题}{10 空，每空 1 分，共 10 分}
+
+\q 在 C 语言中，八进制常量以 \fillblank{} 开头，十六进制常量以 \fillblank{} 开头。
+
+\q 已知字符 \code{'A'} 的 ASCII 码为 65，则字符 \code{'D'} 的 ASCII 码为 \fillblank{}，字符 \code{'a'} 的 ASCII 码为 \fillblank{}。
+
+\q 表达式 \code{10 / 3} 的值是 \fillblank{}，表达式 \code{10.0 / 3} 的值是 \fillblank{}。
+
+\q 设 \code{int a = 5;}，则表达式 \code{a++} 的值是 \fillblank{}，执行该表达式后 \code{a} 的值是 \fillblank{}。
+
+\q 逗号表达式 \code{(a = 2, b = 3, a + b)} 的值是 \fillblank{}。
+
+\q 表达式 \code{sizeof("China")} 的值是 \fillblank{}。
+
+\qtypename{五、程序阅读题}{2 题，每题 5 分，共 10 分}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    int i = 5, j;
+    j = i++;
+    printf("i=%d,j=%d\n", i, j);
+    j = ++i;
+    printf("i=%d,j=%d\n", i, j);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    int a = 7, b = 2;
+    double x = 2.5;
+    printf("%d %d\n", a / b, a % b);
+    printf("%.1f\n", a / x);
+    printf("%d\n", (int)(a / x));
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\qtypename{六、简答题}{3 题，每题 5 分，共 15 分}
+
+\q C 语言的数据类型分为哪几类？其中的基本类型又包含哪些具体类型？\anslines{3.0cm}
+
+\q 前缀 \code{++} 与后缀 \code{++} 有什么区别？请举例说明。\anslines{3.0cm}
+
+\q 什么是运算符的优先级和结合性？请写出 C 语言主要运算符由高到低的优先级顺序。\anslines{3.4cm}
+
+\newpage
+\qtypename{七、综合题}{1 题，共 20 分}
+
+\q 已知圆的半径 \code{r = 2.5}、圆柱的高 \code{h = 4.0}。请编写一个完整的 C 程序：用符号常量 \code{PI} 表示圆周率 3.1415926，分别计算圆的面积、圆的周长和以该圆为底的圆柱体积，并按下列格式输出（结果均保留 2 位小数）：
+\par\vspace{0.15em}
+\noindent\hspace{2em}\code{area=19.63}\\
+\noindent\hspace{2em}\code{perimeter=15.71}\\
+\noindent\hspace{2em}\code{volume=78.54}
+
+\noindent 要求：使用符号常量定义圆周率；变量定义时给出初值；输出使用 \code{printf} 并控制小数位数。\anslines{4.0cm}
+
+\end{document}

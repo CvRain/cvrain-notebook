@@ -1,0 +1,13 @@
+% 842 单元练习册样式（按单元系统学习用）
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{exam-style-842-unit}[2026/10/15 842 Unit Workbook Style]
+\RequirePackage{exam-style}
+
+% 与 341 试卷一致：行内 \code{} 关闭编程连字，保证运算符原样
+\IfFontExistsTF{CaskaydiaCove NF}{
+  \newfontfamily\codett{CaskaydiaCove NF}[RawFeature={-calt},Ligatures=NoCommon]
+}{
+  \newcommand{\codett}{}
+}
+
+\endinput

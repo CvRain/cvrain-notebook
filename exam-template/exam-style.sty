@@ -190,4 +190,95 @@
   \fancyhead[R]{\fontsize{9pt}{10pt}\selectfont\color{ctp-subtext0} #2}%
 }
 
+% ============================================================
+% 单元练习册专用命令（按单元系统学习用）
+% ============================================================
+% 练习册封面：\unitcover{科目}{单元号与名称}{本册内容}{建议用时}{本单元范围说明}
+\newcommand{\unitcover}[5]{%
+  \thispagestyle{empty}%
+  \begin{center}
+    \vspace*{1.0cm}
+    {\fontsize{19pt}{26pt}\selectfont\bfseries\color{ctp-text} #1}\\[0.28cm]
+    {\fontsize{13.5pt}{18pt}\selectfont\bfseries\color{ctp-mauve} #2}\\[0.6cm]
+    \rule{\textwidth}{1.2pt}\\[0.45cm]
+    {\normalsize
+      \begin{tabular}{rl}
+        \textbf{本册内容：} & #3 \\[2pt]
+        \textbf{建议用时：} & #4 \\
+      \end{tabular}
+    }
+    \vspace{0.4cm}
+
+    \colorbox{ctp-surface0}{\parbox{0.92\textwidth}{
+      \vspace{0.12cm}
+      {\small\textbf{本单元范围：} #5\par}
+      \vspace{0.05cm}
+      {\small\textbf{使用建议：} 先看「知识地图」与「术语辨析」建立框架，再做客观题自测；
+       错题回查教材原文，最后用简答／论述题收口。答案与解析见配套答案册。\par}
+      \vspace{0.08cm}
+    }}
+    \vspace{0.3cm}
+  \end{center}
+  \newpage
+}
+
+% 知识地图（本单元术语层级关系）
+\newenvironment{knowmap}{%
+  \par\vspace{0.3em}
+  \noindent{\bfseries\large\color{ctp-text}【知识地图】}\par\vspace{0.15em}
+  \begin{tcolorbox}[breakable, colback=ctp-surface0, colframe=ctp-mauve!45,
+                    boxrule=0.5pt, arc=2pt, left=6pt, right=6pt, top=4pt, bottom=4pt]
+  \small
+}{%
+  \end{tcolorbox}\par\vspace{0.2em}
+}
+
+% 必背术语速查（key-term list）
+\newenvironment{keyterms}{%
+  \par\vspace{0.3em}
+  \noindent{\bfseries\large\color{ctp-text}【必背术语速查】}\par\vspace{0.15em}
+  \begin{tcolorbox}[breakable, colback=ctp-green!6, colframe=ctp-green!55,
+                    boxrule=0.5pt, arc=2pt, left=6pt, right=6pt, top=4pt, bottom=4pt]
+  \small
+}{%
+  \end{tcolorbox}\par\vspace{0.2em}
+}
+
+% 术语辨析表：\begin{contrast}{表头说明} 行用 \citem{概念}{要点1}{要点2}{要点3} \end{contrast}
+% 注：不能用 tabularx —— 新版 tabularx 以「正文扫描」读取表格体，
+% 放进自定义环境后找不到 \end{tabularx} 会报 \TX@get@body 错误。
+% 因此改用 tabular + 定宽自动换行列 \pcol。
+\newcolumntype\pcol[1]{>{\raggedright\arraybackslash}p{#1}}
+\newenvironment{contrast}[1]{%
+  \par\vspace{0.3em}
+  \noindent{\bfseries\large\color{ctp-text}【术语辨析】}\quad
+  {\small\color{ctp-subtext0}（#1）}\par\vspace{0.2em}
+  \begingroup\small
+  \begin{tabular}{@{}>{\bfseries\raggedright\arraybackslash}p{2.1cm}%
+    \pcol{3.4cm}\pcol{3.4cm}\pcol{3.4cm}@{}}
+  \toprule
+}{%
+  \bottomrule
+  \end{tabular}
+  \endgroup\par\vspace{0.3em}
+}
+% 辨析表数据行：\citem{概念}{要点A}{要点B}{要点C}
+\newcommand{\citem}[4]{#1 & #2 & #3 & #4 \\[3pt]}
+
+% 判断题的「改正」留白
+\newcommand{\fixblank}{\underline{\hspace{4.2cm}}}
+
+% 练习册答案册封面
+\newcommand{\unitanswerscover}[3]{%
+  \thispagestyle{empty}%
+  \begin{center}
+    \vspace*{1.2cm}
+    {\fontsize{19pt}{26pt}\selectfont\bfseries\color{ctp-text} #1}\\[0.3cm]
+    {\fontsize{13.5pt}{18pt}\selectfont\bfseries\color{ctp-mauve} #2}\\[0.6cm]
+    \rule{\textwidth}{1.2pt}\\[0.4cm]
+    {\small\color{ctp-subtext0} #3}
+  \end{center}
+  \vspace{0.5cm}
+}
+
 \endinput

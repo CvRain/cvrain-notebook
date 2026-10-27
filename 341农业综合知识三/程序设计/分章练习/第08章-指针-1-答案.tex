@@ -1,0 +1,138 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第08章（一）参考答案}
+\begin{document}
+
+\unitanswerscover{341 农业综合知识三 · 程序设计分章练习}{第08章（一）指针基础参考答案}{指针基础：逐题答案、解析与综合题完整参考实现；判断题均给出改正后的表述，程序阅读与参考程序均已用 \code{gcc -std=c99} 实跑验证。}
+
+\answerpart{一、单项选择题（10 题，每题 2 分，共 20 分）}
+
+\q B。\begin{analysis}\code{p = \&a} 使 p 指向变量 a，\code{*p} 表示 p 所指向变量的值，即 a 的值 10。A 是 p 中存放的内容（a 的地址）；C 是 p 自身的地址；D 与本题无关。\end{analysis}
+
+\q B。\begin{analysis}\code{\&} 是取地址运算符，作用于变量，返回该变量在内存中的地址；\code{*} 才是间接访问运算符。D 是位运算中的按位与，与取地址无关。\end{analysis}
+
+\q B。\begin{analysis}\code{p = a} 使 p 指向 a[0]；指针算术 \code{p + 2} 表示跳过 2 个 int 元素，指向 a[2]。指针加 1 移动的是 \code{sizeof(int)} 个字节而不是 1 个字节。\end{analysis}
+
+\q B。\begin{analysis}数组名 a 代表首元素地址，\code{a + 3} 是 a[3] 的地址，\code{*(a + 3)} 即 a[3] 的值。A 中 \code{*a + 3} 先取 a[0] 再加 3；C 取的是 a[3] 的地址；D 语法错误（多了一个 \code{*}）。\end{analysis}
+
+\q B。\begin{analysis}指针作函数参数属于地址传递，实参必须是变量的地址（如 \code{\&a}）或指针变量，形参用指针接收；这样函数内通过 \code{*p} 才能修改实参所指的变量。只传变量值属于值传递，函数内修改的是副本。\end{analysis}
+
+\q B。\begin{analysis}\code{p = a} 后 p 指向 a[0]；执行 \code{p++} 使 p 后移一个元素，指向 a[1]，所以 \code{*p} 为 20。A 是自增前 \code{*p} 的值；C 需要 \code{p += 2}；D 是误以为 p 加 1 个字节或把地址值当内容。\end{analysis}
+
+\q A。\begin{analysis}\code{char *s = "hello";} 使 s 指向字符串常量 "hello" 的首字符 'h'（即存放 'h' 的地址），而不是整个字符串。用 \code{\%s} 输出时从该地址开始一直输出到 \code{'\textbackslash 0'} 为止。C 需要 \code{s + 4}；D 与定义不符。\end{analysis}
+
+\q A。\begin{analysis}空指针用 \code{NULL} 表示，执行 \code{p = NULL;} 后 p 不指向任何有效单元。B 中 0.0 是浮点数，赋给指针类型不合法；C 中 \code{'0'} 是字符常量（ASCII 48），不是空指针；D 中 EOF 是文件结束标志（通常为 $-1$），不是空指针。\end{analysis}
+
+\q B。\begin{analysis}\code{p = \&a[0]} 使 p 指向 a[0]；\code{p + 4} 跳过 4 个元素，指向 a[4]。C 中 a[5] 已经越界（合法下标为 0\textasciitilde 4）；D 与 B 矛盾。\end{analysis}
+
+\q A。\begin{analysis}\code{q = p} 使 q 与 p 指向同一变量 x，因此 \code{*q} 就是 \code{*p}，值为 3。B、C 是地址值而非所指内容；D 与本题无关。\end{analysis}
+
+\answerpart{二、多项选择题（5 题，每题 3 分，共 15 分）}
+
+\q ABCD。\begin{analysis}A 正确：指针变量存放地址；B 正确：\code{int *p;} 定义指向 int 的指针；C 正确：\code{*p} 是所指变量的值；D 正确：指针变量本身也是变量，需要在内存中占用存储单元（通常 8 字节或 4 字节）。\end{analysis}
+
+\q ABC。\begin{analysis}A 正确：\code{a[i]} 与 \code{*(a+i)} 等价；B 正确：数组名代表首元素地址；C 正确：\code{p = a} 使 p 指向 a[0]；D 错：数组名是地址常量，不能自增，\code{a++} 非法，应使用指针变量。\end{analysis}
+
+\q ABC。\begin{analysis}A 正确：指针传参传递地址；B 正确：函数内通过 \code{*p} 可修改实参所指变量；C 正确：实参可以是 \code{\&a} 或指针变量；D 错：通过指针可以修改多个变量（传多个地址即可），并非只能修改一个。\end{analysis}
+
+\q ABC。\begin{analysis}A 正确：字符串常量 "abc" 在内存中连续存放，s 指向首字符 'a'；B 正确：字符串常量存放在只读区域，不能通过 s 修改其内容；C 正确：puts 从 s 开始输出到 \code{'\textbackslash 0'}；D 错：s 指向的是已有的字符串常量，不需要动态分配内存（若要指向可修改的字符串，应使用字符数组或 malloc）。\end{analysis}
+
+\q ABCD。\begin{analysis}A 未初始化就解引用是野指针错误；B 数组下标越界会访问非法内存；C 解引用空指针（\code{*NULL}）非法；D 指针指向的内存被释放后继续使用会形成悬空指针。四者都属于常见指针错误。\end{analysis}
+
+\answerpart{三、判断题（5 题，每题 2 分，共 10 分）}
+
+\q √。\begin{analysis}指针变量本身也是一个变量，需要占用内存；其大小由编译器和平台决定（如 64 位平台通常 8 字节、32 位平台通常 4 字节），与它所指的数据类型无关，\code{int *} 与 \code{char *} 的大小通常相同。\end{analysis}
+
+\q ×。改正：\code{int *p; *p = 10;} 中 p 未指向有效内存单元，属于野指针，应先让 p 指向一个变量（如 \code{p = \&a;}）再执行 \code{*p = 10;}。\begin{analysis}p 定义后其值不确定，直接解引用会写入未知地址，可能导致程序崩溃或数据被破坏。\end{analysis}
+
+\q ×。改正：数组名是地址常量，不能自增；应定义指针变量 \code{int *p = a;}，再执行 \code{p++} 使其后移。\begin{analysis}数组名代表数组首元素的地址，是常量，\code{a++}、\code{a = p} 等写法都不合法；指针变量可以自增，因为它是变量。\end{analysis}
+
+\q √。\begin{analysis}数组名 a 代表首元素地址，\code{a + i} 是 a[i] 的地址，再解引用 \code{*(a+i)} 就是 a[i] 的值；同理 \code{p[i]} 等价于 \code{*(p+i)}。\end{analysis}
+
+\q √。\begin{analysis}指针作函数参数传递的是地址，形参是指针，函数内通过 \code{*p} 修改的是实参所指的变量，修改结果会保留到函数返回之后；这也是 swap 函数必须传地址的原因。\end{analysis}
+
+\answerpart{四、填空题（10 空，每空 1 分，共 10 分）}
+
+\q （1）a 的地址；（2）5。\begin{analysis}\code{p = \&a} 把 a 的地址存入 p，所以 p 中存放的是 a 的地址；\code{*p} 取该地址上的值，即 5。\end{analysis}
+
+\q （3）取地址；（4）间接访问。\begin{analysis}\code{\&} 是取地址运算符，作用于变量得到地址；\code{*} 是间接访问（解引用）运算符，作用于指针得到所指变量的值。\end{analysis}
+
+\q （5）a[3]。\begin{analysis}\code{p = a} 指向 a[0]，\code{p + 3} 跳过 3 个元素，指向 a[3]。\end{analysis}
+
+\q （6）\code{NULL}。\begin{analysis}NULL 是空指针常量，表示指针不指向任何有效内存单元；使用指针前应判断其是否为 NULL。\end{analysis}
+
+\q （7）\code{*(a+i)}。\begin{analysis}数组名 a 可看作首元素地址，\code{a + i} 是 a[i] 的地址，解引用即 \code{*(a+i)}，与 \code{a[i]} 等价。\end{analysis}
+
+\q （8）2。\begin{analysis}\code{p = a} 指向 a[0]（值为 1），执行 \code{p++} 后指向 a[1]，\code{*p} 的值为 2。\end{analysis}
+
+\q （9）地址。\begin{analysis}C 语言函数参数是值传递，要交换两个变量，必须把它们的地址传给函数，形参为指针，函数内通过 \code{*x}、\code{*y} 交换。\end{analysis}
+
+\q （10）首字符 'h'。\begin{analysis}\code{char *s = "hello";} 中 s 存放字符串常量首字符 'h' 的地址，因此指向首字符；用 \code{\%s} 输出时从该地址开始输出到 \code{'\textbackslash 0'}。\end{analysis}
+
+\answerpart{五、程序阅读题（2 题，每题 5 分，共 10 分）}
+
+\q 运行结果为：
+\begin{lstlisting}
+10 30 40
+30
+\end{lstlisting}
+\begin{analysis}p 初值为 a（指向 a[0]），\code{*p} 为 10；\code{*(p+2)} 指向 a[2]，值为 30；\code{p[3]} 等价于 \code{*(p+3)}，值为 40；执行 \code{p += 2} 后 p 指向 a[2]，\code{*p} 为 30。\end{analysis}
+
+\q 运行结果为：
+\begin{lstlisting}
+8 3
+\end{lstlisting}
+\begin{analysis}p 指向 a、q 指向 b，调用 \code{swap(p,q)} 把两个地址传给形参 x、y；函数内 \code{*x} 与 \code{*y} 分别是 a、b，通过中间变量 t 交换后 a = 8、b = 3。若 swap 的形参写成 \code{int x, int y}（值传递），则只能交换副本，实参仍为 3 和 8。\end{analysis}
+
+\answerpart{六、简答题（3 题，每题 5 分，共 15 分）}
+
+\q 参考答案要点：
+（1）指针：一个变量的地址称为该变量的指针；指针变量是专门用来存放地址的变量，如 \code{int *p;}（1.5 分）。
+（2）区别：普通变量存放数据本身，用变量名直接访问；指针变量存放另一个变量的地址，需通过 \code{*p} 间接访问所指变量。指针变量本身也占用内存，其大小由平台决定（2 分）。
+（3）\code{\&} 是取地址运算符，\code{\&a} 取得变量 a 的地址；\code{*} 是间接访问运算符，\code{*p} 取得 p 所指变量的值；二者互为逆运算，\code{*(\&a)} 就是 a（1.5 分）。
+
+\q 参考答案要点：
+（1）关系：数组在内存中连续存放，数组名代表数组首元素的地址，可把数组名赋给同类型指针，如 \code{int a[5], *p = a;}，此时 p 指向 a[0]（2 分）。
+（2）原因：指针加整数 i 表示跳过 i 个元素，\code{a + i} 就是 a[i] 的地址，对其解引用 \code{*(a+i)} 就是 a[i] 的值；同理 \code{p[i]} 等价于 \code{*(p+i)}，因此 \code{a[i]} 与 \code{*(a+i)} 等价（2 分）。
+（3）不同点：数组名是地址常量，不能赋值、不能自增；指针变量是变量，可以重新赋值、自增自减。\code{sizeof(数组名)} 是整个数组的字节数，\code{sizeof(指针变量)} 是指针本身的大小（1 分）。
+
+\q 参考答案要点：
+（1）优点：指针作参数传递的是地址，函数内可以通过 \code{*p} 直接修改实参所指的变量，使函数“带回”多个结果；同时避免复制大块数据（如数组、结构体），提高效率（2 分）。
+（2）交换示例：定义 \code{void swap(int *x, int *y) \{ int t = *x; *x = *y; *y = t; \}}；调用时写 \code{swap(\&a, \&b);}，把 a、b 的地址传给形参 x、y，函数内 \code{*x}、\code{*y} 就是 a、b，交换后实参的值随之改变（2 分）。
+（3）若写成 \code{void swap(int x, int y)}，形参只是实参的副本，函数内交换的是副本，实参不变（1 分）。
+
+\answerpart{七、综合题（1 题，共 20 分）}
+
+\q 参考程序如下：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+void find(int a[], int n, int *max, int *min)
+{
+    int i;
+    *max = *min = a[0];
+    for (i = 1; i < n; i++)
+    {
+        if (a[i] > *max) *max = a[i];
+        if (a[i] < *min) *min = a[i];
+    }
+}
+int main(void)
+{
+    int a[100], n, i, max, min;
+    scanf("%d", &n);
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+    find(a, n, &max, &min);
+    printf("max=%d,min=%d\n", max, min);
+    return 0;
+}
+\end{lstlisting}
+\begin{analysis}用输入 \code{6  4 -2 9 7 0 3} 实跑，输出为：
+\begin{lstlisting}
+max=9,min=-2
+\end{lstlisting}
+函数内先让 \code{*max}、\code{*min} 都等于 a[0]，再遍历其余元素，遇到更大值更新 \code{*max}、遇到更小值更新 \code{*min}；由于 max、min 是地址传递，函数结束后 main 中的 max、min 即为结果。\end{analysis}
+\begin{analysis}评分要点：正确定义 \code{find} 函数，形参为数组、长度和两个指针（4 分）；正确初始化 \code{*max = *min = a[0]}（3 分）；循环中正确比较并更新 \code{*max}、\code{*min}（6 分）；main 中正确读入 n 与数组元素（3 分）；调用 \code{find(a, n, \&max, \&min)} 时传地址正确（2 分）；输出格式正确且程序完整可编译（2 分）。\end{analysis}
+\begin{analysis}易错提示：调用时写成 \code{find(a, n, max, min)} 而不是传 \code{\&max, \&min}，形参无法指向 main 中的变量；函数内用 \code{max} 而不用 \code{*max} 会只修改形参指针本身；\code{*max = *min = a[0]} 不能写成 \code{*max = *min = 0}，否则当数组元素全为正数时最小值会错误地保持 0；数组长度 n 必须单独传入，不能依赖 \code{sizeof}。\end{analysis}
+
+\end{document}

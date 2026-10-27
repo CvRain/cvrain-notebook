@@ -1,0 +1,144 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第10章参考答案}
+\begin{document}
+
+\unitanswerscover{341 农业综合知识三 · 程序设计分章练习}{第10章参考答案}{文件：逐题答案、解析与综合题完整参考实现；判断题均给出改正后的表述，程序阅读与参考程序均已用 \code{gcc -std=c99} 实跑验证。}
+
+\answerpart{一、单项选择题（10 题，每题 2 分，共 20 分）}
+
+\q A。\begin{analysis}文件指针的定义形式为 \code{FILE *fp;}，其中 FILE 是系统定义的结构体类型（通常由 stdio.h 提供），必须大写，且 fp 是指针变量。B 定义的是 FILE 结构体变量而不是指针；C 中 file 拼写错误且大小写不符；D 定义的是 int 指针，不能用于文件操作。\end{analysis}
+
+\q B。\begin{analysis}fopen 打开文件成功时返回文件指针，失败时返回 NULL，所以返回 NULL 说明打开失败（常见原因是文件不存在、路径错误或没有权限）。A 与事实相反；C 是 feof 的判断结果；D 与打开成败无关。\end{analysis}
+
+\q B。\begin{analysis}"w" 是只写模式：文件不存在时创建新文件，已存在时清空原内容、从头开始写。A 是 "a" 模式的特点；C 错，"w" 打开通常成功；D 错，"w" 是只写模式，不能读。\end{analysis}
+
+\q B。\begin{analysis}"a" 是追加模式：文件不存在时创建，已存在时保留原内容，写入的数据追加到文件末尾。A 是 "w" 模式的特点；C、D 与文件写模式无关。\end{analysis}
+
+\q A。\begin{analysis}fgetc(fp) 从文件读一个字符，读到文件末尾返回 EOF；fputc 是写字符；fgets 读字符串；fprintf 是格式化写。\end{analysis}
+
+\q B。\begin{analysis}fputs(s, fp) 把字符串写入文件；fgetc 读字符；fscanf 格式化读；feof 检测文件结束。注意 fputs 不自动写入换行符，需要换行时应显式写入 \code{'\textbackslash n'}。\end{analysis}
+
+\q A。\begin{analysis}fprintf(fp, "格式", 输出项) 按格式向文件写数据；fscanf 按格式从文件读；fread/fwrite 按数据块读写二进制数据。\end{analysis}
+
+\q C。\begin{analysis}fread 和 fwrite 按数据块读写二进制数据，参数依次为数据地址、块大小、块数、文件指针，如 \code{fread(a, sizeof(int), 5, fp);}。A、B 是文本方式读写字符或字符串；D 是格式化读写。\end{analysis}
+
+\q A。\begin{analysis}\code{fseek(fp, 0L, SEEK_SET);} 把位置指针移到距文件开头 0 字节处，即回到文件开头，与 \code{rewind(fp);} 等价。B 关闭文件；C 检测文件结束；D 返回当前位置，均不等价。\end{analysis}
+
+\q A。\begin{analysis}feof(fp) 判断文件是否结束，到末尾返回非 0（真），否则返回 0（假）。ferror 检测读写出错；fclose 关闭文件；rewind 回到文件开头，均不用于判断文件结束。\end{analysis}
+
+\answerpart{二、多项选择题（5 题，每题 3 分，共 15 分）}
+
+\q ABCD。\begin{analysis}"r" 只读、"w" 只写、"a" 追加都是合法的基本模式；"rb" 表示以二进制方式只读，也是合法模式。此外还有 "r+"、"w+"、"a+"、"rb+" 等组合。\end{analysis}
+
+\q ABCD。\begin{analysis}fgetc/fputc 读写字符，fgets 读字符串，fread 读二进制数据块，都属于文件读写函数（fgets 的写操作对应 fputs）。\end{analysis}
+
+\q ABC。\begin{analysis}A 正确：rewind 使位置指针回到文件开头；B 正确：fseek 可以移动位置指针；C 正确：ftell 返回当前位置指针相对文件开头的字节数；D 错：fseek 的第三个参数可取 SEEK_SET、SEEK_CUR、SEEK_END，可以从当前位置或文件末尾开始定位。\end{analysis}
+
+\q ABC。\begin{analysis}A、B、C 都是正确的文件操作说法。D 错：文件使用完应及时 fclose 关闭，以把缓冲区中的数据写入文件、释放文件指针和相关资源；程序异常结束时缓冲区数据可能丢失，不能依赖程序结束自动关闭。\end{analysis}
+
+\q ABCD。\begin{analysis}A、B 分别是文本文件与二进制文件的存储形式；C 正确：文本文件可用记事本查看，二进制文件一般不能；D 正确：二进制文件一般用 fread/fwrite 成块读写，效率高、精度不损失。\end{analysis}
+
+\answerpart{三、判断题（5 题，每题 2 分，共 10 分）}
+
+\q √。\begin{analysis}fopen 成功时返回文件指针，失败时返回 NULL；编程中必须判断返回值是否为 NULL，避免对空指针进行读写。\end{analysis}
+
+\q √。\begin{analysis}"w" 模式以写方式打开文件，若文件已存在则清空其内容（相当于重建文件），若不存在则创建新文件。\end{analysis}
+
+\q ×。改正：\code{fgetc} 函数一次从文件中读取一个字符，读取字符串应使用 \code{fgets}。\begin{analysis}fgetc 每次读一个字节并返回其 ASCII 码，读到文件末尾返回 EOF；fgets 才按字符串读取，遇到换行或读满 $n-1$ 个字符时停止。\end{analysis}
+
+\q ×。改正：\code{feof(fp)} 在文件结束时返回非 0（真），未结束返回 0。\begin{analysis}feof 的返回值是“是否已到文件末尾”的逻辑值，常在 \code{while (!feof(fp))} 中取反使用。\end{analysis}
+
+\q √。\begin{analysis}fclose 把缓冲区中尚未写入的数据写入文件、关闭文件并释放相关资源；不关闭文件可能导致缓冲区数据丢失，也会占用文件描述符。\end{analysis}
+
+\answerpart{四、填空题（10 空，每空 1 分，共 10 分）}
+
+\q （1）\code{FILE *fp;}。\begin{analysis}文件指针的定义形式为 \code{FILE *fp;}，FILE 必须大写。\end{analysis}
+
+\q （2）\code{fopen}；（3）\code{fclose}。\begin{analysis}fopen 打开文件并返回文件指针，fclose 关闭文件并释放资源，二者成对使用。\end{analysis}
+
+\q （4）\code{"r"}。\begin{analysis}只读方式打开文本文件的模式字符串是 "r"，文件不存在时 fopen 返回 NULL。\end{analysis}
+
+\q （5）\code{fgetc}；（6）\code{fputc}。\begin{analysis}fgetc 从文件读一个字符，fputc 向文件写一个字符。\end{analysis}
+
+\q （7）\code{rewind}。\begin{analysis}rewind(fp) 把位置指针移到文件开头，无返回值，常用于读完文件后重新从头读。\end{analysis}
+
+\q （8）\code{fread}；（9）\code{fwrite}。\begin{analysis}读写二进制数据块用 fread 和 fwrite，参数包括数据地址、块大小、块数和文件指针。\end{analysis}
+
+\q （10）\code{feof}。\begin{analysis}feof(fp) 检测文件是否结束，结束返回非 0，未结束返回 0。\end{analysis}
+
+\answerpart{五、程序阅读题（2 题，每题 5 分，共 10 分）}
+
+\q 运行结果为：
+\begin{lstlisting}
+3
+\end{lstlisting}
+\begin{analysis}程序先用 "w" 模式向 data.txt 写入 "C Program 123"，再用 "r" 模式打开，用 \code{fgetc} 逐个字符读取，统计其中数字字符的个数。字符串中只有 '1'、'2'、'3' 三个数字字符，所以 n = 3，输出 3。\end{analysis}
+
+\q 运行结果为：
+\begin{lstlisting}
+9 10
+\end{lstlisting}
+\begin{analysis}程序向 num.txt 依次写入 "10 "、"20 "、"30 "（每个数字后跟一个空格），文件共 $2+1+2+1+2+1=9$ 字节；\code{fseek(fp, 0L, SEEK_END)} 把位置指针移到文件末尾，\code{ftell(fp)} 返回 9；\code{rewind(fp)} 回到开头后，\code{fscanf(fp, "\%d", \&x)} 读出第一个整数 10。所以输出 \code{9 10}。\end{analysis}
+
+\answerpart{六、简答题（3 题，每题 5 分，共 15 分）}
+
+\q 参考答案要点：
+（1）文本文件：以字符的 ASCII 码形式存放数据，如整数 123 存为 '1'、'2'、'3' 三个字符；可用记事本等文本编辑器查看；读写时存在格式转换，常用 \code{fgetc}/\code{fputc}、\code{fgets}/\code{fputs}、\code{fprintf}/\code{fscanf}（2.5 分）。
+（2）二进制文件：按数据在内存中的二进制形式原样存放，不能直接用记事本查看；读写效率高、数据精度不损失；常用 \code{fread}/\code{fwrite} 成块读写（2.5 分）。
+
+\q 参考答案要点：
+（1）常用模式："r" 只读，"w" 只写，"a" 追加；加 "+" 可读写（如 "r+"、"w+"、"a+"）；加 "b" 表示二进制方式（如 "rb"、"wb"）（2 分）。
+（2）"w" 与 "a" 的区别：文件不存在时二者都创建新文件；文件已存在时，"w" 清空原内容、从头开始写，而 "a" 保留原内容、把新数据追加到文件末尾（2 分）。
+（3）选择建议：需要重写整个文件用 "w"；需要在已有内容后继续添加用 "a"；只读取已有文件用 "r"，并注意判断 fopen 是否返回 NULL（1 分）。
+
+\q 参考答案要点：
+（1）基本步骤：定义文件指针 \code{FILE *fp;}；用 \code{fopen} 打开文件并判断是否返回 NULL；用相应函数读或写文件；用 \code{fclose} 关闭文件（2 分）。
+（2）feof：检测文件是否结束，到文件末尾返回非 0，未结束返回 0；常用于 \code{while (!feof(fp))} 或配合 \code{fgetc} 返回值判断循环是否继续（1.5 分）。
+（3）ferror：检测文件操作是否出错，出错返回非 0，否则返回 0；可用于在读写后判断是否发生了错误（1.5 分）。
+
+\answerpart{七、综合题（1 题，共 20 分）}
+
+\q 参考程序如下：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    FILE *fp;
+    char ch;
+    int chars = 0, lines = 0, upper = 0;
+    fp = fopen("text.txt", "w");
+    if (fp == NULL)
+    {
+        printf("open error\n");
+        return 1;
+    }
+    while ((ch = getchar()) != '#')
+        fputc(ch, fp);
+    fclose(fp);
+    fp = fopen("text.txt", "r");
+    if (fp == NULL)
+    {
+        printf("open error\n");
+        return 1;
+    }
+    while ((ch = fgetc(fp)) != EOF)
+    {
+        chars++;
+        if (ch == '\n') lines++;
+        if (ch >= 'A' && ch <= 'Z') upper++;
+    }
+    fclose(fp);
+    printf("chars=%d lines=%d upper=%d\n", chars, lines, upper);
+    return 0;
+}
+\end{lstlisting}
+\begin{analysis}输入 \code{Hello} 换行 \code{World} 换行 \code{\#} 实跑，text.txt 中内容为 12 个字符（含 2 个换行符），输出为：
+\begin{lstlisting}
+chars=12 lines=2 upper=2
+\end{lstlisting}
+第一段循环用 getchar 逐字符读键盘输入，遇 \code{\#} 停止，并用 fputc 写入文件；第二段用 fgetc 逐字符读文件，遇 EOF 结束，分别统计字符总数、换行符个数与大写字母个数。\end{analysis}
+\begin{analysis}评分要点：正确打开文件并判断 fopen 返回值（3 分）；用循环读入字符并以 \code{\#} 为结束标志写入文件（4 分）；正确关闭并重新以读方式打开文件（3 分）；用 fgetc 与 EOF 控制循环读取全部字符（4 分）；正确统计字符总数、换行符数和大写字母数（4 分）；输出格式正确且程序完整可编译（2 分）。\end{analysis}
+\begin{analysis}易错提示：用 \code{while (!feof(fp))} 配合 fgetc 时容易把 EOF 多统计一次，本题直接用 \code{(ch = fgetc(fp)) != EOF} 更稳妥；忘记判断 fopen 返回值，文件打开失败后继续操作会崩溃；统计大写字母时条件写成 \code{ch >= 'a' \&\& ch <= 'z'} 会把小写字母统计进去；\code{fputc} 写入的换行符也要计入字符总数，因此 chars=12 而不是 10。\end{analysis}
+
+\end{document}

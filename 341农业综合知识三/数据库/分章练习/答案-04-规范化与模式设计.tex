@@ -1,0 +1,195 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 数据库分章练习}{第04章\quad 规范化与模式设计\quad 参考答案}
+\begin{document}
+
+\unitanswerscover{341 农业综合知识三 · 数据库分章练习}{第04章\quad 规范化与模式设计 参考答案}{答案与解析按练习册题号顺序编排；判断题先给出判断，再给出改正后的正确表述；规范化题完整给出闭包运算、候选码推导、范式判定、最小依赖集、分解过程与无损连接性验证。}
+
+\answerpart{一、单项选择题（10 题，每题 2 分，共 20 分）}
+
+\q \textbf{A}。\begin{analysis}第一范式要求关系模式中的每个属性都是不可再分的原子值，即表中不能有表。B、C 分别是 2NF 和 3NF 的条件；D 是 BCNF 的条件。\end{analysis}
+
+\q \textbf{A}。\begin{analysis}2NF 在 1NF 的基础上消除非主属性对码的部分函数依赖。B 是 3NF 消除的内容；C 表述有误：主属性对码的部分和传递函数依赖是由 BCNF 进一步消除的；D 不可能也不必要消除所有函数依赖。\end{analysis}
+
+\q \textbf{B}。\begin{analysis}3NF 要求每个非主属性既不部分依赖于码，也不传递依赖于码。A 是 2NF 的要求；C 是 BCNF 的要求；D 是 1NF 的要求。\end{analysis}
+
+\q \textbf{C}。\begin{analysis}BCNF 要求关系模式中每个非平凡函数依赖的左部都包含候选码（即左部是超码），从而消除主属性对码的部分和传递函数依赖。左部、右部为单属性都不是 BCNF 的要求。\end{analysis}
+
+\q \textbf{D}。\begin{analysis}二元关系模式 $R(A,B)$ 的非平凡函数依赖只可能是 $A\to B$ 或 $B\to A$。若 $A\to B$，则 $A$ 是候选码，决定因素 $A$ 包含候选码；若 $B\to A$，则 $B$ 是候选码；若二者都不成立，则 $(A,B)$ 是候选码，没有非平凡函数依赖。因此任何二元关系模式都属于 BCNF。\end{analysis}
+
+\q \textbf{A}。\begin{analysis}二元分解 $\{R_1,R_2\}$ 具有无损连接性的充要条件是 $R_1\cap R_2\to(R_1-R_2)$ 或 $R_1\cap R_2\to(R_2-R_1)$。$R_1\cup R_2=R$ 只是分解的基本要求；$R_1\cap R_2=\varnothing$ 通常反而不能保证无损连接。\end{analysis}
+
+\q \textbf{C}。\begin{analysis}$A^{+}$：初始 $\{A\}$；由 $A\to B$ 得 $\{A,B\}$；由 $B\to C$ 得 $\{A,B,C\}$；由 $C\to D$ 得 $\{A,B,C,D\}$，故 $A^{+}=ABCD$。因此 $A$ 是 $R$ 的候选码。\end{analysis}
+
+\q \textbf{D}。\begin{analysis}最小依赖集要求：每个函数依赖的右部为单属性；左部没有多余属性；没有冗余的函数依赖。但不要求左部必须是单属性，如 $(A,B)\to C$ 的左部可以是组合属性。\end{analysis}
+
+\q \textbf{C}。\begin{analysis}保持函数依赖的 3NF 分解总是存在的，且可以通过适当选择分解同时保证无损连接性，因此“既保持函数依赖又无损连接”的分解至少可以达到 3NF；但不一定能达到 BCNF（BCNF 分解可能丢失函数依赖）。\end{analysis}
+
+\q \textbf{D}。\begin{analysis}无损连接性和保持函数依赖是两个相互独立的分解标准：保持函数依赖的分解不一定无损连接，无损连接的分解也不一定保持函数依赖。因此 A、B 都错误；保持函数依赖的分解不一定能达到 BCNF，C 错误。\end{analysis}
+
+\answerpart{二、多项选择题（5 题，每题 4 分，共 20 分）}
+
+\q \textbf{ABC}。\begin{analysis}按照函数依赖的程度，可分为完全函数依赖、部分函数依赖和传递函数依赖。D 平凡函数依赖是按依赖是否自然成立划分的，不属于按依赖程度的分类。\end{analysis}
+
+\q \textbf{ABC}。\begin{analysis}1NF 要求属性不可再分；2NF 消除非主属性对码的部分函数依赖；3NF 消除非主属性对码的传递函数依赖；BCNF 进一步消除主属性对码的部分和传递函数依赖。D 错误：BCNF 不可能也不要求消除所有函数依赖。\end{analysis}
+
+\q \textbf{AB}。\begin{analysis}判定无损连接性的常用方法是二元分解判定定理和 Chase 表格法。C 属性集闭包用于求候选码和判断函数依赖是否成立，不是无损连接的判定方法；D 保持函数依赖与无损连接是两个不同标准，不能互相判定。\end{analysis}
+
+\q \textbf{ABC}。\begin{analysis}最小依赖集要求每个依赖右部为单属性、左部没有多余属性、没有冗余的函数依赖。D 错误：左部可以是组合属性，不要求都是单属性。\end{analysis}
+
+\q \textbf{ABC}。\begin{analysis}E-R 图转换规则：每个实体转换为一个关系模式；1:n 联系把 1 端实体的主码作为外码加入 n 端；m:n 联系单独转换为一个关系模式；1:1 联系可以合并到任意一端的关系模式中，也可以单独转换。D 错误：1:1 联系并非只能单独转换。\end{analysis}
+
+\answerpart{三、判断题（5 题，每题 2 分，共 10 分）}
+
+\q √。\begin{analysis}二元关系 $R(A,B)$ 的非平凡函数依赖只有 $A\to B$ 或 $B\to A$。若有 $A\to B$，则 $A$ 是候选码；若有 $B\to A$，则 $B$ 是候选码；若都没有，则 $(A,B)$ 是候选码。无论哪种情形，每个决定因素都包含候选码，故二元关系必定属于 BCNF。\end{analysis}
+
+\q ×。改正：满足 3NF 的关系模式不一定满足 BCNF，BCNF 是比 3NF 更严格的范式。\begin{analysis}3NF 只限制非主属性对码的部分和传递依赖，不限制主属性对码的依赖；BCNF 要求每个决定因素都包含候选码。例如 $R(S,T,J)$，$F=\{SJ\to T,\ T\to J\}$，候选码为 $SJ$、$ST$，$T\to J$ 的左部 $T$ 不是超码，故 $R$ 属于 3NF 但不属于 BCNF。\end{analysis}
+
+\q ×。改正：保持函数依赖的分解不一定具有无损连接性；二者是相互独立的分解标准，需要分别验证。\begin{analysis}无损连接性保证分解后自然连接能还原原关系，不丢失也不多出元组；保持函数依赖保证原函数依赖不被破坏。二者可以同时满足，也可以只满足其中一个，因此不能由一个推出另一个。\end{analysis}
+
+\q √。\begin{analysis}这是 Armstrong 公理系统中的传递律：若 $X\to Y$ 且 $Y\to Z$，则 $X\to Z$。它是函数依赖推理的基本规则之一。\end{analysis}
+
+\q √。\begin{analysis}3NF 消除了非主属性对码的部分和传递函数依赖；BCNF 在此基础上进一步消除主属性对码的部分和传递函数依赖，使得每个决定因素都包含候选码。因此 BCNF 是 3NF 的严格加强。\end{analysis}
+
+\answerpart{四、填空题（5 题，每题 2 分，共 10 分）}
+
+\q 第一空：\textbf{2NF}；第二空：\textbf{3NF}。\begin{analysis}范式级别由低到高为 1NF、2NF、3NF、BCNF（还有 4NF、5NF），级别越高，函数依赖的约束越严格。\end{analysis}
+
+\q 第一空：\textbf{部分函数依赖}；第二空：\textbf{传递函数依赖}。\begin{analysis}2NF 消除非主属性对码的部分函数依赖；3NF 消除非主属性对码的传递函数依赖。\end{analysis}
+
+\q 第一空：\textbf{$ABCD$}；第二空：\textbf{$A$}。\begin{analysis}$A^{+}$：由 $A\to B$、$B\to C$、$C\to D$ 依次得 $B$、$C$、$D$，故 $A^{+}=ABCD$；$A$ 能推出全部属性且为单属性，故 $A$ 是候选码（唯一）。\end{analysis}
+
+\q 第一空：\textbf{$R_1\cap R_2\to(R_2-R_1)$}。\begin{analysis}二元分解 $\{R_1,R_2\}$ 无损连接的充要条件为 $R_1\cap R_2\to(R_1-R_2)$ 或 $R_1\cap R_2\to(R_2-R_1)$，即公共属性能够决定其中一个模式的全部属性。\end{analysis}
+
+\q 第一空：\textbf{没有冗余的函数依赖}。\begin{analysis}最小依赖集 $F_{\min}$ 的三个条件：每个函数依赖的右部为单属性；每个函数依赖的左部没有多余属性；$F_{\min}$ 中没有冗余的函数依赖（去掉任一依赖都会改变闭包）。\end{analysis}
+
+\answerpart{五、简答题（2 题，每题 8 分，共 16 分）}
+
+\q 参考答案要点：
+
+\textbf{（1）1NF（1.5 分）}：关系模式中每个属性都是不可再分的原子值，即满足 1NF。
+
+\textbf{（2）2NF（2 分）}：在 1NF 的基础上，每个非主属性都完全函数依赖于候选码，即消除了非主属性对码的部分函数依赖。
+
+\textbf{（3）3NF（2 分）}：在 2NF 的基础上，每个非主属性都不传递函数依赖于候选码，即消除了非主属性对码的传递函数依赖。
+
+\textbf{（4）BCNF（1.5 分）}：在 3NF 的基础上，每个决定因素都包含候选码，即所有非平凡函数依赖的左部都是超码。
+
+\textbf{（5）包含关系（1 分）}：BCNF $\subseteq$ 3NF $\subseteq$ 2NF $\subseteq$ 1NF，即满足高一级范式的关系模式一定满足低一级范式，反之不成立。范式级别越高，数据冗余和插入、删除、更新异常越少，但分解可能带来连接代价。
+\begin{analysis}评分要点：四个范式的定义各 1.5 分左右，包含关系 1 分。常见错误：把 2NF 与 3NF 的条件互换；误认为 3NF 一定满足 BCNF；漏写“非主属性”这一限定。\end{analysis}
+
+\q 参考答案要点：
+
+\textbf{（1）无损连接分解（3 分）}
+关系模式 $R$ 分解为 $\rho=\{R_1,\dots,R_n\}$，若对 $R$ 的任一合法关系 $r$，都有
+\[
+r=\pi_{R_1}(r)\bowtie\pi_{R_2}(r)\bowtie\cdots\bowtie\pi_{R_n}(r),
+\]
+则称该分解具有无损连接性。直观地说，分解后再自然连接，既不能丢失原关系中的元组，也不能多出原关系中没有的元组。二元分解 $\{R_1,R_2\}$ 的判定条件是 $R_1\cap R_2\to(R_1-R_2)$ 或 $R_1\cap R_2\to(R_2-R_1)$。
+
+\textbf{（2）保持函数依赖分解（3 分）}
+设 $F$ 是 $R$ 上的函数依赖集，分解后各关系模式上的函数依赖集分别为 $F_1,\dots,F_n$。若
+\[
+(F_1\cup F_2\cup\cdots\cup F_n)^{+}=F^{+},
+\]
+则称该分解保持函数依赖，即原 $F$ 中的每一个函数依赖都能由分解后的模式蕴含。
+
+\textbf{（3）为什么同时考虑（2 分）}
+无损连接性保证分解没有“丢失信息”，是分解的基本要求；保持函数依赖保证原有的完整性约束不被破坏，否则在更新时仍需跨多个关系模式检查，增加维护代价。二者相互独立：只保持函数依赖可能丢失连接信息，只保证无损连接可能破坏函数依赖。实际设计时通常用 3NF 分解同时满足这两个要求；若要求达到 BCNF，则可能不得不在保持函数依赖上作出让步。
+\begin{analysis}评分要点：无损连接定义（2 分）与判定条件（1 分）；保持函数依赖定义（2 分）与形式化表达（1 分）；同时考虑两个标准的理由（2 分）。常见错误：把两个概念混为一谈，或认为无损连接可以由保持函数依赖推出。\end{analysis}
+
+\answerpart{六、综合题（2 题，每题 12 分，共 24 分）}
+
+\q 参考答案：
+
+\textbf{（1）候选码、主属性与非主属性（3 分）}
+
+闭包运算：
+\begin{itemize}[leftmargin=1.6em, itemsep=1pt]
+  \item $\text{Sno}^{+}=\{\text{Sno}\}$，$\text{Cno}^{+}=\{\text{Cno}\}$，$\text{Tname}^{+}=\{\text{Tname}\}$，$\text{Room}^{+}=\{\text{Room}\}$；
+  \item $\text{Tno}^{+}=\{\text{Tno},\text{Tname},\text{Room}\}$（由 $\text{Tno}\to\text{Tname}$、$\text{Tno}\to\text{Room}$），不能推出 Sno、Cno；
+  \item $(\text{Sno},\text{Cno})^{+}=\{\text{Sno},\text{Cno}\}\cup\{\text{Tno},\text{Tname},\text{Room}\}=R$ 的全部属性。
+\end{itemize}
+且去掉 Sno 或 Cno 后都不能推出全部属性，故 $R$ 的唯一候选码为 $(\text{Sno},\text{Cno})$。
+
+主属性：\textbf{Sno、Cno}；非主属性：\textbf{Tno、Tname、Room}。
+
+\textbf{（2）最高范式及理由（3 分）}
+
+$R$ 最高属于 \textbf{2NF}。
+
+理由：
+（1）$R$ 的每个属性都是原子值，满足 1NF。
+（2）候选码为 $(\text{Sno},\text{Cno})$，非主属性 Tno 完全函数依赖于候选码：Sno 单独不能决定 Tno，Cno 单独也不能决定 Tno，必须二者组合，故不存在非主属性对码的部分函数依赖，$R$ 满足 2NF。
+（3）但 $F$ 中存在
+\[
+(\text{Sno},\text{Cno})\to\text{Tno},\qquad \text{Tno}\to\text{Tname},\qquad \text{Tno}\to\text{Room},
+\]
+且 $\text{Tno}\not\to(\text{Sno},\text{Cno})$，Tname、Room 不包含于 Tno，故 Tname、Room 传递函数依赖于候选码 $(\text{Sno},\text{Cno})$，违反 3NF。因此 $R$ 最高属于 2NF。
+
+\textbf{（3）最小依赖集 $F_{\min}$（2 分）}
+
+（1）右部化单属性：$F$ 中三个依赖的右部已经是单属性。
+（2）左部去多余属性：$(\text{Sno},\text{Cno})\to\text{Tno}$ 的左部不能再约简，因为 $\text{Sno}^{+}=\{\text{Sno}\}$、$\text{Cno}^{+}=\{\text{Cno}\}$ 都不能推出 Tno；其余依赖左部为单属性。
+（3）去掉冗余依赖：去掉 $(\text{Sno},\text{Cno})\to\text{Tno}$ 后，$(\text{Sno},\text{Cno})^{+}$ 不含 Tno；去掉 $\text{Tno}\to\text{Tname}$ 后 $\text{Tno}^{+}$ 不含 Tname；去掉 $\text{Tno}\to\text{Room}$ 后 $\text{Tno}^{+}$ 不含 Room。故三个依赖都不可去掉。
+所以 $F_{\min}=F=\{(\text{Sno},\text{Cno})\to\text{Tno},\ \text{Tno}\to\text{Tname},\ \text{Tno}\to\text{Room}\}$。
+
+\textbf{（4）分解为 3NF 并验证无损连接（4 分）}
+
+按保持函数依赖的 3NF 分解算法，对每个函数依赖取关系模式 $XA$，左部相同的依赖合并，得
+\[
+\rho=\{R_1,R_2\},
+\]
+\[
+R_1(\text{Sno},\text{Cno},\text{Tno}),\qquad R_2(\text{Tno},\text{Tname},\text{Room}).
+\]
+
+范式判定：$R_1$ 的候选码为 $(\text{Sno},\text{Cno})$，非主属性 Tno 完全依赖于码，不存在传递依赖，属于 3NF（实际上属于 BCNF）；$R_2$ 的候选码为 Tno，Tname、Room 都完全依赖于 Tno，不存在非主属性对码的部分或传递依赖，属于 3NF（也属于 BCNF）。
+
+保持函数依赖：$(\text{Sno},\text{Cno})\to\text{Tno}$ 在 $R_1$ 中；$\text{Tno}\to\text{Tname}$、$\text{Tno}\to\text{Room}$ 在 $R_2$ 中，$F$ 中每个依赖都被保留。
+
+无损连接性验证（二元分解判定定理）：
+\[
+R_1\cap R_2=\{\text{Tno}\},\qquad R_2-R_1=\{\text{Tname},\text{Room}\}.
+\]
+由 $\text{Tno}\to\text{Tname}$、$\text{Tno}\to\text{Room}$ 可得 $\text{Tno}\to\{\text{Tname},\text{Room}\}$，即 $R_1\cap R_2\to(R_2-R_1)$ 成立，故分解 $\{R_1,R_2\}$ 具有无损连接性。
+
+又 $R_1$ 已包含 $R$ 的候选码 $(\text{Sno},\text{Cno})$，不必再补充候选码关系模式。因此 $\rho=\{R_1,R_2\}$ 满足题目的全部要求。
+\begin{analysis}评分要点：候选码闭包推导（2 分）与主属性判断（1 分）；范式判定及传递依赖理由（3 分）；最小依赖集推导（2 分）；分解结果正确（1 分）、范式与保持函数依赖说明（1 分）、无损连接定理验证（2 分）。常见错误：（1）把 Tno 当成候选码（$\text{Tno}^{+}$ 不含 Sno、Cno）；（2）把 Tno、Tname、Room 都当作主属性；（3）把“非主属性传递依赖于码”误判为部分依赖；（4）分解时把 $R_2$ 拆得过细，或漏写无损连接验证，仅用“自然连接可还原”一句话代替证明。\end{analysis}
+
+\q 参考答案：
+
+\textbf{（1）联系类型（3 分）}
+\begin{itemize}[leftmargin=1.6em, itemsep=1pt]
+  \item 系—教师：\textbf{1:n}（一个系有多名教师，一名教师只属于一个系）；
+  \item 教师—课程：\textbf{m:n}（一名教师可讲授多门课程，一门课程可由多名教师讲授，联系属性为学时）；
+  \item 学生—课程：\textbf{m:n}（一名学生可选修多门课程，一门课程可被多名学生选修，联系属性为成绩）。
+\end{itemize}
+
+\textbf{（2）E-R 图转换为关系模式的基本规则（3 分）}
+（1）每个实体转换为一个关系模式，实体的属性作为关系的属性，实体的标识属性作为关系的主码。
+（2）1:n 联系不单独建立关系模式，把 1 端实体的主码作为外码加入 n 端实体的关系模式中。
+（3）m:n 联系必须单独转换为一个关系模式，其属性由两端实体的主码和联系自身的属性组成，主码为两端实体主码的组合，两端主码分别作为外码。
+（4）1:1 联系可以合并到任意一端的关系模式中，把另一端的主码作为外码加入，并对该外码加唯一性约束；也可以单独转换为一个关系模式。
+（5）具有相同主码的关系模式可以合并，以减少关系模式的个数。
+
+\textbf{（3）转换后的关系模式（6 分）}
+\begin{center}
+\small
+\begin{tabular}{@{}p{5.6cm}p{2.9cm}p{7.3cm}@{}}
+\toprule
+关系模式 & 主码 & 外码 \\
+\midrule
+系（\underline{系号}，系名） & 系号 & 无 \\
+教师（\underline{教师号}，姓名，职称，系号） & 教师号 & 系号参照系（系号） \\
+课程（\underline{课程号}，课程名，学分） & 课程号 & 无 \\
+学生（\underline{学号}，姓名，性别） & 学号 & 无 \\
+授课（\underline{教师号}，\underline{课程号}，学时） & （教师号，课程号） & 教师号参照教师；课程号参照课程 \\
+选修（\underline{学号}，\underline{课程号}，成绩） & （学号，课程号） & 学号参照学生；课程号参照课程 \\
+\bottomrule
+\end{tabular}
+\end{center}
+说明：教师关系中的“系号”来自 1:n 联系“属于”，它不是教师关系的主码，但参照系关系的主码，是外码；授课、选修关系分别由两个 m:n 联系转换而来，其主码都是两端实体主码的组合，联系属性“学时”“成绩”并入相应关系模式。
+\begin{analysis}评分要点：三个联系类型判断正确（各 1 分）；转换规则完整（3 分，答出实体、1:n、m:n、1:1 四类即可）；六个关系模式及主码、外码正确（6 分，每个关系模式 1 分）。常见错误：（1）把“教师—课程”误判为 1:n；（2）忘记把“系号”加入教师关系作为外码；（3）m:n 联系单独建表时漏掉联系属性“学时”或“成绩”；（4）把“授课”“选修”的主码写成单个属性。\end{analysis}
+
+\end{document}

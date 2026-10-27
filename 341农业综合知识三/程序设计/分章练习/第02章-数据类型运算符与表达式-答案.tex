@@ -1,0 +1,133 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第02章参考答案}
+\begin{document}
+
+\unitanswerscover{341 农业综合知识三 · 程序设计分章练习}{第02章参考答案}{数据类型、运算符与表达式：逐题答案、解析与综合题完整参考实现；判断题均给出改正后的表述。}
+
+\answerpart{一、单项选择题（10 题，每题 2 分，共 20 分）}
+
+\q B。\begin{analysis}十六进制常量以 \code{0x} 开头，后面可跟 0\textasciitilde 9、a\textasciitilde f（或 A\textasciitilde F），\code{0x1F} 合法并等于十进制 31。A、C 以 0 开头，是八进制形式，但八进制数字只能取 0\textasciitilde 7，出现 8 不合法；D 中 \code{G} 不是十六进制数字。\end{analysis}
+
+\q B。\begin{analysis}.5e-3 即 $0.5\times10^{-3}$，是合法的指数形式：e 前有数字（.5 可写为 0.5），e 后是指数 $-3$（整数）。A 的 e 前没有数字；C 的 E 后没有指数；D 的指数 2.5 不是整数，均不合法。\end{analysis}
+
+\q A。\begin{analysis}字符常量（包括转义字符）代表一个字符，在内存中存放其 ASCII 码，占 1 个字节。\code{'\textbackslash n'} 是换行符，ASCII 码为 10，占 1 个字节。\end{analysis}
+
+\q B。\begin{analysis}字符串常量在存储时，除了字符本身之外，末尾还要自动加一个字符串结束标志 \code{'\textbackslash 0'}，因此 \code{"a"} 占 2 个字节：第 1 个字节存 \code{'a'}，第 2 个字节存 \code{'\textbackslash 0'}。\end{analysis}
+
+\q B。\begin{analysis}两个整型数据相除为整除，商向零方向取整、舍去小数部分，\code{7 / 2} 的值为 3。若要得到 3.5，应写成 \code{7 / 2.0} 或 \code{(double)7 / 2}。\end{analysis}
+
+\q C。\begin{analysis}\code{\%} 是求余运算符，要求两侧操作数都是整型，\code{7 \% 2} 表示 7 除以 2 的余数，结果为 1。\end{analysis}
+
+\q B。\begin{analysis}\code{j = i++;} 中 \code{i++} 是后缀形式：先把 \code{i} 的当前值 3 赋给 \code{j}，然后 \code{i} 自增为 4。所以 \code{i} 为 4、\code{j} 为 3。\end{analysis}
+
+\q C。\begin{analysis}逗号表达式从左到右依次计算：先 \code{a = 3}（\code{a} 变为 3），再计算 \code{a * 2}（值为 6，\code{a} 不变），最后计算 \code{a + 5}（值为 8）。整个逗号表达式的值等于最后一个表达式的值，即 8。\end{analysis}
+
+\q C。\begin{analysis}在常见的 32 位和 64 位编译系统中，\code{float} 型数据占 4 个字节，\code{double} 占 8 个字节，\code{char} 占 1 个字节。\code{sizeof(float)} 的值为 4。\end{analysis}
+
+\q C。\begin{analysis}优先级由高到低为：\code{\%}（算术运算符）$>$ \code{+}（算术运算符）$>$ \code{\&\&}（逻辑与）$>$ \code{=}（赋值运算符），因此 \code{=} 优先级最低。注意 \code{\%} 与 \code{*}、\code{/} 同级且高于 \code{+}、\code{-}。\end{analysis}
+
+\answerpart{二、多项选择题（5 题，每题 3 分，共 15 分）}
+
+\q ABD。\begin{analysis}A 是十进制整型常量；B 是十六进制整型常量；D 是合法的指数形式实型常量。C 错：\code{'ab'} 用单引号括起两个字符，不是合法的字符常量（字符常量只能含一个字符或一个转义字符）。\end{analysis}
+
+\q ABD。\begin{analysis}A、B 正确描述了前缀形式与后缀形式的区别；D 正确，自增自减运算符的操作数必须是变量（可修改的左值）。C 错：自增运算符不能用于常量，如 \code{5++} 是非法的。\end{analysis}
+
+\q ABD。\begin{analysis}A 对：自动类型转换一般按由低精度到高精度的方向进行；B 对：强制转换的格式为（类型名）（表达式）；D 对：\code{char} 与 \code{int} 混合运算时，\code{char} 先转换为 \code{int}（取其 ASCII 码）。C 错：强制转换只得到一个中间值，不改变原变量的类型和值。\end{analysis}
+
+\q ABC。\begin{analysis}\code{sizeof} 是 C 语言的单目运算符，不是函数，A 对、D 错；不同类型、不同编译系统下 \code{sizeof(int)} 可能不同（常见为 4），B 对；\code{sizeof} 可以作用于变量或表达式，C 对。\end{analysis}
+
+\q ABC。\begin{analysis}A 中 \code{(int)3.9} 舍去小数部分得 3；B 中 \code{10 / 3} 为整除得 3；C 中 \code{sizeof(char)} 为 1，加 2 得 3。D 中 \code{7 / 2.0} 是浮点除，值为 3.5，不等于 3。\end{analysis}
+
+\answerpart{三、判断题（5 题，每题 2 分，共 10 分）}
+
+\q ×。改正：以 0 开头的整数是八进制常量，以 \code{0x} 开头的才是十六进制常量。\begin{analysis}八进制常量以数字 0 开头，如 017 表示十进制 15；十六进制常量以 \code{0x} 或 \code{0X} 开头，如 \code{0x1F} 表示十进制 31。\end{analysis}
+
+\q ×。改正：字符常量 \code{'a'} 占 1 个字节，字符串常量 \code{"a"} 占 2 个字节（末尾含 \code{'\textbackslash 0'}）。\begin{analysis}字符常量存放单个字符的 ASCII 码；字符串常量是字符数组，末尾必须有一个字符串结束标志 \code{'\textbackslash 0'}，所以 \code{"a"} 占 2 个字节。\end{analysis}
+
+\q √。\begin{analysis}\code{sizeof} 是 C 语言的单目运算符，用于测量类型或变量、表达式所占的字节数，其操作数可以是类型名，也可以是变量或表达式；它不是函数，不需要包含头文件。\end{analysis}
+
+\q √。\begin{analysis}赋值运算符是右结合的，\code{a = b = c = 3} 等价于 \code{a = (b = (c = 3))}。赋值表达式的值就是赋给左边变量的值，因此 \code{c = 3} 的值为 3，\code{b = 3} 的值为 3，整个表达式的值也为 3，三个变量都被赋值为 3。\end{analysis}
+
+\q ×。改正：求余运算符 \code{\%} 两侧的操作数必须都是整型，不能是实型数据。\begin{analysis}求余运算要求两个操作数都是整型（如 \code{7 \% 2}）；若写成 \code{7.5 \% 2} 则编译出错，应先用强制转换取整后再求余。\end{analysis}
+
+\answerpart{四、填空题（10 空，每空 1 分，共 10 分）}
+
+\q （1）0；（2）\code{0x}。\begin{analysis}八进制常量以数字 0 开头，如 017；十六进制常量以 \code{0x} 开头，如 \code{0x1F}。\end{analysis}
+
+\q （3）68；（4）97。\begin{analysis}大写字母的 ASCII 码连续排列，\code{'A'} 为 65，则 \code{'D'} 为 65 + 3 = 68；小写字母 \code{'a'} 的 ASCII 码为 97。\end{analysis}
+
+\q （5）3；（6）3.333333。\begin{analysis}\code{10 / 3} 是两个整数相除，按整除规则结果为 3；\code{10.0 / 3} 中 10.0 是实型，按浮点除法计算，结果为 3.333333（默认保留 6 位小数）。\end{analysis}
+
+\q （7）5；（8）6。\begin{analysis}后缀 \code{a++} 先使用 \code{a} 的值 5，因此表达式的值为 5；随后 \code{a} 自增为 6。\end{analysis}
+
+\q （9）5。\begin{analysis}逗号表达式从左到右计算：\code{a = 2}，\code{b = 3}，最后 \code{a + b = 5}，整个表达式的值为最后一个表达式的值 5。\end{analysis}
+
+\q （10）6。\begin{analysis}\code{"China"} 含 5 个字符，末尾还有一个 \code{'\textbackslash 0'}，所以 \code{sizeof("China")} 的值为 6。注意 \code{strlen("China")} 的值为 5，二者不同。\end{analysis}
+
+\answerpart{五、程序阅读题（2 题，每题 5 分，共 10 分）}
+
+\q 运行结果为：
+\begin{lstlisting}
+i=6,j=5
+i=7,j=7
+\end{lstlisting}
+\begin{analysis}初始 \code{i = 5}。第一条 \code{j = i++;} 中 \code{i++} 是后缀形式，先把 5 赋给 \code{j}，再使 \code{i} 加 1，所以输出 \code{i=6,j=5}。此时 \code{i = 6}；第二条 \code{j = ++i;} 中 \code{++i} 是前缀形式，先使 \code{i} 加 1 变为 7，再把 7 赋给 \code{j}，所以输出 \code{i=7,j=7}。\end{analysis}
+
+\q 运行结果为：
+\begin{lstlisting}
+3 1
+2.8
+2
+\end{lstlisting}
+\begin{analysis}\code{a / b} 是整除，7 / 2 得 3；\code{a \% b} 是求余，7 \% 2 得 1，所以第一行输出 \code{3 1}。\code{a / x} 中 \code{x} 是 \code{double} 型，\code{a} 自动转换为实型，7 / 2.5 = 2.8，以 \code{\%.1f} 输出为 \code{2.8}。\code{(int)(a / x)} 先算出 2.8，再强制转换为整型，舍去小数部分得 2，所以第三行输出 \code{2}。\end{analysis}
+
+\answerpart{六、简答题（3 题，每题 5 分，共 15 分）}
+
+\q 参考答案要点：
+（1）C 语言的数据类型分为 4 大类：基本类型、枚举类型、空类型（\code{void}）、派生类型（1 分）。
+（2）基本类型又分为整型、字符型和浮点型（1 分）。
+（3）整型包括 \code{short}（短整型）、\code{int}（基本整型）、\code{long}（长整型）、\code{long long}（双长整型），并可加 \code{unsigned} 构成无符号类型（1 分）。
+（4）字符型为 \code{char}（1 分）。
+（5）浮点型包括 \code{float}（单精度）、\code{double}（双精度）、\code{long double}（长双精度）；派生类型包括指针、数组、结构体、共用体等（1 分）。
+
+\q 参考答案要点：
+（1）前缀形式 \code{++i}：先将 \code{i} 的值加 1，然后使用加 1 后的值参与运算（1.5 分）。
+（2）后缀形式 \code{i++}：先使用 \code{i} 当前的值参与运算，然后使 \code{i} 加 1（1.5 分）。
+（3）举例：\code{int i = 5, j;}；\code{j = i++;} 后 \code{j = 5}、\code{i = 6}；若 \code{i = 5;} 执行 \code{j = ++i;}，则 \code{j = 6}、\code{i = 6}（1.5 分）。
+（4）二者单独作为语句使用（如 \code{i++;}）时效果相同，都是使 \code{i} 加 1；\code{--} 的规则与 \code{++} 相同（0.5 分）。
+
+\q 参考答案要点：
+（1）优先级：表达式中不同运算符的运算先后次序，优先级高的先运算（1 分）。结合性：同一优先级的运算符按从左到右（左结合）或从右到左（右结合）的顺序运算（1 分）。
+（2）主要运算符由高到低依次为：括号、下标、成员运算符；单目运算符（\code{!}、\code{\textasciitilde}、\code{++}、\code{--}、\code{+}、\code{-}、\code{*}、\code{\&}、\code{sizeof}、强制类型转换）；算术运算符 \code{*}、\code{/}、\code{\%}；\code{+}、\code{-}；移位 \code{<<}、\code{>>}；关系 \code{<}、\code{<=}、\code{>}、\code{>=}；\code{==}、\code{!=}；按位与 \code{\&}；按位异或 \code{\textasciicircum}；按位或 \code{|}；逻辑与 \code{\&\&}；逻辑或 \code{||}；条件运算符 \code{?:}；赋值运算符；逗号运算符（2 分）。
+（3）赋值运算符和条件运算符是右结合，其余大多数运算符是左结合（1 分）。
+
+\answerpart{七、综合题（1 题，共 20 分）}
+
+\q 参考程序如下：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+#define PI 3.1415926
+int main(void)
+{
+    double r = 2.5, h = 4.0;
+    double area, perimeter, volume;
+    area = PI * r * r;
+    perimeter = 2 * PI * r;
+    volume = area * h;
+    printf("area=%.2f\n", area);
+    printf("perimeter=%.2f\n", perimeter);
+    printf("volume=%.2f\n", volume);
+    return 0;
+}
+\end{lstlisting}
+\begin{analysis}运行结果为：
+\begin{lstlisting}
+area=19.63
+perimeter=15.71
+volume=78.54
+\end{lstlisting}
+评分要点：用 \code{\#define} 正确定义符号常量 \code{PI}（3 分）；正确定义并初始化 \code{r}、\code{h}（3 分）；圆面积公式 \code{PI * r * r}、周长公式 \code{2 * PI * r}、体积公式“底面积乘高”均正确（6 分）；\code{printf} 格式正确并使用 \code{\%.2f} 保留 2 位小数（4 分）；变量类型选用 \code{double}、程序完整可编译并有 \code{return 0;}（4 分）。\end{analysis}
+\begin{analysis}易错提示：若把 \code{PI} 定义为整型或把 \code{r}、\code{h} 定义为 \code{int}，则计算按整除进行，结果会变成 \code{area=12.00} 等错误值；符号常量 \code{PI} 不能用赋值语句修改，这是它与变量的本质区别。\end{analysis}
+
+\end{document}

@@ -1,0 +1,126 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第05章参考答案}
+\begin{document}
+
+\unitanswerscover{341 农业综合知识三 · 程序设计分章练习}{第05章参考答案}{循环结构：逐题答案、解析与综合题完整参考实现；判断题均给出改正后的表述。}
+
+\answerpart{一、单项选择题（10 题，每题 2 分，共 20 分）}
+
+\q B。\begin{analysis}\code{for (i = 0; i < 5; i++)} 中 \code{i} 依次取 0、1、2、3、4，共 5 个值，循环体执行 5 次；当 \code{i} 变为 5 时条件 \code{i < 5} 不成立，循环结束。\end{analysis}
+
+\q C。\begin{analysis}\code{do-while} 是直到型循环，先执行循环体再判断条件，因此循环体至少执行一次。\code{while} 和 \code{for} 都是先判断后执行，循环体可能一次也不执行；\code{if} 是选择语句，不是循环语句。\end{analysis}
+
+\q A。\begin{analysis}\code{i = 1} 时 \code{s = 0 + 1 = 1}；\code{i = 2} 时 \code{s = 1 + 2 = 3}；\code{i = 3} 时执行 \code{if (i == 3) break;}，立即跳出整个循环，不再执行 \code{s += i}。所以 \code{s} 的值为 3。\end{analysis}
+
+\q B。\begin{analysis}\code{i = 3} 时执行 \code{continue}，跳过本次循环中后面的 \code{s += i}，直接进入下一次循环。因此累加的是 1、2、4、5：\code{s = 1 + 2 + 4 + 5 = 12}。\end{analysis}
+
+\q C。\begin{analysis}二重循环的总执行次数为外层次数乘以内层次数。外循环 \code{i} 取 1、2、3 共 3 次，每次外循环中内循环 \code{j} 取 1、2 共 2 次，所以内层循环体共执行 $3\times2=6$ 次。\end{analysis}
+
+\q C。\begin{analysis}\code{for (;;)} 省略了全部三个表达式，表达式 2 省略时表示循环条件恒为真，因此是无限循环（死循环），必须在循环体内用 \code{break} 或 \code{return} 等语句退出，否则程序不会结束。\end{analysis}
+
+\q B。\begin{analysis}\code{while (0)} 的条件值为 0（假），因此循环体一次也不执行，直接执行 while 语句之后的语句。这不是语法错误，也不是死循环。\end{analysis}
+
+\q A。\begin{analysis}A 从 1 到 100（含 100）累加，正确；B 的条件 \code{i < 100} 只累加到 99，漏掉 100；C 中 \code{i--} 使 \code{i} 越来越小，条件恒成立，是死循环；D 中 \code{i++} 使 \code{i} 越来越大，条件恒成立，也是死循环。\end{analysis}
+
+\q C。\begin{analysis}\code{i} 的初值为 0，每循环一次加 3：3、6、9、12。当 \code{i = 9} 时 \code{9 < 10} 成立，执行 \code{i += 3} 后 \code{i = 12}；再判断 \code{12 < 10} 不成立，循环结束。所以 \code{i} 的值为 12。\end{analysis}
+
+\q B。\begin{analysis}\code{continue} 用于结束本次循环，跳过循环体中 \code{continue} 之后的语句，转去进行下一次循环条件的判断；\code{break} 才是结束整个循环。\end{analysis}
+
+\answerpart{二、多项选择题（5 题，每题 3 分，共 15 分）}
+
+\q ABC。\begin{analysis}A、B、C 正确描述了 while 与 do-while 的区别：while 先判断后执行，do-while 先执行后判断，循环体至少执行一次。D 错：二者在循环体至少执行一次时结果相同，但当第一次判断条件就不成立时，while 一次也不执行而 do-while 执行一次，因此并非任何情况下都等价。\end{analysis}
+
+\q ABD。\begin{analysis}A 对：break 结束本层循环；B 对：break 也可用于 switch 结构，跳出 switch；C 错、D 对：在嵌套循环中 break 只跳出它所在的那一层循环，不能一次跳出所有层。\end{analysis}
+
+\q ABD。\begin{analysis}A、B 正确：continue 结束本次循环，转去判断下一次循环条件；D 正确：在 for 循环中执行 continue 后，先执行表达式 3（循环变量增量），再判断表达式 2。C 错：continue 只能用于循环语句，不能用于 switch 结构。\end{analysis}
+
+\q ABC。\begin{analysis}A 对：for 的三个表达式都可以省略；B 对：省略表达式 2 表示条件恒真，即 \code{for(;;)}、\code{for(i=0;;i++)} 都是无限循环；C 对：表达式 1 在循环开始前只执行一次。D 错：for 循环也是先判断后执行，循环体可能一次也不执行。\end{analysis}
+
+\q ABC。\begin{analysis}A 中 \code{for (;;)} 条件恒真，是死循环；B 中 \code{while (1)} 条件恒为 1，是死循环；C 中省略表达式 2，条件恒真，是死循环。D 中 \code{while (0)} 条件为假，循环体一次也不执行，不是死循环。\end{analysis}
+
+\answerpart{三、判断题（5 题，每题 2 分，共 10 分）}
+
+\q √。\begin{analysis}do-while 是直到型循环，先执行循环体后判断条件，因此无论条件是否成立，循环体都至少执行一次。\end{analysis}
+
+\q ×。改正：\code{continue} 语句的作用是结束本次循环、继续下一次循环；结束整个循环应使用 \code{break} 语句。\begin{analysis}\code{break} 结束整个循环（跳出本层循环），\code{continue} 只跳过本次循环体中剩余的语句，二者作用不同。\end{analysis}
+
+\q ×。改正：\code{while} 循环的循环体只有一条语句时花括号可以省略；循环体有多条语句时必须用花括号括成复合语句。\begin{analysis}如 \code{while (i < 10) i++;} 只有一条语句，可省略花括号；\code{while (i < 10) \{ s += i; i++; \}} 有两条语句，必须加花括号，否则只有第一条属于循环体。\end{analysis}
+
+\q ×。改正：\code{break} 语句既可以用于循环语句，也可以用于 \code{switch} 结构（跳出 switch）。\begin{analysis}在 switch 中 \code{break} 用于终止 switch 结构的执行；在循环中 \code{break} 用于结束本层循环。\end{analysis}
+
+\q √。\begin{analysis}\code{for (;;)} 三个表达式都省略，循环条件恒为真，是无限循环；必须在循环体内用 \code{break} 或 \code{return} 等语句退出，否则程序将一直运行下去。\end{analysis}
+
+\answerpart{四、填空题（10 空，每空 1 分，共 10 分）}
+
+\q （1）0；（2）1。\begin{analysis}while 是先判断后执行的当型循环，条件一开始就不成立时循环体执行 0 次；do-while 是先执行后判断的直到型循环，循环体至少执行 1 次。\end{analysis}
+
+\q （3）10。\begin{analysis}\code{i} 取 1\textasciitilde 10 共 10 个值，循环体执行 10 次。\end{analysis}
+
+\q （4）\code{break}；（5）\code{continue}。\begin{analysis}\code{break} 结束整个循环，\code{continue} 只结束本次循环、继续下一次循环。\end{analysis}
+
+\q （6）$m\times n$。\begin{analysis}外循环每执行一次，内循环都完整执行 $n$ 次，因此内层循环体共执行 $m\times n$ 次。\end{analysis}
+
+\q （7）表达式 1；（8）表达式 2；（9）表达式 3。\begin{analysis}for 语句的一般形式为 \code{for(表达式1; 表达式2; 表达式3)}：表达式 1 是循环变量初值，只执行一次；表达式 2 是循环条件；表达式 3 是循环变量增量。\end{analysis}
+
+\q （10）\code{i}。\begin{analysis}求 1 到 100 的和，循环变量 \code{i} 从 1 变化到 100，每次把 \code{i} 累加到 \code{s}，即 \code{s = s + i}。\end{analysis}
+
+\answerpart{五、程序阅读题（2 题，每题 5 分，共 10 分）}
+
+\q 运行结果为：
+\begin{lstlisting}
+5
+\end{lstlisting}
+\begin{analysis}初始 \code{i = 5}、\code{s = 0}。先执行循环体：\code{s = 0 + 5 = 5}，\code{i} 自增为 6；再判断条件 \code{i < 5}，即 \code{6 < 5} 不成立，循环结束。由于是 do-while 循环，循环体至少执行一次，所以 \code{s} 的值为 5。若改成 while 循环，则循环体一次也不执行，\code{s} 为 0。\end{analysis}
+
+\q 运行结果为：
+\begin{lstlisting}
+s=12
+\end{lstlisting}
+\begin{analysis}逐次分析：\code{i = 1} 时，\code{j = 1} 满足条件，\code{s = 0 + 1 = 1}；\code{j = 2} 时 \code{continue} 跳过本次，\code{j = 3} 时 \code{s = 1 + 3 = 4}。\code{i = 2} 时，\code{j = 1} 使 \code{s = 4 + 2 = 6}，\code{j = 2} 时 \code{continue}，\code{j = 3} 时 \code{s = 6 + 6 = 12}。\code{i = 3} 时，\code{j = 1} 尚未累加便遇到 \code{if (i == 3) break;}，跳出内层循环（外层循环继续，但没有更多 \code{i} 值，外层也随之结束）。所以最终 \code{s = 12}。\end{analysis}
+
+\answerpart{六、简答题（3 题，每题 5 分，共 15 分）}
+
+\q 参考答案要点：
+（1）相同点：三者都是循环语句，都由“循环条件”和“循环体”组成，都在条件成立时重复执行循环体；都能用 \code{break}、\code{continue} 控制流程（2 分）。
+（2）不同点：\code{while} 先判断后执行，循环体可能执行 0 次；\code{do-while} 先执行后判断，循环体至少执行 1 次，且 \code{while(表达式)} 后有分号；\code{for} 把循环变量初值、循环条件、循环变量增量集中写在括号内，结构最紧凑，最适合循环次数已知的场合（2 分）。
+（3）相互转换：任何 for 循环都可写成 while 循环，如 \code{for(i=0;i<n;i++) 循环体} 等价于 \code{i=0; while(i<n) \{ 循环体; i++; \}}；while 循环也可改写为 for，如 \code{while(条件) 循环体} 等价于 \code{for(;条件;) 循环体}（1 分）。
+
+\q 参考答案要点：
+（1）\code{break} 的作用是结束整个循环（跳出本层循环），流程转到循环语句之后的语句（2 分）。
+（2）\code{continue} 的作用是结束本次循环，跳过循环体中 \code{continue} 之后的语句，转去进行下一次循环条件的判断（2 分）。
+（3）在嵌套循环中，二者都只作用于它们所在的那一层循环：\code{break} 只跳出本层循环，外层循环继续；\code{continue} 只结束本层循环的本次迭代，不影响外层循环（1 分）。
+
+\q 参考答案要点：
+（1）二重循环是循环体内又包含一个循环，外层循环的循环体包含内层循环的全部语句（1 分）。
+（2）执行过程：先执行外层循环的初始化；判断外层循环条件，成立则进入外层循环体，此时内层循环完整执行一轮（初始化、判断、循环体、增量直到内层条件不成立）；内层循环结束后，执行外层循环的增量，再判断外层条件，如此反复，直到外层条件不成立（2 分）。
+（3）举例：\code{for(i=1;i<=3;i++) for(j=1;j<=4;j++) s++;} 中，外循环 3 次、内循环每次 4 次，内层循环体（\code{s++}）共执行 $3\times4=12$ 次（2 分）。
+
+\answerpart{七、综合题（1 题，共 20 分）}
+
+\q 参考程序如下：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    int i, n;
+    long term = 1, sum = 0;
+    scanf("%d", &n);
+    for (i = 1; i <= n; i++)
+    {
+        term *= i;
+        sum += term;
+    }
+    printf("s=%ld\n", sum);
+    return 0;
+}
+\end{lstlisting}
+\begin{analysis}运行结果（输入 5）为：
+\begin{lstlisting}
+s=153
+\end{lstlisting}
+计算过程：\code{i = 1} 时 \code{term = 1}、\code{sum = 1}；\code{i = 2} 时 \code{term = 2}、\code{sum = 3}；\code{i = 3} 时 \code{term = 6}、\code{sum = 9}；\code{i = 4} 时 \code{term = 24}、\code{sum = 33}；\code{i = 5} 时 \code{term = 120}、\code{sum = 153}。\end{analysis}
+\begin{analysis}评分要点：正确包含头文件并定义循环变量 \code{i}、\code{n}（3 分）；用 \code{scanf} 读入 \code{n}（2 分）；正确使用 for 循环（3 分）；利用前一项阶乘递推计算 \code{term *= i}，而不是每次从头连乘（6 分）；正确累加 \code{sum += term}（4 分）；输出格式为 \code{s=153} 且程序完整可编译（2 分）。\end{analysis}
+\begin{analysis}易错提示：阶乘增长很快，\code{term} 与 \code{sum} 应定义为 \code{long} 型并用 \code{\%ld} 输出；若每次都从 1 连乘到 \code{i}，虽结果正确但效率低，不符合题目（1）的要求；循环条件写成 \code{i < n} 会漏掉最后一项 $n!$。\end{analysis}
+
+\end{document}

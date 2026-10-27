@@ -43,9 +43,18 @@ for tex in "${texfiles[@]}"; do
   base="$(basename "$tex" .tex)"
   outdir="$dir/out/$base"
   pdf="$outdir/$base.pdf"
+  dest="$dir/$base.pdf"
 
-  if [[ $force -eq 0 && -f "$pdf" && "$pdf" -nt "$tex" && "$pdf" -nt "$dir/../notestyle.sty" ]]; then
-    echo "== skip  $tex (已是最新)"
+  # 注意：判断「已是最新」时必须同时确认目标目录下的 PDF 副本仍在，
+  # 否则副本被删后会一直跳过、无法自愈。
+  if [[ $force -eq 0 && -f "$pdf" && -f "$dest" \
+        && "$pdf" -nt "$tex" && "$pdf" -nt "$dir/../notestyle.sty" ]]; then
+    if [[ "$dest" -nt "$pdf" ]]; then
+      echo "== skip  $tex (已是最新)"
+      continue
+    fi
+    cp -f "$pdf" "$dest"
+    echo "== sync  $tex (补回缺失/过期的 PDF 副本)"
     continue
   fi
 
@@ -60,8 +69,8 @@ for tex in "${texfiles[@]}"; do
   done
 
   if [[ $ok -eq 1 && -f "$pdf" ]]; then
-    cp -f "$pdf" "$dir/$base.pdf"
-    echo "== ok    $tex -> $dir/$base.pdf"
+    cp -f "$pdf" "$dest"
+    echo "== ok    $tex -> $dest"
   else
     fail=$((fail + 1))
     echo "== FAIL  $tex"

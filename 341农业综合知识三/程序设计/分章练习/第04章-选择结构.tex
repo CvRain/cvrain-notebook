@@ -1,0 +1,203 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第04章\quad 选择结构}
+\begin{document}
+
+\unitcover{341 农业综合知识三 · 程序设计分章练习}{第04章\quad 选择结构}{练习（共 100 分）}{约 60 分钟}{关系运算符与关系表达式；逻辑运算符与逻辑表达式；\code{if}、\code{if-else}、\code{else-if} 语句；条件运算符与条件表达式；\code{switch} 语句与 \code{break}；选择结构的嵌套与常见错误。}
+
+\begin{knowmap}
+\textbf{条件的表达：}关系表达式（\code{>}、\code{>=}、\code{<}、\code{<=}、\code{==}、\code{!=}）和逻辑表达式（\code{!}、\code{\&\&}、\code{||}）；C 语言中非 0 为真、0 为假，关系表达式和逻辑表达式的值为 1（真）或 0（假）。\\[2pt]
+\textbf{if 语句：}单分支 \code{if(条件) 语句}；双分支 \code{if(条件) 语句1 else 语句2}；多分支 \code{if……else if……else}。\\[2pt]
+\textbf{条件运算符：}\code{表达式1 ? 表达式2 : 表达式3} 是 C 语言唯一的三目运算符，右结合；相当于一个简单的 if-else。\\[2pt]
+\textbf{switch 语句：}\code{switch(表达式)} 后跟若干 \code{case 常量表达式:} 分支和至多一个 \code{default:} 分支；表达式只能是整型或字符型，各 case 常量值不能相同。\\[2pt]
+\textbf{break 与穿透：}执行到 \code{break} 时跳出整个 switch；若某个 case 后没有 break，则继续执行后面 case 的语句，称为“穿透”。\\[2pt]
+\textbf{常见错误：}把赋值号 \code{=} 当作关系运算符 \code{==}；\code{if} 条件后多写分号；\code{else} 悬空配对错误；用 \code{==} 直接比较两个浮点数。
+\end{knowmap}
+
+\begin{keyterms}
+\textbf{关系表达式}：由关系运算符连接的表达式，如 \code{a > b}；成立时值为 1，不成立时值为 0。\\
+\textbf{关系运算符}：\code{<}、\code{<=}、\code{>}、\code{>=}（同级，优先级较高）和 \code{==}、\code{!=}（同级，优先级较低）；它们的优先级都低于算术运算符。\\
+\textbf{逻辑表达式}：由逻辑运算符连接的表达式，如 \code{a > 0 \&\& b > 0}；结果为 1 或 0。\\
+\textbf{逻辑运算符}：\code{!}（逻辑非，单目，优先级高）、\code{\&\&}（逻辑与）、\code{||}（逻辑或）；\code{!} $>$ 算术 $>$ 关系 $>$ \code{\&\&} $>$ \code{||} $>$ 赋值。\\
+\textbf{短路求值}：\code{A \&\& B} 中若 A 为假则不再计算 B；\code{A || B} 中若 A 为真则不再计算 B。\\
+\textbf{真假判断}：C 语言没有专门的逻辑型数据，判断条件时“非 0 为真、0 为假”，逻辑运算结果用 1 表示真、0 表示假。\\
+\textbf{if 语句}：单分支选择语句，格式为 \code{if(条件) 语句}；条件成立时执行后面的语句。\\
+\textbf{if-else 语句}：双分支选择语句，条件成立执行 \code{语句1}，否则执行 \code{语句2}。\\
+\textbf{else-if 结构}：多分支选择，格式为 \code{if(条件1)……else if(条件2)……else……}；从上到下依次判断，只执行第一个成立的分支。\\
+\textbf{条件运算符}：\code{?:}，唯一的三目运算符，形式为 \code{表达式1 ? 表达式2 : 表达式3}；表达式1 非 0 时取表达式2 的值，否则取表达式3 的值。\\
+\textbf{switch 语句}：多分支选择语句，根据表达式的值找到匹配的 case 入口；\code{case} 后必须是常量表达式，不能是变量或范围。\\
+\textbf{break 语句}：在 switch 中使流程跳出 switch 结构；在循环中使流程跳出本层循环。\\
+\textbf{default 分支}：switch 中当所有 case 都不匹配时执行的入口，位置可以放在任意处，通常放在最后。\\
+\textbf{悬空 else}：\code{else} 总是与它前面最近的、尚未配对的 \code{if} 配对，书写缩进不影响配对关系。
+\end{keyterms}
+
+\begin{contrast}{\code{if} / \code{switch}（每行依次为：适用场合·判断依据·注意事项）}
+\citem{\code{if}}{区间判断、条件较复杂或分支较少}{任意表达式，非 0 即真}{可嵌套，\code{else} 与最近未配对 \code{if} 配对}
+\citem{\code{switch}}{多分支的等值判断}{表达式的值等于某个 case 常量}{表达式须为整型或字符型，case 后须为常量，常配 \code{break}}
+\end{contrast}
+
+\begin{contrast}{赋值 \code{=} / 关系 \code{==}（每行依次为：含义·表达式值·典型错误）}
+\citem{\code{=}}{赋值运算符，把右边值赋给左边变量}{表达式的值为所赋的值}{\code{if (x = 5)} 把 5 赋给 x，条件恒为真}
+\citem{\code{==}}{关系运算符，判断两边是否相等}{相等为 1，不等为 0}{写成 \code{if (x == 5)} 才是判断 x 是否等于 5}
+\end{contrast}
+
+\begin{contrast}{逻辑与 \code{\&\&} / 逻辑或 \code{||}（每行依次为：含义·短路规则·举例）}
+\citem{\code{\&\&}}{两个条件都成立时结果才为真}{左操作数为假时，右边不再计算}{\code{a != 0 \&\& b / a > 1} 可避免除数为 0}
+\citem{\code{||}}{两个条件中有一个成立结果就为真}{左操作数为真时，右边不再计算}{\code{x < 0 || x > 10} 表示 x 不在 0\textasciitilde 10 之间}
+\end{contrast}
+
+\begin{contrast}{关系表达式 / 逻辑表达式（每行依次为：运算符·结果取值·常见写法）}
+\citem{关系表达式}{\code{>}、\code{>=}、\code{<}、\code{<=}、\code{==}、\code{!=}}{结果为 1 或 0}{\code{year \% 4 == 0}}
+\citem{逻辑表达式}{\code{!}、\code{\&\&}、\code{||}}{结果为 1 或 0}{判断区间应写作 \code{x > 3 \&\& x < 10}，不能写成 \code{3 < x < 10}}
+\end{contrast}
+
+\qtypename{一、单项选择题}{10 题，每题 2 分，共 20 分}
+
+\q 若有定义 \code{int a = 3, b = 4;}，则表达式 \code{a < b} 的值为（\quad）。
+\choicesline{A. 1}{B. 0}{C. 3}{D. 4}
+
+\q 若有定义 \code{int x = 5;}，则 \code{if (x = 5)} 中条件表达式的值为（\quad）。
+\choicesline{A. 0}{B. 5}{C. 1}{D. 编译错误}
+
+\q 下列程序段的输出结果是（\quad）。
+\begin{lstlisting}[language={[custom]C}]
+int a = 0;
+if (a++ && a++) printf("T");
+printf("%d", a);
+\end{lstlisting}
+\choicesline{A. 0}{B. 1}{C. 2}{D. T1}
+
+\q 下列程序段的输出结果是（\quad）。
+\begin{lstlisting}[language={[custom]C}]
+int k = 1;
+switch (k)
+{
+case 1: printf("A");
+case 2: printf("B"); break;
+case 3: printf("C");
+}
+\end{lstlisting}
+\choicesline{A. \code{A}}{B. \code{AB}}{C. \code{ABC}}{D. \code{BC}}
+
+\q \code{switch} 语句中 \code{break} 的作用是（\quad）。
+\choicesline{A. 结束本次循环}{B. 跳出 switch 结构}{C. 结束整个程序}{D. 跳过 default 分支}
+
+\q 若有定义 \code{int a = 3, b = 5;}，则表达式 \code{a > b ? a : b} 的值是（\quad）。
+\choicesline{A. 3}{B. 5}{C. 1}{D. 0}
+
+\q 下列运算符中优先级最高的是（\quad）。
+\choicesline{A. \code{\&\&}}{B. \code{!}}{C. \code{>}}{D. \code{=}}
+
+\q 关于 \code{else} 与 \code{if} 的配对，下列说法正确的是（\quad）。
+\choices{A. \code{else} 总是与第一个 \code{if} 配对}{B. \code{else} 总是与它前面最近的、尚未配对的 \code{if} 配对}
+{C. 一个 \code{if} 可以有多个 \code{else}}{D. \code{else} 可以单独使用}
+
+\q 设 \code{year} 为整型变量，下列能正确判断 year 是闰年的表达式是（\quad）。
+\choices{A. \code{(year \% 4 == 0 \&\& year \% 100 != 0) || year \% 400 == 0}}{B. \code{year \% 4 == 0 \&\& year \% 100 != 0 || year \% 400 = 0}}
+{C. \code{year \% 4 = 0 \&\& year \% 100 != 0}}{D. \code{(year \% 4 == 0 || year \% 100 != 0) \&\& year \% 400 == 0}}
+
+\q \code{switch} 后面圆括号内的表达式不能是（\quad）。
+\choicesline{A. 整型表达式}{B. 字符型表达式}{C. 浮点型表达式}{D. 枚举型表达式}
+
+\qtypename{二、多项选择题}{5 题，每题 3 分，共 15 分；每题有两个或两个以上正确项}
+
+\q 关于关系运算和逻辑运算，下列说法正确的有（\quad）。
+\choicesline{A. 关系表达式的值为 1 或 0}{B. 非 0 为真、0 为假}
+{C. \code{\&\&} 的优先级高于 \code{||}}{D. \code{||} 的优先级高于 \code{\&\&}}
+
+\q 关于 \code{if} 语句，下列说法正确的有（\quad）。
+\choicesline{A. 条件可以是任意表达式}{B. 条件必须用圆括号括起来}
+{C. 单分支 \code{if} 可以没有 \code{else}}{D. \code{else} 后面必须加分号}
+
+\q 关于 \code{switch} 语句，下列说法正确的有（\quad）。
+\choicesline{A. 表达式可以是整型或字符型}{B. \code{case} 后必须是常量表达式}
+{C. 各 \code{case} 后的常量值不能相同}{D. 必须要有 \code{default} 分支}
+
+\q 关于条件运算符 \code{?:}，下列说法正确的有（\quad）。
+\choicesline{A. 它是 C 语言中唯一的三目运算符}{B. 它是右结合的}
+{C. 当表达式1 的值为非 0 时，取表达式2 的值}{D. 表达式2 与表达式3 的类型必须完全相同}
+
+\q 下列表达式中，能表示“\code{x} 是偶数”的有（\quad）。
+\choicesline{A. \code{x \% 2 == 0}}{B. \code{!(x \% 2)}}{C. \code{x / 2 * 2 == x}}{D. \code{x \% 2 = 0}}
+
+\qtypename{三、判断题}{5 题，每题 2 分，共 10 分；正确的画“√”，错误的画“×”并写出改正后的表述}
+
+\q \code{if} 语句的条件表达式可以是任意类型，只要其值为非 0 就认为条件成立。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{else} 总是与它前面最近的、尚未配对的 \code{if} 配对。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{switch} 语句中每个 \code{case} 后都必须有 \code{break}。\quad（\quad）\quad 改正：\fixblank
+
+\q 表达式 \code{3 < x < 10} 能正确表示数学上的区间 $3<x<10$。\quad（\quad）\quad 改正：\fixblank
+
+\q 关系运算符的优先级高于赋值运算符。\quad（\quad）\quad 改正：\fixblank
+
+\qtypename{四、填空题}{10 空，每空 1 分，共 10 分}
+
+\q 关系表达式的值为真时是 \fillblank{}，为假时是 \fillblank{}。
+
+\q 若有定义 \code{int a = 3, b = 5;}，则表达式 \code{a > b ? a : b} 的值是 \fillblank{}。
+
+\q 逻辑与 \code{\&\&} 的左边为 \fillblank{} 时，右边的表达式不再计算，这称为 \fillblank{} 求值。
+
+\q 在 \code{switch} 语句中，执行完一个 \code{case} 的语句后，要使流程跳出 \code{switch} 结构，应使用 \fillblank{} 语句。
+
+\q 条件运算符是 C 语言中唯一的三目运算符，写成 \fillblank{}。
+
+\q 判断整型变量 \code{x} 为奇数的条件是 \fillblank{}。
+
+\q 若有定义 \code{int x = 0;}，则 \code{!x} 的值是 \fillblank{}，\code{x == 0} 的值是 \fillblank{}。
+
+\qtypename{五、程序阅读题}{2 题，每题 5 分，共 10 分}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    int a = 0, b = 1, c;
+    c = a++ && b++;
+    printf("a=%d,b=%d,c=%d\n", a, b, c);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    int k = 2;
+    switch (k)
+    {
+    case 1: printf("1");
+    case 2: printf("2");
+    case 3: printf("3"); break;
+    default: printf("D");
+    }
+    printf("\n");
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\qtypename{六、简答题}{3 题，每题 5 分，共 15 分}
+
+\q 写出关系运算符和逻辑运算符的优先级顺序，并说明什么是短路求值。\anslines{3.2cm}
+
+\q \code{if} 语句有哪三种基本形式？请分别写出其一般格式并说明执行过程。\anslines{3.4cm}
+
+\q 简述 \code{switch} 语句的执行过程，并说明 \code{switch} 语句与 \code{if} 语句的区别及各自的适用场合。\anslines{3.4cm}
+
+\newpage
+\qtypename{七、综合题}{1 题，共 20 分}
+
+\q 编写一个完整的 C 程序：从键盘输入一个年份（整数），判断该年份是否为闰年。闰年的判断条件是：能被 4 整除但不能被 100 整除，或者能被 400 整除。要求按下列格式输出：
+\par\vspace{0.15em}
+\noindent\hspace{2em}输入 \code{2000}，输出 \code{2000 is a leap year}\\
+\noindent\hspace{2em}输入 \code{1900}，输出 \code{1900 is not a leap year}
+
+\noindent 要求：用 \code{if-else} 语句实现判断；条件表达式要正确体现“与”“或”的关系；程序完整可编译。\anslines{4.0cm}
+
+\end{document}

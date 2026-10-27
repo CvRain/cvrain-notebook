@@ -1,0 +1,194 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第10章\quad 文件}
+\begin{document}
+
+\unitcover{341 农业综合知识三 · 程序设计分章练习}{第10章\quad 文件}{练习（共 100 分）}{约 60 分钟}{文件的概念与分类；\code{FILE} 指针；\code{fopen}/\code{fclose} 与打开模式（r/w/a/+/b）；\code{fgetc}、\code{fputc}、\code{fgets}、\code{fputs}、\code{fprintf}、\code{fscanf}、\code{fread}、\code{fwrite}；文件定位 \code{rewind}/\code{fseek}/\code{ftell}；\code{feof}/\code{ferror}；文本文件与二进制文件的区别。}
+
+\begin{knowmap}
+\textbf{文件与分类：}文件是存放在外部介质上的数据集合；按存储形式分为文本文件（以字符形式存放，可用记事本查看）和二进制文件（按内存中的二进制形式存放）；C 语言把文件看作字节流。\\[2pt]
+\textbf{FILE 指针：}\code{FILE *fp;} 定义文件指针；\code{fp = fopen("文件名", "模式");} 打开文件，成功返回文件指针、失败返回 \code{NULL}；使用完必须 \code{fclose(fp);} 关闭。\\[2pt]
+\textbf{打开模式：}\code{"r"} 只读（文件不存在则失败）；\code{"w"} 只写（文件不存在则创建，已存在则清空）；\code{"a"} 追加（在文件末尾写）；加 \code{"+"} 可读写，加 \code{"b"} 表示二进制方式。\\[2pt]
+\textbf{读写函数：}\code{fgetc}/\code{fputc} 读写一个字符；\code{fgets}/\code{fputs} 读写字符串；\code{fprintf}/\code{fscanf} 格式化读写；\code{fread}/\code{fwrite} 读写二进制数据块。\\[2pt]
+\textbf{文件定位：}\code{rewind(fp)} 使位置指针回到文件开头；\code{fseek(fp, 偏移量, 起始位置)} 移动位置指针，起始位置可用 \code{SEEK_SET}、\code{SEEK_CUR}、\code{SEEK_END}；\code{ftell(fp)} 返回当前位置。\\[2pt]
+\textbf{出错检测：}\code{feof(fp)} 判断文件是否结束（结束返回非 0）；\code{ferror(fp)} 检测读写出错；读文件时常用 \code{while ((c = fgetc(fp)) != EOF)} 或 \code{while (!feof(fp))} 控制循环。
+\end{knowmap}
+
+\begin{keyterms}
+\textbf{文件}：存放在外部介质（磁盘等）上、有名字的数据集合，C 语言按字节流处理。\\
+\textbf{文本文件}：以字符的 ASCII 码形式存放数据，可用记事本查看，读写时存在格式转换。\\
+\textbf{二进制文件}：按数据在内存中的二进制形式原样存放，一般用 \code{fread}/\code{fwrite} 读写，不能直接用记事本查看。\\
+\textbf{FILE 指针}：指向 \code{FILE} 结构体的指针，用来标识和操作一个已打开的文件，如 \code{FILE *fp;}。\\
+\textbf{fopen}：打开文件的函数，原型为 \code{fopen(文件名, 模式)}，成功返回 \code{FILE *}，失败返回 \code{NULL}。\\
+\textbf{fclose}：关闭文件的函数，把缓冲区数据写入文件并释放资源，参数是文件指针。\\
+\textbf{fgetc/fputc}：\code{fgetc(fp)} 从文件读一个字符（到文件尾返回 \code{EOF}）；\code{fputc(c, fp)} 向文件写一个字符。\\
+\textbf{fgets/fputs}：\code{fgets(s, n, fp)} 读最多 $n-1$ 个字符到 s；\code{fputs(s, fp)} 把字符串写入文件。\\
+\textbf{fprintf/fscanf}：按格式向文件写、从文件读数据，用法与 printf/scanf 类似，第一个参数是文件指针。\\
+\textbf{fread/fwrite}：按数据块读写二进制数据，参数包括数据地址、块大小、块数和文件指针。\\
+\textbf{fseek/rewind}：\code{fseek} 把位置指针移到指定位置；\code{rewind} 把位置指针移到文件开头，无返回值。\\
+\textbf{feof/ferror}：\code{feof(fp)} 检测文件是否结束（结束返回非 0）；\code{ferror(fp)} 检测文件操作是否出错（出错返回非 0）。
+\end{keyterms}
+
+\begin{contrast}{文本文件 / 二进制文件（每行依次为：存储形式·常用读写函数·特点）}
+\citem{文本文件}{以字符的 ASCII 码形式存放，如数字 123 存为 '1'、'2'、'3' 三个字符}{可用 \code{fgetc}/\code{fputc}、\code{fgets}/\code{fputs}、\code{fprintf}/\code{fscanf}}{可用记事本查看；读写时存在格式转换，占用空间与精度可能受影响}
+\citem{二进制文件}{按数据在内存中的二进制形式原样存放}{一般用 \code{fread}/\code{fwrite} 成块读写}{不能直接用记事本查看；读写效率高、数据精度不损失}
+\end{contrast}
+
+\begin{contrast}{\code{"r"} / \code{"w"} / \code{"a"}（每行依次为：文件不存在时·文件已存在时·读写位置与用途）}
+\citem{\code{"r"}}{打开失败，返回 \code{NULL}}{只读，不清空原内容}{位置在文件开头，用于读取已有文件}
+\citem{\code{"w"}}{创建新文件}{清空原内容，从头写}{位置在文件开头，用于新建或重写文件}
+\citem{\code{"a"}}{创建新文件}{保留原内容}{位置在文件末尾，用于在文件末尾追加数据}
+\end{contrast}
+
+\begin{contrast}{\code{feof} / \code{ferror}（每行依次为：检测内容·返回值含义·典型用途）}
+\citem{\code{feof}}{检测文件是否已到末尾}{到文件末尾返回非 0，否则返回 0}{判断文件读取是否结束}
+\citem{\code{ferror}}{检测文件操作是否出错}{出错返回非 0，否则返回 0}{判断读写操作是否发生错误}
+\end{contrast}
+
+\begin{contrast}{\code{rewind} / \code{fseek}（每行依次为：功能·参数·使用场合）}
+\citem{\code{rewind}}{把位置指针移到文件开头}{只有一个文件指针参数}{读完文件后需要重新从头读}
+\citem{\code{fseek}}{把位置指针移到指定位置}{文件指针、偏移量、起始位置（\code{SEEK_SET}/\code{SEEK_CUR}/\code{SEEK_END}）}{随机读写、跳到文件末尾或指定位置}
+\end{contrast}
+
+\qtypename{一、单项选择题}{10 题，每题 2 分，共 20 分}
+\q 定义文件指针的正确语句是（\quad）。
+\choicesline{A. \code{FILE *fp;}}{B. \code{FILE fp;}}{C. \code{file *fp;}}{D. \code{int *fp;}}
+
+\q 若 \code{fp = fopen("data.txt", "r");} 返回 \code{NULL}，说明（\quad）。
+\choices{A. 文件打开成功}{B. 文件打开失败}{C. 文件已到末尾}{D. 文件是空的}
+
+\q 用 \code{"w"} 模式打开一个已存在的文件时（\quad）。
+\choices{A. 保留原内容，在末尾追加}{B. 清空原内容，从头开始写}
+{C. 打开失败}{D. 只能读不能写}
+
+\q 用 \code{"a"} 模式打开文件时，写入的数据（\quad）。
+\choices{A. 覆盖文件开头的内容}{B. 追加到文件末尾}{C. 插入到文件中间}{D. 随机存放}
+
+\q 从文件中读取一个字符应使用函数（\quad）。
+\choicesline{A. \code{fgetc}}{B. \code{fputc}}{C. \code{fgets}}{D. \code{fprintf}}
+
+\q 向文件写入一个字符串应使用函数（\quad）。
+\choicesline{A. \code{fgetc}}{B. \code{fputs}}{C. \code{fscanf}}{D. \code{feof}}
+
+\q 按格式向文件写入数据应使用函数（\quad）。
+\choicesline{A. \code{fprintf}}{B. \code{fscanf}}{C. \code{fread}}{D. \code{fwrite}}
+
+\q 读写二进制数据块应使用函数（\quad）。
+\choicesline{A. \code{fgetc/fputc}}{B. \code{fgets/fputs}}{C. \code{fread/fwrite}}{D. \code{fscanf/fprintf}}
+
+\q 语句 \code{fseek(fp, 0L, SEEK_SET);} 等价于（\quad）。
+\choicesline{A. \code{rewind(fp);}}{B. \code{fclose(fp);}}{C. \code{feof(fp);}}{D. \code{ftell(fp);}}
+
+\q 判断文件是否读到末尾应使用（\quad）。
+\choicesline{A. \code{feof(fp)}}{B. \code{ferror(fp)}}{C. \code{fclose(fp)}}{D. \code{rewind(fp)}}
+
+\qtypename{二、多项选择题}{5 题，每题 3 分，共 15 分；每题有两个或两个以上正确项}
+\q 下列属于 \code{fopen} 合法模式字符串的有（\quad）。
+\choicesline{A. \code{"r"}}{B. \code{"w"}}{C. \code{"a"}}{D. \code{"rb"}}
+
+\q 下列文件中，属于文件读写函数的有（\quad）。
+\choicesline{A. \code{fgetc}}{B. \code{fputc}}{C. \code{fgets}}{D. \code{fread}}
+
+\q 关于文件定位，下列说法正确的有（\quad）。
+\choices{A. \code{rewind} 使位置指针回到文件开头}{B. \code{fseek} 可以移动位置指针}
+{C. \code{ftell} 返回当前位置指针的位置}{D. \code{fseek} 只能从文件开头开始定位}
+
+\q 关于文件关闭与检测，下列说法正确的有（\quad）。
+\choices{A. \code{fclose} 用于关闭文件}{B. \code{feof} 用于检测文件是否结束}
+{C. \code{ferror} 用于检测文件操作是否出错}{D. 文件用完不必关闭，程序结束会自动关闭}
+
+\q 关于文本文件与二进制文件，下列说法正确的有（\quad）。
+\choices{A. 文本文件以字符形式存放数据}{B. 二进制文件按内存中的二进制形式存放}
+{C. 文本文件一般可用记事本查看}{D. 二进制文件一般用 \code{fread}/\code{fwrite} 读写}
+
+\qtypename{三、判断题}{5 题，每题 2 分，共 10 分；正确的画“√”，错误的画“×”并写出改正后的表述}
+\q \code{fopen} 打开文件失败时返回 \code{NULL}。\quad（\quad）\quad 改正：\fixblank
+
+\q 用 \code{"w"} 模式打开已存在文件时，原文件内容会被清空。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{fgetc} 函数一次可以从文件中读取一个字符串。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{feof(fp)} 在文件结束时返回 0。\quad（\quad）\quad 改正：\fixblank
+
+\q 文件使用完毕后应调用 \code{fclose} 关闭，以把缓冲区数据写入文件并释放资源。\quad（\quad）\quad 改正：\fixblank
+
+\qtypename{四、填空题}{10 空，每空 1 分，共 10 分}
+\q 定义文件指针变量的语句是\fillblanks[1.8cm]。
+
+\q 打开文件的函数是\fillblanks[1.2cm]，关闭文件的函数是\fillblanks[1.4cm]。
+
+\q 以只读方式打开文本文件的模式字符串是\fillblanks[1.0cm]。
+
+\q 从文件中读取一个字符用\fillblanks[1.2cm]，写入一个字符用\fillblanks[1.2cm]。
+
+\q 把位置指针移到文件开头可用\fillblanks[1.4cm]函数。
+
+\q 读写二进制数据块用\fillblanks[1.2cm]和\fillblanks[1.4cm]函数。
+
+\q 检测文件是否结束用\fillblanks[1.2cm]函数。
+
+\qtypename{五、程序阅读题}{2 题，每题 5 分，共 10 分}
+\q 写出下列程序的运行结果（程序运行后 data.txt 中的内容为 \code{C Program 123}）。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    FILE *fp;
+    int c, n = 0;
+    fp = fopen("data.txt", "w");
+    if (fp == NULL) return 1;
+    fputs("C Program 123", fp);
+    fclose(fp);
+    fp = fopen("data.txt", "r");
+    if (fp == NULL) return 1;
+    while ((c = fgetc(fp)) != EOF)
+        if (c >= '0' && c <= '9') n++;
+    fclose(fp);
+    printf("%d\n", n);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    FILE *fp;
+    int a[3] = {10, 20, 30}, x, i;
+    fp = fopen("num.txt", "w");
+    if (fp == NULL) return 1;
+    for (i = 0; i < 3; i++)
+        fprintf(fp, "%d ", a[i]);
+    fclose(fp);
+    fp = fopen("num.txt", "r");
+    if (fp == NULL) return 1;
+    fseek(fp, 0L, SEEK_END);
+    printf("%ld ", ftell(fp));
+    rewind(fp);
+    fscanf(fp, "%d", &x);
+    printf("%d\n", x);
+    fclose(fp);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.6cm}
+
+\qtypename{六、简答题}{3 题，每题 5 分，共 15 分}
+\q 文本文件与二进制文件有何区别？它们分别常用哪些函数读写？\anslines{3.2cm}
+
+\q \code{fopen} 的常用打开模式有哪些？\code{"w"} 与 \code{"a"} 有何区别？\anslines{3.2cm}
+
+\q 简述 C 语言文件读写的基本步骤，并说明 \code{feof} 与 \code{ferror} 的作用。\anslines{3.2cm}
+
+\newpage
+\qtypename{七、综合题}{1 题，共 20 分}
+\q 编写一个完整的 C 程序，要求：
+\par\vspace{0.15em}
+\noindent（1）从键盘输入若干字符（以 \code{\#} 结束），把它们写入文本文件 \code{text.txt}；\\
+\noindent（2）重新打开该文件，统计并输出文件中字符总数、换行符个数和大写字母个数。
+
+\noindent 输入示例：\code{Hello} 换行 \code{World} 换行 \code{\#}，输出应为 \code{chars=12 lines=2 upper=2}。请写出完整程序。\anslines{4.0cm}
+
+\end{document}

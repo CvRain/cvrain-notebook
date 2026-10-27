@@ -89,10 +89,7 @@ def check(path: Path) -> list[str]:
     msgs: list[str] = []
     covers = arg_groups(text, r"\examcover")
     if not covers:
-        if arg_groups(text, r"\answercover"):
-            return []          # 答案文件不校验分值
-        msgs.append("缺少 \\examcover")
-        return msgs
+        return check_unit(path, text)
     full = covers[0][3] if len(covers[0]) > 3 else ""
     m = re.search(NUM + r"\s*分", full)
     if not m:
@@ -146,29 +143,63 @@ def check(path: Path) -> list[str]:
     return msgs
 
 
+def check_unit(path: Path, text: str) -> list[str]:
+    r"""校验单元练习册（\unitcover）：封面第 3 参数写「（共 N 分）」。
+
+    答案册（\unitanswerscover）不校验。每个练习 tex 只含一套练习，
+    因此直接累加该文档所有 \qtypename 的分值即可。
+    """
+    if not arg_groups(text, r"\unitcover"):
+        if arg_groups(text, r"\unitanswerscover") or arg_groups(text, r"\answercover"):
+            return []
+        return ["缺少 \\examcover 或 \\unitcover"]
+    covers = arg_groups(text, r"\unitcover")
+    arg = covers[0][2] if len(covers[0]) > 2 else ""
+    m = re.search(r"共\s*" + NUM + r"\s*分", arg)
+    if not m:
+        return [f"\\unitcover 第 3 参数未写「共 N 分」: {arg!r}"]
+    expected = float(m.group(1))
+
+    total = 0.0
+    detail: list[str] = []
+    for m2 in re.finditer(r"\\qtypename", text):
+        parsed = arg_groups(text[m2.start():m2.start() + 400], r"\qtypename")
+        if not parsed:
+            continue
+        args = parsed[0]
+        s = scores_in(args[1] if len(args) > 1 else "")
+        detail.append(f"  qtypename {args[0][:18]!r} -> {s:g}")
+        total += s
+
+    if abs(total - expected) > 1e-6:
+        return [f"分值不符: 各题型合计 {total:g} 分, 封面写 {expected:g} 分"] + detail
+    nq = len(re.findall(r"(?<!\\)\\q(?![a-zA-Z])", text))
+    return [f"OK  {expected:g} 分, 普通题 {nq} 道"] + detail
+
+
 def main() -> int:
     pats = sys.argv[1:]
     bad = 0
     checked = 0
-    for p in sorted(ROOT.rglob("mock-exam-*.tex")):
+    for p in sorted(ROOT.rglob("*.tex")):
         rel = str(p.relative_to(ROOT))
-        if any(s in rel for s in ("tmp/", "out/", ".kilo/", ".git/")):
+        if any(s in rel for s in ("tmp/", "out/", ".kilo/", ".git/", "exam-template/")):
             continue
         if pats and not any(q in rel for q in pats):
             continue
         raw = p.read_text(encoding="utf-8")
-        if "\\examcover" not in raw:
-            continue          # 旧版卷子，不套用新规则
+        if "\\examcover" not in raw and "\\unitcover" not in raw:
+            continue          # 旧版卷子 / 非试卷，跳过
         checked += 1
         res = check(p)
-        head = f"[{'FAIL' if any(x.startswith(('缺少', '分值不符', '\\examcover')) for x in res) else ' ok '}] {rel}"
+        head = f"[{'FAIL' if any(x.startswith(('缺少', '分值不符', '\\examcover', '\\unitcover')) for x in res) else ' ok '}] {rel}"
         print(head)
         for line in res:
             print("     " + line)
         if head.startswith("[FAIL"):
             bad += 1
     if not checked:
-        print("没有找到使用 \\examcover 的试卷")
+        print("没有找到使用 \\examcover / \\unitcover 的试卷")
         return 0
     print(f"\n检查完成，{bad} 个文件有问题" if bad
           else f"\n检查完成，{checked} 个文件全部通过")

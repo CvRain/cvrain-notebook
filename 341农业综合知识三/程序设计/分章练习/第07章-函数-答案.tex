@@ -1,0 +1,136 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第07章参考答案}
+\begin{document}
+
+\unitanswerscover{341 农业综合知识三 · 程序设计分章练习}{第07章参考答案}{函数：逐题答案、解析与综合题完整参考实现；判断题均给出改正后的表述，程序阅读与参考程序均已用 \code{gcc -std=c99} 实跑验证。}
+
+\answerpart{一、单项选择题（10 题，每题 2 分，共 20 分）}
+
+\q B。\begin{analysis}函数返回值的类型由函数定义时函数首部指定的返回类型决定；return 表达式的值会被转换为该类型。A 实参类型不影响返回类型；C 只是被转换的对象；D 错，C 语言不会自动推导返回类型（未写返回类型时默认 int，C99 起要求显式写出）。\end{analysis}
+
+\q B。\begin{analysis}值传递时，调用函数把实参的值复制给形参，形参与实参是两块不同的存储单元；函数内改变形参的值只改变副本，实参不变。若要在函数内改变实参，应传递地址（指针）。\end{analysis}
+
+\q A。\begin{analysis}函数声明（原型）以分号结尾，作用是让编译器在调用前知道函数的返回类型、参数个数与类型；声明可以放在函数外部或调用它的函数内，不必写在函数体内；声明中形参名可以省略但形参类型不能省略；声明不是定义（定义有函数体）。\end{analysis}
+
+\q B。\begin{analysis}递归函数必须同时具备终止条件与递推关系；没有终止条件会无限递归，最终导致栈溢出。递归不一定需要循环语句（递推可只靠条件判断），也不一定需要全局变量或数组参数。\end{analysis}
+
+\q C。\begin{analysis}静态局部变量 \code{a} 只初始化一次；三次调用 \code{f()} 分别执行 \code{a++} 得到 1、2、3，故输出 123。若 \code{a} 是普通 auto 局部变量，则每次调用都重新初始化为 0，输出 111。\end{analysis}
+
+\q B。\begin{analysis}static 局部变量存放在静态存储区，编译时分配、只初始化一次；函数调用结束后其值仍保留，下次调用继续使用上次的结果，生存期为整个程序运行期间。A、D 是 auto 局部变量的特点；C 错，static 局部变量的作用域仍限于所在函数，只是生存期变长。\end{analysis}
+
+\q B。\begin{analysis}全局变量在所有函数之外定义，作用域从定义处到本源文件结束；若在定义之前或别的文件中使用，需用 extern 声明扩展作用域。A 是局部变量；C 夸大范围，别的源文件需 extern 声明后才可使用；D 错。\end{analysis}
+
+\q B。\begin{analysis}\code{void swap(int a, int b)} 采用值传递，函数内交换的只是形参 a、b 这两个副本，实参不受影响。要交换实参，应写成 \code{void swap(int *a, int *b)} 并传入地址，函数内通过 \code{*a}、\code{*b} 交换。A 与返回值无关；C 类型没有写错；D 交换不需要返回值。\end{analysis}
+
+\q C。\begin{analysis}数组名作实参时传递的是首地址，形参 \code{int a[]} 实际上按指针处理，因此函数内 \code{sizeof(a)} 得到的只是指针变量的大小（与平台有关，常见为 8 字节或 4 字节），而不是整个数组的字节数。求数组长度必须另设长度参数。\end{analysis}
+
+\q B。\begin{analysis}C 语言允许在一个函数中调用另一个函数，即嵌套调用，但不允许在一个函数内部再定义另一个函数（不能嵌套定义）。A、D 错在“嵌套定义”；C 与事实相反。\end{analysis}
+
+\answerpart{二、多项选择题（5 题，每题 3 分，共 15 分）}
+
+\q ABCD。\begin{analysis}一个完整的函数定义由返回类型、函数名、形参列表和函数体组成，如 \code{int max(int a, int b) \{ return a > b ? a : b; \}}，四项缺一不可。\end{analysis}
+
+\q ABC。\begin{analysis}值传递是单向传递：实参的值复制给形参，形参是实参的副本，函数内改变形参不影响实参。D 错，那正是地址传递（传指针）才能做到的事。\end{analysis}
+
+\q ABC。\begin{analysis}static 局部变量的生存期为整个程序运行期间（A），只初始化一次（B），作用域仍限于所在函数（C）。D 错：每次调用重新初始化的是 auto 局部变量而不是 static 局部变量。\end{analysis}
+
+\q ABC。\begin{analysis}递归必须有终止条件（A），每次递归都应向终止条件靠近（B），否则无限递归；递归代码简洁但每层调用占用栈空间，层数过深可能栈溢出（C）。D 错：递归往往因函数调用开销而比循环效率低，不能一概而论。\end{analysis}
+
+\q ABCD。\begin{analysis}A 正确：局部变量作用域限于所在函数；B 正确：全局变量未初始化时自动为 0；C 正确：static 局部变量存放在静态存储区；D 正确：register 变量建议存放在寄存器中，不能对其取地址（\code{\&} 运算不合法）。\end{analysis}
+
+\answerpart{三、判断题（5 题，每题 2 分，共 10 分）}
+
+\q ×。改正：C 语言中函数不能嵌套定义，只能嵌套调用。\begin{analysis}函数定义都是互相独立的，可以在一个函数体内调用另一个已声明或已定义的函数，但不能在函数体内再写一个函数定义。\end{analysis}
+
+\q √。\begin{analysis}函数声明的作用是让编译器在调用前知道函数接口；如果函数定义出现在调用之前，编译器已经掌握了接口信息，就可以省略声明。\end{analysis}
+
+\q √。\begin{analysis}数组名作实参时传递首地址，形参按指针处理，函数内对 \code{a[i]} 的修改会作用于实参数组；这也是数组“传地址”的体现。\end{analysis}
+
+\q ×。改正：\code{static} 局部变量只初始化一次，以后调用函数时保留上次的值。\begin{analysis}static 局部变量在编译时分配在静态存储区，初始化只做一次；每次调用函数时重新初始化的是 auto 局部变量。\end{analysis}
+
+\q √。\begin{analysis}全局变量存放在静态存储区，未显式赋初值时编译器自动将其初始化为 0；局部变量（auto）未初始化时值不确定。\end{analysis}
+
+\answerpart{四、填空题（10 空，每空 1 分，共 10 分）}
+
+\q （1）形参列表；（2）函数体。\begin{analysis}函数定义由函数首部和函数体组成：函数首部包括返回类型、函数名和形参列表，花括号内为函数体。\end{analysis}
+
+\q （3）\code{return}。\begin{analysis}return 语句结束函数执行并把表达式的值返回给调用者；无返回值的函数可写 \code{return;} 或省略。\end{analysis}
+
+\q （4）副本；（5）不会。\begin{analysis}值传递是单向的，形参是实参的副本，函数内改变形参不会改变实参。\end{analysis}
+
+\q （6）1；（7）整个程序运行期间。\begin{analysis}static 局部变量只初始化一次，存放在静态存储区，函数调用结束后值仍保留，直到程序结束才释放。\end{analysis}
+
+\q （8）\code{extern}。\begin{analysis}extern 用于声明外部变量或函数，表示其定义在别处，从而扩展作用域。\end{analysis}
+
+\q （9）\code{n == 0} 或 \code{n == 1}（也可写 \code{n <= 1}）。\begin{analysis}求 $n!$ 的递归关系为 $n! = n\times(n-1)!$，终止条件为 $0!=1$、$1!=1$，即 \code{n == 0 || n == 1} 时返回 1。\end{analysis}
+
+\q （10）\code{void}。\begin{analysis}若函数不返回值，返回类型应写为 void，如 \code{void print(int x)}；若写成 int 而不 return，调用者会得到一个无意义的值。\end{analysis}
+
+\answerpart{五、程序阅读题（2 题，每题 5 分，共 10 分）}
+
+\q 运行结果为：
+\begin{lstlisting}
+15 5
+\end{lstlisting}
+\begin{analysis}main 中 \code{a = 5}，调用 \code{f(a)} 时把 5 复制给形参 \code{x}；函数内 \code{x = x + 10 = 15} 并输出 15；函数返回后实参 \code{a} 仍为 5，再输出 5。本题说明值传递的单向性：函数内改变形参不影响实参。\end{analysis}
+
+\q 运行结果为：
+\begin{lstlisting}
+1 2 6 24
+\end{lstlisting}
+\begin{analysis}\code{s} 是 static 局部变量，初值 1 只初始化一次。第一次调用 \code{f(1)}：\code{s = 1 * 1 = 1}；第二次 \code{f(2)}：\code{s = 1 * 2 = 2}；第三次 \code{f(3)}：\code{s = 2 * 3 = 6}；第四次 \code{f(4)}：\code{s = 6 * 4 = 24}。每次调用后 s 的值保留，所以输出 1 2 6 24（每次输出后有一个空格）。\end{analysis}
+
+\answerpart{六、简答题（3 题，每题 5 分，共 15 分）}
+
+\q 参考答案要点：
+（1）函数定义给出函数的完整实现，包括返回类型、函数名、形参列表和函数体，编译后生成可执行代码；函数声明（原型）只给出函数名、返回类型和形参类型，以分号结尾，不产生代码（2 分）。
+（2）函数声明的作用是让编译器在调用之前知道函数的接口，检查调用时实参的个数与类型是否匹配；函数定义在调用之前时可以省略声明（1.5 分）。
+（3）函数声明中的形参名可以省略，因为编译器只关心形参的个数和类型，形参名只在函数定义内部使用，如 \code{int max(int, int);} 与 \code{int max(int a, int b);} 等价（1.5 分）。
+
+\q 参考答案要点：
+（1）值传递：把实参的值复制给形参，形参与实参是不同存储单元，函数内改变形参不影响实参，传递是单向的（1.5 分）。
+（2）地址传递：把实参的地址传给形参（形参为指针），函数内通过 \code{*p} 可以修改实参所指变量的值，相当于把修改“带回”调用者（1.5 分）。
+（3）数组作参数：C 语言中数组名代表数组首元素的地址，实参写数组名时传递的是首地址而不是整个数组的副本；形参 \code{int a[]} 按指针处理，函数内 \code{a[i]} 就是访问实参数组的第 i 个元素，因此可以修改实参数组；由于传递的是地址，函数内 \code{sizeof(a)} 只能得到指针大小，数组长度必须另设参数传入（2 分）。
+
+\q 参考答案要点：
+（1）局部变量：在函数或复合语句内定义，作用域限于该函数或复合语句；auto 局部变量存放在栈区，生存期随函数调用开始而开始、调用结束而结束，未初始化时值不确定（2 分）。
+（2）全局变量：在所有函数之外定义，作用域从定义处到本源文件结束（可用 extern 扩展），存放在静态存储区，生存期为整个程序运行期间，未初始化时自动为 0（1.5 分）。
+（3）static 局部变量：在函数内用 static 定义，作用域仍限于所在函数，但存放在静态存储区，只初始化一次，函数调用结束后值仍保留，生存期为整个程序运行期间（1.5 分）。
+
+\answerpart{七、综合题（1 题，共 20 分）}
+
+\q 参考程序如下：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int gcd(int m, int n)
+{
+    if (n == 0) return m;
+    return gcd(n, m % n);
+}
+double average(int a[], int n)
+{
+    int i, sum = 0;
+    for (i = 0; i < n; i++) sum += a[i];
+    return (double)sum / n;
+}
+int main(void)
+{
+    int a[5], i, m, n;
+    for (i = 0; i < 5; i++) scanf("%d", &a[i]);
+    scanf("%d%d", &m, &n);
+    printf("avg=%.2f\n", average(a, 5));
+    printf("gcd=%d\n", gcd(m, n));
+    return 0;
+}
+\end{lstlisting}
+\begin{analysis}用输入 \code{2 4 6 8 10 12 18} 实跑，输出为：
+\begin{lstlisting}
+avg=6.00
+gcd=6
+\end{lstlisting}
+平均值为 $(2+4+6+8+10)/5=6.00$；求最大公约数时参数依次为 (12,18)、(18,12)、(12,6)、(6,0)，最后返回 6。\end{analysis}
+\begin{analysis}评分要点：正确定义并声明 \code{gcd} 函数，返回类型为 int、形参为两个 int（3 分）；递归终止条件 \code{n == 0} 与递推式 \code{gcd(n, m \% n)} 正确（5 分）；正确书写 \code{average} 函数，形参为 \code{int a[]} 与 \code{int n}，返回 double（4 分）；main 中正确读入 5 个整数并调用 average，输出保留两位小数（4 分）；正确读入两个正整数并调用 gcd 输出结果（3 分）；程序完整、可编译运行（1 分）。\end{analysis}
+\begin{analysis}易错提示：递归终止条件写成 \code{n == 1} 会漏掉 \code{m} 能被 \code{n} 整除的情形而多递归一层；\code{average} 中 \code{sum / n} 若两个操作数都是 int 会做整数除法，必须先转换为 double（如 \code{(double)sum / n}）；调用 \code{average(a, 5)} 时把 5 写成 \code{sizeof(a)/sizeof(a[0])} 也可以，但不能只传数组名；忘记在调用前声明函数可能引发隐式声明警告。\end{analysis}
+
+\end{document}

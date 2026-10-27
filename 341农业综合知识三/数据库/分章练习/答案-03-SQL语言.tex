@@ -1,0 +1,198 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 数据库分章练习}{第03章\quad SQL 语言\quad 参考答案}
+\begin{document}
+
+\unitanswerscover{341 农业综合知识三 · 数据库分章练习}{第03章\quad SQL 语言 参考答案}{答案与解析按练习册题号顺序编排；SQL 语句均按 MySQL 语法书写并逐条核对；综合题给出完整语句、执行结果说明与易错点分析。}
+
+\answerpart{一、单项选择题（10 题，每题 2 分，共 20 分）}
+
+\q \textbf{B}。\begin{analysis}修改基本表结构使用 \code{ALTER TABLE}，如增加列、修改列类型、删除列、添加约束等。A、C、D 都不是标准 SQL 语句：\code{UPDATE} 用于修改表中的数据，不是修改表结构。\end{analysis}
+
+\q \textbf{A}。\begin{analysis}\code{DISTINCT} 用于消除查询结果中的重复元组，紧跟在 \code{SELECT} 之后；\code{GROUP BY} 用于分组统计，\code{ORDER BY} 用于排序，二者虽然也可能使结果“看起来不重复”，但不是去重语句。\end{analysis}
+
+\q \textbf{A}。\begin{analysis}在 LIKE 模式中，“\%”匹配任意多个字符（包括 0 个），“\_”匹配任意单个字符。因此“李\%”表示以“李”开头的字符串，即所有姓李的人。若要匹配包含“李”的姓名，应写成“\%李\%”。\end{analysis}
+
+\q \textbf{C}。\begin{analysis}\code{AVG} 求平均值，\code{SUM} 求和，\code{COUNT} 计数，\code{MAX} 求最大值。\end{analysis}
+
+\q \textbf{B}。\begin{analysis}WHERE 子句在分组之前对元组进行筛选，不能使用聚合函数；HAVING 子句在 GROUP BY 之后对分组结果进行筛选，可以使用聚合函数。执行顺序为 FROM→WHERE→GROUP BY→HAVING→SELECT→ORDER BY，因此 C 错误；WHERE 可以单独使用，不要求与 GROUP BY 同时出现，D 错误。\end{analysis}
+
+\q \textbf{A}。\begin{analysis}视图是从一个或几个基本表（或其他视图）导出的虚表，数据库中只存放视图的定义，不存放视图对应的数据，视图的数据仍存放在基本表中；对视图的操作最终要转换为对基本表的操作。视图可以用于查询，也可以由多个表导出，故 C、D 错误；B 说视图存放数据副本，错误。\end{analysis}
+
+\q \textbf{B}。\begin{analysis}\code{DROP TABLE} 删除基本表的定义及全部数据，属于 DDL；\code{DELETE FROM} 只删除表中的元组，保留表定义；\code{TRUNCATE} 删除表中全部元组但保留表定义；\code{REMOVE} 不是 SQL 语句。\end{analysis}
+
+\q \textbf{A}。\begin{analysis}相关子查询的执行依赖于外层查询的当前元组：外层查询每取一个元组，子查询就执行一次，因此子查询的执行次数通常取决于外层查询结果中的元组个数。不相关子查询只执行一次。\end{analysis}
+
+\q \textbf{A}。\begin{analysis}\code{GRANT SELECT ON SC TO U1} 表示把对表 SC 的查询（SELECT）权限授予用户 U1。收回权限用 \code{REVOKE}，创建用户用 \code{CREATE USER}。\end{analysis}
+
+\q \textbf{A}。\begin{analysis}\code{COUNT(*)} 统计所有元组（行）的个数，不忽略空值，结果为 100；\code{COUNT(Grade)} 统计 Grade 列中非空值的个数，空值不计数，结果为 100−10=90。\end{analysis}
+
+\answerpart{二、多项选择题（5 题，每题 4 分，共 20 分）}
+
+\q \textbf{ABC}。\begin{analysis}SQL 的主要特点：综合统一，集数据定义、数据操纵、数据控制于一体；高度非过程化；面向集合的操作方式；以同一种语法结构提供两种使用方式（既是自含式语言，又可以作为嵌入式语言）。D 错误：SQL 既可以独立使用，也可以嵌入到 C、Java 等高级语言中使用。\end{analysis}
+
+\q \textbf{ABC}。\begin{analysis}COUNT、SUM、AVG 都是聚合函数，对一组值计算并返回单个值。D 错误：LENGTH 是字符串函数（返回字符串长度），对单个值进行计算，不属于聚合函数。\end{analysis}
+
+\q \textbf{ABC}。\begin{analysis}视图是虚表，可以简化用户操作，能够对机密数据提供安全保护，还能提供一定程度的逻辑独立性。D 错误：并非所有视图都可更新，由多个基本表导出、含分组统计或表达式的视图通常不允许直接更新。\end{analysis}
+
+\q \textbf{ABD}。\begin{analysis}A 正确：GROUP BY 之后，SELECT 列表只能出现分组属性和聚合函数；B 正确：HAVING 用于筛选组，可以使用聚合函数；D 正确：GROUP BY 可以按多个属性列分组。C 错误：WHERE 在分组之前执行，不能使用聚合函数。\end{analysis}
+
+\q \textbf{ABC}。\begin{analysis}索引可以加快查询速度，但会降低插入、更新和删除的速度（需要维护索引）；索引可以建立在一个或多个属性列上，也可以建立唯一索引。D 错误：索引是物理存储层面的存取结构，不改变基本表的逻辑结构。\end{analysis}
+
+\answerpart{三、判断题（5 题，每题 2 分，共 10 分）}
+
+\q ×。改正：SQL 是一种高度非过程化的语言，使用时只需指出“做什么”，不必指出具体的数据存取路径，存取路径由 DBMS 自动选择。\begin{analysis}SQL 把数据定义、操纵和控制集于一体，面向集合操作，用户只需说明查询条件，不需要像过程语言那样逐条描述处理步骤和存取路径。\end{analysis}
+
+\q ×。改正：WHERE 子句中不能使用聚合函数；聚合函数只能出现在 SELECT 列表和 HAVING 子句中。\begin{analysis}WHERE 在分组之前执行，此时尚未形成分组，无法对“组”求聚合值；对分组结果的筛选必须使用 HAVING。\end{analysis}
+
+\q √。\begin{analysis}视图是从一个或几个基本表（或其他视图）导出的虚表。数据库中只存放视图的定义，视图对应的数据仍存放在基本表中；对视图的查询最终转换为对基本表的查询。\end{analysis}
+
+\q √。\begin{analysis}视图是依据基本表定义的。使用 \code{DROP TABLE} 删除基本表后，表定义和数据都被删除，建立在该表上的视图因失去依赖对象而失效（不同 DBMS 的处理略有差异，但视图不能再正常使用）。\end{analysis}
+
+\q ×。改正：COUNT(列名) 只统计该列中的非空值，空值不计数；COUNT(*) 才统计所有元组。\begin{analysis}聚合函数除 COUNT(*) 外一般都忽略空值：COUNT(Grade) 只统计 Grade 非空的元组，SUM、AVG 等也忽略空值。\end{analysis}
+
+\answerpart{四、填空题（5 题，每题 2 分，共 10 分）}
+
+\q 第一空：\textbf{数据操纵}；第二空：\textbf{DROP}。\begin{analysis}SQL 的功能包括数据定义（DDL：CREATE、ALTER、DROP）、数据操纵（DML：INSERT、UPDATE、DELETE）、数据查询（DQL：SELECT）和数据控制（DCL：GRANT、REVOKE）。\end{analysis}
+
+\q 第一空：\textbf{任意多个字符（包括 0 个字符）}；第二空：\textbf{任意单个字符}。\begin{analysis}LIKE 模式中，“\%”代表任意长度（含 0）的字符串，“\_”代表任意单个字符。若查询的字符串本身含有 \% 或 \_，需要用 ESCAPE 子句指定转义字符。\end{analysis}
+
+\q 第一空：\textbf{MAX}；第二空：\textbf{MIN}。\begin{analysis}常用聚合函数有 COUNT（计数）、SUM（求和）、AVG（平均）、MAX（最大）、MIN（最小）。\end{analysis}
+
+\q 第一空：\textbf{CREATE VIEW}；第二空：\textbf{GRANT}。\begin{analysis}创建视图用 \code{CREATE VIEW 视图名 AS 子查询}；授权用 \code{GRANT 权限 ON 对象 TO 用户}；收回权限用 \code{REVOKE 权限 ON 对象 FROM 用户}。\end{analysis}
+
+\q 第一空：\textbf{WHERE}；第二空：\textbf{HAVING}。\begin{analysis}SELECT 语句的书写顺序为 SELECT、FROM、WHERE、GROUP BY、HAVING、ORDER BY，但执行顺序为 FROM→WHERE→GROUP BY→HAVING→SELECT→ORDER BY。\end{analysis}
+
+\answerpart{五、简答题（2 题，每题 8 分，共 16 分）}
+
+\q 参考答案要点：
+
+\textbf{（1）视图的定义（2 分）}
+视图是从一个或几个基本表（或其他视图）导出的表。视图所对应的数据并不实际存储在数据库中，数据库中只存放视图的定义，因此视图是一个虚表；视图中的数据仍存放在导出该视图的基本表中，对视图的一切操作最终都要转换为对基本表的操作。
+
+\textbf{（2）视图与基本表的区别（3 分）}
+（1）基本表实际存储数据，视图只存定义、不存数据；
+（2）基本表可以建立索引，视图一般不能建立索引；
+（3）基本表通常可以直接更新，视图的更新受定义限制，并非所有视图都可更新；
+（4）视图可以建立在一个或多个基本表之上，基本表是数据库中数据的实际组织单位。
+
+\textbf{（3）使用视图的优点（3 分）}
+（1）简化用户操作：把经常使用的多表连接、分组统计等查询定义为视图，用户只需对视图做简单查询；
+（2）使用户能以多种角度看待同一数据，提高数据共享的灵活性；
+（3）对重构数据库提供一定程度的逻辑独立性：基本表结构变化时可通过重定义视图保持外模式不变；
+（4）能够对机密数据提供安全保护：让不同用户只能通过视图访问权限内的数据；
+（5）适当利用视图可以更清晰地表达查询。
+\begin{analysis}评分要点：视图定义（2 分）、与基本表的区别（3 分）、优点（3 分，答出 3～4 点即可）。常见错误：认为视图实际存储数据副本，或认为所有视图都能更新。\end{analysis}
+
+\q 参考答案要点：
+
+\textbf{（1）四个子句的作用（4 分）}
+（1）WHERE：在分组之前对元组进行筛选，只保留满足条件的行，不能使用聚合函数。
+（2）GROUP BY：按一个或多个属性列的值对元组进行分组，值相同的元组归为一组。
+（3）HAVING：在分组之后对组进行筛选，只保留满足条件的组，可以使用聚合函数。
+（4）ORDER BY：对最终查询结果按一个或多个属性列排序，可升序（ASC，默认）或降序（DESC）。
+
+\textbf{（2）执行顺序（2 分）}
+FROM $\rightarrow$ WHERE $\rightarrow$ GROUP BY $\rightarrow$ HAVING $\rightarrow$ SELECT $\rightarrow$ ORDER BY。
+
+\textbf{（3）聚合函数不能出现在 WHERE 中的原因（2 分）}
+WHERE 在 GROUP BY 之前执行，此时数据尚未分组，聚合函数没有可作用的“组”，因此不能在 WHERE 中使用聚合函数。若要对分组后的统计值进行筛选，必须使用 HAVING。例如“查询平均成绩高于 80 分的学号”应写成：
+\code{SELECT Sno FROM SC GROUP BY Sno HAVING AVG(Grade) > 80}，而不能把 \code{AVG(Grade) > 80} 写在 WHERE 中。
+\begin{analysis}评分要点：四个子句的作用各 1 分；执行顺序 1 分；不能使用聚合函数的原因 1 分，能给出正确示例 1 分。常见错误：把 HAVING 与 WHERE 的执行顺序写反，或认为 HAVING 必须与聚合函数同时出现。\end{analysis}
+
+\answerpart{六、综合题（2 题，每题 12 分，共 24 分）}
+
+\q 参考答案：
+
+\textbf{（1）创建 OrderItem 表（3 分）}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE OrderItem (
+    Oid CHAR(8) NOT NULL,
+    Pid CHAR(6) NOT NULL,
+    Qty INT NOT NULL CHECK (Qty > 0),
+    PRIMARY KEY (Oid, Pid),
+    FOREIGN KEY (Oid) REFERENCES Orders(Oid),
+    FOREIGN KEY (Pid) REFERENCES Product(Pid)
+);
+\end{lstlisting}
+说明：主码由两个属性组成，必须使用表级约束 \code{PRIMARY KEY (Oid, Pid)}，不能写成两个列级主码；两个外码分别用 \code{FOREIGN KEY ... REFERENCES} 定义；\code{CHECK (Qty > 0)} 是用户定义完整性。MySQL 8.0.16 起真正执行 CHECK 约束，更早版本只解析、不强制执行。
+
+\textbf{（2）为 Farmer 表增加 Email 列（2 分）}
+\begin{lstlisting}[language=SQL]
+ALTER TABLE Farmer ADD Email VARCHAR(50);
+\end{lstlisting}
+新列默认允许空值；若要求非空，应写成 \code{ADD Email VARCHAR(50) NOT NULL}，但表中已有数据时需给出默认值。
+
+\textbf{（3）插入一条订单明细（2 分）}
+\begin{lstlisting}[language=SQL]
+INSERT INTO OrderItem (Oid, Pid, Qty) VALUES ('O001', 'P01', 10);
+\end{lstlisting}
+列名顺序与值的顺序必须一一对应；对未列出的列，DBMS 取默认值或空值。
+
+\textbf{（4）修改订单明细的数量（2 分）}
+\begin{lstlisting}[language=SQL]
+UPDATE OrderItem
+SET Qty = Qty + 5
+WHERE Oid = 'O001' AND Pid = 'P01';
+\end{lstlisting}
+WHERE 条件必须同时限定订单号和产品编号，否则会修改该订单中其他产品或所有订单中该产品的数量。
+
+\textbf{（5）删除订单及其明细（3 分）}
+\begin{lstlisting}[language=SQL]
+DELETE FROM OrderItem WHERE Oid = 'O001';
+DELETE FROM Orders WHERE Oid = 'O001';
+\end{lstlisting}
+必须先删除 OrderItem 中的明细，再删除 Orders 中的订单。因为 OrderItem 的 Oid 是参照 Orders 的外码：若先删除订单，OrderItem 中仍存在引用该订单号的元组，违反参照完整性，DBMS 会拒绝删除（除非外码定义了级联删除 \code{ON DELETE CASCADE}，此时可只执行第二条语句）。两条语句应放在同一事务中，保证要么都成功、要么都回滚。
+\begin{analysis}评分要点：（1）表级复合主码 1 分、两个外码 1 分、Qty 非空且大于 0 的约束 1 分；（2）ALTER TABLE 语句正确 2 分；（3）INSERT 语句正确 2 分；（4）UPDATE 的 SET 与 WHERE 都正确 2 分；（5）两条 DELETE 语句正确 2 分、删除顺序的理由 1 分。常见错误：把复合主码写成 \code{Oid CHAR(8) PRIMARY KEY, Pid CHAR(6) PRIMARY KEY}（一个表只能有一个主键）；外码写成 \code{REFERENCES Orders} 而不写被参照列；UPDATE 漏写 Pid 条件造成误改。\end{analysis}
+
+\q 参考答案：
+
+\textbf{（1）查询单价高于 10 元的产品名称及所属农户姓名（3 分）}
+\begin{lstlisting}[language=SQL]
+SELECT DISTINCT P.Pname, F.Fname
+FROM Product P JOIN Farmer F ON P.FarmerId = F.FarmerId
+WHERE P.Price > 10;
+\end{lstlisting}
+Product 与 Farmer 通过 FarmerId 连接，用 \code{P.Price > 10} 筛选。若一个农户有多个产品满足条件，\code{DISTINCT} 可去掉重复的“产品名—农户名”组合（本题中产品名唯一，加 DISTINCT 更稳妥）。
+
+\textbf{（2）查询没有下过任何订单的客户姓名（3 分）}
+\begin{lstlisting}[language=SQL]
+SELECT C.Cname
+FROM Customer C
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Orders O
+    WHERE O.Cid = C.Cid
+);
+\end{lstlisting}
+这是相关子查询：对 Customer 中的每个客户，子查询检查 Orders 中是否存在该客户的订单；\code{NOT EXISTS} 为真表示没有订单。等价写法还有 \code{NOT IN}（需注意子查询结果含空值时的陷阱）和左外连接后判断右表主码为空。
+
+\textbf{（3）查询订单总金额超过 1000 元的订单号及总金额（3 分）}
+\begin{lstlisting}[language=SQL]
+SELECT O.Oid, SUM(OI.Qty * P.Price) AS Total
+FROM Orders O
+JOIN OrderItem OI ON O.Oid = OI.Oid
+JOIN Product P ON OI.Pid = P.Pid
+GROUP BY O.Oid
+HAVING SUM(OI.Qty * P.Price) > 1000
+ORDER BY O.Oid;
+\end{lstlisting}
+订单金额是各明细“数量×单价”之和，因此需要三表连接；按订单号分组后用 \code{SUM} 求和；“超过 1000 元”是对分组结果的筛选，必须写在 HAVING 中，不能写在 WHERE 中。
+
+\textbf{（4）创建视图并查询销售总金额超过 500 元的产品（3 分）}
+\begin{lstlisting}[language=SQL]
+CREATE VIEW V_ProductSales AS
+SELECT P.Pid, P.Pname,
+       SUM(OI.Qty) AS TotalQty,
+       SUM(OI.Qty * P.Price) AS TotalAmount
+FROM Product P JOIN OrderItem OI ON P.Pid = OI.Pid
+GROUP BY P.Pid, P.Pname;
+
+SELECT *
+FROM V_ProductSales
+WHERE TotalAmount > 500;
+\end{lstlisting}
+视图把“产品—销售”的统计逻辑封装起来，查询时直接对视图筛选即可。注意视图的 SELECT 列表中，除聚合函数外，\code{Pid}、\code{Pname} 都必须出现在 GROUP BY 中；\code{TotalAmount} 是视图列名，在视图外查询时可以直接引用。
+\begin{analysis}评分要点：每题 3 分，其中连接条件、筛选/分组条件、排序或视图定义各占 1 分。易错点：（1）第（1）题忘记连接 Farmer 表或连接条件写错；（2）第（2）题用 \code{NOT IN} 时子查询返回空值导致结果为空；（3）第（3）题把 \code{SUM(...) > 1000} 写进 WHERE，或漏掉 Product 表导致无法取单价；（4）第（4）题视图定义中 SELECT 列与 GROUP BY 列不匹配（\code{Pname} 未分组），或对视图列使用聚合函数导致语义错误。\end{analysis}
+
+\end{document}

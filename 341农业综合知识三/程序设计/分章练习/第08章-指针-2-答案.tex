@@ -1,0 +1,145 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第08章（二）参考答案}
+\begin{document}
+
+\unitanswerscover{341 农业综合知识三 · 程序设计分章练习}{第08章（二）指针进阶参考答案}{指针进阶：逐题答案、解析与综合题完整参考实现；判断题均给出改正后的表述，程序阅读与参考程序均已用 \code{gcc -std=c99} 实跑验证。}
+
+\answerpart{一、单项选择题（10 题，每题 2 分，共 20 分）}
+
+\q A。\begin{analysis}\code{int *p[5];} 先看方括号：p 是含 5 个元素的数组，元素类型是 \code{int *}，所以 p 是指针数组。B 数组指针应写成 \code{int (*p)[5];}；C 函数指针形如 \code{int (*p)(int,int);}；D 二级指针形如 \code{int **p;}。\end{analysis}
+
+\q B。\begin{analysis}\code{int (*p)[5];} 中括号先与 p 结合，说明 p 是指针，指向含 5 个 int 的一维数组，因此是数组指针。A 指针数组应写成 \code{int *p[5];}；C 是函数指针；D 是数组而非单个指针。\end{analysis}
+
+\q B。\begin{analysis}p 指向 a[0] 这一行，\code{p+1} 指向 a[1] 这一行；\code{*(p+1)} 得到 a[1]（首元素地址），再 \code{+2} 得到 a[1][2] 的地址，\code{*} 解引用得 7。A 是 a[1][1]，C 是 a[1][3]，D 是 a[0][2]。\end{analysis}
+
+\q A。\begin{analysis}pp 指向 p，p 指向 x，所以 \code{*pp} 是 p，\code{**pp} 是 p 所指变量 x 的值 5。B 是一级指针 p 的值；C 是 pp 自身的地址；D 是 p 中存放的内容（即 x 的地址），均不是最终数据。\end{analysis}
+
+\q A。\begin{analysis}函数指针指向函数后，可以直接用 \code{f(3,4)} 调用，也可以写成 \code{(*f)(3,4)}。B 中 \code{*f(3,4)} 按优先级先调用 f 再解引用结果，错误；C 的方括号是数组下标语法，错误；D 中 \code{\&} 作用于函数调用结果，错误。\end{analysis}
+
+\q B。\begin{analysis}\code{void *} 是通用指针，可以存放任意类型对象的地址，但编译器不知道所指数据的类型和大小，因此不能直接解引用，必须先转换为具体类型，如 \code{*(int *)p}。A 直接 \code{*p} 非法；C 标准 C 不允许 void 指针直接做算术运算；D 转换成 \code{int *} 后可以访问。\end{analysis}
+
+\q A。\begin{analysis}\code{int *f(int);} 表示 f 是函数，形参为 int，返回值是 \code{int *}（指向 int 的指针），即返回指针的函数。B 是函数指针；C 形参写法错误；D 语法错误。判断口诀：先看函数名先与谁结合，\code{(*f)} 加括号才是函数指针。\end{analysis}
+
+\q C。\begin{analysis}局部自动变量的生存期在函数返回时结束，其存储空间被释放，返回它的地址会成为悬空指针，后续使用是未定义行为。全局变量、static 局部变量的生存期为整个程序运行期间，形参指针所指的变量在函数返回后仍可能有效（由调用者保证），因此 A、B、D 的地址可以返回。\end{analysis}
+
+\q B。\begin{analysis}\code{char *name[]} 是字符指针数组，每个元素是指向字符的指针；\code{name[1]} 被初始化为字符串常量 "Wang" 的首字符地址，因此是指向 'W' 的指针，用 \code{\%s} 输出得到 Wang。A 错在把指针当成字符串本身；C 需要 \code{*name[1]}；D 表达式合法。\end{analysis}
+
+\q B。\begin{analysis}\code{a[0]} 是第 0 行首元素地址，\code{p + 5} 从 a[0][0] 起跳过 5 个 int：a[0][0]、a[0][1]、a[0][2]、a[0][3]、a[1][0]，所以 p+5 指向 a[1][1]。A 中 a[0][5] 越界；C 少跳一个元素；D 不是合法元素。\end{analysis}
+
+\answerpart{二、多项选择题（5 题，每题 3 分，共 15 分）}
+
+\q ABC。\begin{analysis}A、B 正确：\code{int *p[5];} 是指针数组，\code{int (*p)[5];} 是数组指针；C 正确：指针数组的每个元素都是指针；D 错：二者本质不同，指针数组是数组、数组指针是指针，\code{sizeof} 与 \code{p+1} 的行为也不同。\end{analysis}
+
+\q ABC。\begin{analysis}A、B 正确：函数指针可以指向函数，并通过指针调用函数；C 正确：定义形式为 \code{int (*p)(int,int);}；D 错：函数指针是指向函数的指针变量，返回指针的函数是返回值为指针的函数，二者不同。\end{analysis}
+
+\q ABC。\begin{analysis}A 正确：二级指针存放一级指针变量的地址；B 正确：\code{*pp} 得到一级指针，\code{**pp} 才是数据，需要两次解引用；C 正确：把一级指针的地址传给函数，函数内可通过 \code{**pp} 修改指针实参的指向；D 错：二级指针可以指向任意类型的一级指针，不限于 int。\end{analysis}
+
+\q ABC。\begin{analysis}A 正确：void 指针可存放任意类型对象的地址；B 正确：不能直接解引用，必须先转换为具体类型；C 正确：malloc 返回 void *，赋给具体类型指针时可隐式转换；D 错：标准 C 不允许 void 指针直接进行算术运算（部分编译器作为扩展支持，但不可移植）。\end{analysis}
+
+\q ABCD。\begin{analysis}A 返回局部变量地址会形成悬空指针；B 解引用空指针非法；C 指针越界会访问非法内存；D 释放内存后继续使用原指针会访问已释放的内存。四者都是常见指针错误。\end{analysis}
+
+\answerpart{三、判断题（5 题，每题 2 分，共 10 分）}
+
+\q ×。改正：\code{int *p[5];} 是指针数组（5 个 int 指针元素），\code{int (*p)[5];} 是数组指针（指向含 5 个 int 的一维数组）。\begin{analysis}判断的关键是运算符优先级：方括号 [] 优先级高于 *，所以 \code{int *p[5]} 先结合成数组；加括号 \code{(*p)} 后 p 先与 * 结合，成为指向数组的指针。\end{analysis}
+
+\q √。\begin{analysis}函数指针存放函数的入口地址，只要两个函数的返回类型和形参类型完全相同，同一个函数指针就可以先后指向它们，如指针先指向 add、再指向 sub。\end{analysis}
+
+\q ×。改正：函数不能返回局部自动变量的地址，因为函数返回后局部变量的生存期结束，其地址成为悬空指针；可返回全局变量、static 局部变量或动态分配内存的地址。\begin{analysis}局部自动变量存放在栈区，函数返回时栈帧被释放，返回其地址虽然语法上允许，但使用该地址是未定义行为。\end{analysis}
+
+\q ×。改正：\code{void *} 指针不能直接解引用，必须先转换为具体类型指针，如 \code{*(int *)p}。\begin{analysis}编译器不知道 void 指针所指对象的类型和大小，无法确定解引用时读取多少字节，所以标准 C 要求先做类型转换。\end{analysis}
+
+\q √。\begin{analysis}把一级指针的地址（二级指针）传给函数，函数内通过 \code{**pp} 可以修改一级指针所指的数据，也可以通过 \code{*pp} 修改一级指针本身的指向，这是二级指针的典型用途。\end{analysis}
+
+\answerpart{四、填空题（10 空，每空 1 分，共 10 分）}
+
+\q （1）指针数组；（2）数组指针。\begin{analysis}\code{int *p[5];} 是含 5 个 int 指针的数组；\code{int (*p)[5];} 是指向含 5 个 int 的数组的指针。\end{analysis}
+
+\q （3）\code{int (*p)(参数表)}（如 \code{int (*p)(int, int);}）。\begin{analysis}函数指针的定义形式为“返回类型 (*指针名)(形参类型列表);”，括号不能省，否则变成返回指针的函数。\end{analysis}
+
+\q （4）\code{int *f(参数表)}（如 \code{int *f(int);}）。\begin{analysis}返回指针的函数的定义形式为“返回类型 *函数名(形参列表);”，函数名先与括号结合，说明是函数，返回值是地址。\end{analysis}
+
+\q （5）指向指针的指针（二级指针）。\begin{analysis}\code{int **pp;} 中 pp 存放一级指针变量的地址，需要两次解引用才能得到最终数据。\end{analysis}
+
+\q （6）\code{void *}。\begin{analysis}void 指针是通用指针类型，可以存放任意类型对象的地址，但解引用前必须转换为具体类型。\end{analysis}
+
+\q （7）\code{p(实参)}；（8）\code{(*p)(实参)}。\begin{analysis}函数指针指向函数后，两种调用形式等价，如 \code{pf(1,2)} 与 \code{(*pf)(1,2)}。\end{analysis}
+
+\q （9）\code{void *}。\begin{analysis}malloc 函数向系统申请内存，返回所分配内存块的首地址，类型为 \code{void *}，使用时通常转换为所需类型的指针。\end{analysis}
+
+\q （10）悬空指针（野指针）。\begin{analysis}内存被释放后，原指针仍保存该地址，若继续使用就形成悬空指针（也称野指针），访问已释放内存属于未定义行为，释放后应将指针置为 NULL。\end{analysis}
+
+\answerpart{五、程序阅读题（2 题，每题 5 分，共 10 分）}
+
+\q 运行结果为：
+\begin{lstlisting}
+1 7 12
+\end{lstlisting}
+\begin{analysis}p 指向 a[0] 这一行：\code{**p} 即 a[0][0]，值为 1；\code{*(p+1)} 指向 a[1]，再 \code{+2} 得到 a[1][2] 的地址，解引用得 7；\code{p[2][3]} 即 a[2][3]，值为 12。本题检验数组指针“\code{p+1} 跳过一行”的特点。\end{analysis}
+
+\q 运行结果为：
+\begin{lstlisting}
+10 4
+\end{lstlisting}
+\begin{analysis}函数指针 f 先指向 add，\code{f(7,3)} 调用 add 得到 10；再把 f 指向 sub，\code{f(7,3)} 调用 sub 得到 4。两次输出之间有一个空格。\end{analysis}
+
+\answerpart{六、简答题（3 题，每题 5 分，共 15 分）}
+
+\q 参考答案要点：
+（1）定义形式：指针数组 \code{int *p[5];}；数组指针 \code{int (*p)[5];}（2 分）。
+（2）本质：指针数组是数组，有 5 个元素，每个元素是 \code{int *} 指针；数组指针是指针，指向含 5 个 int 的一维数组（2 分）。
+（3）\code{sizeof} 与 \code{p+1}：对指针数组，\code{sizeof(p)} 为 5 个指针的大小（如 $5\times8=40$ 字节），\code{p+1} 指向下一个指针元素；对数组指针，\code{sizeof(p)} 为指针本身大小（如 8 字节），\code{p+1} 跳过 5 个 int，即跳过一整行（1 分）。
+
+\q 参考答案要点：
+（1）函数指针：定义形式 \code{int (*pf)(int, int);}，pf 是指针，存放函数的入口地址，可以用 \code{pf(1,2)} 调用所指向的函数；用途如把函数作为参数传递（回调）、用函数指针数组实现菜单或计算器（2 分）。
+（2）返回指针的函数：定义形式 \code{int *f(int);}，f 是函数，返回值是 \code{int *} 型地址；用途如返回数组或字符串的地址、返回动态分配内存的首地址、返回查找到的结点指针（2 分）。
+（3）区别：函数指针是“指针变量”，返回指针的函数是“函数”；判断时看括号，\code{(*p)} 加括号的是函数指针，\code{*f(int)} 中函数名先与括号结合的是函数（1 分）。
+
+\q 参考答案要点：
+（1）特点：\code{void *} 是通用指针类型，可以存放任意类型对象的地址，如 \code{void *p;}（1.5 分）。
+（2）不能直接解引用：编译器不知道所指对象的类型和大小，必须先转换为具体类型指针，如 \code{*(int *)p} 或 \code{((char *)p)[0]}（1.5 分）。
+（3）标准 C 不允许 void 指针直接进行指针算术运算，若要按字节移动应先转换为 \code{char *}（1 分）。
+（4）\code{malloc}、\code{calloc} 等动态内存函数的返回类型是 \code{void *}，赋给具体类型指针时可隐式转换；使用完动态内存后应 \code{free} 并将指针置为 NULL，避免悬空指针（1 分）。
+
+\answerpart{七、综合题（1 题，共 20 分）}
+
+\q 参考程序如下：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+#include <string.h>
+int main(void)
+{
+    char s[5][20];
+    char *p[5];
+    int i, j;
+    for (i = 0; i < 5; i++)
+    {
+        scanf("%s", s[i]);
+        p[i] = s[i];
+    }
+    for (i = 0; i < 4; i++)
+        for (j = 0; j < 4 - i; j++)
+            if (strcmp(p[j], p[j + 1]) > 0)
+            {
+                char *t = p[j];
+                p[j] = p[j + 1];
+                p[j + 1] = t;
+            }
+    for (i = 0; i < 5; i++)
+        printf("%s\n", p[i]);
+    return 0;
+}
+\end{lstlisting}
+\begin{analysis}用输入 \code{pear apple orange banana grape} 实跑，输出为：
+\begin{lstlisting}
+apple
+banana
+grape
+orange
+pear
+\end{lstlisting}
+p 是指针数组，每个元素指向二维字符数组 s 的一行；排序时只交换 p 中的指针（交换的是指向关系），没有搬动字符串内容本身，这正是指针数组的典型用法。冒泡排序共进行 4 趟，内层用 strcmp 比较相邻字符串。\end{analysis}
+\begin{analysis}评分要点：正确定义 \code{char s[5][20]} 与指针数组 \code{char *p[5]}（4 分）；正确读入 5 个字符串并让 \code{p[i] = s[i]} 指向对应行（3 分）；冒泡排序外循环与内循环边界正确（4 分）；用 \code{strcmp(p[j], p[j+1]) > 0} 判断并交换指针（5 分）；逐行输出排序后的字符串（2 分）；程序完整可编译（2 分）。\end{analysis}
+\begin{analysis}易错提示：把指针数组写成 \code{char (*p)[20]}（数组指针）后交换逻辑完全不同；交换时用 \code{strcpy} 搬字符串虽然结果正确，但不符合“交换指针”的要求；\code{scanf("\%s", s[i])} 中 s[i] 本身就是地址，不要写成 \code{\&s[i]}；内层循环写成 \code{j < 4} 会越界访问 \code{p[5]}。\end{analysis}
+
+\end{document}

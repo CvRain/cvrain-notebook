@@ -1,0 +1,148 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第09章参考答案}
+\begin{document}
+
+\unitanswerscover{341 农业综合知识三 · 程序设计分章练习}{第09章参考答案}{结构体与共用体：逐题答案、解析与综合题完整参考实现；判断题均给出改正后的表述，程序阅读与参考程序均已用 \code{gcc -std=c99} 实跑验证。}
+
+\answerpart{一、单项选择题（10 题，每题 2 分，共 20 分）}
+
+\q A。\begin{analysis}定义结构体类型使用关键字 struct，如 \code{struct stu \{ int num; char name[20]; \};}。union 定义共用体，enum 定义枚举，typedef 为类型起别名。\end{analysis}
+
+\q B。\begin{analysis}结构体变量用点运算符访问成员，形式为“结构体变量名.成员名”，即 \code{s.num}。A 是结构体指针的访问形式；C 是数组下标形式；D 语法及含义都不对。\end{analysis}
+
+\q B。\begin{analysis}结构体指针访问成员用箭头运算符 \code{p->num}，它等价于 \code{(*p).num}。A 中 \code{p.num} 是结构体变量的写法；C 中 \code{*p.num} 先取 p.num 再解引用，含义错误；D 是数组下标形式。\end{analysis}
+
+\q B。\begin{analysis}结构体数组下标从 0 开始，\code{s[0]} 是第一个元素，\code{s[1]} 是第二个元素，\code{s[1].num} 即第二个元素的 num 成员。A 对应 \code{s[0]}，C 对应 \code{s[2]}。\end{analysis}
+
+\q B。\begin{analysis}共用体的所有成员共享同一段存储单元，因此其长度等于最长成员所占的字节数（并考虑对齐），而不是各成员长度之和。A 是结构体的长度规则；C、D 与共用体规则不符。\end{analysis}
+
+\q B。\begin{analysis}共用体的成员共享同一段存储，同一时刻只有最后存入的那个成员是有效的，给一个成员赋值会覆盖其他成员的内容。A、C 错在认为成员同时有效或独立存储；D 错，共用体可以包含 int 等基本类型成员。\end{analysis}
+
+\q D。\begin{analysis}枚举元素默认从 0 开始依次递增：red = 0；green 被显式指定为 3，其后的 blue 在 green 基础上加 1，等于 4。A 是 green 未指定时的值；B 是默认顺序下 blue 的值；C 是 green 的值。\end{analysis}
+
+\q B。\begin{analysis}typedef 用于为已有数据类型起别名，如 \code{typedef struct stu STU;} 之后可用 \code{STU s;} 定义变量；它不创建新类型，也不分配内存。A 是 struct 的作用；C 是 union；D 是 malloc 的作用。\end{analysis}
+
+\q B。\begin{analysis}结构体变量作函数实参采用值传递，函数内得到的是整个结构体的副本，修改形参的成员不会影响实参。A 描述的是结构体指针作参数；C、D 与 C 语言规则不符，结构体可以整体作参数和返回值。\end{analysis}
+
+\q B。\begin{analysis}\code{next} 的类型是 \code{struct node *}，即指向同类型结点（\code{struct node}）的指针，用于链接下一个结点；链表尾结点的 next 为 NULL。A 是 data 的类型；C、D 与定义不符。\end{analysis}
+
+\answerpart{二、多项选择题（5 题，每题 3 分，共 15 分）}
+
+\q ABCD。\begin{analysis}结构体的成员可以是不同的数据类型（A），可以是数组（B）、指针（C），也可以是另一个结构体（D），这正是结构体能够描述复杂对象的原因。\end{analysis}
+
+\q AC。\begin{analysis}A 正确：\code{p->num} 与 \code{(*p).num} 等价；C 正确：结构体指针可以指向结构体数组的元素，如 \code{p = \&s[0];} 或 \code{p = s;}。B 错：\code{*p.num} 按优先级先算 \code{p.num}，语义错误；D 错：\code{struct stu *p;} 定义后 p 未指向有效结构体变量，直接 \code{p->num = 1;} 会写入未知地址。\end{analysis}
+
+\q ABC。\begin{analysis}A、B、C 都是共用体的基本特点：成员共享存储、长度等于最长成员、同一时刻只有一个成员有效。D 错：给一个成员赋值会覆盖其他成员，不能同时有效。\end{analysis}
+
+\q ABC。\begin{analysis}A 正确：枚举元素是符号常量；B 正确：默认从 0 开始依次递增；C 正确：可以显式指定某个元素的值，如 \code{green = 3}。D 错：枚举元素是常量，不能被赋值，只能把枚举值赋给枚举变量。\end{analysis}
+
+\q ABC。\begin{analysis}A 正确：链表结点一般由数据域和指针域组成；B 正确：结点通常用 malloc 动态申请；C 正确：next 为 NULL 表示链表结束；D 错：链表结点通过指针链接，在内存中不必连续存放，这正是链表区别于数组的特点。\end{analysis}
+
+\answerpart{三、判断题（5 题，每题 2 分，共 10 分）}
+
+\q √。\begin{analysis}结构体变量按成员定义的顺序依次存放，由于内存对齐的要求，编译器可能在成员之间插入填充字节，因此结构体的总长度可能大于各成员长度之和。\end{analysis}
+
+\q ×。改正：共用体的长度等于最长成员的长度（考虑对齐），所有成员共享同一段存储单元。\begin{analysis}各成员共享存储是共用体的本质，因此它只能按最长成员分配空间，而不是把各成员长度相加。\end{analysis}
+
+\q √。\begin{analysis}\code{p->num} 是箭头运算符形式，\code{(*p).num} 是先解引用再取成员，二者完全等价，只是写法不同。\end{analysis}
+
+\q ×。改正：C 语言中结构体变量不能用 \code{==} 整体比较是否相等，需要逐个成员比较。\begin{analysis}结构体可能包含数组、指针等成员，编译器没有为结构体定义整体的 \code{==} 运算，直接比较无法通过编译。\end{analysis}
+
+\q ×。改正：枚举元素是符号常量，不能被赋值修改；应定义枚举变量，再把枚举元素的值赋给该变量。\begin{analysis}如 \code{enum color \{ red, green \};} 中 red、green 是常量，\code{red = 3;} 非法；可以写 \code{enum color c; c = red;}。\end{analysis}
+
+\answerpart{四、填空题（10 空，每空 1 分，共 10 分）}
+
+\q （1）\code{struct}；（2）\code{union}。\begin{analysis}struct 定义结构体，union 定义共用体，enum 定义枚举，typedef 起别名。\end{analysis}
+
+\q （3）\code{.}；（4）\code{->}。\begin{analysis}结构体变量用点运算符访问成员，结构体指针用箭头运算符访问成员，\code{p->num} 等价于 \code{(*p).num}。\end{analysis}
+
+\q （5）最长成员的长度（考虑对齐）。\begin{analysis}共用体的所有成员共享同一段存储，因此长度由最长成员决定，同时受对齐要求影响。\end{analysis}
+
+\q （6）1。\begin{analysis}枚举元素默认从 0 开始递增，red = 0，green = 1，blue = 2。\end{analysis}
+
+\q （7）\code{typedef}。\begin{analysis}typedef 为已有类型起别名，如 \code{typedef struct stu STU;}，之后可用 STU 定义变量。\end{analysis}
+
+\q （8）指针域。\begin{analysis}链表结点一般含数据域（存放数据）和指针域（存放后继结点的地址），如 \code{struct node \{ int data; struct node *next; \};}。\end{analysis}
+
+\q （9）地址。\begin{analysis}结构体数组名代表数组首元素的地址，类型为 \code{struct stu *}，可赋给结构体指针。\end{analysis}
+
+\q （10）\code{p->num}。\begin{analysis}\code{p = \&s} 使 p 指向 s，访问 s 的 num 成员可写 \code{s.num}，也可通过指针写 \code{p->num} 或 \code{(*p).num}。\end{analysis}
+
+\answerpart{五、程序阅读题（2 题，每题 5 分，共 10 分）}
+
+\q 运行结果为：
+\begin{lstlisting}
+2 Wang 248
+\end{lstlisting}
+\begin{analysis}结构体数组 s 的三个元素分数分别为 80、92、76，循环用 \code{(p+i)->score} 累加得 $80+92+76=248$；\code{s[1].num} 为 2，\code{p[1].name} 为 "Wang"。所以输出 \code{2 Wang 248}。\end{analysis}
+
+\q 运行结果为：
+\begin{lstlisting}
+4 2 4 2
+\end{lstlisting}
+\begin{analysis}初始 a = \{1,2\}，b = \{3,4\}，p 指向 a；\code{p->x = b.y;} 把 b 的 y（4）赋给 a 的 x，a 变为 \{4,2\}；\code{b = *p;} 把 a 的内容整体赋给 b，b 也变为 \{4,2\}。因此输出 a.x、a.y、b.x、b.y 为 4 2 4 2。\end{analysis}
+
+\answerpart{六、简答题（3 题，每题 5 分，共 15 分）}
+
+\q 参考答案要点：
+（1）存储方式：结构体的各成员分别占用存储单元、可同时存放多个成员的值；共用体的所有成员共享同一段存储单元，同一时刻只有一个成员有效（2 分）。
+（2）长度：结构体的长度等于各成员长度之和（考虑对齐填充，可能大于简单相加）；共用体的长度等于最长成员的长度（考虑对齐）（2 分）。
+（3）使用场合：结构体用于描述同时具有多个属性的对象（如学生记录）；共用体用于多个成员不会同时使用、需要节省内存的场合（如用不同格式解释同一段数据）（1 分）。
+
+\q 参考答案要点：
+（1）结构体变量作参数：采用值传递，函数内得到整个结构体的副本，修改形参的成员不影响实参；传递时需要复制所有成员，结构体较大时开销大。适用于结构体较小、且函数不需要修改实参的场合（2.5 分）。
+（2）结构体指针作参数：传递结构体变量的地址，函数内通过 \code{p->成员} 访问，可直接修改实参所指向的结构体；只传一个地址，开销小、效率高。适用于结构体较大或需要在函数中修改实参的场合（2.5 分）。
+
+\q 参考答案要点：
+（1）结点定义：\code{struct node \{ int data; struct node *next; \};} 其中 data 为数据域，next 为指针域，指向同类型结点，链表尾结点的 next 置为 NULL（2 分）。
+（2）头插法建立链表：先令头指针 \code{head = NULL}；每读入一个数据，用 \code{malloc} 申请一个结点，把数据存入 data，令 \code{new->next = head;}，再令 \code{head = new;}；重复直到输入结束。头插法建立的链表结点顺序与输入顺序相反（2 分）。
+（3）遍历链表：令 \code{p = head;}，当 \code{p != NULL} 时访问 \code{p->data}，再执行 \code{p = p->next;}，直到 p 为 NULL 结束（1 分）。
+
+\answerpart{七、综合题（1 题，共 20 分）}
+
+\q 参考程序如下：
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+struct stu {
+    int num;
+    char name[20];
+    int score;
+};
+int main(void)
+{
+    struct stu s[5], t;
+    int i, j, sum = 0;
+    for (i = 0; i < 5; i++)
+    {
+        scanf("%d%s%d", &s[i].num, s[i].name, &s[i].score);
+        sum += s[i].score;
+    }
+    for (i = 0; i < 4; i++)
+        for (j = 0; j < 4 - i; j++)
+            if (s[j].score < s[j + 1].score)
+            {
+                t = s[j];
+                s[j] = s[j + 1];
+                s[j + 1] = t;
+            }
+    for (i = 0; i < 5; i++)
+        printf("%d %s %d\n", s[i].num, s[i].name, s[i].score);
+    printf("avg=%.2f\n", sum / 5.0);
+    return 0;
+}
+\end{lstlisting}
+\begin{analysis}用题给 5 条记录实跑，输出为：
+\begin{lstlisting}
+102 Li 92
+104 Zhao 90
+105 Chen 88
+101 Zhang 85
+103 Wang 78
+avg=86.60
+\end{lstlisting}
+排序采用冒泡法，比较的是 \code{s[j].score}，交换时直接交换整个结构体变量（C 语言允许同类型结构体变量整体赋值）；平均分 $(85+92+78+90+88)/5=86.60$。\end{analysis}
+\begin{analysis}评分要点：正确定义结构体类型（含学号、姓名、成绩三个成员）（4 分）；定义结构体数组并正确读入 5 条记录（4 分）；冒泡排序双重循环边界正确（3 分）；按成绩从高到低比较并交换整个结构体变量（4 分）；按格式输出排序后的记录（3 分）；正确计算并输出平均分（2 分）。\end{analysis}
+\begin{analysis}易错提示：\code{scanf("\%d\%s\%d", \&s[i].num, s[i].name, \&s[i].score)} 中 name 是数组名、本身即地址，不要写成 \code{\&s[i].name}；排序条件写成 \code{>} 会变成升序；交换时只交换 score 而不交换学号、姓名，会导致记录错乱；平均分 \code{sum / 5} 是整数除法，应写 \code{sum / 5.0} 或强制转换。\end{analysis}
+
+\end{document}

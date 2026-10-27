@@ -1,0 +1,176 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第06章\quad 数组}
+\begin{document}
+
+\unitcover{341 农业综合知识三 · 程序设计分章练习}{第06章\quad 数组}{练习（共 100 分）}{约 60 分钟}{一维数组与二维数组的定义、初始化与元素引用；数组越界；数组作函数参数；字符数组与字符串；\code{strlen}、\code{strcpy}、\code{strcmp}、\code{strcat}；字符串结束符 \code{'\textbackslash 0'}。}
+
+\begin{knowmap}
+\textbf{一维数组：}定义形式为“类型说明符 数组名[常量表达式]”，如 \code{int a[5];}；元素下标从 \code{0} 开始，合法下标为 \code{0} 到长度减 1，\code{a[5]} 已越界。\\[2pt]
+\textbf{初始化：}\code{int a[5]=\{1,2\};} 只给前两个元素赋值，其余元素自动为 \code{0}；\code{int a[]=\{1,2,3\};} 由初值个数确定数组长度为 3；\code{\{1,2,3,4\}} 赋给长度为 3 的数组属于越界初始化。\\[2pt]
+\textbf{二维数组：}\code{int a[3][4];} 共 $3\times4=12$ 个元素，按行优先顺序存储；定义时可省略第一维、不能省略第二维，如 \code{int a[][3]=\{\{1,2,3\},\{4,5,6\}\};}。\\[2pt]
+\textbf{字符数组：}\code{char c[10]=\{'I',' ','a','m'\};} 未赋值的元素为 \code{'\textbackslash 0'}；用字符串常量初始化 \code{char s[]="China";} 时，数组长度比字符个数多 1，末尾自动加 \code{'\textbackslash 0'}。\\[2pt]
+\textbf{字符串函数：}\code{strlen} 求长度（不计 \code{'\textbackslash 0'}）；\code{strcpy} 复制、\code{strcat} 连接、\code{strcmp} 比较；使用时须包含 \code{<string.h>}，字符数组不能用 \code{=} 整体赋值、不能用 \code{==} 比较。\\[2pt]
+\textbf{数组作参数：}形参可写成 \code{int a[]} 或 \code{int *a}，实参传数组首地址，函数内修改元素会影响实参数组；数组长度需另设参数传入，函数内 \code{sizeof(a)} 得到的是指针大小而非数组长度。
+\end{knowmap}
+
+\begin{keyterms}
+\textbf{数组}：由同类型元素组成、在内存中连续存放的有序集合，用统一数组名和不同下标区分元素。\\
+\textbf{数组元素}：数组中的每一个数据项，用“数组名[下标]”引用，下标从 0 开始且必须是整数。\\
+\textbf{一维数组定义}：\code{int a[5];} 方括号内是常量表达式，表示元素个数，不能是变量（C99 变长数组除外）。\\
+\textbf{部分初始化}：\code{int a[5]=\{1,2\};} 前两个元素为 1、2，其余元素自动为 0。\\
+\textbf{二维数组}：\code{int a[3][4];} 可视为 3 行 4 列的矩阵，按行优先（先行后列）顺序存储。\\
+\textbf{字符数组}：元素类型为 \code{char} 的数组，可用来存放字符序列或字符串。\\
+\textbf{字符串结束符}：\code{'\textbackslash 0'}，ASCII 码为 0，标志字符串结束，不计入 \code{strlen} 的长度但占用存储单元。\\
+\textbf{strlen}：求字符串长度，从给定地址开始数到第一个 \code{'\textbackslash 0'} 为止，不含 \code{'\textbackslash 0'}。\\
+\textbf{strcpy}：\code{strcpy(字符数组, 字符串)}，把字符串复制到字符数组中，连同 \code{'\textbackslash 0'} 一起复制。\\
+\textbf{strcmp}：\code{strcmp(s1, s2)} 按字符 ASCII 码逐个比较，相等返回 0，大于返回正数，小于返回负数。\\
+\textbf{strcat}：\code{strcat(s1, s2)} 把字符串 s2 连接到 s1 末尾，s1 必须有足够空间。\\
+\textbf{数组名}：代表数组首元素的地址，是地址常量，不能赋值、不能自增；\code{sizeof(数组名)} 得到整个数组的字节数。
+\end{keyterms}
+
+\begin{contrast}{字符数组 / 字符串（每行依次为：存储内容·是否含结束符·可用操作）}
+\citem{字符数组}{逐个存放字符的数组，如 \code{char c[5];} 中依次放 5 个字符}{若初值个数正好等于长度则不含 \code{'\textbackslash 0'}}{可逐个元素处理，不能直接用字符串函数}
+\citem{字符串}{以 \code{'\textbackslash 0'} 结尾的字符序列，如 \code{char s[]="China";}}{末尾自动加 \code{'\textbackslash 0'}，长度比字符个数多 1}{可用 \code{strlen}、\code{strcpy}、\code{strcat}、\code{strcmp} 等函数}
+\end{contrast}
+
+\begin{contrast}{一维数组 / 二维数组（每行依次为：定义形式·元素个数·存储顺序）}
+\citem{一维数组}{\code{int a[5];}}{5 个元素，下标 0\textasciitilde 4}{按下标顺序连续存放}
+\citem{二维数组}{\code{int a[3][4];}}{$3\times4=12$ 个元素，行下标 0\textasciitilde 2、列下标 0\textasciitilde 3}{按行优先顺序存放，a[0][0]、a[0][1]……a[2][3]}
+\end{contrast}
+
+\begin{contrast}{\code{strlen(s)} / \code{sizeof(s)}（每行依次为：含义·是否计入结束符·典型结果）}
+\citem{\code{strlen(s)}}{从 s 开始数到第一个 \code{'\textbackslash 0'} 的字符个数}{不计入 \code{'\textbackslash 0'}}{\code{char s[]="abc";} 时结果为 3}
+\citem{\code{sizeof(s)}}{s 所占的存储字节数}{若 s 是数组则包含 \code{'\textbackslash 0'}}{\code{char s[]="abc";} 时结果为 4；若 s 是形参指针则为指针大小}
+\end{contrast}
+
+\qtypename{一、单项选择题}{10 题，每题 2 分，共 20 分}
+\q 执行定义 \code{int a[5]=\{1, 2\};} 后，\code{a[3]} 的值是（\quad）。
+\choicesline{A. 1}{B. 2}{C. 0}{D. 不确定}
+
+\q 定义 \code{int a[10];} 后，合法的数组元素下标是（\quad）。
+\choicesline{A. 0\textasciitilde 9}{B. 1\textasciitilde 10}{C. 0\textasciitilde 10}{D. 1\textasciitilde 9}
+
+\q 执行定义 \code{int a[]=\{1, 2, 3, 4\};} 后，数组 \code{a} 的长度是（\quad）。
+\choicesline{A. 3}{B. 4}{C. 5}{D. 不确定}
+
+\q 二维数组 \code{int a[3][4];} 中，按行优先存放、从 1 开始数，\code{a[1][2]} 是第（\quad）个元素。
+\choicesline{A. 6}{B. 7}{C. 10}{D. 11}
+
+\q 执行定义 \code{char s[]="abc";} 后，\code{sizeof(s)} 的值是（\quad）。
+\choicesline{A. 3}{B. 4}{C. 5}{D. 6}
+
+\q 执行定义 \code{char s[10]="abc";} 后，\code{strlen(s)} 的值是（\quad）。
+\choicesline{A. 3}{B. 4}{C. 10}{D. 不确定}
+
+\q 下列字符串操作正确的是（\quad）。
+\choices{A. \code{char s[10]; s="hello";}}{B. \code{char s[10]; strcpy(s,"hello");}}
+{C. \code{char s[10]; s[]="hello";}}{D. \code{char s[10]; s="hello"+1;}}
+
+\q 数组名作函数实参、形参写成 \code{int a[]} 时，实参传给形参的是（\quad）。
+\choicesline{A. 数组全部元素的值}{B. 数组首元素的地址}{C. 数组长度}{D. 数组的副本}
+
+\q 执行下列程序段后，\code{s} 的值是（\quad）。
+\begin{lstlisting}[language={[custom]C}]
+int a[5] = {5, 4, 3, 2, 1}, i, s = 0;
+for (i = 1; i < 4; i++)
+    s += a[i];
+\end{lstlisting}
+\choicesline{A. 9}{B. 12}{C. 15}{D. 6}
+
+\q 表达式 \code{strcmp("abc", "abd")} 的返回值是（\quad）。
+\choicesline{A. 大于 0}{B. 等于 0}{C. 小于 0}{D. 等于 1}
+
+\qtypename{二、多项选择题}{5 题，每题 3 分，共 15 分；每题有两个或两个以上正确项}
+\q 下列一维数组初始化语句正确的有（\quad）。
+\choicesline{A. \code{int a[3]=\{1,2,3\};}}{B. \code{int a[3]=\{1\};}}
+{C. \code{int a[]=\{1,2,3\};}}{D. \code{int a[3]=\{1,2,3,4\};}}
+
+\q 关于字符数组与字符串，下列说法正确的有（\quad）。
+\choices{A. \code{char s[]="abc";} 中含字符串结束符 \code{'\textbackslash 0'}}{B. \code{char s[5]=\{'a','b','c'\};} 中未赋值元素为 \code{'\textbackslash 0'}}
+{C. \code{strlen} 不把 \code{'\textbackslash 0'} 计入字符串长度}{D. 字符数组可以直接用 \code{=} 赋值字符串}
+
+\q 关于数组作函数参数，下列说法正确的有（\quad）。
+\choices{A. 形参可以写成 \code{int a[]}}{B. 形参可以写成 \code{int *a}}
+{C. 实参传递的是数组首地址}{D. 函数内 \code{sizeof(a)} 能得到整个数组的字节数}
+
+\q 下列属于字符串处理函数的有（\quad）。
+\choicesline{A. \code{strcpy}}{B. \code{strcmp}}{C. \code{strcat}}{D. \code{printf}}
+
+\q 关于二维数组，下列说法正确的有（\quad）。
+\choices{A. \code{int a[2][3];} 共有 6 个元素}{B. 可定义 \code{int a[][3]=\{\{1,2,3\},\{4,5,6\}\};}}
+{C. 元素在内存中按行优先顺序存放}{D. 可定义 \code{int a[2][];}}
+
+\qtypename{三、判断题}{5 题，每题 2 分，共 10 分；正确的画“√”，错误的画“×”并写出改正后的表述}
+\q 数组下标从 0 开始，\code{int a[10];} 的合法下标是 0\textasciitilde 9。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{char s[]="abc";} 与 \code{char s[]=\{'a','b','c'\};} 等价。\quad（\quad）\quad 改正：\fixblank
+
+\q 数组名代表数组首元素的地址，是常量，不能赋值。\quad（\quad）\quad 改正：\fixblank
+
+\q 判断两个字符串是否相等可以用 \code{if (s1 == s2)}。\quad（\quad）\quad 改正：\fixblank
+
+\q 字符数组可以整体赋值，如 \code{char s[10]; s="hello";}。\quad（\quad）\quad 改正：\fixblank
+
+\qtypename{四、填空题}{10 空，每空 1 分，共 10 分}
+\q 执行 \code{int a[5]=\{1,2\};} 后，\code{a[2]} 的值为\fillblank{}，\code{a[4]} 的值为\fillblank{}。
+
+\q 定义 \code{int a[3][4];} 后，元素总数为\fillblank{}，按行优先存放 \code{a[1][2]} 是第\fillblank{}个元素。
+
+\q \code{char s[]="China";} 中，\code{strlen(s)} 的值为\fillblank{}，\code{sizeof(s)} 的值为\fillblank{}。
+
+\q 字符串复制函数是\fillblanks[1.8cm]，字符串连接函数是\fillblanks[1.8cm]。
+
+\q 数组名作函数实参时，传递的是数组的\fillblanks[1.8cm]。
+
+\q 执行 \code{int a[]=\{1,2,3,4,5\};} 后，数组 \code{a} 的长度为\fillblank{}。
+
+\qtypename{五、程序阅读题}{2 题，每题 5 分，共 10 分}
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    int a[8] = {1, 2, 3};
+    int i, s = 0;
+    for (i = 0; i < 8; i++)
+        s += a[i];
+    printf("%d\n", s);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\q 写出下列程序的运行结果（\code{<\textbackslash string.h>} 已包含）。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+#include <string.h>
+int main(void)
+{
+    char s1[20] = "China";
+    char s2[] = "Beijing";
+    strcat(s1, s2);
+    printf("%s %d %d\n", s1, (int)strlen(s1), (int)sizeof(s1));
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.6cm}
+
+\qtypename{六、简答题}{3 题，每题 5 分，共 15 分}
+\q 简述一维数组的定义形式与初始化规则，并说明什么是部分初始化、什么是越界初始化。\anslines{3.2cm}
+
+\q 字符数组与字符串有何区别？\code{strlen} 与 \code{sizeof} 对字符数组分别返回什么？\anslines{3.2cm}
+
+\q 数组作函数参数时，形参有哪几种写法？为什么函数内不能用 \code{sizeof} 求数组长度？\anslines{3.0cm}
+
+\newpage
+\qtypename{七、综合题}{1 题，共 20 分}
+\q 编写一个完整的 C 程序：从键盘输入一个 $3\times4$ 的整数矩阵，要求：
+\par\vspace{0.15em}
+\noindent（1）输出每一行元素之和；\\
+\noindent（2）找出矩阵中的最大值，并输出其所在的行号和列号（从 1 开始）；\\
+\noindent（3）按转置形式输出该矩阵（即输出 $4\times3$ 矩阵）。
+
+\noindent 输入示例：\code{1 2 3 4 5 6 7 8 9 10 11 12}。请写出完整程序。\anslines{4.0cm}
+
+\end{document}

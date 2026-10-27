@@ -1,0 +1,180 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{exam-style-341}
+\examinehead{341 农业综合知识三 · 程序设计分章练习}{第08章\quad 指针（二）指针进阶}
+\begin{document}
+
+\unitcover{341 农业综合知识三 · 程序设计分章练习}{第08章\quad 指针（二）指针进阶}{练习（共 100 分）}{约 70 分钟}{指针数组与数组指针；多级指针；函数指针；返回指针的函数；\code{void} 指针；指针与字符串数组；野指针、空指针、悬空指针与越界等常见错误。}
+
+\begin{knowmap}
+\textbf{指针数组：}\code{int *p[5];} 是一个数组，有 5 个元素，每个元素都是 \code{int *} 型指针；常用于存放多个变量的地址或多个字符串的首地址。\\[2pt]
+\textbf{数组指针：}\code{int (*p)[5];} 是一个指针，指向含 5 个 int 元素的一维数组；二维数组名 \code{a} 可赋给 \code{int (*p)[4]}，\code{p+1} 跳过一整行。\\[2pt]
+\textbf{多级指针：}\code{int **pp;} 定义指向指针的指针；\code{pp} 存放一级指针的地址，\code{*pp} 是一级指针，\code{**pp} 才是最终数据；二级指针常用于在函数中修改指针实参。\\[2pt]
+\textbf{函数指针：}\code{int (*pf)(int, int);} 定义指向函数的指针，\code{pf = add;} 后可用 \code{pf(1,2)} 或 \code{(*pf)(1,2)} 调用；函数指针可作为参数实现回调。\\[2pt]
+\textbf{返回指针的函数：}\code{int *f(int);} 返回值是地址；不能返回局部自动变量的地址（函数返回后其生存期结束），可返回全局变量、static 局部变量、动态分配内存或形参指针所指对象。\\[2pt]
+\textbf{void 指针与常见错误：}\code{void *p;} 是通用指针，可存放任意类型对象的地址，但解引用前必须强制转换为具体类型；常见错误有野指针、空指针解引用、越界、返回局部变量地址、悬空指针。
+\end{knowmap}
+
+\begin{keyterms}
+\textbf{指针数组}：数组元素均为指针的数组，如 \code{int *p[5];}；p 是数组名，\code{p[i]} 是第 i 个指针。\\
+\textbf{数组指针}：指向数组的指针，如 \code{int (*p)[5];}；p 指向含 5 个 int 的一维数组，\code{p+1} 跳过 5 个 int。\\
+\textbf{二级指针}：指向指针变量的指针，如 \code{int **pp;}；需要两次解引用 \code{**pp} 才能得到最终数据。\\
+\textbf{多级指针}：二级及以上的指针，如 \code{int ***ppp;}；每增加一级就多一次解引用。\\
+\textbf{函数指针}：指向函数的指针，如 \code{int (*pf)(int, int);}；存放函数的入口地址，可通过指针调用函数。\\
+\textbf{返回指针的函数}：返回值为指针的函数，如 \code{int *f(int);}；返回值必须是函数返回后仍然有效的地址。\\
+\textbf{void 指针}：通用指针类型，可存放任意类型对象的地址，如 \code{void *p;}；解引用前必须转换为具体类型。\\
+\textbf{强制类型转换}：把一种指针类型转换为另一种指针类型，如 \code{(int *)p}；用于 void 指针和不同类型指针之间的转换。\\
+\textbf{野指针}：未初始化或指向不确定内存的指针，解引用会导致未定义行为。\\
+\textbf{空指针}：值为 \code{NULL} 的指针，不指向任何有效单元；解引用空指针非法。\\
+\textbf{悬空指针}：所指内存已被释放、但指针仍保存该地址的指针，继续使用会出错。\\
+\textbf{指针越界}：指针移动到数组范围之外，再解引用会访问非法内存。
+\end{keyterms}
+
+\begin{contrast}{指针数组 / 数组指针（每行依次为：定义形式·本质·\code{sizeof} 与 \code{p+1} 的行为）}
+\citem{指针数组}{\code{int *p[5];}}{数组，有 5 个元素，每个元素是 \code{int *} 指针}{\code{sizeof(p)} 为 5 个指针的大小；\code{p+1} 指向下一个指针元素}
+\citem{数组指针}{\code{int (*p)[5];}}{指针，指向含 5 个 int 的一维数组}{\code{sizeof(p)} 为指针大小；\code{p+1} 跳过 5 个 int，即一整行}
+\end{contrast}
+
+\begin{contrast}{函数指针 / 返回指针的函数（每行依次为：定义形式·含义·调用或使用方式）}
+\citem{函数指针}{\code{int (*pf)(int, int);}}{pf 是指针，存放函数的入口地址}{\code{pf(1,2)} 或 \code{(*pf)(1,2)} 调用所指向的函数}
+\citem{返回指针的函数}{\code{int *f(int);}}{f 是函数，返回值是 \code{int *} 型地址}{\code{int *q = f(3);} 接收返回的地址}
+\end{contrast}
+
+\begin{contrast}{一级指针 / 二级指针（每行依次为：存放内容·解引用次数·典型用途）}
+\citem{一级指针}{\code{int *p;}}{变量地址；一次 \code{*p} 得到数据}{作函数参数修改普通变量、遍历数组}
+\citem{二级指针}{\code{int **pp;}}{一级指针变量的地址；两次 \code{**pp} 得到数据}{在函数中修改一级指针实参、指针数组作参数}
+\end{contrast}
+
+\begin{contrast}{\code{void} 指针 / 有类型指针（每行依次为：通用性·能否直接解引用·指针算术）}
+\citem{\code{void} 指针}{可存放任意类型对象的地址，通用性强}{不能直接解引用，须先转换为具体类型}{标准 C 不允许直接进行指针算术}
+\citem{有类型指针}{只能存放对应类型对象的地址}{可以直接解引用}{按所指类型大小进行算术运算}
+\end{contrast}
+
+\qtypename{一、单项选择题}{10 题，每题 2 分，共 20 分}
+\q 定义 \code{int *p[5];} 中，p 是（\quad）。
+\choicesline{A. 指针数组}{B. 数组指针}{C. 函数指针}{D. 二级指针}
+
+\q 定义 \code{int (*p)[5];} 中，p 是（\quad）。
+\choicesline{A. 指针数组}{B. 数组指针}{C. 指向函数的指针}{D. 5 个 int 指针}
+
+\q 执行下列程序段后，\code{*(*(p + 1) + 2)} 的值是（\quad）。
+\begin{lstlisting}[language={[custom]C}]
+int a[3][4] = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
+int (*p)[4] = a;
+\end{lstlisting}
+\choicesline{A. 6}{B. 7}{C. 8}{D. 3}
+
+\q 若有定义 \code{int x = 5, *p = \&x, **pp = \&p;}，则 \code{**pp} 的值是（\quad）。
+\choicesline{A. 5}{B. p 的地址}{C. pp 的地址}{D. x 的地址}
+
+\q 定义函数指针 \code{int (*f)(int, int);} 并让它指向函数后，下列调用形式正确的是（\quad）。
+\choicesline{A. \code{f(3, 4)}}{B. \code{*f(3, 4)}}{C. \code{f[3, 4]}}{D. \code{\&f(3, 4)}}
+
+\q 若有 \code{void *p;} 且 p 指向一个 int 型数据，要访问该数据应（\quad）。
+\choicesline{A. 直接使用 \code{*p}}{B. 先转换为 \code{int *} 再解引用}{C. 直接使用 \code{p + 1}}{D. 不能访问}
+
+\q 下列声明中，表示“返回指针的函数”的是（\quad）。
+\choicesline{A. \code{int *f(int);}}{B. \code{int (*f)(int);}}{C. \code{int f(*int);}}{D. \code{*int f(int);}}
+
+\q 下列对象中，其地址不能作为函数返回值的是（\quad）。
+\choicesline{A. 全局变量}{B. static 局部变量}{C. 局部自动变量}{D. 形参指针所指的变量}
+
+\q 有定义 \code{char *name[] = \{"Li", "Wang", "Zhao"\};}，则 \code{name[1]} 是（\quad）。
+\choices{A. 字符串 "Wang" 本身}{B. 指向 "Wang" 首字符的指针}{C. 字符 'W'}{D. 非法表达式}
+
+\q 有定义 \code{int a[3][4]; int *p = a[0];}，则 \code{p + 5} 指向（\quad）。
+\choicesline{A. a[0][5]}{B. a[1][1]}{C. a[1][0]}{D. a[0][4]}
+
+\qtypename{二、多项选择题}{5 题，每题 3 分，共 15 分；每题有两个或两个以上正确项}
+\q 关于指针数组与数组指针，下列说法正确的有（\quad）。
+\choicesline{A. \code{int *p[5];} 是指针数组}{B. \code{int (*p)[5];} 是数组指针}
+{C. 指针数组的每个元素都是指针}{D. 二者完全等价}
+
+\q 关于函数指针，下列说法正确的有（\quad）。
+\choicesline{A. 可以指向函数}{B. 可以通过指针调用函数}
+{C. 定义形式为 \code{int (*p)(int, int);}}{D. 函数指针与返回指针的函数相同}
+
+\q 关于二级指针，下列说法正确的有（\quad）。
+\choicesline{A. 存放指针变量的地址}{B. \code{**pp} 需要两次解引用}
+{C. 可用于在函数中修改一级指针实参}{D. 只能指向 int 型数据}
+
+\q 关于 \code{void} 指针，下列说法正确的有（\quad）。
+\choices{A. 可存放任意类型对象的地址}{B. 不能直接解引用}
+{C. 常作为 \code{malloc} 函数的返回类型}{D. 可以直接进行指针算术运算}
+
+\q 下列做法中属于常见指针错误的有（\quad）。
+\choicesline{A. 返回局部变量的地址}{B. 解引用空指针}{C. 指针越界}{D. 释放内存后继续使用原指针}
+
+\qtypename{三、判断题}{5 题，每题 2 分，共 10 分；正确的画“√”，错误的画“×”并写出改正后的表述}
+\q \code{int *p[5];} 与 \code{int (*p)[5];} 的含义相同。\quad（\quad）\quad 改正：\fixblank
+
+\q 函数指针可以指向类型相同的不同函数。\quad（\quad）\quad 改正：\fixblank
+
+\q 函数可以返回局部自动变量的地址。\quad（\quad）\quad 改正：\fixblank
+
+\q \code{void *} 指针可以直接解引用。\quad（\quad）\quad 改正：\fixblank
+
+\q 二级指针可以用于在函数中修改一级指针实参的值。\quad（\quad）\quad 改正：\fixblank
+
+\qtypename{四、填空题}{10 空，每空 1 分，共 10 分}
+\q \code{int *p[5];} 中 p 是\fillblanks[1.8cm]，\code{int (*p)[5];} 中 p 是\fillblanks[1.8cm]。
+
+\q 函数指针的定义形式为\fillblanks[2.8cm]。
+
+\q 返回指针的函数的定义形式为\fillblanks[2.4cm]。
+
+\q 二级指针 \code{int **pp;} 表示 pp 是\fillblanks[2.2cm]。
+
+\q 通用指针类型是\fillblanks[1.4cm]。
+
+\q 通过函数指针 p 调用函数，可写成\fillblanks[1.6cm]或\fillblanks[2.2cm]。
+
+\q \code{malloc} 函数返回\fillblanks[1.6cm]类型指针。
+
+\q 指针所指内存被释放后继续使用该指针，会形成\fillblanks[2.2cm]。
+
+\qtypename{五、程序阅读题}{2 题，每题 5 分，共 10 分}
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int main(void)
+{
+    int a[3][4] = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
+    int (*p)[4] = a;
+    printf("%d %d %d\n", **p, *(*(p + 1) + 2), p[2][3]);
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.4cm}
+
+\q 写出下列程序的运行结果。
+\begin{lstlisting}[language={[custom]C}]
+#include <stdio.h>
+int add(int x, int y) { return x + y; }
+int sub(int x, int y) { return x - y; }
+int main(void)
+{
+    int (*f)(int, int) = add;
+    printf("%d ", f(7, 3));
+    f = sub;
+    printf("%d\n", f(7, 3));
+    return 0;
+}
+\end{lstlisting}
+\anslines{2.6cm}
+
+\qtypename{六、简答题}{3 题，每题 5 分，共 15 分}
+\q 指针数组与数组指针有何区别？请写出定义形式，并说明 \code{sizeof} 与 \code{p+1} 的行为。\anslines{3.2cm}
+
+\q 函数指针与返回指针的函数有何区别？请写出定义形式，并各举一种用途。\anslines{3.2cm}
+
+\q \code{void} 指针有什么特点？使用 \code{void} 指针时应注意哪些问题？\anslines{3.0cm}
+
+\newpage
+\qtypename{七、综合题}{1 题，共 20 分}
+\q 编写一个完整的 C 程序：从键盘输入 5 个不含空格的字符串，用指针数组指向这些字符串，按字典序（由小到大）排序后逐行输出。
+\par\vspace{0.15em}
+\noindent 提示：可用 \code{char s[5][20];} 存放字符串、\code{char *p[5];} 作指针数组，用 \code{strcmp} 比较、交换指针（不必交换字符串本身）。
+
+\noindent 输入示例：\code{pear apple orange banana grape}，输出应依次为 \code{apple}、\code{banana}、\code{grape}、\code{orange}、\code{pear}。请写出完整程序。\anslines{4.0cm}
+
+\end{document}
