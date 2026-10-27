@@ -1,0 +1,245 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{midterm-style}
+\examinehead{企业实训课程 · 期中考试}{C 卷}
+\begin{document}
+
+\examcover{企业实训课程}{2026—2027 学年第一学期期中考试（C 卷）}{计算机组成原理、操作系统、计算机网络、数据库概论、信息系统导论（第 1—6 章）}{150 分}{180 分钟}{本卷为开卷考试，允许携带教材、笔记和纸质资料，可使用手机或电脑检索公开资料；不得相互讨论、传递答案，不得使用手机通讯或社交软件。所有答案写在答题纸上，计算题须写出主要步骤。}
+
+% ============================================================
+\parttitle{一、计算机组成原理（25 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q 某机主频为 1 GHz，某程序的平均 CPI 为 4，则该机的 MIPS 约为（\quad）
+\choicesline{A. 100}{B. 250}{C. 500}{D. 1000}
+
+\q 浮点数表示中，阶码的位数主要影响（\quad）
+\choicesline{A. 表示范围}{B. 表示精度}{C. 运算速度}{D. 存储容量}
+
+\q 下列存储器中，需要定期刷新的是（\quad）
+\choicesline{A. SRAM}{B. DRAM}{C. ROM}{D. Cache}
+
+\q 指令 \code{ADD R1, R2} 中，操作数采用的寻址方式主要是（\quad）
+\choicesline{A. 立即寻址}{B. 直接寻址}{C. 寄存器寻址}{D. 相对寻址}
+
+\q 中断向量地址中通常存放的是（\quad）
+\choices{A. 中断服务程序的入口地址}{B. 被中断指令的地址}{C. 中断返回地址}{D. 中断优先级编码}
+
+\needspace{30\baselineskip}
+\qtypename{（二）基础计算题}{2 题，共 8 分}
+
+\needspace{18\baselineskip}
+\q （8 分）完成下列计算，写出必要过程：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （4 分）将十六进制数 \code{3D.A} 分别转换为二进制数和十进制数。
+  \item （4 分）将十进制数 $-0.625$ 转换为 IEEE 754 单精度（32 位）浮点数，写出其二进制格式和十六进制表示。
+\end{enumerate}
+\anslines{5.5cm}
+
+\qtypename{（三）简答题}{1 题，共 7 分}
+
+\needspace{16\baselineskip}
+\q （7 分）简述 CPU 的基本组成（运算器、控制器、寄存器组、内部总线）及指令执行的基本过程。
+\anslines{6cm}
+
+% ============================================================
+\parttitle{二、操作系统（20 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{4 题，每题 2 分，共 8 分}
+
+\q 下列不属于临界区管理基本原则的是（\quad）
+\choicesline{A. 空闲让进}{B. 忙则等待}{C. 有限等待}{D. 无限等待}
+
+\q 先来先服务（FCFS）调度算法通常（\quad）
+\choices{A. 对短作业有利，对长作业不利}{B. 对长作业有利，对短作业不利}{C. 对长短作业都最有利}{D. 只适用于实时系统}
+
+\q 下列页面置换算法中，可能出现 Belady 异常的是（\quad）
+\choicesline{A. OPT}{B. LRU}{C. FIFO}{D. LFU}
+
+\q 虚拟存储器的主要目的是（\quad）
+\choices{A. 扩大物理内存容量}{B. 从逻辑上扩充内存容量}{C. 提高磁盘容量}{D. 减少 CPU 运算量}
+
+\needspace{30\baselineskip}
+\qtypename{（二）简答题}{1 题，共 12 分}
+
+\needspace{26\baselineskip}
+\q 回答下列问题：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=2pt]
+  \item （6 分）说明进程同步与互斥的区别，并用信号量写出实现互斥的伪代码。
+  \item （6 分）某进程的页面访问序列为
+  \[
+  2,\ 3,\ 2,\ 1,\ 5,\ 2,\ 4,\ 5,\ 3,\ 2,\ 5,\ 2.
+  \]
+  若分配 3 个页框，分别计算 FIFO、LRU 和 OPT 三种置换算法的缺页次数。
+\end{enumerate}
+\anslines{8cm}
+
+% ============================================================
+\parttitle{三、计算机网络（35 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q 某信道带宽为 3 kHz，采用 4 种码元传输，按奈奎斯特定理，最大数据率约为（\quad）
+\choicesline{A. 6 kb/s}{B. 12 kb/s}{C. 24 kb/s}{D. 48 kb/s}
+
+\q 若序号用 3 位表示，后退 N 帧协议的发送窗口最大为（\quad）
+\choicesline{A. 3}{B. 4}{C. 7}{D. 8}
+
+\q 下列地址块中，能聚合 192.168.0.0/24 和 192.168.1.0/24 的是（\quad）
+\choicesline{A. 192.168.0.0/22}{B. 192.168.0.0/23}{C. 192.168.0.0/25}{D. 192.168.1.0/24}
+
+\q 当 TCP 接收窗口 \code{rwnd=0} 时，发送方通常应（\quad）
+\choices{A. 继续发送新数据}{B. 停止发送新数据，启动零窗口探测}{C. 立即断开连接}{D. 把窗口改为 1 MSS}
+
+\q HTTP 状态码 404 表示（\quad）
+\choicesline{A. 请求成功}{B. 请求资源不存在}{C. 服务器内部错误}{D. 永久重定向}
+
+\needspace{30\baselineskip}
+\qtypename{（二）综合计算与应用题}{3 题，共 25 分}
+
+\needspace{22\baselineskip}
+\q （8 分）某信道带宽为 4 kHz，信噪比为 30 dB。请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 按香农公式计算该信道的极限数据率（保留一位小数）。
+  \item 若采用 16 种码元，按奈奎斯特定理计算最大数据率。
+  \item 实际可达到的数据率应如何取值？说明理由。
+\end{enumerate}
+\anslines{6.5cm}
+
+\needspace{24\baselineskip}
+\q （8 分）某公司分配到地址块 10.0.0.0/8，需要划分给 3 个部门：A 部门 500 台主机，B 部门 200 台，C 部门 100 台。请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 采用 VLSM 给出一种划分方案，写出各部门的子网地址/掩码和可用主机数。
+  \item 目的地址 10.0.2.100 属于哪个部门？
+\end{enumerate}
+\anslines{7cm}
+
+\needspace{24\baselineskip}
+\q （9 分）某 PC 的 IP 地址为 192.168.1.10/24，默认网关为 192.168.1.1，DNS 为 8.8.8.8。现象：PC 能 ping 通网关，但不能 ping 通 8.8.8.8；把 DNS 改为 114.114.114.114 后仍不能访问 \code{www.example.com}。请分析可能原因，并写出排查步骤和常用命令。
+\anslines{8cm}
+
+% ============================================================
+\parttitle{四、数据库概论（35 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q 数据模型的三要素是（\quad）
+\choices{A. 数据结构、数据操作、完整性约束}{B. 实体、属性、联系}{C. 外模式、模式、内模式}{D. 关系、元组、属性}
+
+\q 从关系 $R$ 中选出满足指定条件的元组，应使用的关系代数运算是（\quad）
+\choicesline{A. 投影}{B. 选择}{C. 连接}{D. 除法}
+
+\q SQL 中 \code{HAVING} 子句的作用是（\quad）
+\choices{A. 对分组前的元组进行筛选}{B. 对分组后的组进行筛选}{C. 对查询结果排序}{D. 去除重复行}
+
+\q 2NF 要求关系模式（\quad）
+\choices{A. 消除非主属性对候选码的部分函数依赖}{B. 消除非主属性对候选码的传递函数依赖}{C. 消除主属性对候选码的部分函数依赖}{D. 所有属性都不允许为空}
+
+\q 一级封锁协议能够防止（\quad）
+\choicesline{A. 丢失修改}{B. 脏读}{C. 不可重复读}{D. 幻读}
+
+\needspace{30\baselineskip}
+\qtypename{（二）综合题}{3 题，共 25 分}
+
+\needspace{30\baselineskip}
+\q （10 分）设某项目管理系统中有三个基本表（加下划线的属性为主码）：
+\begin{center}\small
+\begin{tabular}{ll}
+\toprule
+关系名 & 属性 \\
+\midrule
+Employee & \underline{Eno}, Ename, Dept, Salary \\
+Project & \underline{Pno}, Pname, Budget \\
+Works & \underline{Eno}, \underline{Pno}, Hours \\
+\bottomrule
+\end{tabular}
+\end{center}
+请用标准 SQL 完成下列各题：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （2.5 分）查询工资高于本部门平均工资的员工号、姓名和工资。
+  \item （2.5 分）查询至少参加了 2 个项目的员工号。
+  \item （2.5 分）查询没有参加任何项目的员工号和姓名。
+  \item （2.5 分）创建 \code{Works} 表，要求定义主码 \code{(Eno,Pno)}，定义 \code{Eno}、\code{Pno} 分别到 \code{Employee}、\code{Project} 的外码，并限制 \code{Hours} 大于 0。
+\end{enumerate}
+\anslines{9cm}
+
+\needspace{24\baselineskip}
+\q （8 分）设关系模式
+\[
+R(\text{供应商},\text{零件},\text{项目},\text{数量},\text{供应商地址},\text{零件名称})
+\]
+其函数依赖集为
+\[
+F=\{(\text{供应商},\text{零件},\text{项目})\to\text{数量},\ \text{供应商}\to\text{供应商地址},\ \text{零件}\to\text{零件名称}\}.
+\]
+请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 写出 $R$ 的全部候选码。
+  \item $R$ 最高属于第几范式？说明理由。
+  \item 将 $R$ 分解为 3NF，要求分解保持函数依赖并具有无损连接性，并简要说明理由。
+\end{enumerate}
+\anslines{7cm}
+
+\needspace{26\baselineskip}
+\q （7 分）某关系表 $T(a,b,c,d)$ 约有 500 万行，现有查询：
+\begin{lstlisting}[language=SQL]
+Q1: SELECT * FROM T WHERE a = 1 AND c > 10 ORDER BY b;
+Q2: SELECT * FROM T WHERE b = 2 AND c = 3;
+\end{lstlisting}
+请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 对 Q1，比较索引 \code{(a,b,c)} 与 \code{(a,c,b)} 的效果，说明哪个更合适及理由。
+  \item 说明最左前缀原则，并指出 \code{(a,b,c)} 能否用于 Q2。
+  \item 针对 Q2，应建立什么索引？若查询只返回 \code{a} 和 \code{d}，如何实现覆盖索引？
+\end{enumerate}
+\anslines{7cm}
+
+% ============================================================
+\parttitle{五、信息系统导论（第 1—6 章）（35 分）}
+% ============================================================
+
+\qtypename{（一）名词解释}{3 题，每题 5 分，共 15 分；要求写出概念内涵，必要时举例}
+
+\q 信息社会
+\anslines{3cm}
+
+\q 数据库
+\anslines{3cm}
+
+\q 网络协议
+\anslines{3cm}
+
+\needspace{30\baselineskip}
+\qtypename{（二）简答题}{1 题，共 8 分}
+
+\needspace{16\baselineskip}
+\q （8 分）简述计算机网络体系结构分层的必要性，并以 TCP/IP 四层模型为例说明各层的主要功能。
+\anslines{5.5cm}
+
+\needspace{36\baselineskip}
+\qtypename{（三）材料分析题}{1 题，共 12 分}
+
+\q （12 分）阅读下列材料，回答问题。
+\begin{quote}\small
+某市建设政务云平台：各委办局把业务系统迁移到云平台；平台提供虚拟机、数据库、中间件和统一身份认证服务；市民通过政府网站或手机 APP 办事；平台采用多租户隔离、异地备份和安全审计。
+\end{quote}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （4 分）用 IaaS、PaaS、SaaS 三种服务模式分析该平台，说明各委办局、平台运营方和市民分别主要使用哪一层服务。
+  \item （4 分）该平台更适合公有云、私有云还是混合云？说明理由。
+  \item （4 分）从数据安全和系统可靠性角度，各提出一条改进建议并说明理由。
+\end{enumerate}
+\anslines{12cm}
+
+\vfill
+\begin{center}
+\textbf{—— 试卷正文结束，附页见后 ——}
+\end{center}
+
+\answerappendix{附页（一）}{如答题纸空间不足，可在此页继续作答，并注明题号。}
+\answerappendix{附页（二）}{如答题纸空间不足，可在此页继续作答，并注明题号。}
+
+\end{document}

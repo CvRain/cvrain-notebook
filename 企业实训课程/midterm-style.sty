@@ -1,0 +1,74 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{midterm-style}[2026/10/27 Enterprise midterm draft]
+\RequirePackage{exam-style}
+\RequirePackage{listings}
+\RequirePackage{needspace}
+\IfFontExistsTF{TeX Gyre Pagella}{
+  \setmainfont{TeX Gyre Pagella}
+}{
+  \setmainfont{texgyrepagella-regular.otf}[
+    BoldFont=texgyrepagella-bold.otf,
+    ItalicFont=texgyrepagella-italic.otf,
+    BoldItalicFont=texgyrepagella-bolditalic.otf]
+}
+\IfFontExistsTF{TeX Gyre Heros}{
+  \setsansfont{TeX Gyre Heros}
+}{
+  \setsansfont{texgyreheros-regular.otf}[
+    BoldFont=texgyreheros-bold.otf,
+    ItalicFont=texgyreheros-italic.otf,
+    BoldItalicFont=texgyreheros-bolditalic.otf]
+}
+\setmonofont{DejaVu Sans Mono}[Scale=0.86]
+\setCJKmainfont{Noto Serif CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
+\setCJKmonofont{Noto Sans Mono CJK SC}
+\color{black}
+\hypersetup{colorlinks=false,hidelinks}
+\setstretch{1.23}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.4em}
+\setlist[enumerate]{leftmargin=2em,itemsep=0.35em,topsep=0.3em}
+\setlist[itemize]{leftmargin=1.7em,itemsep=0.2em,topsep=0.2em}
+\newcommand{\qtypenameplain}[2]{\par\medskip{\large\bfseries #1}\quad{\small #2}\par\smallskip}
+\renewcommand{\qtypename}[2]{\needspace{10\baselineskip}\qtypenameplain{#1}{#2}}
+\let\qorig\q
+\renewcommand{\q}{\needspace{3\baselineskip}\qorig}
+\let\parttitleorig\parttitle
+\renewcommand{\parttitle}[1]{\needspace{14\baselineskip}\parttitleorig{#1}}
+\renewcommand{\answerpart}[1]{\par\medskip{\large\bfseries #1}\par\smallskip}
+\renewcommand{\examcover}[6]{%
+  \begin{center}
+  {\LARGE\bfseries #1}\par\smallskip
+  {\large\bfseries #2}\par\smallskip
+  满分：#4\qquad 考试时长：#5\qquad 考试方式：开卷
+  \end{center}
+  姓名：\underline{\hspace{2.5cm}}\quad 学号：\underline{\hspace{3.4cm}}\quad 班级：\underline{\hspace{2.5cm}}\par
+  \textbf{考试范围：}#3\par
+  \textbf{考生须知：}#6\par\smallskip\hrule\medskip
+}
+\newcommand{\subq}[2]{\par\smallskip\textbf{（#1）}#2\ignorespaces}
+\newcommand{\points}[1]{\hfill\mbox{（#1 分）}}
+\newcommand{\scoring}[1]{\par{\small\textbf{评分：}#1}\par}
+\newcommand{\remark}[1]{\par{\small\textbf{阅卷提示：}#1}\par}
+\newcommand{\answerappendix}[2]{%
+  \newpage
+  \begin{center}
+    {\Large\bfseries #1}\par\smallskip
+    {\small #2}
+  \end{center}
+  \noindent 姓名：\underline{\hspace{2.5cm}}\quad 学号：\underline{\hspace{3.2cm}}\quad 班级：\underline{\hspace{2.5cm}}\par
+  \medskip
+  \begingroup
+  \setlength{\parskip}{0pt}%
+  \foreach \i in {1,...,15}{%
+    \noindent\textcolor{black!25}{\rule{\textwidth}{0.3pt}}\par\vspace{0.8cm}%
+  }
+  \endgroup
+}
+\lstset{basicstyle=\ttfamily\small,columns=fullflexible,keepspaces=true,
+  showstringspaces=false,breaklines=true,frame=single,rulecolor=\color{black!35},
+  xleftmargin=0.5em,xrightmargin=0.5em,aboveskip=0.5em,belowskip=0.5em,
+  tabsize=2,keywordstyle=\bfseries,commentstyle=\itshape}
+\fancyfoot[C]{\fontsize{9pt}{10pt}\selectfont 第 \thepage 页\quad 共 \pageref{LastPage} 页}
+\endinput

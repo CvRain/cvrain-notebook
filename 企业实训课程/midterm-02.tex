@@ -1,0 +1,245 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{midterm-style}
+\examinehead{企业实训课程 · 期中考试}{B 卷}
+\begin{document}
+
+\examcover{企业实训课程}{2026—2027 学年第一学期期中考试（B 卷）}{计算机组成原理、操作系统、计算机网络、数据库概论、信息系统导论（第 1—6 章）}{150 分}{180 分钟}{本卷为开卷考试，允许携带教材、笔记和纸质资料，可使用手机或电脑检索公开资料；不得相互讨论、传递答案，不得使用手机通讯或社交软件。所有答案写在答题纸上，计算题须写出主要步骤。}
+
+% ============================================================
+\parttitle{一、计算机组成原理（25 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q 计算机中广泛采用二进制的主要原因是（\quad）
+\choices{A. 二进制运算规则简单、易于物理实现、可靠性高}{B. 二进制数比十进制数更节省存储空间}{C. 二进制可以直接表示所有汉字}{D. 二进制运算不需要控制器}
+
+\q 8 位补码 \code{11110101} 的真值是（\quad）
+\choicesline{A. $-11$}{B. $-10$}{C. $-9$}{D. $245$}
+
+\q Cache 的主要作用是（\quad）
+\choices{A. 扩大主存容量}{B. 缓解 CPU 与主存之间的速度差异}{C. 实现虚拟地址到物理地址的转换}{D. 提高外设的传输速率}
+
+\q 某机地址总线宽度为 24 位，按字节编址，则最大寻址空间为（\quad）
+\choicesline{A. 1 MB}{B. 4 MB}{C. 8 MB}{D. 16 MB}
+
+\q 操作数直接包含在指令中的寻址方式称为（\quad）
+\choicesline{A. 立即寻址}{B. 直接寻址}{C. 间接寻址}{D. 寄存器寻址}
+
+\needspace{30\baselineskip}
+\qtypename{（二）基础计算题}{2 题，共 8 分}
+
+\needspace{18\baselineskip}
+\q （8 分）完成下列计算，写出必要过程：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （4 分）将十进制数 $123.75$ 分别转换为二进制数和十六进制数。
+  \item （4 分）将十进制数 $0.15625$ 转换为 IEEE 754 单精度（32 位）浮点数，写出其二进制格式和十六进制表示。
+\end{enumerate}
+\anslines{5.5cm}
+
+\qtypename{（三）简答题}{1 题，共 7 分}
+
+\needspace{16\baselineskip}
+\q （7 分）简述 RISC 与 CISC 的主要区别（至少写出 4 点），并说明 RISC 为什么有利于流水线实现。
+\anslines{6cm}
+
+% ============================================================
+\parttitle{二、操作系统（20 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{4 题，每题 2 分，共 8 分}
+
+\q 时间片轮转调度算法最适合的系统中（\quad）
+\choicesline{A. 批处理系统}{B. 分时系统}{C. 实时系统}{D. 单用户单任务系统}
+
+\q 死锁的四个必要条件不包括（\quad）
+\choicesline{A. 互斥}{B. 占有并等待}{C. 不可剥夺}{D. 优先级反转}
+
+\q 在请求分页系统中，缺页中断属于（\quad）
+\choicesline{A. 外部中断}{B. 内中断（故障）}{C. 输入/输出中断}{D. 时钟中断}
+
+\q 文件系统采用目录结构的主要目的是（\quad）
+\choices{A. 提高磁盘容量}{B. 实现按名存取和文件组织}{C. 加快 CPU 运算}{D. 减少内存占用}
+
+\needspace{30\baselineskip}
+\qtypename{（二）简答题}{1 题，共 12 分}
+
+\needspace{26\baselineskip}
+\q 回答下列问题：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=2pt]
+  \item （6 分）写出死锁的四个必要条件，并说明银行家算法如何避免死锁。
+  \item （6 分）某磁盘磁头当前位于 100 号磁道，磁头向磁道号增加方向移动。请求序列为
+  \[
+  55,\ 58,\ 39,\ 18,\ 90,\ 160,\ 150,\ 38,\ 184.
+  \]
+  分别计算 FCFS、SSTF 和 SCAN（电梯算法）的磁头移动总道数。
+\end{enumerate}
+\anslines{8cm}
+
+% ============================================================
+\parttitle{三、计算机网络（35 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q 集线器（Hub）工作在 OSI 参考模型的（\quad）
+\choicesline{A. 物理层}{B. 数据链路层}{C. 网络层}{D. 运输层}
+
+\q 以太网最小帧长为 64 B 的主要目的是（\quad）
+\choicesline{A. 提高传输效率}{B. 便于冲突检测}{C. 支持 VLAN}{D. 实现流量控制}
+
+\q 地址块 \code{192.168.1.0/26} 的广播地址是（\quad）
+\choicesline{A. 192.168.1.31}{B. 192.168.1.63}{C. 192.168.1.127}{D. 192.168.1.255}
+
+\q TCP 三次握手中，第二个报文段的标志位通常是（\quad）
+\choicesline{A. SYN=1, ACK=0}{B. SYN=1, ACK=1}{C. SYN=0, ACK=1}{D. FIN=1, ACK=1}
+
+\q HTTP 默认使用的运输层端口是（\quad）
+\choicesline{A. 20}{B. 25}{C. 53}{D. 80}
+
+\needspace{30\baselineskip}
+\qtypename{（二）综合计算与应用题}{3 题，共 25 分}
+
+\needspace{22\baselineskip}
+\q （8 分）某单位有 4 个连续子网：172.16.0.0/24、172.16.1.0/24、172.16.2.0/24、172.16.3.0/24。请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 写出聚合后的地址块及子网掩码。
+  \item 若路由器收到目的地址 172.16.2.130，说明最长前缀匹配的转发过程。
+  \item 聚合后是否会引入不属于原 4 个子网的地址？为什么？
+\end{enumerate}
+\anslines{6.5cm}
+
+\needspace{20\baselineskip}
+\q （8 分）主机 A 的初始序号 ISN=2000，MSS=1000 B。A 连续发送 3 个报文段，序号分别为 2000、3000、4000。B 正确收到第 1、2 个，第 3 个丢失。请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item B 对第 1、2 个报文段分别返回的确认号是多少？
+  \item A 收到两个重复 ACK 后是否立即重传？为什么？
+  \item 若采用快重传，需要收到几个重复 ACK？
+  \item 若 B 随后正确收到第 3 个报文段，返回的确认号是多少？
+\end{enumerate}
+\anslines{6cm}
+
+\needspace{24\baselineskip}
+\q （9 分）主机 H 通过浏览器访问 \code{http://www.example.com/index.html}。H 的 DNS 缓存为空，H 与网关在同一以太网，Web 服务器位于远程网络。请说明从输入 URL 到收到页面所经历的主要协议步骤，并指出 DNS、ARP、TCP、HTTP 各自的作用。
+\anslines{8cm}
+
+% ============================================================
+\parttitle{四、数据库概论（35 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q 数据库系统相比文件系统的主要优点不包括（\quad）
+\choicesline{A. 数据共享性高}{B. 冗余度低}{C. 数据独立性高}{D. 不需要数据库管理员}
+
+\q 外码取值必须是被参照关系中某个元组的主码值或空值，这属于（\quad）
+\choicesline{A. 实体完整性}{B. 参照完整性}{C. 用户定义完整性}{D. 域完整性}
+
+\q SQL 中 \code{WHERE Sage BETWEEN 20 AND 22} 等价于（\quad）
+\choices{A. \code{Sage>20 AND Sage<22}}{B. \code{Sage>=20 AND Sage<=22}}{C. \code{Sage>=20 OR Sage<=22}}{D. \code{Sage>20 OR Sage<22}}
+
+\q 关于视图的叙述中，正确的是（\quad）
+\choices{A. 视图是实际存储数据的表}{B. 视图的数据仍存储在基本表中}{C. 视图不能用于查询}{D. 视图一定可以更新}
+
+\q 事务的“要么全做、要么全不做”性质称为（\quad）
+\choicesline{A. 原子性}{B. 一致性}{C. 隔离性}{D. 持久性}
+
+\needspace{30\baselineskip}
+\qtypename{（二）综合题}{3 题，共 25 分}
+
+\needspace{30\baselineskip}
+\q （10 分）设学生选课数据库中有三个基本表（加下划线的属性为主码）：
+\begin{center}\small
+\begin{tabular}{ll}
+\toprule
+关系名 & 属性 \\
+\midrule
+Student & \underline{Sno}, Sname, Sdept, Sage \\
+Course & \underline{Cno}, Cname, Ccredit \\
+SC & \underline{Sno}, \underline{Cno}, Grade \\
+\bottomrule
+\end{tabular}
+\end{center}
+请用标准 SQL 完成下列各题：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （2.5 分）查询选修了课程 \code{C01} 或 \code{C02} 的学生学号（去重）。
+  \item （2.5 分）查询没有选修任何课程的学生学号和姓名。
+  \item （2.5 分）查询每门课程的最高分及取得该分数的学生学号；若并列最高，要求全部列出。
+  \item （2.5 分）创建 \code{Course} 表，要求 \code{Cno} 为主码，\code{Cname} 非空，\code{Ccredit} 大于 0。
+\end{enumerate}
+\anslines{9cm}
+
+\needspace{24\baselineskip}
+\q （8 分）设关系模式
+\[
+R(\text{学号},\text{课程号},\text{教师号},\text{教师名},\text{教室})
+\]
+其函数依赖集为
+\[
+F=\{(\text{学号},\text{课程号})\to\text{教师号},\ \text{教师号}\to\text{教师名},\ (\text{教师号},\text{课程号})\to\text{教室}\}.
+\]
+请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 写出 $R$ 的全部候选码。
+  \item $R$ 最高属于第几范式？说明理由。
+  \item 将 $R$ 分解为 3NF，要求分解保持函数依赖并具有无损连接性，并简要说明理由。
+\end{enumerate}
+\anslines{7cm}
+
+\needspace{26\baselineskip}
+\q （7 分）设事务 $T_1$、$T_2$ 的并发调度如下：
+\[
+R_1(A),\ R_2(A),\ W_1(A),\ W_2(A),\ R_1(B),\ W_2(B),\ W_1(B).
+\]
+请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 画出该调度的优先图（冲突图），标明冲突操作产生的有向边。
+  \item 判断该调度是否冲突可串行化，并说明理由。
+\end{enumerate}
+\anslines{7cm}
+
+% ============================================================
+\parttitle{五、信息系统导论（第 1—6 章）（35 分）}
+% ============================================================
+
+\qtypename{（一）名词解释}{3 题，每题 5 分，共 15 分；要求写出概念内涵，必要时举例}
+
+\q 信息
+\anslines{3cm}
+
+\q 大数据
+\anslines{3cm}
+
+\q 计算机网络
+\anslines{3cm}
+
+\needspace{30\baselineskip}
+\qtypename{（二）简答题}{1 题，共 8 分}
+
+\needspace{16\baselineskip}
+\q （8 分）简述计算机系统的硬件组成（运算器、控制器、存储器、输入设备、输出设备）及各部件的主要作用。
+\anslines{5.5cm}
+
+\needspace{36\baselineskip}
+\qtypename{（三）材料分析题}{1 题，共 12 分}
+
+\q （12 分）阅读下列材料，回答问题。
+\begin{quote}\small
+某高校建设校园一卡通系统：学生卡可在食堂、图书馆和门禁使用；刷卡终端产生的交易数据经校园网上传至数据中心；数据中心用数据库保存账户、交易和权限数据，每天夜间批量结算，并向学生手机推送消费账单。系统采用双机热备和异地备份。
+\end{quote}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （4 分）按“采集层—网络层—数据层—应用层”四层结构分析该系统，说明各层的主要功能。
+  \item （4 分）用数据、信息、知识、智慧的层次关系说明交易数据如何转化为消费建议，并指出数据库、计算机网络和云计算在其中的作用。
+  \item （4 分）从系统可靠性和数据安全角度，各提出一条改进建议并说明理由。
+\end{enumerate}
+\anslines{12cm}
+
+\vfill
+\begin{center}
+\textbf{—— 试卷正文结束，附页见后 ——}
+\end{center}
+
+\answerappendix{附页（一）}{如答题纸空间不足，可在此页继续作答，并注明题号。}
+\answerappendix{附页（二）}{如答题纸空间不足，可在此页继续作答，并注明题号。}
+
+\end{document}

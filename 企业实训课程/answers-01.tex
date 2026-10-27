@@ -1,0 +1,379 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{midterm-style}
+\examinehead{企业实训课程 · 期中考试}{参考答案与评分标准（A 卷）}
+\begin{document}
+
+\answercover{企业实训课程 · 期中考试}{参考答案与评分标准（A 卷）}
+
+\noindent\textbf{评分总说明：}本卷满分 150 分。选择题只给答案分；简答、计算、SQL、规范化与材料分析题按关键得分点给分，考生表述与参考答案不完全一致但意思正确、逻辑完整的，同样给分。计算题若只有结果而无主要过程，酌情扣分；SQL 题若语法正确、约束完整，列名或数据类型与参考答案略有差异不扣分。
+
+% ============================================================
+\answerpart{一、计算机组成原理（25 分）}
+% ============================================================
+
+\begin{enumerate}[start=1, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{A。}冯·诺依曼体系结构的核心是“采用二进制、存储程序、按地址顺序执行”。B 是哈佛结构的思想，C 是流水线技术，D 是虚拟存储与多道程序技术。
+
+\item \textbf{B。}8 位补码的表示范围是 $-2^{7}\sim 2^{7}-1$，即 $-128\sim+127$。
+
+\item \textbf{B。}执行时间
+\[
+T=\frac{\text{指令条数}\times \text{CPI}}{\text{主频}}
+=\frac{5\times10^{8}\times1.6}{2.0\times10^{9}}\ \text{s}=0.4\ \text{s}.
+\]
+
+\item \textbf{C。}按“先访问 Cache，未命中再访问主存”的串行模型：
+\[
+T_{\text{avg}}=2+0.05\times20=3.0\ \text{ns}.
+\]
+若题目明确“Cache 与主存同时访问”，则 $T_{\text{avg}}=0.95\times2+0.05\times20=2.9$ ns；本题题干为先 Cache 后主存，故选 C。
+
+\item \textbf{A。}DMA 由 DMA 控制器硬件直接控制主存与外设之间的数据块传送，CPU 只在传送开始前设置参数、传送结束时处理中断；程序中断方式则通常每传送一个数据（或字节）就要 CPU 执行一次中断服务程序。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item $11011010.1011_2$ 按每 4 位分组：
+  \[
+  1101\ 1010\ .\ 1011_2=\text{DA.B}_{16}.
+  \]
+  十进制值为
+  \[
+  128+64+16+8+2+0.5+0.125+0.0625=218.6875.
+  \]
+  \hfill（4 分）
+
+  \item $-12.375$ 的绝对值为 $12.375=1100.011_2$，规格化为 $-1.100011_2\times2^{3}$。
+  符号位 $S=1$；阶码 $E=3+127=130=10000010_2$；尾数去掉隐含的 1 后为
+  $10001100000000000000000_2$。因此 32 位格式为
+  \[
+  1\ \ 10000010\ \ 10001100000000000000000,
+  \]
+  即十六进制 \textbf{0xC1460000}。\hfill（4 分）
+\end{enumerate}
+\scoring{第（1）问二进制分组、十六进制、十进制各占 1～2 分；第（2）问符号位、阶码、尾数、十六进制结果各 1 分；只写结果而无规格化过程的扣 1 分。}
+
+\item \textbf{（7 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 时钟周期是 CPU 的最小时间单位，等于主频的倒数；机器周期（CPU 周期）是完成一个基本操作所需的时间，通常由若干时钟周期组成；指令周期是取出并执行一条指令所需的时间，由若干机器周期组成。三者是“指令周期 $\supset$ 机器周期 $\supset$ 时钟周期”的包含关系。\hfill（3 分）
+  \item 取指周期的主要工作：将 PC 的内容送 MAR，经地址总线访问主存；将读出的指令送 MDR，再送 IR；PC 自动加 1（或加上指令长度）；对操作码进行译码，形成后续操作的控制信号。\hfill（2 分）
+  \item 执行周期的主要工作：根据操作码和寻址方式取得操作数，完成运算或数据传送，将结果写回寄存器或主存，必要时修改 PC 或状态寄存器。不同指令的执行周期差别很大。\hfill（2 分）
+\end{enumerate}
+\scoring{关系 3 分；取指 2 分；执行 2 分。只答“取指令、执行指令”而无具体工作的，最多给 2 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{二、操作系统（20 分）}
+% ============================================================
+
+\begin{enumerate}[start=8, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{A。}进程是程序的一次执行过程，具有动态性、并发性、独立性和异步性；程序是静态的指令和数据集合。
+
+\item \textbf{B。}银行家算法在资源分配前判断系统是否处于安全状态，若分配后找不到安全序列则暂不分配，属于死锁避免策略。
+
+\item \textbf{A。}分页管理中，逻辑地址由页号和页内偏移组成，页表给出页号到物理块号的映射，MMU 据此完成地址转换。
+
+\item \textbf{B。}位示图用若干二进制位表示磁盘块的占用/空闲状态，常用于磁盘空闲空间管理。
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （6 分）
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item 就绪态：进程已具备运行条件，只等待 CPU 调度。
+    \item 运行态：进程已占有 CPU，正在执行。
+    \item 阻塞态：进程因等待某事件（如 I/O 完成、信号量、资源）而暂停，即使 CPU 空闲也不能运行。
+    \item 转换：就绪 $\to$ 运行由调度程序选择，进程被动；运行 $\to$ 就绪通常因时间片用完或被更高优先级进程抢占，进程被动；运行 $\to$ 阻塞由进程主动请求 I/O 或等待事件引起；阻塞 $\to$ 就绪在等待的事件完成后发生，进程被动。
+  \end{itemize}
+  “就绪 $\to$ 运行”是调度程序从就绪队列中选择进程，进程本身不能决定；而“运行 $\to$ 阻塞”是正在运行的进程主动请求资源或等待事件，二者主动性不同。\hfill（6 分）
+
+  \item （6 分）访问序列为
+  \[
+  1,2,3,4,1,2,5,1,2,3,4,5.
+  \]
+  计算结果如下表：
+  \begin{center}\small
+  \begin{tabular}{cccc}
+  \toprule
+  算法 & 页框数 & 缺页次数 & 命中次数 \\
+  \midrule
+  FIFO & 3 & 9 & 3 \\
+  LRU & 3 & 10 & 2 \\
+  FIFO & 4 & 10 & 2 \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+  其中 FIFO、3 个页框的缺页发生在第 1、2、3、4、5、6、7、10、11 次访问；LRU、3 个页框的缺页发生在第 1、2、3、4、5、6、7、10、11、12 次访问；FIFO、4 个页框的缺页发生在第 1、2、3、4、7、8、9、10、11、12 次访问。\hfill（4 分）
+
+  Belady 异常是指：对某些页面访问序列，采用 FIFO 置换算法时，分配的页框数增多，缺页次数反而增加。本题中 FIFO 从 3 个页框增加到 4 个页框，缺页次数由 9 次增加到 10 次，即为 Belady 异常。\hfill（2 分）
+\end{enumerate}
+\scoring{第（1）问三种状态及转换 4 分，两种转换的主动性与原因 2 分；第（2）问三个缺页次数各 1 分，命中次数可不写，Belady 异常定义与结合本题说明 3 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{三、计算机网络（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=13, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{C。}TCP/IP 的运输层（TCP）为应用进程提供面向连接的、可靠的、端到端的字节流服务；网际层提供主机到主机的数据报服务。
+
+\item \textbf{B。}往返传播时延 $2\tau=2\times(1000/200)\ \mu\text{s}=10\ \mu\text{s}$。最小帧长
+\[
+L_{\min}=2\tau\times C=10\times10^{-6}\times10\times10^{6}=100\ \text{bit}.
+\]
+
+\item \textbf{B。}超时后，慢开始门限减半：$\text{ssthresh}=8/2=4$ MSS；拥塞窗口回到 1 MSS，重新进入慢开始。
+
+\item \textbf{B。}IP 数据报数据部分长度为 $4000-20=3980$ B。MTU 为 1500 B，分片数据部分最大为 $1500-20=1480$ B。前两片各 1480 B，第三片 $3980-2\times1480=1020$ B。第三片的片偏移为 $2\times1480/8=370$。
+
+\item \textbf{A。}主机向本地域名服务器通常发出递归查询，即“你替我查到底”；本地域名服务器向根、顶级域名服务器通常采用迭代查询，即“你告诉我下一步该问谁”。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 慢开始阶段 cwnd 每个 RTT 翻倍：1、2、4、8、16 MSS，故首次达到 16 MSS 需要 \textbf{4 个 RTT}。\hfill（2 分）
+  \item cwnd 增长到 32 MSS 时超时，慢开始门限减半：$\text{ssthresh}=32/2=16$ MSS；cwnd 回到 \textbf{1 MSS}，重新进入\textbf{慢开始}阶段。\hfill（2 分）
+  \item 超时恢复后，cwnd 从 1 MSS 慢开始，依次为 1、2、4、8、16 MSS。当 cwnd 为 16 MSS 时收到 3 个重复 ACK，执行快重传/快恢复：
+  \[
+  \text{ssthresh}=16/2=8\ \text{MSS},\qquad \text{cwnd}=\text{ssthresh}+3=11\ \text{MSS}.
+  \]
+  收到新的确认 ACK 后，cwnd 降为 $\text{ssthresh}=8$ MSS，进入拥塞避免阶段。\hfill（2 分）
+  \item 慢开始：cwnd 按指数规律增长，每个 RTT 翻倍，直到达到 ssthresh；拥塞避免：cwnd 按线性规律增长，每个 RTT 增加 1 MSS。\hfill（2 分）
+\end{enumerate}
+\scoring{每小问 2 分；第（3）问 ssthresh 与 cwnd 各 1 分，新 ACK 后进入拥塞避免可在第（4）问中体现。}
+
+\item \textbf{（8 分）}
+IP 数据报首部 20 B，数据部分 $4000-20=3980$ B；MTU 为 1500 B，故每片数据部分最大为 $1500-20=1480$ B，且必须为 8 的整数倍（1480 满足）。
+\begin{center}\small
+\begin{tabular}{ccccc}
+\toprule
+分片 & 数据长度/B & 片偏移（8 B 为单位） & MF & 总长度/B \\
+\midrule
+1 & 1480 & 0 & 1 & 1500 \\
+2 & 1480 & 185 & 1 & 1500 \\
+3 & 1020 & 370 & 0 & 1040 \\
+\bottomrule
+\end{tabular}
+\end{center}
+分片时通常保持不变的字段包括：版本、首部长度、区分服务、标识（Identification）、协议、源 IP 地址和目的 IP 地址等；需要修改的字段包括：总长度、标志字段中的 MF（以及必要时 DF）、片偏移和首部校验和。此外，分片经过路由器转发时 TTL 会逐跳减 1，校验和也会随之重新计算。\hfill（8 分）
+\scoring{三个分片的片偏移、MF、总长度共 6 分（每片 2 分）；字段保持/修改说明 2 分。片偏移未除以 8 的，该片不得分。}
+
+\item \textbf{（9 分）}一种 VLSM 划分方案如下：
+\begin{center}\small
+\begin{tabular}{ccccc}
+\toprule
+部门 & 子网地址/掩码 & 可用主机地址范围 & 广播地址 & 可用主机数 \\
+\midrule
+A & 192.168.10.0/25 & 192.168.10.1～192.168.10.126 & 192.168.10.127 & 126 \\
+B & 192.168.10.128/26 & 192.168.10.129～192.168.10.190 & 192.168.10.191 & 62 \\
+C & 192.168.10.192/27 & 192.168.10.193～192.168.10.222 & 192.168.10.223 & 30 \\
+D & 192.168.10.224/28 & 192.168.10.225～192.168.10.238 & 192.168.10.239 & 14 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 因为 /26 子网只有 $2^{6}-2=62$ 个可用主机地址，而 A 部门需要 100 台主机，简单等分为 4 个 /26 无法满足 A 部门的需求。应按“需求从大到小”分配：先给 A 分配 /25，再给 B 分配 /26，给 C 分配 /27，给 D 分配 /28。\hfill（2 分）
+  \item 192.168.10.200 落在 192.168.10.192/27 的范围内（192～223），属于 \textbf{C 部门}子网。\hfill（1 分）
+\end{enumerate}
+\scoring{表格每行 1.5 分，共 6 分；地址范围与广播地址写错但掩码和主机数正确的，每行扣 0.5 分；第（1）问 2 分；第（2）问 1 分。剩余 192.168.10.240/28 可留作预留或后续扩展。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{四、数据库概论（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=21, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{B。}模式/内模式映像保证数据的物理独立性；外模式/模式映像保证数据的逻辑独立性。
+
+\item \textbf{C。}“选修了全部课程的学生”是典型的“全称量词”查询，关系代数中用除法表示；也可用“不存在一门课程该学生没有选修”的双重否定表达。
+
+\item \textbf{B。}\code{COUNT(*)} 统计行数，包括空值所在行，故为 10；\code{COUNT(Grade)} 只统计非空值，故为 8；\code{AVG(Grade)} 忽略空值，按 8 个非空值求平均，而不是把空值当 0。
+
+\item \textbf{B。}BCNF 是 3NF 的严格子集，若 $R$ 属于 BCNF，则 $R$ 一定属于 3NF；反之不成立。3NF 不允许非主属性对候选码的传递函数依赖；BCNF 不允许任何属性（包括主属性）对候选码的部分和传递函数依赖。
+
+\item \textbf{B。}同一事务两次读取同一行，因其他事务修改并提交而得到不同值，称为不可重复读。脏读是读到了未提交的数据；幻读是同一查询返回的行集合发生变化；丢失修改是两个事务的修改相互覆盖。
+
+\item \textbf{（10 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 查询没有选修 C01 的学生：
+\begin{lstlisting}[language=SQL]
+SELECT S.Sno, S.Sname
+FROM Student S
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM SC
+    WHERE SC.Sno = S.Sno AND SC.Cno = 'C01'
+);
+\end{lstlisting}
+也可用 \code{NOT IN} 或左外连接加空值判断，只要语义正确即可。\hfill（2.5 分）
+
+  \item 查询平均成绩最高（含并列）的学生：
+\begin{lstlisting}[language=SQL]
+SELECT S.Sno, S.Sname, AVG(SC.Grade) AS avg_grade
+FROM Student S JOIN SC ON S.Sno = SC.Sno
+GROUP BY S.Sno, S.Sname
+HAVING AVG(SC.Grade) >= ALL (
+    SELECT AVG(Grade)
+    FROM SC
+    GROUP BY Sno
+);
+\end{lstlisting}
+若数据库不支持 \code{>= ALL}，也可用“先求每个学生平均分，再取最大值”的子查询或窗口函数实现。\hfill（2.5 分）
+
+  \item 查询每门课程中高于该课程平均成绩的记录：
+\begin{lstlisting}[language=SQL]
+SELECT SC1.Sno, SC1.Cno, SC1.Grade
+FROM SC SC1
+WHERE SC1.Grade > (
+    SELECT AVG(SC2.Grade)
+    FROM SC SC2
+    WHERE SC2.Cno = SC1.Cno
+);
+\end{lstlisting}
+\hfill（2.5 分）
+
+  \item 创建 SC 表：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE SC (
+    Sno   CHAR(9) NOT NULL,
+    Cno   CHAR(4) NOT NULL,
+    Grade DECIMAL(5,1),
+    PRIMARY KEY (Sno, Cno),
+    FOREIGN KEY (Sno) REFERENCES Student(Sno),
+    FOREIGN KEY (Cno) REFERENCES Course(Cno),
+    CHECK (Grade BETWEEN 0 AND 100)
+);
+\end{lstlisting}
+数据类型可随 DBMS 调整；主码、两个外码和 \code{CHECK} 约束是得分点。\hfill（2.5 分）
+\end{enumerate}
+\scoring{每小题 2.5 分。第（1）题用 \code{NOT IN} 且未处理空值风险的，若语义正确仍可给满分，但建议用 \code{NOT EXISTS}；第（2）题未处理并列的最高分只给 1.5 分；第（4）题缺主码、外码或 CHECK 各扣 0.5～1 分。}
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 候选码为 \textbf{（学号，课程号）}。因为
+  \[
+  (\text{学号},\text{课程号})^{+}
+  =\{\text{学号},\text{姓名},\text{系名},\text{系主任},\text{课程号},\text{课程名},\text{成绩}\},
+  \]
+  而学号单独不能决定课程号、课程名、成绩，课程号单独也不能决定学号、姓名等，故候选码只有这一个。\hfill（2 分）
+
+  \item $R$ 最高属于 \textbf{1NF}。理由：非主属性姓名、系名只依赖于候选码中的“学号”，课程名只依赖于“课程号”，存在非主属性对候选码的部分函数依赖，因此不满足 2NF。此外还有“学号 $\to$ 系名 $\to$ 系主任”的传递依赖。\hfill（2 分）
+
+  \item 一种保持函数依赖且无损连接的 3NF 分解为：
+  \[
+  \begin{aligned}
+  R_1&(\text{学号},\text{姓名},\text{系名}), &&\text{码为学号};\\
+  R_2&(\text{系名},\text{系主任}), &&\text{码为系名};\\
+  R_3&(\text{课程号},\text{课程名}), &&\text{码为课程号};\\
+  R_4&(\text{学号},\text{课程号},\text{成绩}), &&\text{码为（学号，课程号）}.
+  \end{aligned}
+  \]
+  各关系中的非主属性都完全函数依赖于码，且不存在非主属性对码的传递依赖，故均属于 3NF。原 $F$ 中的每个函数依赖都能在某个 $R_i$ 中得到保持；连接时 $R_1\cap R_4=\{\text{学号}\}$ 是 $R_1$ 的码，$R_2\cap R_1=\{\text{系名}\}$ 是 $R_2$ 的码，$R_3\cap R_4=\{\text{课程号}\}$ 是 $R_3$ 的码，因此分解具有无损连接性。\hfill（4 分）
+\end{enumerate}
+\scoring{候选码 2 分；范式判断 1 分、理由 1 分；分解 4 分（每个关系 1 分），其中未说明保持函数依赖或无损连接的扣 1 分。分解不唯一，只要满足 3NF、保持依赖和无损连接即可。}
+
+\item \textbf{（7 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item B+ 树的叶结点按 \code{order\_date} 有序链接，范围查询可以定位到区间起点后顺序扫描叶结点，避免全表扫描；叶结点本身有序，因此还可以直接按 \code{order\_date} 顺序输出，减少排序开销。若 \code{order\_date} 是聚簇索引，数据行按该键物理有序存放，范围扫描的 I/O 局部性好、效率高；若是非聚簇索引，索引扫描后通常还要按行指针回表，可能产生较多随机 I/O，优化器在返回大量行时也可能放弃索引而选择全表扫描加排序。\hfill（3 分）
+  \item 应在 \code{customer\_id} 上建立索引（如普通 B+ 树索引）。查询 \code{SELECT *} 需要返回整行，若索引不包含全部所需列，一般需要回表；若只返回 \code{order\_id} 和 \code{amount}，可建立覆盖索引，例如 \code{(customer\_id, order\_id, amount)}（InnoDB 的二级索引还会自动包含主键），使查询只访问索引即可完成。\hfill（2 分）
+  \item 一般不适合只建 \code{status} 的单列普通 B+ 树索引。因为 \code{status} 的取值种类很少、选择性低，若“未支付”订单占比较大，优化器可能认为全表扫描更便宜；若“未支付”只占很小比例，可以考虑建立在 \code{status = 'UNPAID'} 上的部分索引/过滤索引，或建立 \code{(status, order\_date)} 这样的复合索引来兼顾选择与排序；在分析型场景也可考虑位图索引。\hfill（2 分）
+\end{enumerate}
+\scoring{第（1）问范围扫描 1 分、排序 1 分、聚簇/非聚簇差异 1 分；第（2）问索引 1 分、回表与覆盖索引 1 分；第（3）问选择性判断 1 分、改进思路 1 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{五、信息系统导论（第 1—6 章）（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=29, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.55em]
+
+\item \textbf{信息化（5 分）}
+
+信息化是指在国民经济和社会各领域中，以信息技术的广泛应用为基础，以信息资源的开发利用为核心，通过信息基础设施、信息产业和信息人才的建设，不断提高信息资源的利用效率，推动经济增长方式转变、产业结构升级和社会全面进步的过程。其要点包括：
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item 以现代信息技术（计算机、通信、网络、传感等）的广泛应用为基础；
+  \item 以信息资源的开发、共享和利用为核心；
+  \item 覆盖经济、政治、文化、社会管理和人民生活等各个领域；
+  \item 推动产业升级、效率提升和治理能力现代化；
+  \item 是一个持续推进的历史过程，信息产业成为国民经济的重要支柱。
+\end{itemize}
+\scoring{定义 2 分，其余 4 个要点答出 3 点即可给 3 分。只答“使用计算机”而无信息资源、社会过程等内涵的，最多 2 分。}
+
+\item \textbf{云计算（5 分）}
+
+云计算是一种通过网络按需提供可配置计算资源（网络、服务器、存储、应用和服务）的模式，用户按使用量付费，服务提供商负责资源的部署、维护和弹性伸缩。其要点包括：
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item 本质：把计算、存储、网络等资源池化，以服务形式通过网络交付；
+  \item 主要特征：按需自助服务、广泛网络接入、资源池化、快速弹性、可度量服务；
+  \item 服务模式：IaaS（基础设施即服务）、PaaS（平台即服务）、SaaS（软件即服务）；
+  \item 部署模式：公有云、私有云、混合云；
+  \item 核心技术：虚拟化、分布式存储、分布式计算、资源调度与多租户管理等。
+\end{itemize}
+\scoring{定义 2 分，特征/服务模式/部署模式/核心技术答出 3 点给 3 分。只写“云里雾里、用别人的服务器”而无按需、池化、服务模式等要点的，最多 2 分。}
+
+\item \textbf{传感器（5 分）}
+
+传感器（Sensor/Transducer）是一种能感受规定的被测量，并按照一定规律将其转换成可用信号（通常为电信号）的器件或装置，通常由敏感元件和转换元件组成。其要点包括：
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item 基本组成：敏感元件负责感受被测量，转换元件将非电量转换为电量；
+  \item 作用：实现信息获取，是感知层的核心器件，被称为“电五官”；
+  \item 分类：按被测量（温度、湿度、压力、光、气体等）、按工作原理、按输出信号（模拟/数字/开关）、按能量传递方式（有源/无源）等；
+  \item 主要特性：灵敏度、线性度、重复性、迟滞、漂移、频率响应等静态/动态特性；
+  \item 发展趋势：集成化、微型化、智能化、网络化。
+\end{itemize}
+\scoring{定义 2 分，组成 1 分，作用/分类/特性/趋势答出 2 点给 2 分。只写“感受信号的装置”而无转换、组成等要点的，最多 2 分。}
+
+\item \textbf{（8 分）}
+
+软件过程是指软件生存周期中，为把用户需求转化为软件产品而进行的一系列相关活动，包括技术活动（需求分析、设计、实现、测试、维护）以及支持这些活动的管理过程（计划、进度、成本、质量、配置管理等）。软件过程规定了“谁在什么时间做什么、产生什么文档、如何评审”。
+
+以瀑布模型为例，其基本阶段通常为：需求分析 $\to$ 总体设计 $\to$ 详细设计 $\to$ 编码 $\to$ 测试 $\to$ 运行与维护。每个阶段有明确的输入、输出和评审，上一阶段完成后才进入下一阶段，呈线性顺序。
+
+主要缺点：
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item 阶段之间反馈延迟，测试发现问题时往往已进入后期，修改成本高；
+  \item 难以适应需求变化，需求一旦变更会引起后续阶段连锁修改；
+  \item 风险后置，早期难以发现性能、接口和集成风险；
+  \item 客户参与不足，用户往往到后期才能看到可运行系统；
+  \item 文档驱动，文档工作量大，过度依赖前期需求的完整性。
+\end{itemize}
+\scoring{软件过程定义 3 分；瀑布阶段 2 分；缺点答出 3 点给 3 分（每点 1 分）。只写“瀑布模型是自上而下”而无阶段和缺点的，最多 4 分。}
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （4 分）按四层结构分析：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item \textbf{感知层：}温度、湿度、光照、CO$_2$ 等传感器采集温室环境数据，完成非电量到电量的转换，是系统的数据源头。
+    \item \textbf{网络层：}ZigBee/LoRa 负责传感器到网关的短距离、低功耗汇聚；4G/5G 负责网关到云平台的广域传输，实现数据的远程上传和指令下发。
+    \item \textbf{平台（支撑）层：}云平台提供数据存储、清洗、计算和建模能力，本地数据库保存关键业务数据，二者共同构成数据与业务支撑平台（教材中也称“支撑层”）。
+    \item \textbf{应用层：}面向管理人员提供手机推送、灌溉/通风建议、历史查询和决策支持，是系统价值最终体现的层面。
+  \end{itemize}
+  \hfill（每层 1 分，共 4 分）
+
+  \item （4 分）数据—信息—知识—智慧的转化：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item \textbf{数据：}传感器直接采集的原始数值，如某一时刻的温度 28.5 $^\circ$C、湿度 65\%。
+    \item \textbf{信息：}经过清洗、校准、聚合和阈值判断后的有意义结果，如“当前温度偏高、湿度偏低”。
+    \item \textbf{知识：}在历史数据和农艺规则基础上形成的规律与模型，如“温度升高、湿度下降时，番茄需增加通风和灌溉”。
+    \item \textbf{智慧：}综合作物生育期、天气、能耗、成本和风险，做出“何时通风、灌多少水”的决策。
+  \end{itemize}
+  数据库负责结构化保存历史与实时数据，支持查询、事务和一致性；计算机网络负责把感知层数据可靠地传输到平台，并把决策指令传回现场；云计算提供弹性存储、计算和模型服务，使系统能够处理海量数据和多人并发访问。\hfill（4 分）
+
+  \item （4 分）改进建议（答出两条即可，每条 2 分）：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item \textbf{可靠性方面：}在网关增加本地缓存、断点续传和时间同步机制，网络恢复后按时间戳补传，避免数据丢失；或在网关/边缘侧部署轻量级规则引擎，断网时仍能完成本地报警和简单闭环控制，降低对云平台的依赖。
+    \item \textbf{可靠性方面：}增加 4G/5G 与有线网络的双链路冗余，关键设备采用看门狗、心跳检测和自动重启，提高系统可用性。
+    \item \textbf{数据安全方面：}采用设备身份认证、TLS/VPN 加密传输、访问控制和最小权限原则，防止数据被窃听或篡改；对敏感数据加密存储、定期备份、审计日志和脱敏处理，满足隐私保护要求。
+  \end{itemize}
+  \hfill（每条建议 1 分，理由 1 分；共 4 分）
+\end{enumerate}
+\scoring{第（1）问四层各 1 分（“平台层”答成“支撑层”同样给分）；第（2）问 DIKW 四层各 0.5 分，数据库/网络/云作用共 2 分；第（3）问每条建议及理由 2 分，答出两条即可。若只写“加防火墙、备份”而无针对性理由，酌情扣 1 分。}
+
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,313 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{midterm-style}
+\examinehead{企业实训课程 · 期中考试}{参考答案与评分标准（B 卷）}
+\begin{document}
+
+\answercover{企业实训课程 · 期中考试}{参考答案与评分标准（B 卷）}
+
+\noindent\textbf{评分总说明：}本卷满分 150 分。选择题只给答案分；简答、计算、SQL、规范化与材料分析题按关键得分点给分，考生表述与参考答案不完全一致但意思正确、逻辑完整的，同样给分。计算题若只有结果而无主要过程，酌情扣分；SQL 题若语法正确、约束完整，列名或数据类型与参考答案略有差异不扣分。
+
+% ============================================================
+\answerpart{一、计算机组成原理（25 分）}
+% ============================================================
+
+\begin{enumerate}[start=1, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{A。}二进制只有 0、1 两个状态，运算规则简单，易于用电子器件的通断实现，抗干扰能力和可靠性较高；它并不比十进制更节省存储空间，也不能直接表示所有汉字。
+
+\item \textbf{A。}\code{11110101} 的符号位为 1，是负数。按位取反得 \code{00001010}，加 1 得 \code{00001011}=11，故真值为 $-11$。
+
+\item \textbf{B。}Cache 位于 CPU 与主存之间，利用程序访问的局部性，把当前常用的数据块复制到高速小容量存储器中，缓解 CPU 与主存之间的速度差异。
+
+\item \textbf{D。}地址总线 24 位，按字节编址，可寻址 $2^{24}$ B $=16$ MB。
+
+\item \textbf{A。}立即寻址的操数直接放在指令中，取指后即可使用，不需要再访问存储器。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item $123=1111011_2$，$0.75=0.11_2$，故
+  \[
+  123.75=1111011.11_2=\text{7B.C}_{16}.
+  \]
+  \hfill（4 分）
+
+  \item $0.15625=0.00101_2=1.01_2\times2^{-3}$。
+  符号位 $S=0$；阶码 $E=-3+127=124=01111100_2$；尾数去掉隐含的 1 后为
+  $01000000000000000000000_2$。因此 32 位格式为
+  \[
+  0\ \ 01111100\ \ 01000000000000000000000,
+  \]
+  即十六进制 \textbf{0x3E200000}。\hfill（4 分）
+\end{enumerate}
+\scoring{第（1）问二进制、十六进制各 2 分；第（2）问符号位、阶码、尾数、十六进制结果各 1 分；未规格化的扣 1 分。}
+
+\item \textbf{（7 分）}
+RISC 的主要特点：指令数量少、指令长度固定、指令格式和寻址方式少、通用寄存器多、以寄存器—寄存器操作为主、通常采用流水线执行、编译器优化作用大。CISC 的主要特点：指令数量多、长度可变、格式和寻址方式复杂、很多指令可直接访问存储器、常采用微程序控制。\hfill（4 分）
+
+RISC 指令长度固定、格式规整、寻址简单，取指和译码阶段可以统一，指令执行周期较一致，因此便于把取指、译码、执行、访存、写回等阶段组织成流水线，减少流水线冲突和控制复杂度。\hfill（3 分）
+\scoring{ RISC/CISC 对比答出 4 点给 4 分；流水线原因 3 分。只写“RISC 简单、CISC 复杂”而无具体区别的，最多 3 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{二、操作系统（20 分）}
+% ============================================================
+
+\begin{enumerate}[start=8, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{B。}时间片轮转让每个就绪进程轮流获得一个时间片，适合交互性强、要求响应及时的分时系统。
+
+\item \textbf{D。}死锁的四个必要条件是互斥、占有并等待、不可剥夺和循环等待；优先级反转是实时调度中的一种现象，不是死锁的必要条件。
+
+\item \textbf{B。}缺页是在指令执行过程中访问的页面不在内存而引起的，属于内部异常（故障），处理完后重新执行引起缺页的指令。
+
+\item \textbf{B。}目录把文件名映射到文件控制块/索引结点，实现按名存取，并支持文件的分类、共享和保护。
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （6 分）死锁的四个必要条件：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item 互斥：资源一次只能被一个进程占用；
+    \item 占有并等待：进程已占有资源，又等待其他进程释放资源；
+    \item 不可剥夺：资源只能由占有它的进程主动释放；
+    \item 循环等待：存在进程—资源的循环等待链。
+  \end{itemize}
+  银行家算法在每次资源分配前，先假定分配，然后检查系统是否仍存在安全序列；若存在则分配，否则让进程等待。这样系统始终处于安全状态，从而避免死锁。\hfill（6 分）
+
+  \item （6 分）
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item FCFS：
+    $100\to55\to58\to39\to18\to90\to160\to150\to38\to184$，总道数
+    \[
+    45+3+19+21+72+70+10+112+146=498.
+    \]
+    \item SSTF：
+    $100\to90\to58\to55\to39\to38\to18\to150\to160\to184$，总道数
+    \[
+    10+32+3+16+1+20+132+10+24=248.
+    \]
+    \item SCAN（向磁道号增加方向）：
+    $100\to150\to160\to184\to90\to58\to55\to39\to38\to18$，总道数
+    \[
+    50+10+24+94+32+3+16+1+20=250.
+    \]
+  \end{itemize}
+  \hfill（6 分）
+\end{enumerate}
+\scoring{第（1）问四个条件 4 分，银行家算法说明 2 分；第（2）问每种算法 2 分，只给总数而无移动顺序的扣 1 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{三、计算机网络（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=13, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{A。}集线器是多端口转发器，工作在物理层，对信号进行整形和放大，不识别 MAC 地址。
+
+\item \textbf{B。}最小帧长要保证发送站在帧发送完毕之前能够检测到最远端的冲突；64 B 是 10 Mb/s 以太网在最大冲突域下的最小帧长。
+
+\item \textbf{B。}/26 的地址块大小为 64，192.168.1.0/26 的范围是 192.168.1.0～192.168.1.63，广播地址为 192.168.1.63。
+
+\item \textbf{B。}第二次握手报文是服务器对客户端 SYN 的确认，同时发出自己的 SYN，因此 SYN=1、ACK=1。
+
+\item \textbf{D。}HTTP 默认使用 TCP 80 端口；20 是 FTP 数据连接，25 是 SMTP，53 是 DNS。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 4 个 /24 子网的前 22 位相同，聚合为 \textbf{172.16.0.0/22}，子网掩码 \textbf{255.255.252.0}。\hfill（3 分）
+  \item 路由器收到 172.16.2.130 后，将目的地址与路由表中的前缀逐位比较；/22 前缀匹配 172.16.0.0/22。若还有更具体的前缀（如 /24）也匹配，则按最长前缀匹配选择更具体的那条；否则转发到聚合路由对应的下一跳。\hfill（3 分）
+  \item 不会。172.16.0.0/22 覆盖 172.16.0.0～172.16.3.255，正好等于 4 个 /24 子网的并集，没有多余地址。\hfill（2 分）
+\end{enumerate}
+\scoring{聚合地址与掩码 3 分；最长前缀匹配过程 3 分；地址范围判断 2 分。}
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item B 正确收到第 1 个报文段（序号 2000，长度 1000 B），期望下一个字节序号为 3000，返回确认号 \textbf{3000}；收到第 2 个报文段（序号 3000），期望下一个字节序号为 4000，返回确认号 \textbf{4000}。\hfill（2 分）
+  \item 不会立即重传。收到两个重复 ACK 还不足以触发快重传；按快重传算法，通常要收到 \textbf{3 个重复 ACK} 才立即重传丢失的报文段。\hfill（3 分）
+  \item 需要收到 \textbf{3 个重复 ACK}。\hfill（1 分）
+  \item 第 3 个报文段序号为 4000，携带 1000 B，接收后期望下一个字节序号为 5000，故返回确认号 \textbf{5000}。\hfill（2 分）
+\end{enumerate}
+\scoring{每小题按标注给分；第（2）问答“不重传”但未说明 3 个重复 ACK 的扣 1 分。}
+
+\item \textbf{（9 分）}主要步骤：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item \textbf{DNS 解析}：H 的 DNS 缓存为空，向本地域名服务器查询 www.example.com 的 IP 地址；本地域名服务器若无缓存，则代替 H 向根、顶级域和权威域名服务器查询，最终返回 IP 地址。\hfill（3 分）
+  \item \textbf{ARP 解析}：H 需要把数据发给默认网关，若不知道网关的 MAC 地址，则在本地以太网发送 ARP 请求，获得网关 MAC 地址。\hfill（2 分）
+  \item \textbf{TCP 连接建立}：H 与 Web 服务器的 80 端口进行三次握手，建立可靠连接。\hfill（2 分）
+  \item \textbf{HTTP 请求与响应}：H 发送 HTTP GET 请求 /index.html，服务器返回 HTTP 响应和页面内容；H 解析并显示页面。\hfill（2 分）
+\end{enumerate}
+\scoring{ DNS 3 分；ARP 2 分；TCP 三次握手 2 分；HTTP 请求/响应 2 分。缺少 ARP 或 DNS 的，按点扣分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{四、数据库概论（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=21, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{D。}数据库系统仍然需要数据库管理员（DBA）负责设计、维护、备份、权限和性能管理；共享性高、冗余低、独立性高都是相对文件系统的优点。
+
+\item \textbf{B。}外码的取值必须等于被参照关系中某个元组的主码值，或者为空值，这是参照完整性规则。
+
+\item \textbf{B。}\code{BETWEEN 20 AND 22} 包含端点，等价于 \code{Sage>=20 AND Sage<=22}。
+
+\item \textbf{B。}视图是从一个或多个基本表导出的虚表，数据库中只存储视图定义，视图的数据仍存储在基本表中；视图可以查询，但并非所有视图都可更新。
+
+\item \textbf{A。}原子性要求事务的所有操作要么全部执行，要么全部不执行。
+
+\item \textbf{（10 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 查询选修了 C01 或 C02 的学生学号（去重）：
+\begin{lstlisting}[language=SQL]
+SELECT DISTINCT Sno
+FROM SC
+WHERE Cno IN ('C01', 'C02');
+\end{lstlisting}
+\hfill（2.5 分）
+
+  \item 查询没有选修任何课程的学生：
+\begin{lstlisting}[language=SQL]
+SELECT S.Sno, S.Sname
+FROM Student S
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM SC
+    WHERE SC.Sno = S.Sno
+);
+\end{lstlisting}
+\hfill（2.5 分）
+
+  \item 查询每门课程的最高分及取得该分数的学生：
+\begin{lstlisting}[language=SQL]
+SELECT SC.Cno, SC.Sno, SC.Grade
+FROM SC
+WHERE SC.Grade = (
+    SELECT MAX(SC2.Grade)
+    FROM SC SC2
+    WHERE SC2.Cno = SC.Cno
+);
+\end{lstlisting}
+\hfill（2.5 分）
+
+  \item 创建 Course 表：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Course (
+    Cno     CHAR(4) PRIMARY KEY,
+    Cname   VARCHAR(40) NOT NULL,
+    Ccredit DECIMAL(3,1) CHECK (Ccredit > 0)
+);
+\end{lstlisting}
+\hfill（2.5 分）
+\end{enumerate}
+\scoring{每小题 2.5 分。第（1）题未去重扣 1 分；第（3）题未处理并列最高扣 1 分；第（4）题缺主码、非空或 CHECK 各扣 0.5～1 分。}
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 候选码为 \textbf{（学号，课程号）}。因为
+  \[
+  (\text{学号},\text{课程号})^{+}
+  =\{\text{学号},\text{课程号},\text{教师号},\text{教师名},\text{教室}\},
+  \]
+  而学号、课程号单独都不能决定全部属性。\hfill（2 分）
+
+  \item $R$ 最高属于 \textbf{2NF}。非主属性教师号完全依赖于候选码（学号，课程号），教师名通过教师号传递依赖于候选码，教室依赖于（教师号，课程号），不存在非主属性对候选码的部分函数依赖；但由于存在“（学号，课程号）$\to$ 教师号 $\to$ 教师名”的传递依赖，故不满足 3NF。\hfill（2 分）
+
+  \item 一种保持函数依赖且无损连接的 3NF 分解为：
+  \[
+  \begin{aligned}
+  R_1&(\text{学号},\text{课程号},\text{教师号}), &&\text{码为（学号，课程号）};\\
+  R_2&(\text{教师号},\text{教师名}), &&\text{码为教师号};\\
+  R_3&(\text{教师号},\text{课程号},\text{教室}), &&\text{码为（教师号，课程号）}.
+  \end{aligned}
+  \]
+  三个关系均满足 3NF；原 $F$ 中的函数依赖分别由 $R_1$、$R_2$、$R_3$ 保持。连接时 $R_2\cap R_1=\{\text{教师号}\}$ 是 $R_2$ 的码，$R_3\cap R_1=\{\text{教师号},\text{课程号}\}$ 是 $R_3$ 的码，因此分解具有无损连接性。\hfill（4 分）
+\end{enumerate}
+\scoring{候选码 2 分；范式判断 1 分、理由 1 分；分解 4 分。分解不唯一，只要满足 3NF、保持依赖和无损连接即可。}
+
+\item \textbf{（7 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 冲突操作及有向边：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item $R_1(A)$ 与 $W_2(A)$：$T_1\to T_2$；
+    \item $R_2(A)$ 与 $W_1(A)$：$T_2\to T_1$；
+    \item $W_1(A)$ 与 $W_2(A)$：$T_1\to T_2$；
+    \item $R_1(B)$ 与 $W_2(B)$：$T_1\to T_2$；
+    \item $W_2(B)$ 与 $W_1(B)$：$T_2\to T_1$。
+  \end{itemize}
+  优先图中同时存在 $T_1\to T_2$ 和 $T_2\to T_1$。\hfill（4 分）
+
+  \item 该调度\textbf{不是冲突可串行化}的。因为优先图中存在环 $T_1\leftrightarrow T_2$，不存在与它冲突等价的串行调度（无论是 $T_1$ 先还是 $T_2$ 先，都会违反某些冲突操作的先后顺序）。\hfill（3 分）
+\end{enumerate}
+\scoring{冲突边每正确一对给 1 分，最多 4 分；结论 1 分，理由 2 分。只画图不说明冲突操作的扣 2 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{五、信息系统导论（第 1—6 章）（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=29, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.55em]
+
+\item \textbf{信息（5 分）}
+
+信息是对客观事物运动状态和变化特征的反映，是经过加工处理后对人有意义、能减少不确定性的数据内容。数据是信息的载体，信息是数据的内涵；信息具有客观性、时效性、可共享性、可传递性和价值性等特征。\hfill（5 分）
+\scoring{定义 3 分，数据与信息的关系 1 分，特征 1 分。只写“信息就是消息”的，最多 2 分。}
+
+\item \textbf{大数据（5 分）}
+
+大数据是指数据量规模巨大、类型多样、产生和处理速度快，难以用传统数据库工具在合理时间内采集、存储、管理和分析的数据集合。其典型特征常概括为 3V：Volume（数据量大）、Variety（类型多，结构化/半结构化/非结构化）、Velocity（速度快）；也有 4V/5V 的说法，增加 Value（价值密度低）和 Veracity（真实性）。大数据技术包括分布式存储、分布式计算、数据挖掘与可视化等。\hfill（5 分）
+\scoring{定义 2 分，3V 各 1 分，技术或价值特征 0～1 分。只写“数据很多”的，最多 2 分。}
+
+\item \textbf{计算机网络（5 分）}
+
+计算机网络是把分布在不同地理位置、具有独立功能的多台计算机及其外部设备，通过通信线路和网络设备连接起来，在网络协议和软件的控制下实现资源共享和信息传递的系统。其组成包括资源子网（主机、终端、软件与数据）和通信子网（通信线路、路由器、交换机等），主要功能是数据通信、资源共享、分布式处理和负载均衡。\hfill（5 分）
+\scoring{定义 3 分，组成 1 分，功能 1 分。只写“多台计算机连在一起”的，最多 2 分。}
+
+\item \textbf{（8 分）}
+
+计算机硬件系统由五大部件组成：
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item \textbf{运算器}：完成算术运算和逻辑运算；
+  \item \textbf{控制器}：取指令、译码、发出控制信号，协调各部件工作；
+  \item \textbf{存储器}：存放程序和数据，包括主存和辅存；
+  \item \textbf{输入设备}：把外部信息转换成计算机能接受的形式，如键盘、鼠标、传感器；
+  \item \textbf{输出设备}：把处理结果转换成外部可理解的形式，如显示器、打印机。
+\end{itemize}
+运算器和控制器合称 CPU，CPU 与主存构成主机；输入/输出设备和辅存构成外部设备。各部件通过总线连接，在控制器统一指挥下完成取指、分析、执行等过程。\hfill（8 分）
+\scoring{五大部件各 1 分，共 5 分；CPU/主机/外设关系 2 分；总线与指令执行 1 分。}
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （4 分）四层结构：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item \textbf{采集层：}食堂、图书馆、门禁的刷卡终端读取校园卡信息，产生交易、借阅、通行等原始数据。
+    \item \textbf{网络层：}校园网把终端数据传到数据中心，支持有线/无线接入和远程访问。
+    \item \textbf{数据层：}数据库保存账户、余额、交易流水、权限等结构化数据，支持事务、查询和批量结算。
+    \item \textbf{应用层：}面向学生和管理人员提供消费查询、账单推送、门禁授权、统计分析等服务。
+  \end{itemize}
+  \hfill（每层 1 分，共 4 分）
+
+  \item （4 分）DIKW 转化：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item \textbf{数据：}某学生某日在一食堂刷卡消费 12.5 元。
+    \item \textbf{信息：}按日/周汇总该学生的消费金额、消费地点和频次。
+    \item \textbf{知识：}结合历史数据发现“该学生每周一至周五中午在食堂消费，周末消费明显减少”的规律。
+    \item \textbf{智慧：}据此给出个性化消费预算、营养搭配或贫困生资助建议。
+  \end{itemize}
+  数据库负责持久化保存账户与交易数据，保证事务一致性；计算机网络负责终端到数据中心的数据传输；云计算/数据中心提供弹性计算、批量结算、备份和统计分析能力。\hfill（4 分）
+
+  \item （4 分）建议（答出两条即可）：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item 可靠性：采用双机热备、异地备份、断点续传和故障自动切换，避免单点故障和数据丢失；关键交易使用事务和日志恢复。
+    \item 数据安全：对校园卡账户和交易数据加密存储与传输，实施身份认证、访问控制、审计日志和脱敏处理，防止篡改和泄露。
+  \end{itemize}
+  \hfill（每条 2 分，共 4 分）
+\end{enumerate}
+\scoring{第（1）问四层各 1 分；第（2）问 DIKW 四层各 0.5 分，数据库/网络/云作用共 2 分；第（3）问每条建议及理由 2 分。}
+
+\end{enumerate}
+
+\end{document}

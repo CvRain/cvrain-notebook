@@ -1,0 +1,345 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{midterm-style}
+\examinehead{企业实训课程 · 期中考试}{参考答案与评分标准（C 卷）}
+\begin{document}
+
+\answercover{企业实训课程 · 期中考试}{参考答案与评分标准（C 卷）}
+
+\noindent\textbf{评分总说明：}本卷满分 150 分。选择题只给答案分；简答、计算、SQL、规范化与材料分析题按关键得分点给分，考生表述与参考答案不完全一致但意思正确、逻辑完整的，同样给分。计算题若只有结果而无主要过程，酌情扣分；SQL 题若语法正确、约束完整，列名或数据类型与参考答案略有差异不扣分。
+
+% ============================================================
+\answerpart{一、计算机组成原理（25 分）}
+% ============================================================
+
+\begin{enumerate}[start=1, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{B。}MIPS $=\dfrac{\text{主频}}{\text{CPI}\times10^{6}}=\dfrac{10^{9}}{4\times10^{6}}=250$。
+
+\item \textbf{A。}阶码决定浮点数能表示的范围（数量级），尾数位数决定精度（有效数字位数）。
+
+\item \textbf{B。}DRAM 利用电容存储电荷，电荷会泄漏，需要定期刷新；SRAM 用触发器存储，不需要刷新。
+
+\item \textbf{C。}\code{R1}、\code{R2} 是寄存器，操作数在寄存器中，属于寄存器寻址。
+
+\item \textbf{A。}中断向量表项中存放对应中断服务程序的入口地址，CPU 响应中断后据此转去执行服务程序。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item \code{3D.A} 的每一位十六进制数展开为 4 位二进制：
+  \[
+  \text{3D.A}_{16}=0011\ 1101\ .\ 1010_2=111101.101_2.
+  \]
+  十进制值为
+  \[
+  3\times16+13+10/16=61.625.
+  \]
+  \hfill（4 分）
+
+  \item $-0.625$ 的绝对值为 $0.625=0.101_2$，规格化为 $-1.01_2\times2^{-1}$。
+  符号位 $S=1$；阶码 $E=-1+127=126=01111110_2$；尾数去掉隐含的 1 后为
+  $01000000000000000000000_2$。因此 32 位格式为
+  \[
+  1\ \ 01111110\ \ 01000000000000000000000,
+  \]
+  即十六进制 \textbf{0xBF200000}。\hfill（4 分）
+\end{enumerate}
+\scoring{第（1）问二进制 2 分、十进制 2 分；第（2）问符号位、阶码、尾数、十六进制结果各 1 分。}
+
+\item \textbf{（7 分）}
+CPU 的基本组成：
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item 运算器：完成算术和逻辑运算；
+  \item 控制器：取指、译码、发出控制信号，协调各部件；
+  \item 寄存器组：存放操作数、地址、指令和状态信息，如 PC、IR、MAR、MDR、通用寄存器；
+  \item 内部总线：连接 CPU 内部各部件，传送数据、地址和控制信号。
+\end{itemize}
+指令执行的基本过程：取指（PC→MAR，读主存，MDR→IR，PC+1）→译码（分析操作码和寻址方式）→取操作数→执行运算或数据传送→写回结果→修改 PC/状态，准备下一条指令。\hfill（7 分）
+\scoring{四个组成部分各 1 分，共 4 分；取指、译码、执行、写回过程 3 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{二、操作系统（20 分）}
+% ============================================================
+
+\begin{enumerate}[start=8, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{D。}临界区管理应满足空闲让进、忙则等待、有限等待和让权等待；“无限等待”违背有限等待原则。
+
+\item \textbf{B。}FCFS 按到达顺序服务，长作业先到先服务，短作业可能长时间等待，因此对长作业有利、对短作业不利。
+
+\item \textbf{C。}FIFO 可能出现 Belady 异常：页框数增加，缺页次数反而增加；LRU 和 OPT 属于栈式算法，不会出现该异常。
+
+\item \textbf{B。}虚拟存储器把辅存的一部分作为主存的延伸，从逻辑上扩充内存容量，使程序不必全部装入内存即可运行。
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （6 分）同步：多个进程为完成同一任务，需要按一定先后顺序协调执行，例如生产者—消费者之间的“先生产、后消费”。互斥：多个进程竞争同一临界资源，同一时刻只允许一个进程进入临界区。
+  
+  用信号量实现互斥的伪代码（初值 $mutex=1$）：
+\begin{lstlisting}
+P(mutex);
+    critical section;
+V(mutex);
+\end{lstlisting}
+  \code{P} 操作在资源不足时阻塞，\code{V} 操作释放资源并唤醒等待进程。\hfill（6 分）
+
+  \item （6 分）访问序列为
+  \[
+  2,3,2,1,5,2,4,5,3,2,5,2.
+  \]
+  3 个页框时的缺页次数：
+  \begin{center}\small
+  \begin{tabular}{cccc}
+  \toprule
+  算法 & 页框数 & 缺页次数 & 命中次数 \\
+  \midrule
+  FIFO & 3 & 9 & 3 \\
+  LRU & 3 & 7 & 5 \\
+  OPT & 3 & 6 & 6 \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+  FIFO 缺页发生在第 1、2、4、5、6、7、9、11、12 次访问；LRU 缺页发生在第 1、2、4、5、7、9、10 次访问；OPT 缺页发生在第 1、2、4、5、7、9 次访问。\hfill（6 分）
+\end{enumerate}
+\scoring{第（1）问同步/互斥区别 3 分，信号量伪代码 3 分；第（2）问每种算法 2 分，只给总数而无过程的扣 1 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{三、计算机网络（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=13, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{B。}奈奎斯特定理 $C=2W\log_2M=2\times3000\times\log_2 4=12000$ b/s $=12$ kb/s。
+
+\item \textbf{C。}后退 N 帧协议的发送窗口最大为 $2^{n}-1$，$n=3$ 时为 7。
+
+\item \textbf{B。}192.168.0.0/24 与 192.168.1.0/24 的前 23 位相同，聚合为 192.168.0.0/23。
+
+\item \textbf{B。}接收窗口为 0 时，发送方停止发送新数据，并启动零窗口探测，避免死锁。
+
+\item \textbf{B。}404 Not Found 表示服务器找不到请求的资源。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 信噪比 $30$ dB 对应 $S/N=10^{3}=1000$。香农公式：
+  \[
+  C=W\log_2(1+S/N)=4000\times\log_2 1001\approx 39868.9\ \text{b/s}\approx 39.9\ \text{kb/s}.
+  \]
+  \hfill（3 分）
+  \item 16 种码元，$M=16$，奈奎斯特定理：
+  \[
+  C=2W\log_2M=2\times4000\times\log_2 16=32000\ \text{b/s}=32\ \text{kb/s}.
+  \]
+  \hfill（3 分）
+  \item 实际数据率应取两者中较小的值，即约 \textbf{32 kb/s}。因为香农公式给出的是信道在给定信噪比下的理论上限，奈奎斯特给出的是给定带宽和码元数下的无码间串扰上限，实际速率还受编码、调制和实现复杂度限制。\hfill（2 分）
+\end{enumerate}
+\scoring{香农计算 3 分（公式 1 分、代入 1 分、结果 1 分）；奈奎斯特计算 3 分；取小值及理由 2 分。}
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 一种 VLSM 方案：
+  \begin{center}\small
+  \begin{tabular}{cccc}
+  \toprule
+  部门 & 需求量 & 子网地址/掩码 & 可用主机数 \\
+  \midrule
+  A & 500 & 10.0.0.0/23 & 510 \\
+  B & 200 & 10.0.2.0/24 & 254 \\
+  C & 100 & 10.0.3.0/25 & 126 \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+  A 的可用地址范围为 10.0.0.1～10.0.1.254，广播地址 10.0.1.255；B 为 10.0.2.1～10.0.2.254，广播地址 10.0.2.255；C 为 10.0.3.1～10.0.3.126，广播地址 10.0.3.127。\hfill（6 分）
+  \item 10.0.2.100 落在 10.0.2.0/24 内，属于 \textbf{B 部门}。\hfill（2 分）
+\end{enumerate}
+\scoring{每个部门 2 分（掩码、地址范围、主机数），共 6 分；判断 2 分。}
+
+\item \textbf{（9 分）}可能原因及排查：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 能 ping 通网关，说明本机 IP、掩码、网关和本地链路基本正常；不能 ping 通 8.8.8.8，说明问题可能出在默认路由、NAT、防火墙、运营商链路或目的地址可达性。\hfill（3 分）
+  \item 排查步骤：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item 用 \code{ipconfig} 查看 IP、掩码、网关、DNS 是否正确；
+    \item 用 \code{ping 192.168.1.1} 确认网关可达；
+    \item 用 \code{ping 8.8.8.8} 判断 IP 层外网连通性；
+    \item 用 \code{tracert 8.8.8.8} 查看在哪一跳断掉；
+    \item 检查路由器默认路由、NAT 配置和防火墙策略；
+    \item 用 \code{nslookup www.example.com} 检查 DNS 解析是否正常。
+  \end{itemize}
+  \hfill（4 分）
+  \item 若 IP 连通但域名不能访问，重点检查 DNS 服务器配置、DNS 服务可达性和域名解析记录；若更换 DNS 后仍失败，则可能是 DNS 请求被防火墙拦截或域名本身不可达。\hfill（2 分）
+\end{enumerate}
+\scoring{原因分析 3 分；排查步骤和命令 4 分（答出 3 条以上即可）；DNS 专项分析 2 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{四、数据库概论（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=21, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{A。}数据模型三要素是数据结构、数据操作和完整性约束。
+
+\item \textbf{B。}选择运算从关系中选出满足条件的元组；投影选出指定列；连接把两个关系按条件组合。
+
+\item \textbf{B。}\code{HAVING} 作用于 \code{GROUP BY} 之后的分组结果，用于筛选满足条件的组；\code{WHERE} 作用于分组前的元组。
+
+\item \textbf{A。}2NF 在 1NF 基础上消除非主属性对候选码的部分函数依赖；3NF 进一步消除非主属性对候选码的传递函数依赖。
+
+\item \textbf{A。}一级封锁协议要求事务修改数据前加 X 锁并保持到事务结束，可防止丢失修改；二级、三级协议进一步防止脏读和不可重复读。
+
+\item \textbf{（10 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 查询工资高于本部门平均工资的员工：
+\begin{lstlisting}[language=SQL]
+SELECT E.Eno, E.Ename, E.Salary
+FROM Employee E
+WHERE E.Salary > (
+    SELECT AVG(E2.Salary)
+    FROM Employee E2
+    WHERE E2.Dept = E.Dept
+);
+\end{lstlisting}
+\hfill（2.5 分）
+
+  \item 查询至少参加 2 个项目的员工号：
+\begin{lstlisting}[language=SQL]
+SELECT Eno
+FROM Works
+GROUP BY Eno
+HAVING COUNT(DISTINCT Pno) >= 2;
+\end{lstlisting}
+\hfill（2.5 分）
+
+  \item 查询没有参加任何项目的员工：
+\begin{lstlisting}[language=SQL]
+SELECT E.Eno, E.Ename
+FROM Employee E
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Works W
+    WHERE W.Eno = E.Eno
+);
+\end{lstlisting}
+\hfill（2.5 分）
+
+  \item 创建 Works 表：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Works (
+    Eno   CHAR(9) NOT NULL,
+    Pno   CHAR(6) NOT NULL,
+    Hours DECIMAL(5,1),
+    PRIMARY KEY (Eno, Pno),
+    FOREIGN KEY (Eno) REFERENCES Employee(Eno),
+    FOREIGN KEY (Pno) REFERENCES Project(Pno),
+    CHECK (Hours > 0)
+);
+\end{lstlisting}
+\hfill（2.5 分）
+\end{enumerate}
+\scoring{每小题 2.5 分。第（2）题用 \code{COUNT(*)} 也可，但要求 \code{Pno} 不重复；第（3）题用 \code{NOT IN} 且语义正确同样给分；第（4）题缺主码、外码或 CHECK 各扣 0.5～1 分。}
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 候选码为 \textbf{（供应商，零件，项目）}。因为
+  \[
+  (\text{供应商},\text{零件},\text{项目})^{+}
+  =\{\text{供应商},\text{零件},\text{项目},\text{数量},\text{供应商地址},\text{零件名称}\},
+  \]
+  而任何真子集都不能决定全部属性。\hfill（2 分）
+
+  \item $R$ 最高属于 \textbf{1NF}。因为存在非主属性对候选码的部分函数依赖：
+  \[
+  \text{供应商}\to\text{供应商地址},\qquad \text{零件}\to\text{零件名称},
+  \]
+  供应商地址只依赖于候选码中的“供应商”，零件名称只依赖于“零件”，故不满足 2NF。\hfill（2 分）
+
+  \item 一种保持函数依赖且无损连接的 3NF 分解为：
+  \[
+  \begin{aligned}
+  R_1&(\text{供应商},\text{供应商地址}), &&\text{码为供应商};\\
+  R_2&(\text{零件},\text{零件名称}), &&\text{码为零件};\\
+  R_3&(\text{供应商},\text{零件},\text{项目},\text{数量}), &&\text{码为（供应商，零件，项目）}.
+  \end{aligned}
+  \]
+  三个关系均满足 3NF；原 $F$ 中的函数依赖分别由 $R_1$、$R_2$、$R_3$ 保持。连接时 $R_1\cap R_3=\{\text{供应商}\}$ 是 $R_1$ 的码，$R_2\cap R_3=\{\text{零件}\}$ 是 $R_2$ 的码，因此分解具有无损连接性。\hfill（4 分）
+\end{enumerate}
+\scoring{候选码 2 分；范式判断 1 分、理由 1 分；分解 4 分。分解不唯一，只要满足 3NF、保持依赖和无损连接即可。}
+
+\item \textbf{（7 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item Q1 的条件是 \code{a=1}、\code{c>10}，排序键是 \code{b}。索引 \code{(a,b,c)} 可以用 \code{a=1} 定位，再按 \code{b} 有序扫描，同时用索引中的 \code{c} 过滤 \code{c>10}，通常可以避免额外排序；索引 \code{(a,c,b)} 可以先按 \code{a=1}、\code{c>10} 做范围扫描，但结果按 \code{c}、\code{b} 排列，不能保证按 \code{b} 有序，可能需要排序。因此若 Q1 经常执行且返回行数较多，\code{(a,b,c)} 更合适；若 \code{c>10} 的选择性很高、返回行数很少，则 \code{(a,c,b)} 也可能更优，需结合执行计划判断。\hfill（3 分）
+  \item 最左前缀原则：复合索引 \code{(a,b,c)} 可以支持以 \code{a}、\code{(a,b)}、\code{(a,b,c)} 为前缀的查询条件，但不能直接用于只含 \code{b} 或 \code{c} 的等值查询。Q2 的条件是 \code{b=2 AND c=3}，没有 \code{a}，因此 \code{(a,b,c)} 不能有效利用索引查找。\hfill（2 分）
+  \item 针对 Q2，应建立 \code{(b,c)} 或 \code{(c,b)} 索引。若查询只返回 \code{a} 和 \code{d}，可建立覆盖索引 \code{(b,c,a,d)}，使查询所需列都在索引中，避免回表。\hfill（2 分）
+\end{enumerate}
+\scoring{第（1）问两个索引对比 3 分；最左前缀原则 2 分；Q2 索引与覆盖索引 2 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{五、信息系统导论（第 1—6 章）（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=29, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.55em]
+
+\item \textbf{信息社会（5 分）}
+
+信息社会是以信息活动为基础、以信息资源的开发和利用为核心、以信息产业为重要支柱的社会形态。其主要特征包括：信息成为比物质和能源更重要的战略资源；信息技术广泛渗透到生产、生活和治理各领域；信息产业和知识经济占主导地位；社会对信息素养、信息安全和数字鸿沟问题更加关注。\hfill（5 分）
+\scoring{定义 2 分，特征答出 3 点给 3 分。}
+
+\item \textbf{数据库（5 分）}
+
+数据库是按一定结构组织、存储和管理数据的仓库，具有较小的冗余度、较高的数据独立性和易扩展性，可被多个用户共享。数据库通常由数据库、数据库管理系统（DBMS）、应用程序和数据库管理员组成；DBMS 提供数据定义、数据操纵、事务管理、并发控制、恢复和权限管理等功能。\hfill（5 分）
+\scoring{定义 2 分，组成 1 分，DBMS 功能 2 分。}
+
+\item \textbf{网络协议（5 分）}
+
+网络协议是为进行网络中的数据交换而建立的规则、标准或约定。一个网络协议由三要素组成：语法（数据与控制信息的格式）、语义（需要发出何种控制信息、完成何种动作及做出何种响应）和时序（事件实现顺序的详细说明）。例如 TCP、IP、HTTP 都是网络协议。\hfill（5 分）
+\scoring{定义 2 分，三要素各 1 分，举例 0～1 分。}
+
+\item \textbf{（8 分）}
+
+分层必要性：
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item 网络系统复杂，分层可以把大问题分解为若干相对独立的小问题，降低设计和实现难度；
+  \item 每层只向上层提供服务，并屏蔽下层实现细节，便于各层独立演进；
+  \item 分层有利于标准化、互操作和故障定位。
+\end{itemize}
+TCP/IP 四层模型：
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item 网络接口层：负责与物理网络交互，完成帧的发送和接收；
+  \item 网际层（IP 层）：负责分组路由、转发和 IP 地址管理；
+  \item 运输层：为应用进程提供端到端通信，TCP 提供可靠字节流，UDP 提供无连接数据报；
+  \item 应用层：面向具体应用提供协议，如 HTTP、DNS、SMTP、FTP 等。
+\end{itemize}
+\hfill（8 分）
+\scoring{分层必要性 3 分；四层名称及功能各 1 分，共 4 分；总结 1 分。}
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （4 分）
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item \textbf{IaaS：}平台运营方向委办局提供虚拟机、存储、网络等基础设施资源，委办局在上面部署自己的操作系统和业务系统。
+    \item \textbf{PaaS：}平台提供数据库、中间件、开发运行环境和统一身份认证等平台服务，委办局只需关注业务应用开发。
+    \item \textbf{SaaS：}市民通过政府网站或手机 APP 直接使用政务服务，属于软件即服务。
+  \end{itemize}
+  \hfill（每层 1 分，共 4 分；结合对象再给 0～1 分，控制在 4 分内）
+
+  \item （4 分）更适合 \textbf{私有云或混合云}。政务数据涉及公民隐私和公共安全，安全合规要求高，核心业务适合部署在私有云；面向公众的查询、预约等服务可以采用混合云，把非敏感业务放到公有云以弹性扩展。纯公有云虽然成本低、弹性好，但数据主权和安全风险较高。\hfill（4 分）
+
+  \item （4 分）建议（答出两条即可）：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item 数据安全：多租户隔离、传输与存储加密、统一身份认证、最小权限、审计日志和脱敏处理，防止越权访问和数据泄露。
+    \item 可靠性：双机热备、异地容灾、定期备份与恢复演练、健康监测和自动故障切换，保证政务服务连续可用。
+  \end{itemize}
+  \hfill（每条 2 分，共 4 分）
+\end{enumerate}
+\scoring{第（1）问三种模式各 1 分，结合平台对象 1 分；第（2）问选型 2 分、理由 2 分；第（3）问每条建议及理由 2 分。}
+
+\end{enumerate}
+
+\end{document}

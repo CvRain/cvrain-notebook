@@ -16,7 +16,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 # 把仓库根目录加入 TEXINPUTS 的 basename 搜索路径：新版 kpathsea 不解析
 # 文件名里的 ".."，形如 \usepackage{../../notestyle} 的旧文件由此兜底
-export TEXINPUTS=".:./exam-template:${ROOT}:${TEXINPUTS:-}"
+export TEXINPUTS=".:./exam-template:./企业实训课程:${ROOT}:${TEXINPUTS:-}"
 
 pat=""
 force=0

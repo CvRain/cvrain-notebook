@@ -1,0 +1,344 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{midterm-style}
+\examinehead{企业实训课程 · 期中考试}{参考答案与评分标准（D 卷）}
+\begin{document}
+
+\answercover{企业实训课程 · 期中考试}{参考答案与评分标准（D 卷）}
+
+\noindent\textbf{评分总说明：}本卷满分 150 分。选择题只给答案分；简答、计算、SQL、规范化与材料分析题按关键得分点给分，考生表述与参考答案不完全一致但意思正确、逻辑完整的，同样给分。计算题若只有结果而无主要过程，酌情扣分；SQL 题若语法正确、约束完整，列名或数据类型与参考答案略有差异不扣分。
+
+% ============================================================
+\answerpart{一、计算机组成原理（25 分）}
+% ============================================================
+
+\begin{enumerate}[start=1, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{A。}冯·诺依曼瓶颈指 CPU 与主存之间的速度差距：CPU 很快，而主存相对较慢，二者之间的数据传送成为系统性能瓶颈。
+
+\item \textbf{A。}\code{01111111} 是 $+127$，加 1 后为 \code{10000000}，按补码解释为 $-128$。两个正数相加得到负数，发生溢出，OF=1。
+
+\item \textbf{B。}DRAM 用电容存储信息，电荷会泄漏，需要定期刷新；其集成度高、成本低，但速度比 SRAM 慢。
+
+\item \textbf{C。}总线带宽 $=32/8\ \text{B}\times100\times10^{6}=400$ MB/s。
+
+\item \textbf{D。}CPU 响应可屏蔽中断通常需要：中断源有请求、CPU 允许中断、当前指令执行结束、没有更高优先级中断等；当前进程是否阻塞不是必要条件。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item $1110.011_2=8+4+2+0.25+0.125=14.375$；按每 4 位分组：
+  \[
+  1110.0110_2=\text{E.6}_{16}.
+  \]
+  \hfill（4 分）
+
+  \item $25.625=11001.101_2=1.1001101_2\times2^{4}$。
+  符号位 $S=0$；阶码 $E=4+127=131=10000011_2$；尾数去掉隐含的 1 后为
+  $10011010000000000000000_2$。因此 32 位格式为
+  \[
+  0\ \ 10000011\ \ 10011010000000000000000,
+  \]
+  即十六进制 \textbf{0x41CD0000}。\hfill（4 分）
+\end{enumerate}
+\scoring{第（1）问十进制 2 分、十六进制 2 分；第（2）问符号位、阶码、尾数、十六进制结果各 1 分。}
+
+\item \textbf{（7 分）}
+Cache 利用程序访问的时间局部性和空间局部性，把主存中当前常用的数据块复制到 CPU 附近的高速小容量存储器中。CPU 访问时先查 Cache：命中则直接访问；未命中则访问主存，并把数据块调入 Cache。
+
+平均访问时间可写为
+\[
+T_{\text{avg}}=h\,t_c+(1-h)t_m,
+\]
+其中 $h$ 为命中率，$t_c$ 为 Cache 访问时间，$t_m$ 为主存访问时间。若采用“先 Cache、未命中再主存”的串行模型，则 $T_{\text{avg}}=t_c+(1-h)t_m$。
+
+写直达：每次写操作同时写 Cache 和主存。优点是实现简单、主存与 Cache 一致性好；缺点是写操作频繁访问主存，速度较慢。写回：只写 Cache，并设置脏位，替换时才写回主存。优点是减少主存写次数、速度较快；缺点是一致性维护复杂，掉电时可能丢失脏数据。\hfill（7 分）
+\scoring{工作原理 2 分；平均访问时间公式 2 分；两种写策略优缺点各 1.5 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{二、操作系统（20 分）}
+% ============================================================
+
+\begin{enumerate}[start=8, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{C。}共享内存把同一块物理内存映射到多个进程的地址空间，进程直接读写内存，通常是最快的进程通信方式；但需要额外的同步机制。
+
+\item \textbf{C。}高响应比优先把等待时间和运行时间综合成响应比，既照顾短作业，又让等待较久的长作业逐渐提高优先级，减少饥饿。
+
+\item \textbf{A。}最佳适应总是选择能满足要求的最小空闲分区，容易留下大量难以利用的小碎片。
+
+\item \textbf{B。}inode 存放文件的类型、大小、权限、时间戳和数据块地址等元数据，文件名放在目录项中，文件内容放在数据块中。
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （6 分）虚拟存储器的基本思想：程序不必全部装入内存即可运行，只把当前需要的部分调入内存，其余部分留在辅存；当访问的页面不在内存时，由系统自动调入，从而从逻辑上扩充内存容量。
+  
+  请求分页缺页中断处理过程：访问页面时查页表，若存在位为 0 则产生缺页中断；操作系统保存现场，检查访问合法性；若有空闲页框则分配，否则按置换算法选择一个页面，若该页被修改则写回辅存；从辅存读入所需页面，更新页表和 TLB；恢复现场，重新执行引起缺页的指令。\hfill（6 分）
+
+  \item （6 分）Need $=$ Max $-$ Allocation：
+  \begin{center}\small
+  \begin{tabular}{cccc}
+  \toprule
+  进程 & Max & Allocation & Need \\
+  \midrule
+  $P_0$ & (7,5,3) & (0,1,0) & (7,4,3) \\
+  $P_1$ & (3,2,2) & (2,0,0) & (1,2,2) \\
+  $P_2$ & (9,0,2) & (3,0,2) & (6,0,0) \\
+  $P_3$ & (2,2,2) & (2,1,1) & (0,1,1) \\
+  $P_4$ & (4,3,3) & (0,0,2) & (4,3,1) \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+  从 Available $=(3,3,2)$ 出发，一个安全序列为
+  \[
+  P_1\to P_3\to P_4\to P_0\to P_2.
+  \]
+  对应 Available 变化为 $(3,3,2)\to(5,3,2)\to(7,4,3)\to(7,4,5)\to(7,5,5)\to(10,5,7)$。\hfill（6 分）
+\end{enumerate}
+\scoring{第（1）问基本思想 2 分，缺页处理过程 4 分；第（2）问 Need 表 3 分，安全序列 3 分。安全序列不唯一，正确即可。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{三、计算机网络（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=13, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{B。}时延带宽积 $=100\times10^{6}\times10\times10^{-3}=10^{6}$ bit $=125$ KB。
+
+\item \textbf{B。}交换机收到帧后，根据帧的源 MAC 地址和入端口学习“哪个 MAC 地址在哪个端口”，再根据目的 MAC 地址转发。
+
+\item \textbf{B。}私有地址范围包括 10.0.0.0/8、172.16.0.0/12、192.168.0.0/16；172.16.0.1 属于私有地址。
+
+\item \textbf{B。}UDP 无连接、不可靠，不提供拥塞控制，但开销小、时延低，支持广播和多播。
+
+\item \textbf{B。}FTP 使用两个 TCP 连接：控制连接（21 端口）和数据连接（主动模式 20 端口或被动模式临时端口）。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 每个部门至少 25 台主机，需要 $2^{h}-2\ge25$，$h=5$ 时只有 30 个可用地址，故主机位取 5 位，子网前缀为 $32-5=27$，即 \code{/27}。\code{/28} 只有 $2^{4}-2=14$ 个可用地址，不能满足 25 台主机的要求。\hfill（2 分）
+  \item 前 6 个 /27 子网：
+  \begin{center}\small
+  \begin{tabular}{cccc}
+  \toprule
+  子网 & 可用地址范围 & 广播地址 & 可用主机数 \\
+  \midrule
+  192.168.1.0/27 & .1～.30 & .31 & 30 \\
+  192.168.1.32/27 & .33～.62 & .63 & 30 \\
+  192.168.1.64/27 & .65～.94 & .95 & 30 \\
+  192.168.1.96/27 & .97～.126 & .127 & 30 \\
+  192.168.1.128/27 & .129～.158 & .159 & 30 \\
+  192.168.1.160/27 & .161～.190 & .191 & 30 \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+  \hfill（4 分）
+  \item 剩余 192.168.1.192/27 和 192.168.1.224/27，共还能划分出 \textbf{2 个}同样大小的子网。\hfill（2 分）
+\end{enumerate}
+\scoring{前缀与 /28 理由 2 分；前 6 个子网每个 0.5 分，共 3 分；剩余子网数 1 分；地址范围/广播地址写错酌情扣分。}
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 初始 \code{ssthresh} 约为 \textbf{8 MSS}。因为 cwnd 从 1 开始按 1、2、4、8 翻倍，到 8 后下一轮变为 9，说明从 8 开始进入拥塞避免，故慢开始门限为 8。\hfill（2 分）
+  \item 第 13 个 RTT 时 cwnd 从 16 突降到 1，说明发生了\textbf{超时}。超时后 \code{ssthresh} 减半为 $16/2=8$ MSS，\code{cwnd} 回到 1 MSS，重新进入慢开始。\hfill（2 分）
+  \item 第 17 个 RTT 时 cwnd=9，收到 3 个重复 ACK，执行快重传/快恢复：
+  \[
+  \text{ssthresh}=9/2=4\ \text{MSS},\qquad \text{cwnd}=4+3=7\ \text{MSS}.
+  \]
+  收到新的确认 ACK 后，cwnd 降为 4 MSS，进入拥塞避免。\hfill（2 分）
+  \item 慢开始区间：RTT 1～4（cwnd 1、2、4、8）和 RTT 13～16（cwnd 1、2、4、8）；拥塞避免区间：RTT 5～12（cwnd 9～16）和 RTT 17 之后。\hfill（2 分）
+\end{enumerate}
+\scoring{每小问 2 分；第（3）问 ssthresh 与 cwnd 各 1 分；第（4）问区间答对一半给 1 分。}
+
+\item \textbf{（9 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 内网 PC 可配置为：IP 192.168.1.x（如 192.168.1.10），子网掩码 255.255.255.0，默认网关 192.168.1.1（路由器内网接口），DNS 可填运营商 DNS 或公共 DNS。\hfill（2 分）
+  \item 路由器需要配置 \textbf{NAT/NAPT}（网络地址转换/端口地址转换），把内网 192.168.1.0/24 的源地址转换为公网地址 202.1.1.2，并维护连接跟踪表。\hfill（2 分）
+  \item 配置端口映射（DNAT）：把公网地址 202.1.1.2 的 80 端口映射到 192.168.1.100 的 80 端口。外网用户访问 \code{http://202.1.1.2}。\hfill（2 分）
+  \item 外网请求到达路由器时，目的地址为 202.1.1.2:80；路由器按端口映射把目的地址改为 192.168.1.100:80，转发给内网 Web 服务器。服务器响应时源地址为 192.168.1.100:80，路由器再把源地址改为 202.1.1.2:80，返回给外网用户。\hfill（3 分）
+\end{enumerate}
+\scoring{PC 配置 2 分；NAT 2 分；端口映射 2 分；地址转换过程 3 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{四、数据库概论（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=21, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{B。}模式描述数据库中全体数据的全局逻辑结构；外模式描述用户视图，内模式描述物理存储结构。
+
+\item \textbf{B。}自然连接去掉重复的 B 属性，结果属性为 A、B、C，共 3 个。
+
+\item \textbf{B。}\code{COUNT(列名)} 只统计非空值，10 行中 3 行为空，故结果为 7；\code{COUNT(*)} 才统计所有行。
+
+\item \textbf{A。}BCNF 是 3NF 的严格子集，属于 BCNF 的关系一定属于 3NF；反之不成立。
+
+\item \textbf{B。}读已提交（Read Committed）能避免脏读，但仍可能出现不可重复读和幻读；可重复读进一步避免不可重复读，串行化避免幻读。
+
+\item \textbf{（10 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 查询选修了全部课程的学生：
+\begin{lstlisting}[language=SQL]
+SELECT S.Sno, S.Sname
+FROM Student S
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Course C
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM SC
+        WHERE SC.Sno = S.Sno AND SC.Cno = C.Cno
+    )
+);
+\end{lstlisting}
+\hfill（2.5 分）
+
+  \item 查询每门课程的不及格人数：
+\begin{lstlisting}[language=SQL]
+SELECT Cno, COUNT(*) AS fail_count
+FROM SC
+WHERE Grade < 60
+GROUP BY Cno;
+\end{lstlisting}
+\hfill（2.5 分）
+
+  \item 查询平均成绩在 80 分以上的课程：
+\begin{lstlisting}[language=SQL]
+SELECT Cno, AVG(Grade) AS avg_grade
+FROM SC
+GROUP BY Cno
+HAVING AVG(Grade) > 80;
+\end{lstlisting}
+\hfill（2.5 分）
+
+  \item 创建 Student 表：
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Student (
+    Sno   CHAR(9) PRIMARY KEY,
+    Sname VARCHAR(20) NOT NULL,
+    Sage  INT CHECK (Sage BETWEEN 15 AND 60),
+    Sdept VARCHAR(20) DEFAULT '未分配'
+);
+\end{lstlisting}
+\hfill（2.5 分）
+\end{enumerate}
+\scoring{每小题 2.5 分。第（1）题未用双重 \code{NOT EXISTS} 或除法语义的扣 1 分；第（2）题未按课程分组扣 1 分；第（4）题缺主码、非空、CHECK 或默认值各扣 0.5～1 分。}
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 候选码为 \textbf{（订单号，商品号）}。因为
+  \[
+  (\text{订单号},\text{商品号})^{+}
+  =\{\text{订单号},\text{商品号},\text{客户号},\text{客户名},\text{商品名},\text{单价},\text{数量}\},
+  \]
+  而订单号、商品号单独都不能决定全部属性。\hfill（2 分）
+
+  \item $R$ 最高属于 \textbf{1NF}。因为存在非主属性对候选码的部分函数依赖：订单号 $\to$ 客户号，商品号 $\to$ 商品名、单价；同时还有订单号 $\to$ 客户号 $\to$ 客户名的传递依赖。\hfill（2 分）
+
+  \item 一种保持函数依赖且无损连接的 3NF 分解为：
+  \[
+  \begin{aligned}
+  R_1&(\text{订单号},\text{客户号}), &&\text{码为订单号};\\
+  R_2&(\text{客户号},\text{客户名}), &&\text{码为客户号};\\
+  R_3&(\text{商品号},\text{商品名},\text{单价}), &&\text{码为商品号};\\
+  R_4&(\text{订单号},\text{商品号},\text{数量}), &&\text{码为（订单号，商品号）}.
+  \end{aligned}
+  \]
+  四个关系均满足 3NF；原 $F$ 中的函数依赖分别由 $R_1\sim R_4$ 保持。连接时 $R_1\cap R_4=\{\text{订单号}\}$ 是 $R_1$ 的码，$R_2\cap R_1=\{\text{客户号}\}$ 是 $R_2$ 的码，$R_3\cap R_4=\{\text{商品号}\}$ 是 $R_3$ 的码，因此分解具有无损连接性。\hfill（4 分）
+\end{enumerate}
+\scoring{候选码 2 分；范式判断 1 分、理由 1 分；分解 4 分。分解不唯一，只要满足 3NF、保持依赖和无损连接即可。}
+
+\item \textbf{（7 分）}
+\begin{center}\small
+\begin{tabular}{ccccc}
+\toprule
+隔离级别 & 脏读 & 不可重复读 & 幻读 & 并发性能 \\
+\midrule
+读未提交 & 可能 & 可能 & 可能 & 最高 \\
+读已提交 & 避免 & 可能 & 可能 & 较高 \\
+可重复读 & 避免 & 避免 & 可能 & 较低 \\
+串行化 & 避免 & 避免 & 避免 & 最低 \\
+\bottomrule
+\end{tabular}
+\end{center}
+隔离级别越高，事务之间的隔离越彻底，但锁的范围或冲突越大，并发性能越低；实际系统需要根据业务对一致性和吞吐量的要求选择合适级别。\hfill（7 分）
+\scoring{四种级别与三种异常的对应关系 5 分（错一处扣 1 分）；隔离级别与并发性能关系 2 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{五、信息系统导论（第 1—6 章）（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=29, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.55em]
+
+\item \textbf{数据（5 分）}
+
+数据是对客观事物的性质、状态和相互关系进行记录的物理符号，是信息的载体，常见形式有数值、文字、声音、图形和图像等。数据本身是未加工的原始记录，经过处理和解释后才成为对人有意义的信息。\hfill（5 分）
+\scoring{定义 3 分，形式 1 分，数据与信息关系 1 分。}
+
+\item \textbf{信息系统（5 分）}
+
+信息系统是由人、硬件、软件、数据和处理规程等组成的，对信息进行采集、加工、存储、传输、检索和利用，以支持组织决策、管理和业务的系统。其基本功能包括信息输入、处理、输出、反馈和控制；典型例子有管理信息系统、决策支持系统、事务处理系统等。\hfill（5 分）
+\scoring{定义 2 分，组成 2 分，功能或例子 1 分。}
+
+\item \textbf{软件工程（5 分）}
+
+软件工程是把系统化、规范化、可度量的工程方法应用于软件的开发、运行和维护，以提高软件质量、降低开发成本、保证开发进度的学科。其内容包括软件过程、开发方法、工具和环境、项目管理与质量保证等。\hfill（5 分）
+\scoring{定义 3 分，目标 1 分，内容 1 分。}
+
+\item \textbf{（8 分）}
+
+大数据的典型特征：
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item Volume：数据量大，常达到 TB、PB 甚至更高；
+  \item Variety：类型多样，包括结构化、半结构化和非结构化数据；
+  \item Velocity：产生和处理速度快，要求实时或近实时分析；
+  \item Value：价值密度低，需要从海量数据中挖掘有价值信息；
+  \item Veracity：数据真实性、质量参差不齐。
+\end{itemize}
+Hadoop 的主要组成部分：
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item HDFS：分布式文件系统，负责海量数据的可靠存储；
+  \item MapReduce：分布式计算框架，把任务分解为 Map 和 Reduce 阶段并行处理；
+  \item YARN：资源管理和任务调度框架；
+  \item Common：Hadoop 的公共工具库。
+\end{itemize}
+\hfill（8 分）
+\scoring{3V/4V 特征 4 分（答出 3 个即可给 3 分，答出 4 个给 4 分）；HDFS、MapReduce、YARN 各 1 分，Common 或整体说明 1 分。}
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （4 分）四层结构：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item \textbf{感知层：}摄像头、地磁、雷达等传感器采集车流量、车速、排队长度等交通数据。
+    \item \textbf{网络层：}5G/光纤把路口数据传输到交通云平台，支持远程监控和指令下发。
+    \item \textbf{平台层：}云平台保存车辆、违法、设备等数据，运行流量分析和信号配时模型；边缘节点提供本地实时控制。
+    \item \textbf{应用层：}面向交通管理部门提供信号灯配时、拥堵预警，面向市民提供路况发布和出行建议。
+  \end{itemize}
+  \hfill（每层 1 分，共 4 分）
+
+  \item （4 分）DIKW 转化：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item \textbf{数据：}某路口某时段通过的车辆数、平均车速、排队长度。
+    \item \textbf{信息：}按路口、时段汇总的车流量和拥堵指数。
+    \item \textbf{知识：}通过历史数据发现“工作日早高峰东向西流量大、周末晚高峰相反”等规律。
+    \item \textbf{智慧：}结合天气、事故、节假日等因素，动态调整信号灯配时和诱导路线。
+  \end{itemize}
+  数据库负责保存车辆、违法、设备等结构化数据；计算机网络负责数据上传和指令下发；云计算提供弹性存储、分析和全局优化；边缘计算在路口本地完成实时信号控制，降低时延和断网风险。\hfill（4 分）
+
+  \item （4 分）建议（答出两条即可）：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item 可靠性：路口部署边缘计算和本地控制，网络中断时仍能按预设策略运行；关键链路采用 5G 与光纤双冗余，云端和边缘节点具备故障切换能力。
+    \item 数据安全：对摄像头视频和车辆数据进行加密传输、访问控制、审计和脱敏处理，遵守隐私保护规定；定期备份，防止数据泄露和篡改。
+  \end{itemize}
+  \hfill（每条 2 分，共 4 分）
+\end{enumerate}
+\scoring{第（1）问四层各 1 分；第（2）问 DIKW 四层各 0.5 分，数据库/网络/云/边缘计算作用共 2 分；第（3）问每条建议及理由 2 分。}
+
+\end{enumerate}
+
+\end{document}
