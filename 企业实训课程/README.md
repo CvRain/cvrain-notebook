@@ -1,6 +1,6 @@
-# 企业实训课程 · 期中考试（A / B / C / D 四套）
+# 企业实训课程 · 期中考试（常规 A—D 四套 + 隐藏 A/B 两套）
 
-本目录存放企业实训课程期中考试的自编试卷与参考答案，共 **四套**。每套满分 150 分、考试时长 180 分钟、开卷，覆盖计算机组成原理、操作系统、计算机网络、数据库概论和信息系统导论（第 1—6 章）。
+本目录存放企业实训课程期中考试的自编试卷与参考答案，共 **六套**（常规 A—D 四套、隐藏 A/B 两套）。每套满分 150 分、考试时长 180 分钟、开卷，覆盖计算机组成原理、操作系统、计算机网络、数据库概论和信息系统导论（第 1—6 章）。
 
 > 本目录试卷为依据课程范围、参考教材与考研题型风格自编的模拟卷，非官方试题。
 
@@ -12,8 +12,12 @@
 | B 卷 | [midterm-02.pdf](midterm-02.pdf) | [answers-02.pdf](answers-02.pdf) | 13 | 7 |
 | C 卷 | [midterm-03.pdf](midterm-03.pdf) | [answers-03.pdf](answers-03.pdf) | 13 | 7 |
 | D 卷 | [midterm-04.pdf](midterm-04.pdf) | [answers-04.pdf](answers-04.pdf) | 15 | 8 |
+| 隐藏 A 卷 | [hidden-A.pdf](hidden-A.pdf) | [hidden-answers-A.pdf](hidden-answers-A.pdf) | 14 | 6 |
+| 隐藏 B 卷 | [hidden-B.pdf](hidden-B.pdf) | [hidden-answers-B.pdf](hidden-answers-B.pdf) | 14 | 6 |
 
 每套试题的**最后两页为附页（一）（二）**，供写字较大或答题纸空间不足的学生继续作答；附页上留有姓名、学号、班级栏和横线。
+
+> 隐藏 A/B 卷与 A—D 卷结构、分值完全一致，题干和情境不同，适合两个班级上下午混排发放。封面仍按 A 卷/B 卷标注，文件名用 `hidden-` 前缀区分；如需避免与常规 A/B 卷混淆，可在发卷前把封面卷号改为“甲/乙”或“备用一/备用二”。
 
 ## 二、考试参数
 
@@ -39,6 +43,10 @@
 
 > 说明：`check_scores.py` 统计的“普通题”为 33 道，是因为“基础计算题”按一道大题（含两小问）计；卷面实际小题数为 34 道。
 
+### 选择题选项完整性
+
+已逐题核对六套卷的全部选择题：每题均保留 A、B、C、D 四个选项；选项较长时统一改为 2×2 排布，避免单行四选项互相挤压或显示不全。若后续再改题，建议长选项继续使用 `\choices{}{}{}{}`，短选项再用 `\choicesline{}{}{}{}`。
+
 ### 基础计算题设计
 
 每套卷在计算机组成原理部分设置 8 分基础计算，确保学生能拿到基础分：
@@ -59,7 +67,7 @@
 | C | CPU 组成与指令执行 | 同步/互斥＋FIFO/LRU/OPT | 奈奎斯特/香农、VLSM、网络故障排查 | SQL、1NF/3NF、复合索引与最左前缀 | 政务云（IaaS/PaaS/SaaS） |
 | D | Cache 工作原理与写策略 | 虚拟存储器＋银行家安全序列 | 时延带宽积、子网划分、TCP 拥塞窗口、NAT | SQL、1NF/3NF、事务隔离级别 | 智能交通（边缘计算/5G/云） |
 
-四套卷的客观题和综合题均重新命题，避免直接重复；核心考点保持稳定，情境和设问轮换。
+六套卷的客观题和综合题均重新命题，避免直接重复；核心考点保持稳定，情境和设问轮换。
 
 ## 五、开卷命题思路
 
@@ -74,10 +82,14 @@
 | 文件 | 说明 |
 | --- | --- |
 | `midterm-style.sty` | 本课程试卷样式（A4、开卷封面、题号/选择题/答案区/附页命令） |
-| `midterm-01.tex` ~ `midterm-04.tex` | 四套试题源文件 |
-| `answers-01.tex` ~ `answers-04.tex` | 四套参考答案与评分标准源文件 |
-| `midterm-01.pdf` ~ `midterm-04.pdf` | 四套试题 PDF |
-| `answers-01.pdf` ~ `answers-04.pdf` | 四套答案 PDF |
+| `midterm-01.tex` ~ `midterm-04.tex` | 四套常规试题源文件 |
+| `answers-01.tex` ~ `answers-04.tex` | 四套常规参考答案与评分标准源文件 |
+| `hidden-A.tex` / `hidden-B.tex` | 两套隐藏试题源文件 |
+| `hidden-answers-A.tex` / `hidden-answers-B.tex` | 两套隐藏卷参考答案与评分标准源文件 |
+| `midterm-01.pdf` ~ `midterm-04.pdf` | 四套常规试题 PDF |
+| `answers-01.pdf` ~ `answers-04.pdf` | 四套常规答案 PDF |
+| `hidden-A.pdf` / `hidden-B.pdf` | 两套隐藏试题 PDF |
+| `hidden-answers-A.pdf` / `hidden-answers-B.pdf` | 两套隐藏答案 PDF |
 | `out/` | 编译中间产物（`.aux`、`.log`、`.pdf`） |
 
 ## 七、编译与校验

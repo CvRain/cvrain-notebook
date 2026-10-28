@@ -1,0 +1,251 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{midterm-style}
+\examinehead{企业实训课程 · 期中考试}{B 卷}
+\begin{document}
+
+\examcover{企业实训课程}{2026—2027 学年第一学期期中考试（B 卷）}{计算机组成原理、操作系统、计算机网络、数据库概论、信息系统导论（第 1—6 章）}{150 分}{180 分钟}{本卷为开卷考试，允许携带教材、笔记和纸质资料，可使用手机或电脑检索公开资料；不得相互讨论、传递答案，不得使用手机通讯或社交软件。所有答案写在答题纸上，计算题须写出主要步骤。}
+
+% ============================================================
+\parttitle{一、计算机组成原理（25 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q 程序计数器 PC 中通常存放的是（\quad）
+\choices{A. 下一条待执行指令的地址}{B. 当前指令的操作数}{C. 当前指令的运算结果}{D. 中断服务程序入口地址}
+
+\q 8 位补码 \code{10110110} 的真值是（\quad）
+\choicesline{A. $-74$}{B. $-73$}{C. $74$}{D. $182$}
+
+\q 与 DRAM 相比，SRAM 的主要特点是（\quad）
+\choices{A. 需要定期刷新、集成度高}{B. 不需要刷新、速度快但集成度较低}{C. 断电后数据不丢失}{D. 只能用作外存}
+
+\q 某总线数据线为 16 位，地址线为 20 位，按字节编址，则最大寻址空间为（\quad）
+\choicesline{A. 64 KB}{B. 1 MB}{C. 2 MB}{D. 16 MB}
+
+\q CPU 响应中断后，由中断隐指令完成的操作通常不包括（\quad）
+\choicesline{A. 关中断}{B. 保存断点}{C. 引出中断服务程序}{D. 恢复现场}
+
+\needspace{30\baselineskip}
+\qtypename{（二）基础计算题}{1 题，共 8 分}
+
+\needspace{18\baselineskip}
+\q （8 分）完成下列计算，写出必要过程：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （4 分）将十六进制数 \code{2C.8} 转换为二进制数和十进制数。
+  \item （4 分）设机器字长 8 位，$x=-36$，$y=25$，用补码计算 $x-y$，写出运算过程，并判断是否溢出。
+\end{enumerate}
+\anslines{5.5cm}
+
+\qtypename{（三）简答题}{1 题，共 7 分}
+
+\needspace{16\baselineskip}
+\q （7 分）简述 DMA 方式与程序中断方式的主要区别，并说明 DMA 传送结束后通常如何处理。
+\anslines{6cm}
+
+% ============================================================
+\parttitle{二、操作系统（20 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{4 题，每题 2 分，共 8 分}
+
+\q 高响应比优先调度算法中，响应比通常定义为（\quad）
+\choices{A. 等待时间/要求服务时间}{B. 1+等待时间/要求服务时间}{C. 要求服务时间/等待时间}{D. 1+要求服务时间/等待时间}
+
+\q 下列各项中，不属于死锁四个必要条件的是（\quad）
+\choicesline{A. 互斥}{B. 占有并等待}{C. 不可剥夺}{D. 资源分配图可化简}
+
+\q 在分页存储管理中，页表项通常不包含（\quad）
+\choicesline{A. 物理块号}{B. 有效位/存在位}{C. 访问位或修改位}{D. CPU 寄存器编号}
+
+\q SPOOLing 技术的主要作用是（\quad）
+\choices{A. 将共享设备虚拟为独占设备}{B. 将独占设备虚拟为共享设备}{C. 扩大主存容量}{D. 实现地址重定位}
+
+\needspace{30\baselineskip}
+\qtypename{（二）简答题}{1 题，共 12 分}
+
+\needspace{28\baselineskip}
+\q 回答下列问题：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=2pt]
+  \item （6 分）简述信号量 P、V 操作的含义，并用信号量写出生产者—消费者问题中“缓冲区互斥访问”和“非空/非满同步”的伪代码。
+  \item （6 分）某进程页面访问序列为
+  \[
+  4,\ 3,\ 2,\ 4,\ 1,\ 4,\ 3,\ 1,\ 2,\ 5,\ 1,\ 2.
+  \]
+  若分配 3 个页框，分别计算 FIFO 和 LRU 算法的缺页次数；若分配 4 个页框，FIFO 缺页次数为多少？据此说明什么是 Belady 异常，并判断本例是否出现。
+\end{enumerate}
+\anslines{9cm}
+
+% ============================================================
+\parttitle{三、计算机网络（35 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q OSI 参考模型中，路由选择主要属于（\quad）
+\choicesline{A. 物理层}{B. 数据链路层}{C. 网络层}{D. 运输层}
+
+\q 以太网交换机收到目的 MAC 地址未知的单播帧时，通常采取（\quad）
+\choices{A. 丢弃该帧}{B. 向除入端口外的所有端口泛洪}{C. 直接修改目的 MAC 地址}{D. 交给路由器处理}
+
+\q 下列 IP 地址中属于环回地址的是（\quad）
+\choicesline{A. 10.0.0.1}{B. 172.15.0.1}{C. 192.168.1.1}{D. 127.0.0.1}
+
+\q TCP 首部中确认号的含义是（\quad）
+\choices{A. 已收到的最后一个字节序号}{B. 期望收到的下一个字节序号}{C. 发送方下一个要发送的字节序号}{D. 接收窗口大小}
+
+\q DNS 查询默认使用的运输层协议和端口通常是（\quad）
+\choicesline{A. TCP，53}{B. UDP，53}{C. TCP，80}{D. UDP，80}
+
+\needspace{30\baselineskip}
+\qtypename{（二）综合计算与应用题}{3 题，共 25 分}
+
+\needspace{24\baselineskip}
+\q （8 分）某单位分配到地址块 10.20.0.0/21，需要划分给 4 个部门，每个部门至少需要 200 台主机。请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 应选择多长的子网前缀？为什么不能使用 /25？
+  \item 写出前 4 个子网的地址/掩码、可用主机地址范围和广播地址。
+  \item 剩余地址空间还能划分出多少个同样大小的子网？
+\end{enumerate}
+\anslines{8cm}
+
+\needspace{24\baselineskip}
+\q （8 分）某 TCP 连接中，主机 A 的初始序号 ISN=5000，MSS=500 B。A 连续发送 3 个报文段，序号分别为 5000、5500、6000。B 正确收到第 1 个和第 3 个报文段，第 2 个丢失。请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item B 收到第 1 个报文段后返回的确认号是多少？
+  \item B 收到第 3 个报文段后返回的确认号是多少？该 ACK 有何特点？
+  \item 采用快重传时，A 通常需要收到几个重复 ACK 才重传？应重传哪个序号开始的报文段？
+  \item 若 B 收到重传报文段后，已缓存的数据与重传数据连续，B 返回的确认号是多少？
+\end{enumerate}
+\anslines{7.5cm}
+
+\needspace{24\baselineskip}
+\q （9 分）某企业获得公网地址 203.0.113.10/29，运营商网关为 203.0.113.9；企业内部使用 192.168.50.0/24，内网邮件服务器为 192.168.50.25:25。请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 内网 PC 的 IP 地址、子网掩码、默认网关和 DNS 应如何配置？
+  \item 若内网 PC 访问 Internet，路由器需要配置什么功能？
+  \item 若要让外网访问内网邮件服务器，应如何配置端口映射？写出外网用户访问的地址。
+  \item 简述外网请求到达邮件服务器过程中源/目的地址的转换过程。
+\end{enumerate}
+\anslines{8cm}
+
+% ============================================================
+\parttitle{四、数据库概论（35 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q 数据库三级模式结构中，内模式描述的是（\quad）
+\choices{A. 全体数据的全局逻辑结构}{B. 用户看到的局部逻辑结构}{C. 数据的物理存储结构}{D. 数据的完整性约束}
+
+\q 设关系 $R(A,B,C)$ 和 $S(B,C,D)$，则 $R$ 与 $S$ 自然连接后结果关系的属性个数为（\quad）
+\choicesline{A. 2}{B. 3}{C. 4}{D. 5}
+
+\q 某列共有 5 行，其中 2 行为空值，则 \code{COUNT(列名)} 的结果是（\quad）
+\choicesline{A. 5}{B. 3}{C. 2}{D. 0}
+
+\q 3NF 要求关系模式（\quad）
+\choices{A. 消除非主属性对候选码的部分函数依赖，但不要求消除传递函数依赖}{B. 消除非主属性对候选码的部分函数依赖和传递函数依赖}{C. 消除主属性对候选码的部分函数依赖}{D. 所有决定因素都包含候选码}
+
+\q 两段锁协议的主要作用是（\quad）
+\choices{A. 保证并发调度冲突可串行化}{B. 完全避免死锁}{C. 自动消除幻读}{D. 提高磁盘利用率}
+
+\needspace{30\baselineskip}
+\qtypename{（二）综合题}{3 题，共 25 分}
+
+\needspace{30\baselineskip}
+\q （10 分）某图书管理数据库中有三个基本表（加下划线属性为主码）：
+\begin{center}\small
+\begin{tabular}{ll}
+\toprule
+关系名 & 属性 \\
+\midrule
+Reader & \underline{Rno}, Rname, Rtype \\
+Book & \underline{Bno}, Btitle, Price \\
+Borrow & \underline{Rno}, \underline{Bno}, \underline{Bdate}, Days \\
+\bottomrule
+\end{tabular}
+\end{center}
+请用标准 SQL 完成下列各题：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （2.5 分）查询借阅了全部图书的读者学号和姓名。
+  \item （2.5 分）查询每类读者的平均借阅天数。
+  \item （2.5 分）查询价格高于所有图书平均价格的书号、书名和价格。
+  \item （2.5 分）创建 \code{Borrow} 表，要求定义主码 \code{(Rno,Bno,Bdate)}，定义 \code{Rno}、\code{Bno} 分别到 \code{Reader}、\code{Book} 的外码，并限制 \code{Days} 大于 0。
+\end{enumerate}
+\anslines{9cm}
+
+\needspace{24\baselineskip}
+\q （8 分）设关系模式
+\[
+R(\text{项目号},\text{员工号},\text{员工姓名},\text{部门号},\text{部门名},\text{工时}),
+\]
+其函数依赖集为
+\[
+F=\{\text{员工号}\to\text{员工姓名},\ \text{员工号}\to\text{部门号},\ \text{部门号}\to\text{部门名},\ (\text{项目号},\text{员工号})\to\text{工时}\}.
+\]
+请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 写出 $R$ 的全部候选码。
+  \item $R$ 最高属于第几范式？说明理由。
+  \item 将 $R$ 分解为 3NF，要求保持函数依赖并具有无损连接性，并简要说明理由。
+\end{enumerate}
+\anslines{7cm}
+
+\needspace{24\baselineskip}
+\q （7 分）设事务 $T_1$、$T_2$ 的并发调度为：
+\[
+R_1(A),\ W_2(A),\ R_2(B),\ W_1(B),\ W_1(A),\ W_2(B).
+\]
+请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 画出该调度的优先图，标明冲突操作产生的有向边。
+  \item 判断该调度是否冲突可串行化，并说明理由。
+\end{enumerate}
+\anslines{7cm}
+
+% ============================================================
+\parttitle{五、信息系统导论（第 1—6 章）（35 分）}
+% ============================================================
+
+\qtypename{（一）名词解释}{3 题，每题 5 分，共 15 分；要求写出概念内涵，必要时举例}
+
+\q 数据模型
+\anslines{3cm}
+
+\q 信息系统生命周期
+\anslines{3cm}
+
+\q 物联网
+\anslines{3cm}
+
+\needspace{30\baselineskip}
+\qtypename{（二）简答题}{1 题，共 8 分}
+
+\needspace{16\baselineskip}
+\q （8 分）简述结构化系统开发方法的基本阶段，并说明其主要优点和缺点。
+\anslines{5.5cm}
+
+\needspace{36\baselineskip}
+\qtypename{（三）材料分析题}{1 题，共 12 分}
+
+\q （12 分）阅读下列材料，回答问题。
+\begin{quote}\small
+某企业建设智能仓储系统：仓库内部署 RFID 读写器、温湿度传感器和 AGV 小车；RFID 与传感器数据经工业以太网/Wi-Fi 汇聚到边缘网关，网关再经 5G 上传至云仓储管理平台；云平台保存库存、设备和环境数据，运行库存预测模型，向管理员推送补货建议，并联动 AGV 完成搬运；断网时边缘网关可缓存关键数据并在网络恢复后补传。
+\end{quote}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （4 分）按“感知层—网络层—平台层—应用层”四层结构分析该系统，说明各层主要功能。
+  \item （4 分）用数据、信息、知识、智慧的层次关系说明库存数据如何转化为补货决策，并指出数据库、计算机网络、云计算和边缘计算的作用。
+  \item （4 分）从系统可靠性和数据安全角度，各提出一条改进建议并说明理由。
+\end{enumerate}
+\anslines{12cm}
+
+\vfill
+\begin{center}
+\textbf{—— 试卷正文结束，附页见后 ——}
+\end{center}
+
+\answerappendix{附页（一）}{如答题纸空间不足，可在此页继续作答，并注明题号。}
+\answerappendix{附页（二）}{如答题纸空间不足，可在此页继续作答，并注明题号。}
+
+\end{document}

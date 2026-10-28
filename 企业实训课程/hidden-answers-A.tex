@@ -1,0 +1,279 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{midterm-style}
+\examinehead{企业实训课程 · 期中考试}{参考答案与评分标准（A 卷）}
+\begin{document}
+
+\answercover{企业实训课程 · 期中考试}{参考答案与评分标准（A 卷）}
+
+\noindent\textbf{评分总说明：}本卷满分 150 分。选择题只给答案分；简答、计算、SQL、规范化与材料分析题按关键得分点给分，考生表述与参考答案不完全一致但意思正确、逻辑完整的，同样给分。计算题若只有结果而无主要过程，酌情扣分。
+
+% ============================================================
+\answerpart{一、计算机组成原理（25 分）}
+% ============================================================
+
+\begin{enumerate}[start=1, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{A。}IR 存放当前正在执行的指令；PC 存放下一条指令的地址，MAR/MDR 用于地址和数据传送。
+
+\item \textbf{A。}8 位补码 \code{10000000} 的符号位为 1，按位取反加 1 得 10000000，即 $-128$。
+
+\item \textbf{C。}LRU（Least Recently Used）替换最近最少使用的块；OPT 替换以后最长时间不用的块，FIFO 替换最早调入的块。
+
+\item \textbf{C。}总线带宽 $=64/8\ \text{B}\times200\times10^{6}=1600$ MB/s。
+
+\item \textbf{A。}统一编址把 I/O 端口映射到主存地址空间，用访问主存的指令访问 I/O 端口；独立编址才有独立的 I/O 地址空间。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item $1101.101_2=8+4+1+0.5+0.125=13.625$；按 3 位一组：
+  \[
+  001\ 101\ .\ 101_2=15.5_8.
+  \]
+  \hfill（4 分）
+  \item $-12.5=-1100.1_2=-1.1001_2\times2^{3}$。符号位 $S=1$；阶码 $E=3+127=130=10000010_2$；尾数为 $10010000000000000000000_2$。32 位格式为
+  \[
+  1\ \ 10000010\ \ 10010000000000000000000,
+  \]
+  即十六进制 \textbf{0xC1480000}。\hfill（4 分）
+\end{enumerate}
+\scoring{第（1）问十进制 2 分、八进制 2 分；第（2）问符号位、阶码、尾数、十六进制结果各 1 分。}
+
+\item \textbf{（7 分）}
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item 程序查询方式：CPU 不断查询设备状态，简单但 CPU 利用率低，适合低速、简单设备。
+  \item 程序中断方式：设备就绪时向 CPU 发中断，CPU 暂停当前程序转去处理，能并行工作，但每次传送有中断开销，适合中低速设备。
+  \item DMA 方式：DMA 控制器直接在内存与设备间传送数据块，CPU 只做初始化和结束处理，速度快、CPU 开销小，适合磁盘、网卡等高速块设备。
+\end{itemize}
+\hfill（7 分）
+\scoring{三种方式各 2 分，适用场合 1 分。只写名称无特点的，最多 3 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{二、操作系统（20 分）}
+% ============================================================
+
+\begin{enumerate}[start=8, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{A。}运行态进程时间片用完，或被更高优先级进程抢占，会转入就绪态；等待 I/O 完成是运行→阻塞。
+
+\item \textbf{B。}资源分配图无环一定无死锁；有环不一定死锁，还要看每类资源的实例数和环中进程的实际等待情况。
+
+\item \textbf{B。}TLB 是页表项的高速缓存，用于加快逻辑地址到物理地址的转换。
+
+\item \textbf{B。}目录实现文件名到文件控制块/索引结点的映射，支持按名存取、分类、共享和保护。
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （6 分）进程是资源分配的基本单位，拥有独立地址空间；线程是 CPU 调度的基本单位，同一进程的线程共享进程资源，切换开销小。
+  
+  用户级线程：由用户库管理，切换快，不需要内核支持；但一个线程阻塞可能导致整个进程阻塞，不能利用多核并行。
+  
+  内核级线程：由内核管理，可被独立调度到多个 CPU，阻塞影响小；但创建、切换需要陷入内核，开销较大。\hfill（6 分）
+
+  \item （6 分）Need $=$ Max $-$ Allocation：
+  \begin{center}\small
+  \begin{tabular}{cccc}
+  \toprule
+  进程 & Max & Allocation & Need \\
+  \midrule
+  $P_0$ & (5,3,2) & (1,0,1) & (4,3,1) \\
+  $P_1$ & (3,2,2) & (1,1,0) & (2,1,2) \\
+  $P_2$ & (8,4,3) & (2,1,1) & (6,3,2) \\
+  $P_3$ & (4,2,2) & (0,1,1) & (4,1,1) \\
+  $P_4$ & (6,3,4) & (1,0,2) & (5,3,2) \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+  从 Available $=(3,3,3)$ 出发，一个安全序列为
+  \[
+  P_1\to P_3\to P_0\to P_4\to P_2.
+  \]
+  Available 变化：$(3,3,3)\to(4,4,3)\to(4,5,4)\to(5,5,5)\to(6,5,7)\to(8,6,8)$。\hfill（6 分）
+\end{enumerate}
+\scoring{第（1）问进程/线程区别 3 分，用户级/内核级特点 3 分；第（2）问 Need 表 3 分，安全序列 3 分。安全序列不唯一。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{三、计算机网络（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=13, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{B。}奈奎斯特定理给出无噪声理想信道在给定带宽和码元数下的最大数据率；有噪声信道用香农公式。
+
+\item \textbf{B。}VLAN 在逻辑上划分局域网，隔离广播域，减少广播风暴并提高安全性。
+
+\item \textbf{C。}255.255.255.192 的二进制前缀为 24+2=26 位，即 /26。
+
+\item \textbf{D。}UDP 首部只有源端口、目的端口、长度和校验和，没有确认号；确认号是 TCP 首部字段。
+
+\item \textbf{B。}TIME_WAIT 等待 2MSL，确保最后一个 ACK 能到达对方，并让旧连接的迟到报文在网络中消失。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 4 个 /24 子网的前 22 位相同，聚合为 \textbf{192.168.16.0/22}，掩码 \textbf{255.255.252.0}。\hfill（3 分）
+  \item 路由器将 192.168.18.77 与路由表前缀逐位比较，/22 前缀匹配 192.168.16.0/22；若存在更具体的 /24 路由也匹配，则按最长前缀匹配选择更具体的一条，否则转发到聚合路由的下一跳。\hfill（3 分）
+  \item 不会。192.168.16.0/22 覆盖 192.168.16.0～192.168.19.255，正好等于 4 个 /24 子网的并集。\hfill（2 分）
+\end{enumerate}
+\scoring{聚合地址/掩码 3 分；最长前缀匹配 3 分；地址范围判断 2 分。}
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item cwnd 从 1、2、4、8 翻倍，到 8 后下一轮为 9，说明从 8 开始进入拥塞避免，故初始 \code{ssthresh} 约为 \textbf{8 MSS}。\hfill（2 分）
+  \item 第 11 个 RTT 时 cwnd 从 14 突降到 1，说明发生了\textbf{超时}。超时后 \code{ssthresh}=14/2=7 MSS，\code{cwnd}=1 MSS，重新进入慢开始。\hfill（2 分）
+  \item 第 10 个 RTT 时 cwnd=14，收到 3 个重复 ACK：\code{ssthresh}=14/2=7 MSS，\code{cwnd}=7+3=10 MSS；收到新 ACK 后 \code{cwnd} 降为 7 MSS，进入拥塞避免。\hfill（2 分）
+  \item 慢开始：RTT 1～4 和 11～12；拥塞避免：RTT 5～10（若第 12 个 RTT 后继续，则从 cwnd 达到 ssthresh 后进入拥塞避免）。\hfill（2 分）
+\end{enumerate}
+\scoring{每小问 2 分；第（3）问 ssthresh 与 cwnd 各 1 分；第（4）问区间答对一半给 1 分。}
+
+\item \textbf{（9 分）}主要步骤：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item \textbf{DNS}：解析 www.shop.example.cn 的 IP 地址；本地 DNS 无缓存时向根、顶级域和权威服务器查询。\hfill（2 分）
+  \item \textbf{ARP}：H 需要把数据发给默认网关，若不知道网关 MAC，则用 ARP 请求获取网关 MAC。\hfill（2 分）
+  \item \textbf{TCP}：与 Web 服务器的 443 端口三次握手，建立可靠连接。\hfill（2 分）
+  \item \textbf{TLS}：在 TCP 之上进行 TLS 握手，协商密钥、验证服务器证书，建立加密通道。\hfill（2 分）
+  \item \textbf{HTTP}：在 TLS 通道中发送 HTTP GET /index.html，服务器返回响应和页面内容。\hfill（1 分）
+\end{enumerate}
+\scoring{DNS 2 分；ARP 2 分；TCP 2 分；TLS 2 分；HTTP 1 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{四、数据库概论（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=21, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{B。}模式/内模式映像保证物理独立性；外模式/模式映像保证逻辑独立性。
+
+\item \textbf{B。}投影从关系中选取若干列；选择选取若干行；连接把两个关系按条件组合。
+
+\item \textbf{B。}\code{GROUP BY} 按指定列的值把元组分组，常与聚合函数配合使用。
+
+\item \textbf{A。}BCNF 要求每个非平凡函数依赖的决定因素都包含候选码；它一定属于 3NF。
+
+\item \textbf{B。}持久性依靠日志和恢复机制：事务提交前先把日志写入稳定存储，故障后据此重做已提交事务。
+
+\item \textbf{（10 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item
+\begin{lstlisting}[language=SQL]
+SELECT P.Pno, P.Pname
+FROM Product P
+WHERE NOT EXISTS (
+    SELECT 1 FROM Sale S WHERE S.Pno = P.Pno
+);
+\end{lstlisting}
+\hfill（2.5 分）
+  \item
+\begin{lstlisting}[language=SQL]
+SELECT Type, AVG(Price) AS avg_price
+FROM Product
+GROUP BY Type
+HAVING AVG(Price) > 100;
+\end{lstlisting}
+\hfill（2.5 分）
+  \item
+\begin{lstlisting}[language=SQL]
+SELECT Pno, SUM(Qty) AS total_qty
+FROM Sale
+GROUP BY Pno
+HAVING SUM(Qty) >= ALL (
+    SELECT SUM(Qty) FROM Sale GROUP BY Pno
+);
+\end{lstlisting}
+\hfill（2.5 分）
+  \item
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Sale (
+    Cno   CHAR(9) NOT NULL,
+    Pno   CHAR(6) NOT NULL,
+    Sdate DATE NOT NULL,
+    Qty   INT CHECK (Qty > 0),
+    PRIMARY KEY (Cno, Pno, Sdate),
+    FOREIGN KEY (Cno) REFERENCES Customer(Cno),
+    FOREIGN KEY (Pno) REFERENCES Product(Pno)
+);
+\end{lstlisting}
+\hfill（2.5 分）
+\end{enumerate}
+\scoring{每小题 2.5 分；第（3）题未处理并列最高的扣 1 分；第（4）题缺主码、外码或 CHECK 各扣 0.5～1 分。}
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 候选码为 \textbf{（航班号，日期，座位号）}。其闭包包含全部属性，任何真子集都不能决定全部属性。\hfill（2 分）
+  \item $R$ 最高属于 \textbf{1NF}。因为存在非主属性对候选码的部分函数依赖：$(\text{航班号},\text{日期})\to\text{票价}$，票价只依赖于候选码的一部分；同时乘客号 $\to$ 乘客姓名是传递依赖。\hfill（2 分）
+  \item 一种 3NF 分解：
+  \[
+  \begin{aligned}
+  R_1&(\text{航班号},\text{日期},\text{票价}), &&\text{码为（航班号，日期）};\\
+  R_2&(\text{乘客号},\text{乘客姓名}), &&\text{码为乘客号};\\
+  R_3&(\text{航班号},\text{日期},\text{座位号},\text{乘客号}), &&\text{码为（航班号，日期，座位号）}.
+  \end{aligned}
+  \]
+  三个关系均满足 3NF，原 $F$ 中的函数依赖分别由 $R_1$、$R_2$、$R_3$ 保持。连接时 $R_1\cap R_3=\{\text{航班号},\text{日期}\}$ 是 $R_1$ 的码，$R_2\cap R_3=\{\text{乘客号}\}$ 是 $R_2$ 的码，故分解无损。\hfill（4 分）
+\end{enumerate}
+\scoring{候选码 2 分；范式与理由 2 分；分解 4 分。}
+
+\item \textbf{（7 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item B+ 树叶结点按 \code{ts} 有序，范围查询可定位起点后顺序扫描叶结点，避免全表扫描；叶结点有序还可直接满足 \code{ORDER BY ts}，减少排序。聚簇索引使数据行按 \code{ts} 物理有序，范围扫描 I/O 局部性好；非聚簇索引扫描后通常要回表，可能产生随机 I/O，返回大量行时优化器可能选择全表扫描。\hfill（3 分）
+  \item 应在 \code{(user\_id, status)} 上建立复合索引；\code{SELECT *} 一般需要回表，若只返回 \code{id} 和 \code{ts}，可建立覆盖索引 \code{(user\_id, status, id, ts)}。\hfill（2 分）
+  \item 不适合只建 \code{status} 单列普通 B+ 树索引，因为 \code{status} 选择性低；若 \code{FAIL} 占比很小，可考虑部分索引/过滤索引，或建立 \code{(status, ts)} 复合索引，分析型场景可考虑位图索引。\hfill（2 分）
+\end{enumerate}
+\scoring{第（1）问范围扫描 1 分、排序 1 分、聚簇差异 1 分；第（2）问索引 1 分、覆盖索引 1 分；第（3）问选择性 1 分、改进思路 1 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{五、信息系统导论（第 1—6 章）（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=29, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.55em]
+
+\item \textbf{数据仓库（5 分）}
+
+数据仓库是面向主题的、集成的、相对稳定的、反映历史变化的数据集合，主要用于支持管理决策和分析处理。它从多个业务数据库中抽取、清洗、转换数据，按主题组织存储，通常不直接进行频繁的联机事务处理。\hfill（5 分）
+\scoring{四个特征各 1 分，用途/与数据库区别 1 分。}
+
+\item \textbf{企业资源计划（ERP）（5 分）}
+
+ERP 是以信息技术为基础，把企业的财务、采购、生产、库存、销售、人力资源等业务整合到一个统一的信息系统中，实现物流、资金流、信息流的集成管理，提高资源配置效率和决策水平。\hfill（5 分）
+\scoring{定义 2 分，管理范围 2 分，目标 1 分。}
+
+\item \textbf{物联网（5 分）}
+
+物联网是通过射频识别、传感器、全球定位系统等信息感知设备，按约定协议把物品与互联网连接起来，进行信息交换和通信，实现智能化识别、定位、跟踪、监控和管理的网络。通常包括感知层、网络层、平台（支撑）层和应用层。\hfill（5 分）
+\scoring{定义 3 分，技术手段 1 分，体系结构 1 分。}
+
+\item \textbf{（8 分）}
+
+瀑布模型把软件生命周期划分为需求分析、设计、编码、测试、维护等阶段，按顺序逐阶段进行，每阶段有明确文档和评审，适合需求稳定、规模较大的项目。
+
+原型模型先快速构造一个可运行的原型，让用户试用并提出修改意见，再逐步细化，最终形成产品。
+
+主要区别：瀑布模型是文档驱动、顺序推进，反馈较晚；原型模型是用户参与、迭代演化，反馈较早。
+
+原型模型适合需求不明确、用户难以一次说清、需要快速验证的项目，也适合界面交互复杂或创新性较强的系统。\hfill（8 分）
+\scoring{瀑布与原型各 2 分，区别 2 分，适用场合 2 分。}
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （4 分）
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item 感知层：可穿戴设备采集心率、血压、血氧等生理数据。
+    \item 网络层：Wi-Fi/5G 把数据传到医院云平台，支持远程监测和告警。
+    \item 平台层：云平台保存电子病历、检查检验和随访数据，运行风险预警模型；边缘节点提供本地实时监测。
+    \item 应用层：医生工作站、患者 APP 提供报告查看、复诊提醒和健康管理。
+  \end{itemize}
+  \hfill（每层 1 分）
+  \item （4 分）DIKW：数据是原始心率/血压值；信息是经过清洗和阈值判断的异常指标；知识是历史数据中“某类指标异常与某疾病复发相关”的规律；智慧是结合患者病史、用药和风险给出复诊/干预决策。数据库保存病历和监测数据，网络负责传输，云计算提供存储、分析和模型服务，边缘计算保证断网时本地告警。\hfill（4 分）
+  \item （4 分）建议：可靠性方面，边缘节点本地告警、双链路冗余、异地容灾和故障切换；数据安全方面，传输/存储加密、多租户隔离、最小权限、审计和患者隐私脱敏。每条建议 2 分。
+\end{enumerate}
+\scoring{第（1）问四层各 1 分；第（2）问 DIKW 2 分，数据库/网络/云/边缘 2 分；第（3）问每条建议及理由 2 分。}
+
+\end{enumerate}
+
+\end{document}

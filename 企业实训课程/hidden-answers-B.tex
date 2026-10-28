@@ -1,0 +1,298 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{midterm-style}
+\examinehead{企业实训课程 · 期中考试}{参考答案与评分标准（B 卷）}
+\begin{document}
+
+\answercover{企业实训课程 · 期中考试}{参考答案与评分标准（B 卷）}
+
+\noindent\textbf{评分总说明：}本卷满分 150 分。选择题只给答案分；简答、计算、SQL、规范化与材料分析题按关键得分点给分，考生表述与参考答案不完全一致但意思正确、逻辑完整的，同样给分。计算题若只有结果而无主要过程，酌情扣分。
+
+% ============================================================
+\answerpart{一、计算机组成原理（25 分）}
+% ============================================================
+
+\begin{enumerate}[start=1, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{A。}PC 存放下一条待执行指令的地址；IR 存放当前指令，MAR/MDR 传送地址和数据。
+
+\item \textbf{A。}8 位补码 \code{10110110} 的符号位为 1，按位取反得 01001001，加 1 得 01001010=74，故真值为 $-74$。
+
+\item \textbf{B。}SRAM 用触发器存储，不需要刷新，速度快但集成度较低、成本高；DRAM 需要刷新，集成度高。
+
+\item \textbf{B。}地址线 20 位，按字节编址，最大寻址空间 $2^{20}$ B $=1$ MB。
+
+\item \textbf{D。}中断隐指令完成关中断、保存断点、引出中断服务程序等；恢复现场由中断服务程序在返回前完成，不属于中断隐指令。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item \code{2C.8} 展开为 $0010\ 1100\ .\ 1000_2=101100.1_2$；十进制为 $2\times16+12+8/16=44.5$。\hfill（4 分）
+  \item $x=-36$ 的补码为 $11011100_2$，$y=25$ 的补码为 $00011001_2$，$-y$ 的补码为 $11100111_2$。
+  \[
+  11011100+11100111=11000011_2.
+  \]
+  $11000011_2$ 的真值为 $-61$。两个负数相加结果仍为负数，没有溢出（OF=0）。\hfill（4 分）
+\end{enumerate}
+\scoring{第（1）问二进制 2 分、十进制 2 分；第（2）问补码表示 2 分、加法结果 1 分、溢出判断 1 分。}
+
+\item \textbf{（7 分）}
+DMA 与程序中断的主要区别：
+\begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+  \item 中断方式由 CPU 执行中断服务程序逐字节/逐字传送，DMA 由 DMA 控制器硬件直接在主存与设备间传送数据块；
+  \item 中断方式每次传送都要打断 CPU，DMA 只在开始和结束时需要 CPU 参与；
+  \item DMA 传送速率高、CPU 开销小，适合磁盘、网卡等高速块设备；中断方式适合中低速设备。
+\end{itemize}
+DMA 传送结束后，DMA 控制器向 CPU 发中断请求，CPU 在中断服务程序中检查传送状态、处理结束标志、释放缓冲区并唤醒等待进程。\hfill（7 分）
+\scoring{区别 5 分（答出 3 点即可），结束处理 2 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{二、操作系统（20 分）}
+% ============================================================
+
+\begin{enumerate}[start=8, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{B。}响应比 $=1+$ 等待时间/要求服务时间，既考虑等待时间，也考虑作业长短。
+
+\item \textbf{D。}死锁四个必要条件是互斥、占有并等待、不可剥夺、循环等待；资源分配图可化简不是死锁条件。
+
+\item \textbf{D。}页表项通常包含物理块号、有效位、访问位、修改位等，不包含 CPU 寄存器编号。
+
+\item \textbf{B。}SPOOLing 用磁盘缓冲区把独占设备虚拟成共享设备，例如打印机的假脱机。
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （6 分）P 操作申请资源：信号量减 1，若小于 0 则阻塞；V 操作释放资源：信号量加 1，若有等待进程则唤醒。
+  
+  生产者—消费者伪代码（缓冲区大小 $n$）：
+\begin{lstlisting}
+semaphore mutex = 1, empty = n, full = 0;
+Producer:
+    produce(item);
+    P(empty); P(mutex);
+    put(item);
+    V(mutex); V(full);
+Consumer:
+    P(full); P(mutex);
+    item = take();
+    V(mutex); V(empty);
+    consume(item);
+\end{lstlisting}
+  \hfill（6 分）
+
+  \item （6 分）页面访问序列：$4,3,2,4,1,4,3,1,2,5,1,2$。
+  \begin{center}\small
+  \begin{tabular}{cccc}
+  \toprule
+  算法 & 页框数 & 缺页次数 & 命中次数 \\
+  \midrule
+  FIFO & 3 & 9 & 3 \\
+  LRU & 3 & 7 & 5 \\
+  FIFO & 4 & 5 & 7 \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+  Belady 异常是指 FIFO 算法下页框数增加、缺页次数反而增加的现象。本例 3 个页框缺页 9 次，4 个页框缺页 5 次，缺页减少，因此\textbf{没有出现} Belady 异常。\hfill（6 分）
+\end{enumerate}
+\scoring{第（1）问 P/V 含义 2 分，生产者—消费者伪代码 4 分；第（2）问三个缺页次数各 1 分，Belady 定义与判断 3 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{三、计算机网络（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=13, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{C。}路由选择根据目的网络和路由表选择下一跳，属于网络层功能。
+
+\item \textbf{B。}交换机转发表中没有目的 MAC 时，向除入端口外的所有端口泛洪，等待目的主机回应后学习。
+
+\item \textbf{D。}127.0.0.1 是 IPv4 环回地址；10.0.0.1、172.15.0.1、192.168.1.1 都是私有地址。
+
+\item \textbf{B。}TCP 确认号表示期望收到的下一个字节序号，即已正确收到该序号之前的所有字节。
+
+\item \textbf{B。}DNS 查询默认使用 UDP 53 端口；区域传送等场景可能使用 TCP 53。
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 每个部门至少 200 台主机，$2^{8}-2=254\ge200$，主机位取 8 位，子网前缀为 $32-8=24$，即 \code{/24}。/25 只有 126 个可用地址，不够 200 台。\hfill（2 分）
+  \item 前 4 个 /24 子网：
+  \begin{center}\small
+  \begin{tabular}{cccc}
+  \toprule
+  子网 & 可用地址范围 & 广播地址 & 可用主机数 \\
+  \midrule
+  10.20.0.0/24 & 10.20.0.1～10.20.0.254 & 10.20.0.255 & 254 \\
+  10.20.1.0/24 & 10.20.1.1～10.20.1.254 & 10.20.1.255 & 254 \\
+  10.20.2.0/24 & 10.20.2.1～10.20.2.254 & 10.20.2.255 & 254 \\
+  10.20.3.0/24 & 10.20.3.1～10.20.3.254 & 10.20.3.255 & 254 \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+  \hfill（4 分）
+  \item 10.20.0.0/21 共有 8 个 /24 子网，已用 4 个，剩余还能划分 \textbf{4 个}同样大小的子网（10.20.4.0/24～10.20.7.0/24）。\hfill（2 分）
+\end{enumerate}
+\scoring{前缀与 /25 理由 2 分；前 4 个子网每个 1 分；剩余子网数 2 分。}
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item B 收到序号 5000、长度 500 B 的报文段，期望下一个字节为 5500，返回确认号 \textbf{5500}。\hfill（2 分）
+  \item B 收到序号 6000 的报文段（乱序到达），仍期望 5500，返回确认号 \textbf{5500}，这是一个重复 ACK。\hfill（2 分）
+  \item 快重传通常需要收到 \textbf{3 个重复 ACK} 才立即重传；应重传从序号 \textbf{5500} 开始的报文段。\hfill（2 分）
+  \item B 收到重传的 5500 后，已缓存的 6000 与重传数据连续，接收窗口前沿推进到 6500，返回确认号 \textbf{6500}。\hfill（2 分）
+\end{enumerate}
+\scoring{每小题 2 分；第（2）问答“重复 ACK”但未说明期望 5500 的扣 1 分。}
+
+\item \textbf{（9 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=1pt]
+  \item 内网 PC 可配置为：IP 192.168.50.x（如 192.168.50.10），掩码 255.255.255.0，默认网关 192.168.50.1（路由器内网接口），DNS 填运营商或公共 DNS。\hfill（2 分）
+  \item 路由器配置 \textbf{NAT/NAPT}，把内网 192.168.50.0/24 的源地址转换为公网地址 203.0.113.10。\hfill（2 分）
+  \item 配置端口映射：把公网 203.0.113.10 的 25 端口映射到 192.168.50.25 的 25 端口；外网用户访问 \code{203.0.113.10:25}。\hfill（2 分）
+  \item 外网请求目的地址为 203.0.113.10:25，路由器按映射把目的地址改为 192.168.50.25:25；邮件服务器响应源地址为 192.168.50.25:25，路由器再把源地址改为 203.0.113.10:25，返回外网。\hfill（3 分）
+\end{enumerate}
+\scoring{PC 配置 2 分；NAT 2 分；端口映射 2 分；地址转换过程 3 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{四、数据库概论（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=21, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.45em]
+
+\item \textbf{C。}内模式描述数据的物理存储结构；模式描述全局逻辑结构，外模式描述用户局部视图。
+
+\item \textbf{C。}自然连接去掉重复的 B、C 属性，结果属性为 A、B、C、D，共 4 个。
+
+\item \textbf{B。}\code{COUNT(列名)} 只统计非空值，5 行中 2 行为空，结果为 3。
+
+\item \textbf{B。}3NF 在 2NF 基础上消除非主属性对候选码的传递函数依赖；A 是 2NF 的描述，D 是 BCNF 的描述。
+
+\item \textbf{A。}两段锁协议要求事务分加锁阶段和解锁阶段，保证并发调度冲突可串行化；它不能完全避免死锁。
+
+\item \textbf{（10 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item
+\begin{lstlisting}[language=SQL]
+SELECT R.Rno, R.Rname
+FROM Reader R
+WHERE NOT EXISTS (
+    SELECT 1 FROM Book B
+    WHERE NOT EXISTS (
+        SELECT 1 FROM Borrow W
+        WHERE W.Rno = R.Rno AND W.Bno = B.Bno
+    )
+);
+\end{lstlisting}
+\hfill（2.5 分）
+  \item
+\begin{lstlisting}[language=SQL]
+SELECT R.Rtype, AVG(W.Days) AS avg_days
+FROM Reader R JOIN Borrow W ON R.Rno = W.Rno
+GROUP BY R.Rtype;
+\end{lstlisting}
+\hfill（2.5 分）
+  \item
+\begin{lstlisting}[language=SQL]
+SELECT Bno, Btitle, Price
+FROM Book
+WHERE Price > (SELECT AVG(Price) FROM Book);
+\end{lstlisting}
+\hfill（2.5 分）
+  \item
+\begin{lstlisting}[language=SQL]
+CREATE TABLE Borrow (
+    Rno   CHAR(9) NOT NULL,
+    Bno   CHAR(9) NOT NULL,
+    Bdate DATE NOT NULL,
+    Days  INT CHECK (Days > 0),
+    PRIMARY KEY (Rno, Bno, Bdate),
+    FOREIGN KEY (Rno) REFERENCES Reader(Rno),
+    FOREIGN KEY (Bno) REFERENCES Book(Bno)
+);
+\end{lstlisting}
+\hfill（2.5 分）
+\end{enumerate}
+\scoring{每小题 2.5 分；第（1）题未用双重 \code{NOT EXISTS} 的扣 1 分；第（4）题缺主码、外码或 CHECK 各扣 0.5～1 分。}
+
+\item \textbf{（8 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 候选码为 \textbf{（项目号，员工号）}。其闭包包含全部属性，任何真子集都不能决定全部属性。\hfill（2 分）
+  \item $R$ 最高属于 \textbf{1NF}。因为员工号 $\to$ 员工姓名、员工号 $\to$ 部门号，员工姓名和部门号只依赖于候选码中的员工号，存在部分函数依赖；同时员工号 $\to$ 部门号 $\to$ 部门名存在传递依赖。\hfill（2 分）
+  \item 一种 3NF 分解：
+  \[
+  \begin{aligned}
+  R_1&(\text{员工号},\text{员工姓名},\text{部门号}), &&\text{码为员工号};\\
+  R_2&(\text{部门号},\text{部门名}), &&\text{码为部门号};\\
+  R_3&(\text{项目号},\text{员工号},\text{工时}), &&\text{码为（项目号，员工号）}.
+  \end{aligned}
+  \]
+  三个关系均满足 3NF；原 $F$ 中的函数依赖分别由 $R_1$、$R_2$、$R_3$ 保持。连接时 $R_1\cap R_3=\{\text{员工号}\}$ 是 $R_1$ 的码，$R_2\cap R_1=\{\text{部门号}\}$ 是 $R_2$ 的码，故分解无损。\hfill（4 分）
+\end{enumerate}
+\scoring{候选码 2 分；范式与理由 2 分；分解 4 分。}
+
+\item \textbf{（7 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item 冲突操作及有向边：
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item $R_1(A)$ 与 $W_2(A)$：$T_1\to T_2$；
+    \item $W_2(A)$ 与 $W_1(A)$：$T_2\to T_1$；
+    \item $R_2(B)$ 与 $W_1(B)$：$T_2\to T_1$；
+    \item $W_1(B)$ 与 $W_2(B)$：$T_1\to T_2$。
+  \end{itemize}
+  优先图中同时存在 $T_1\to T_2$ 和 $T_2\to T_1$。\hfill（4 分）
+  \item 该调度\textbf{不是冲突可串行化}的。优先图存在环 $T_1\leftrightarrow T_2$，不存在与之冲突等价的串行调度。\hfill（3 分）
+\end{enumerate}
+\scoring{冲突边每正确一对 1 分，最多 4 分；结论 1 分，理由 2 分。}
+
+\end{enumerate}
+
+% ============================================================
+\answerpart{五、信息系统导论（第 1—6 章）（35 分）}
+% ============================================================
+
+\begin{enumerate}[start=29, label=\textbf{\arabic*.}, leftmargin=2.4em, itemsep=0.55em]
+
+\item \textbf{数据模型（5 分）}
+
+数据模型是对现实世界数据特征及其联系的抽象表示，通常由数据结构、数据操作和完整性约束三要素组成。常见的数据模型有层次模型、网状模型、关系模型和面向对象模型。\hfill（5 分）
+\scoring{定义 2 分，三要素 3 分。}
+
+\item \textbf{信息系统生命周期（5 分）}
+
+信息系统生命周期是指信息系统从提出需求、规划、分析、设计、实施、运行维护到退役的整个过程。通常包括系统规划、系统分析、系统设计、系统实施、系统运行与维护等阶段。\hfill（5 分）
+\scoring{定义 2 分，阶段答出 4 个以上给 3 分。}
+
+\item \textbf{物联网（5 分）}
+
+物联网是通过射频识别、传感器、全球定位系统等信息感知设备，按约定协议把物品与互联网连接起来，进行信息交换和通信，实现智能化识别、定位、跟踪、监控和管理的网络。通常包括感知层、网络层、平台（支撑）层和应用层。\hfill（5 分）
+\scoring{定义 3 分，技术手段 1 分，体系结构 1 分。}
+
+\item \textbf{（8 分）}
+
+结构化系统开发方法把系统开发划分为若干阶段，通常包括：可行性研究与系统规划、需求分析、系统设计（总体设计和详细设计）、系统实施（编码、测试、转换）、系统运行与维护。
+
+主要优点：阶段清晰、文档规范、便于项目管理、便于分工和审查，适合需求相对稳定、规模较大的系统。
+
+主要缺点：开发周期长、用户参与不足、需求变化适应能力差、前期文档工作量大，容易造成“开发出来的系统不是用户想要的”。\hfill（8 分）
+\scoring{阶段 4 分（答出 4 个阶段即可）；优点 2 分；缺点 2 分。}
+
+\item \textbf{（12 分）}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.2em, itemsep=2pt]
+  \item （4 分）
+  \begin{itemize}[leftmargin=1.8em, itemsep=1pt]
+    \item 感知层：RFID 读写器、温湿度传感器、AGV 小车采集货物、环境和设备状态数据。
+    \item 网络层：工业以太网/Wi-Fi 把数据汇聚到边缘网关，5G 上传到云仓储平台。
+    \item 平台层：云平台保存库存、设备和环境数据，运行库存预测模型；边缘网关提供本地缓存和实时控制。
+    \item 应用层：管理员查看库存、接收补货建议，AGV 执行搬运任务。
+  \end{itemize}
+  \hfill（每层 1 分）
+  \item （4 分）DIKW：数据是 RFID 读取的货物编号、传感器温湿度、AGV 状态；信息是库存数量、缺货/积压情况；知识是历史销量与季节、促销之间的关系；智慧是结合库存成本、交期和需求预测生成补货决策。数据库保存库存和设备数据，网络负责传输，云计算提供存储、预测和优化，边缘计算保证断网时本地缓存和 AGV 控制。\hfill（4 分）
+  \item （4 分）可靠性：边缘网关缓存与断点续传、双链路冗余、关键设备故障切换；数据安全：RFID/传感器数据加密、设备认证、访问控制、审计和备份。每条建议 2 分。
+\end{enumerate}
+\scoring{第（1）问四层各 1 分；第（2）问 DIKW 2 分，数据库/网络/云/边缘 2 分；第（3）问每条建议及理由 2 分。}
+
+\end{enumerate}
+
+\end{document}

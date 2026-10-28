@@ -1,0 +1,267 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{midterm-style}
+\examinehead{企业实训课程 · 期中考试}{A 卷}
+\begin{document}
+
+\examcover{企业实训课程}{2026—2027 学年第一学期期中考试（A 卷）}{计算机组成原理、操作系统、计算机网络、数据库概论、信息系统导论（第 1—6 章）}{150 分}{180 分钟}{本卷为开卷考试，允许携带教材、笔记和纸质资料，可使用手机或电脑检索公开资料；不得相互讨论、传递答案，不得使用手机通讯或社交软件。所有答案写在答题纸上，计算题须写出主要步骤。}
+
+% ============================================================
+\parttitle{一、计算机组成原理（25 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q 指令寄存器 IR 中通常存放的是（\quad）
+\choices{A. 当前正在执行的指令}{B. 下一条指令的地址}{C. 当前指令的操作数}{D. 程序状态字}
+
+\q 8 位补码 \code{10000000} 的真值是（\quad）
+\choicesline{A. $-128$}{B. $-127$}{C. $0$}{D. $128$}
+
+\q Cache 中 LRU 替换策略的含义是（\quad）
+\choices{A. 随机替换一个块}{B. 替换最早调入的块}{C. 替换最近最少使用的块}{D. 替换以后最长时间不用的块}
+
+\q 某总线数据线为 64 位，时钟频率为 200 MHz，每个时钟周期传送一次数据，则总线带宽约为（\quad）
+\choicesline{A. 400 MB/s}{B. 800 MB/s}{C. 1600 MB/s}{D. 3200 MB/s}
+
+\q 在统一编址方式下，I/O 端口与主存的关系是（\quad）
+\choices{A. I/O 端口占用主存地址空间}{B. I/O 端口有独立地址空间}{C. I/O 端口只能由 DMA 访问}{D. I/O 端口不能使用地址总线}
+
+\needspace{30\baselineskip}
+\qtypename{（二）基础计算题}{1 题，共 8 分}
+
+\needspace{18\baselineskip}
+\q （8 分）完成下列计算，写出必要过程：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （4 分）将二进制数 $1101.101_2$ 分别转换为十进制数和八进制数。
+  \item （4 分）将十进制数 $-12.5$ 转换为 IEEE 754 单精度（32 位）浮点数，写出其二进制格式和十六进制表示。
+\end{enumerate}
+\anslines{5.5cm}
+
+\qtypename{（三）简答题}{1 题，共 7 分}
+
+\needspace{16\baselineskip}
+\q （7 分）比较程序查询方式、程序中断方式和 DMA 方式三种 I/O 控制方式的主要特点，并说明各自的适用场合。
+\anslines{6cm}
+
+% ============================================================
+\parttitle{二、操作系统（20 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{4 题，每题 2 分，共 8 分}
+
+\q 进程从运行态变为就绪态的最常见原因是（\quad）
+\choicesline{A. 时间片用完}{B. 等待 I/O 完成}{C. 被创建}{D. 被撤销}
+
+\q 关于资源分配图，下列说法正确的是（\quad）
+\choices{A. 图中无环一定无死锁，有环一定死锁}{B. 图中无环一定无死锁，有环不一定死锁}{C. 图中有环一定无死锁}{D. 资源分配图与死锁无关}
+
+\q TLB 的主要作用是（\quad）
+\choices{A. 扩大物理内存}{B. 加快逻辑地址到物理地址的转换}{C. 管理磁盘空闲块}{D. 实现进程同步}
+
+\q 文件系统采用目录结构的主要目的是（\quad）
+\choices{A. 提高磁盘容量}{B. 实现按名存取和文件组织}{C. 加快 CPU 运算}{D. 减少内存占用}
+
+\needspace{30\baselineskip}
+\qtypename{（二）简答题}{1 题，共 12 分}
+
+\needspace{28\baselineskip}
+\q 回答下列问题：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=2pt]
+  \item （6 分）简述进程与线程的主要区别，并说明用户级线程和内核级线程各自的特点。
+  \item （6 分）某系统有 5 个进程 $P_0\sim P_4$，资源类型为 A、B、C，当前 Available $=(3,3,3)$，各进程 Max 和 Allocation 如下表。请计算各进程 Need，并给出一个安全序列。
+  \begin{center}\small
+  \begin{tabular}{ccc}
+  \toprule
+  进程 & Max(A,B,C) & Allocation(A,B,C) \\
+  \midrule
+  $P_0$ & (5,3,2) & (1,0,1) \\
+  $P_1$ & (3,2,2) & (1,1,0) \\
+  $P_2$ & (8,4,3) & (2,1,1) \\
+  $P_3$ & (4,2,2) & (0,1,1) \\
+  $P_4$ & (6,3,4) & (1,0,2) \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+\end{enumerate}
+\anslines{9cm}
+
+% ============================================================
+\parttitle{三、计算机网络（35 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q 奈奎斯特定理适用于（\quad）
+\choicesline{A. 有噪声信道}{B. 无噪声理想信道}{C. 光纤专用信道}{D. 无线广播信道}
+
+\q VLAN 的主要作用是（\quad）
+\choicesline{A. 扩大冲突域}{B. 隔离广播域}{C. 替代 IP 路由}{D. 提高 MAC 地址长度}
+
+\q 子网掩码 255.255.255.192 对应的子网前缀是（\quad）
+\choicesline{A. /24}{B. /25}{C. /26}{D. /27}
+
+\q UDP 首部通常不包括（\quad）
+\choicesline{A. 源端口}{B. 目的端口}{C. 长度}{D. 确认号}
+
+\q TCP 连接释放中，TIME_WAIT 状态的主要作用是（\quad）
+\choices{A. 等待用户关闭浏览器}{B. 确保最后 ACK 到达并处理旧报文}{C. 提高发送窗口}{D. 进行拥塞控制}
+
+\needspace{30\baselineskip}
+\qtypename{（二）综合计算与应用题}{3 题，共 25 分}
+
+\needspace{22\baselineskip}
+\q （8 分）某单位有 4 个连续子网：192.168.16.0/24、192.168.17.0/24、192.168.18.0/24、192.168.19.0/24。请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 写出聚合后的地址块及子网掩码。
+  \item 若路由器收到目的地址 192.168.18.77，说明最长前缀匹配的转发过程。
+  \item 聚合后是否会引入不属于原 4 个子网的地址？为什么？
+\end{enumerate}
+\anslines{6.5cm}
+
+\needspace{26\baselineskip}
+\q （8 分）某 TCP 连接的 \code{cwnd} 随 RTT 变化如下表，MSS=1 KB，接收窗口足够大。
+\begin{center}\small
+\begin{tabular}{c|cccccccccccc}
+\toprule
+RTT & 1&2&3&4&5&6&7&8&9&10&11&12\\
+\midrule
+cwnd/MSS & 1&2&4&8&9&10&11&12&13&14&1&2\\
+\bottomrule
+\end{tabular}
+\end{center}
+请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 初始慢开始门限 \code{ssthresh} 约为多少？说明依据。
+  \item 第 11 个 RTT 可能发生了什么事件？此时 \code{ssthresh} 和 \code{cwnd} 如何变化？
+  \item 若在第 10 个 RTT 后收到 3 个重复 ACK，按快重传/快恢复，\code{ssthresh} 和 \code{cwnd} 变为多少？收到新 ACK 后 \code{cwnd} 又为多少？
+  \item 指出哪些区间处于慢开始、哪些区间处于拥塞避免。
+\end{enumerate}
+\anslines{7cm}
+
+\needspace{22\baselineskip}
+\q （9 分）主机 H 通过浏览器访问 \code{https://www.shop.example.cn/index.html}。H 的 DNS 缓存为空，H 与网关在同一以太网，Web 服务器位于远程网络。请说明从输入 URL 到收到页面所经历的主要协议步骤，并指出 DNS、ARP、TCP、TLS、HTTP 各自的作用。
+\anslines{8cm}
+
+% ============================================================
+\parttitle{四、数据库概论（35 分）}
+% ============================================================
+
+\qtypename{（一）单项选择题}{5 题，每题 2 分，共 10 分}
+
+\q 当数据库内模式发生变化时，通过修改模式/内模式映像使模式保持不变，从而保证数据的（\quad）
+\choicesline{A. 逻辑独立性}{B. 物理独立性}{C. 完整性}{D. 安全性}
+
+\q 关系代数中，从关系中选取若干列的操作是（\quad）
+\choicesline{A. 选择}{B. 投影}{C. 连接}{D. 除法}
+
+\q SQL 中 \code{GROUP BY} 子句的主要作用是（\quad）
+\choicesline{A. 对元组排序}{B. 对元组分组}{C. 去除重复行}{D. 限制返回行数}
+
+\q 关于 BCNF，下列说法正确的是（\quad）
+\choices{A. 每个决定因素都包含候选码}{B. 允许非主属性传递依赖候选码}{C. 一定不属于 3NF}{D. 不允许任何函数依赖}
+
+\q 事务的持久性通常主要依靠（\quad）
+\choicesline{A. 并发控制协议}{B. 日志和恢复机制}{C. 视图机制}{D. 索引机制}
+
+\needspace{30\baselineskip}
+\qtypename{（二）综合题}{3 题，共 25 分}
+
+\needspace{30\baselineskip}
+\q （10 分）某销售数据库中有三个基本表（加下划线属性为主码）：
+\begin{center}\small
+\begin{tabular}{ll}
+\toprule
+关系名 & 属性 \\
+\midrule
+Product & \underline{Pno}, Pname, Price, Type \\
+Customer & \underline{Cno}, Cname, City \\
+Sale & \underline{Cno}, \underline{Pno}, \underline{Sdate}, Qty \\
+\bottomrule
+\end{tabular}
+\end{center}
+请用标准 SQL 完成下列各题：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （2.5 分）查询从未被售出的商品号、商品名。
+  \item （2.5 分）查询平均价格大于 100 的商品类型及平均价格。
+  \item （2.5 分）查询销售总量最高的商品号及其销售总量。
+  \item （2.5 分）创建 \code{Sale} 表，要求定义主码 \code{(Cno,Pno,Sdate)}，定义 \code{Cno}、\code{Pno} 分别到 \code{Customer}、\code{Product} 的外码，并限制 \code{Qty} 大于 0。
+\end{enumerate}
+\anslines{9cm}
+
+\needspace{24\baselineskip}
+\q （8 分）设关系模式
+\[
+R(\text{航班号},\text{日期},\text{座位号},\text{乘客号},\text{乘客姓名},\text{票价}),
+\]
+其函数依赖集为
+\[
+F=\{(\text{航班号},\text{日期},\text{座位号})\to\text{乘客号},\ \text{乘客号}\to\text{乘客姓名},\ (\text{航班号},\text{日期})\to\text{票价}\}.
+\]
+请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 写出 $R$ 的全部候选码。
+  \item $R$ 最高属于第几范式？说明理由。
+  \item 将 $R$ 分解为 3NF，要求保持函数依赖并具有无损连接性，并简要说明理由。
+\end{enumerate}
+\anslines{7cm}
+
+\needspace{24\baselineskip}
+\q （7 分）某关系表 \code{Log(id, user\_id, action, ts, status)} 约有 1000 万行，现有查询：
+\begin{lstlisting}[language=SQL]
+Q1: SELECT * FROM Log WHERE ts BETWEEN '2026-03-01' AND '2026-03-31' ORDER BY ts;
+Q2: SELECT * FROM Log WHERE user_id='U1001' AND status='FAIL';
+Q3: SELECT * FROM Log WHERE status='FAIL';
+\end{lstlisting}
+请回答：
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item 针对 Q1，说明在 \code{ts} 上建立 B+ 树索引为什么能同时改善范围选择和排序；聚簇索引与非聚簇索引效果有何差异？
+  \item 针对 Q2，应建立什么索引？查询 \code{SELECT *} 是否一定需要回表？若只返回 \code{id} 和 \code{ts}，可如何进一步优化？
+  \item Q3 是否适合在 \code{status} 上建立普通 B+ 树索引？说明理由，并给出一种更合适的优化思路。
+\end{enumerate}
+\anslines{7cm}
+
+% ============================================================
+\parttitle{五、信息系统导论（第 1—6 章）（35 分）}
+% ============================================================
+
+\qtypename{（一）名词解释}{3 题，每题 5 分，共 15 分；要求写出概念内涵，必要时举例}
+
+\q 数据仓库
+\anslines{3cm}
+
+\q 企业资源计划（ERP）
+\anslines{3cm}
+
+\q 物联网
+\anslines{3cm}
+
+\needspace{30\baselineskip}
+\qtypename{（二）简答题}{1 题，共 8 分}
+
+\needspace{16\baselineskip}
+\q （8 分）简述瀑布模型与原型模型的主要区别，并说明原型模型适合在什么情况下使用。
+\anslines{5.5cm}
+
+\needspace{36\baselineskip}
+\qtypename{（三）材料分析题}{1 题，共 12 分}
+
+\q （12 分）阅读下列材料，回答问题。
+\begin{quote}\small
+某医院建设智慧医疗平台：可穿戴设备采集患者心率、血压和血氧数据；数据经 Wi-Fi/5G 上传至医院云平台；平台保存电子病历、检查检验和随访数据，运行风险预警模型，向医生推送复诊提醒；患者通过手机 APP 查看报告；平台采用多租户隔离、异地备份和访问审计，部分病区部署边缘节点以在断网时维持本地监测告警。
+\end{quote}
+\begin{enumerate}[label=（\arabic*）, leftmargin=2.4em, itemsep=1pt]
+  \item （4 分）按“感知层—网络层—平台层—应用层”四层结构分析该平台，说明各层主要功能。
+  \item （4 分）用数据、信息、知识、智慧的层次关系说明患者监测数据如何转化为复诊提醒决策，并指出数据库、计算机网络、云计算和边缘计算的作用。
+  \item （4 分）从系统可靠性和数据安全角度，各提出一条改进建议并说明理由。
+\end{enumerate}
+\anslines{12cm}
+
+\vfill
+\begin{center}
+\textbf{—— 试卷正文结束，附页见后 ——}
+\end{center}
+
+\answerappendix{附页（一）}{如答题纸空间不足，可在此页继续作答，并注明题号。}
+\answerappendix{附页（二）}{如答题纸空间不足，可在此页继续作答，并注明题号。}
+
+\end{document}
